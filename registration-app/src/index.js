@@ -6,7 +6,7 @@ import Login from "./pages/login";
 import Contact from "./pages/contact";
 import About from "./pages/about";
 import Product from "./pages/product";
-import Store from "./pages/store";
+import Course from "./pages/course";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -32,8 +32,8 @@ const router = createBrowserRouter([
     element: <Product />,
   },
   {
-    path: "/store",
-    element: <Store />,
+    path: "/course",
+    element: <Course />,
   },
 ]);
 

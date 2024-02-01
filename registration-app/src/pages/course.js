@@ -1,7 +1,7 @@
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 
-function Store(props) {
+function Course(props) {
   return (
     <Main>
       {/* Page Header Start */}
@@ -181,4 +181,4 @@ function Store(props) {
   );
 }
 
-export default Store;
+export default Course;

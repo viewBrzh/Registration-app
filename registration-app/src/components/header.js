@@ -31,7 +31,7 @@ function Header() {
                 <Link to={`/product`} className="nav-item nav-link">
                   Products
                 </Link>
-                <Link to={`/store`} className="nav-item nav-link">
+                <Link to={`/course`} className="nav-item nav-link">
                   Course
                 </Link>
                 <div className="nav-item dropdown">
