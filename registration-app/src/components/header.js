@@ -57,6 +57,9 @@ function Header() {
                     </a>
                   </div>
                 </div>
+                <Link to={`/login`} className="nav-item nav-link">
+                  Login
+                </Link>
                 <Link to={`/contact`} className="nav-item nav-link">
                   Contact
                 </Link>
