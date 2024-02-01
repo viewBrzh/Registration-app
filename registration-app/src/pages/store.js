@@ -10,9 +10,7 @@ function Store(props) {
         data-wow-delay="0.1s"
       >
         <div className="container text-center py-5">
-          <h1 className="display-2 text-dark mb-4 animated slideInDown">
-            Tea Store
-          </h1>
+          <h1 className="display-2 text-dark mb-4 animated slideInDown"></h1>
           <nav aria-label="breadcrumb animated slideInDown">
             <ol className="breadcrumb justify-content-center mb-0">
               <li className="breadcrumb-item">
@@ -21,7 +19,7 @@ function Store(props) {
                 </Link>
               </li>
               <li className="breadcrumb-item text-dark" aria-current="page">
-                Store
+                course
               </li>
             </ol>
           </nav>
@@ -37,12 +35,8 @@ function Store(props) {
             data-wow-delay="0.1s"
             style={{ maxWidth: "500px" }}
           >
-            <p className="fs-5 fw-medium fst-italic text-primary">
-              Online Store
-            </p>
-            <h1 className="display-6">
-              Want to stay healthy? Choose tea taste
-            </h1>
+            <p className="fs-5 fw-medium fst-italic text-primary">คอร์สต่างๆ</p>
+            <h1 className="display-6">สามารถเลือกลงคอร์สที่คุณสนใจได้เลย</h1>
           </div>
           <div className="row g-4">
             <div
@@ -75,13 +69,14 @@ function Store(props) {
                     href=""
                     className="btn btn-primary rounded-pill py-2 px-4 m-2"
                   >
-                    More Detail <i className="fa fa-arrow-right ms-2"></i>
+                    ดูรายละเอียดเพิ่มเติม{" "}
+                    <i className="fa fa-arrow-right ms-2"></i>
                   </a>
                   <a
                     href=""
                     className="btn btn-dark rounded-pill py-2 px-4 m-2"
                   >
-                    Add to Cart <i className="fa fa-cart-plus ms-2"></i>
+                    สมัคร <i className="fa fa-cart-plus ms-2"></i>
                   </a>
                 </div>
               </div>
@@ -116,13 +111,14 @@ function Store(props) {
                     href=""
                     className="btn btn-primary rounded-pill py-2 px-4 m-2"
                   >
-                    More Detail <i className="fa fa-arrow-right ms-2"></i>
+                    ดูรายละเอียดเพิ่มเติม{" "}
+                    <i className="fa fa-arrow-right ms-2"></i>
                   </a>
                   <a
                     href=""
                     className="btn btn-dark rounded-pill py-2 px-4 m-2"
                   >
-                    Add to Cart <i className="fa fa-cart-plus ms-2"></i>
+                    สมัคร <i className="fa fa-cart-plus ms-2"></i>
                   </a>
                 </div>
               </div>
@@ -157,13 +153,14 @@ function Store(props) {
                     href=""
                     className="btn btn-primary rounded-pill py-2 px-4 m-2"
                   >
-                    More Detail <i className="fa fa-arrow-right ms-2"></i>
+                    ดูรายละเอียดเพิ่มเติม{" "}
+                    <i className="fa fa-arrow-right ms-2"></i>
                   </a>
                   <a
                     href=""
                     className="btn btn-dark rounded-pill py-2 px-4 m-2"
                   >
-                    Add to Cart <i className="fa fa-cart-plus ms-2"></i>
+                    สมัคร <i className="fa fa-cart-plus ms-2"></i>
                   </a>
                 </div>
               </div>
@@ -173,7 +170,7 @@ function Store(props) {
               data-wow-delay="0.1s"
             >
               <a href="" className="btn btn-primary rounded-pill py-3 px-5">
-                View More Products
+                ดูคอร์สต่างๆเพิ่มเติม
               </a>
             </div>
           </div>

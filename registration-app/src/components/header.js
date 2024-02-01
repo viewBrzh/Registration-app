@@ -5,9 +5,13 @@ function Header() {
       <div className="container-fluid bg-white sticky-top">
         <div className="container">
           <nav className="navbar navbar-expand-lg bg-white navbar-light py-2 py-lg-0">
-            <a href="index.html" className="navbar-brand">
-              <img className="img-fluid" src="img/logo.png" alt="Logo" />
-            </a>
+            <Link to={`/`} className="navbar-brand">
+              <img
+                className="img-fluid"
+                src="img/Walailak_University_Logo.svg.png"
+                alt="Logo"
+              />
+            </Link>
             <button
               type="button"
               className="navbar-toggler ms-auto me-0"
@@ -28,7 +32,7 @@ function Header() {
                   Products
                 </Link>
                 <Link to={`/store`} className="nav-item nav-link">
-                  Store
+                  Course
                 </Link>
                 <div className="nav-item dropdown">
                   <a
