@@ -65,19 +65,20 @@ function Course(props) {
                   <h4 className="text-primary">$19.00</h4>
                 </div>
                 <div className="store-overlay">
-                  <a
-                    href=""
+                  <Link
+                    to={`/detail`}
                     className="btn btn-primary rounded-pill py-2 px-4 m-2"
                   >
-                    ดูรายละเอียดเพิ่มเติม{" "}
+                    Detail more
                     <i className="fa fa-arrow-right ms-2"></i>
-                  </a>
-                  <a
-                    href=""
+                  </Link>
+                  <Link
+                    to={`/enroll`}
                     className="btn btn-dark rounded-pill py-2 px-4 m-2"
                   >
-                    สมัคร <i className="fa fa-cart-plus ms-2"></i>
-                  </a>
+                    Enroll
+                    <i className="fa fa-cart-plus ms-2"></i>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -107,19 +108,20 @@ function Course(props) {
                   <h4 className="text-primary">$19.00</h4>
                 </div>
                 <div className="store-overlay">
-                  <a
-                    href=""
+                  <Link
+                    to={`/detail`}
                     className="btn btn-primary rounded-pill py-2 px-4 m-2"
                   >
-                    ดูรายละเอียดเพิ่มเติม{" "}
+                    Detail more
                     <i className="fa fa-arrow-right ms-2"></i>
-                  </a>
-                  <a
-                    href=""
+                  </Link>
+                  <Link
+                    to={`/enroll`}
                     className="btn btn-dark rounded-pill py-2 px-4 m-2"
                   >
-                    สมัคร <i className="fa fa-cart-plus ms-2"></i>
-                  </a>
+                    Enroll
+                    <i className="fa fa-cart-plus ms-2"></i>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -149,19 +151,20 @@ function Course(props) {
                   <h4 className="text-primary">$19.00</h4>
                 </div>
                 <div className="store-overlay">
-                  <a
-                    href=""
+                  <Link
+                    to={`/detail`}
                     className="btn btn-primary rounded-pill py-2 px-4 m-2"
                   >
-                    ดูรายละเอียดเพิ่มเติม{" "}
+                    Detail more
                     <i className="fa fa-arrow-right ms-2"></i>
-                  </a>
-                  <a
-                    href=""
+                  </Link>
+                  <Link
+                    to={`/enroll`}
                     className="btn btn-dark rounded-pill py-2 px-4 m-2"
                   >
-                    สมัคร <i className="fa fa-cart-plus ms-2"></i>
-                  </a>
+                    Enroll
+                    <i className="fa fa-cart-plus ms-2"></i>
+                  </Link>
                 </div>
               </div>
             </div>

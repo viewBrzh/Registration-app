@@ -7,6 +7,8 @@ import Contact from "./pages/contact";
 import About from "./pages/about";
 import Product from "./pages/product";
 import Course from "./pages/course";
+import Enroll from "./pages/enroll";
+import Detail from "./pages/detail";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
   {
     path: "/course",
     element: <Course />,
+  },
+  {
+    path: "/enroll",
+    element: <Enroll />,
+  },
+  {
+    path: "/detail",
+    element: <Detail />,
   },
 ]);
 

@@ -45,18 +45,17 @@ function Login() {
           {/* Card Body */}
           <form style={{ display: "flex", flexDirection: "column" }}>
             {/* Custom Input - First Name */}
-
-            <div style={{ marginBottom: "20px" }}>
+            <div style={{ marginBottom: "15px" }}>
               <label
-                htmlFor="position"
+                htmlFor="first"
                 style={{ marginBottom: "5px", color: "#555" }}
               >
-                วิทยฐานะทางวิชาการ
+                รหัสประจำตัว
               </label>
               <div style={{ position: "relative" }}>
                 <input
                   type="text"
-                  id="position"
+                  id="first"
                   style={{
                     width: "100%",
                     padding: "10px",
@@ -76,17 +75,18 @@ function Login() {
                 ></i>
               </div>
             </div>
+            {/* Custom Input - Password */}
             <div style={{ marginBottom: "20px" }}>
               <label
-                htmlFor="name"
+                htmlFor="pass"
                 style={{ marginBottom: "5px", color: "#555" }}
               >
-                ชื่อ นามสกุล
+                รหัสผ่าน
               </label>
               <div style={{ position: "relative" }}>
                 <input
-                  type="text"
-                  id="name"
+                  type="password"
+                  id="pass"
                   style={{
                     width: "100%",
                     padding: "10px",
@@ -95,97 +95,7 @@ function Login() {
                   }}
                 />
                 <i
-                  className="fas fa-user"
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    right: "10px",
-                    transform: "translateY(-50%)",
-                    color: "#888",
-                  }}
-                ></i>
-              </div>
-            </div>
-            <div style={{ marginBottom: "20px" }}>
-              <label
-                htmlFor="major"
-                style={{ marginBottom: "5px", color: "#555" }}
-              >
-                สำนักวิชา
-              </label>
-              <div style={{ position: "relative" }}>
-                <input
-                  type="text"
-                  id="major"
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    borderRadius: "5px",
-                    border: "1px solid #ddd",
-                  }}
-                />
-                <i
-                  className="fas fa-user"
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    right: "10px",
-                    transform: "translateY(-50%)",
-                    color: "#888",
-                  }}
-                ></i>
-              </div>
-            </div>
-            <div style={{ marginBottom: "20px" }}>
-              <label
-                htmlFor="telephone"
-                style={{ marginBottom: "5px", color: "#555" }}
-              >
-                เบอร์โทรศัพท์มือถือ
-              </label>
-              <div style={{ position: "relative" }}>
-                <input
-                  type="number"
-                  id="telephone"
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    borderRadius: "5px",
-                    border: "1px solid #ddd",
-                  }}
-                />
-                <i
-                  className="fas fa-user"
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    right: "10px",
-                    transform: "translateY(-50%)",
-                    color: "#888",
-                  }}
-                ></i>
-              </div>
-            </div>
-            <div style={{ marginBottom: "20px" }}>
-              <label
-                htmlFor="email"
-                style={{ marginBottom: "5px", color: "#555" }}
-              >
-                E-mail
-              </label>
-              <div style={{ position: "relative" }}>
-                <input
-                  type="email"
-                  id="email"
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    borderRadius: "5px",
-                    border: "1px solid #ddd",
-                  }}
-                />
-                <i
-                  className="fas fa-user"
+                  className="fas fa-lock"
                   style={{
                     position: "absolute",
                     top: "50%",
@@ -209,7 +119,7 @@ function Login() {
                 border: "none",
               }}
             >
-              เข้าสู่ระบบ
+              ตรวจสอบ
             </button>
           </form>
         </div>
