@@ -27,7 +27,6 @@ function Course(props) {
       </div>
       {/* Page Header End */}
 
-      {/* Store Start */}
       <div className="container-xxl py-5">
         <div className="container">
           <div
@@ -179,7 +178,6 @@ function Course(props) {
           </div>
         </div>
       </div>
-      {/* Store End */}
     </Main>
   );
 }
