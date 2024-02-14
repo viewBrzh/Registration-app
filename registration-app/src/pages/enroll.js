@@ -19,7 +19,12 @@ function Enroll(props) {
                 วิทยฐานะทางวิชาการ
               </label>
               <div className="input-wrapper">
-                <input type="text" id="position" className="input-field" />
+                <input
+                  type="text"
+                  id="position"
+                  className="input-field"
+                  placeholder="วิทยฐานะทางวิชาการ"
+                />
                 <i className="fas fa-user icon"></i>
               </div>
             </div>
@@ -28,7 +33,12 @@ function Enroll(props) {
                 ชื่อ นามสกุล
               </label>
               <div className="input-wrapper">
-                <input type="text" id="name" className="input-field" />
+                <input
+                  type="text"
+                  id="name"
+                  className="input-field"
+                  placeholder="ชื่อ นามสกุล"
+                />
                 <i className="fas fa-user icon"></i>
               </div>
             </div>
@@ -37,7 +47,12 @@ function Enroll(props) {
                 สำนักวิชา
               </label>
               <div className="input-wrapper">
-                <input type="text" id="major" className="input-field" />
+                <input
+                  type="text"
+                  id="major"
+                  className="input-field"
+                  placeholder="สำนักวิชา"
+                />
                 <i className="fas fa-user icon"></i>
               </div>
             </div>
@@ -46,7 +61,12 @@ function Enroll(props) {
                 เบอร์โทรศัพท์มือถือ
               </label>
               <div className="input-wrapper">
-                <input type="number" id="telephone" className="input-field" />
+                <input
+                  type="number"
+                  id="telephone"
+                  className="input-field"
+                  placeholder="เบอร์โทรศัพท์มือถือ"
+                />
                 <i className="fas fa-user icon"></i>
               </div>
             </div>
@@ -55,7 +75,12 @@ function Enroll(props) {
                 E-mail
               </label>
               <div className="input-wrapper">
-                <input type="email" id="email" className="input-field" />
+                <input
+                  type="email"
+                  id="email"
+                  className="input-field"
+                  placeholder="E-mail"
+                />
                 <i className="fas fa-user icon"></i>
               </div>
             </div>

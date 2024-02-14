@@ -1,25 +1,26 @@
 /********** Template CSS **********/
 /* Enroll.css */
-
-/* Page Content */
 .page-content {
-    background-image: url('/img/bg7.jpg');
+    background-image: url('/img/Green Balloon Dog.png');
     background-size: cover;
     background-position: top center;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .card-container {
+}
+
+.card-container {
     max-width: 400px;
     width: 100%;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    background-color: #fff;
-  }
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.13);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    padding: 35px 35px;
+    backdrop-filter: blur(15px); /* ใช้ backdrop-filter เพื่อทำให้พื้นหลังเบลอ */
+}
   
   /* Card Header */
   .card-header {
@@ -36,8 +37,8 @@
   .divider {
     text-align: center;
     margin-top: 15px;
-    font-size: 14px;
-    color: #888;
+    font-size: 20px;
+    color: #FFFFFF;
   }
   
   /* Card Body */
@@ -53,7 +54,7 @@
   
   .input-label {
     margin-bottom: 5px;
-    color: #555;
+    color: #ffffff;
   }
   
   .input-wrapper {
@@ -63,7 +64,7 @@
   .input-field {
     width: 100%;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
     border: 1px solid #ddd;
   }
   
@@ -80,7 +81,7 @@
     background-color: #00bcd4;
     color: #fff;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s;
     border: none;
