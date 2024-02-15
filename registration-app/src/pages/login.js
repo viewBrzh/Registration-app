@@ -24,12 +24,12 @@ function Login() {
             padding: "20px",
             borderRadius: "8px",
             boxShadow: "0 0 20px rgba(0, 0, 0, 0.2)",
-            backgroundColor: "#fff",
+            backgroundColor: "#f5f5f5",
           }}
         >
           {/* Card Header */}
           <div style={{ textAlign: "center", marginBottom: "20px" }}>
-            <h2 style={{ color: "#00bcd4" }}>เข้าสู่ระบบ</h2>
+            <h2 style={{ color: "#E60073" }}>Login</h2>
           </div>
           {/* Divider */}
           <p
@@ -37,10 +37,10 @@ function Login() {
               textAlign: "center",
               marginTop: "15px",
               fontSize: "14px",
-              color: "#888",
+              color: "#E695B5",
             }}
           >
-            ลงชื่อเพื่อเข้าใช้งาน
+            Sign up to access
           </p>
           {/* Card Body */}
           <form style={{ display: "flex", flexDirection: "column" }}>
@@ -48,9 +48,9 @@ function Login() {
             <div style={{ marginBottom: "15px" }}>
               <label
                 htmlFor="first"
-                style={{ marginBottom: "5px", color: "#555" }}
+                style={{ marginBottom: "5px", color: "#E695B5" }}
               >
-                รหัสประจำตัว
+                Username
               </label>
               <div style={{ position: "relative" }}>
                 <input
@@ -70,7 +70,7 @@ function Login() {
                     top: "50%",
                     right: "10px",
                     transform: "translateY(-50%)",
-                    color: "#888",
+                    color: "#E695B5",
                   }}
                 ></i>
               </div>
@@ -79,9 +79,9 @@ function Login() {
             <div style={{ marginBottom: "20px" }}>
               <label
                 htmlFor="pass"
-                style={{ marginBottom: "5px", color: "#555" }}
+                style={{ marginBottom: "5px", color: "#E695B5" }}
               >
-                รหัสผ่าน
+                Password
               </label>
               <div style={{ position: "relative" }}>
                 <input
@@ -101,7 +101,7 @@ function Login() {
                     top: "50%",
                     right: "10px",
                     transform: "translateY(-50%)",
-                    color: "#888",
+                    color: "#E695B5",
                   }}
                 ></i>
               </div>
@@ -110,7 +110,7 @@ function Login() {
             <button
               type="button"
               style={{
-                backgroundColor: "#00bcd4",
+                backgroundColor: "#E60073",
                 color: "#fff",
                 padding: "10px",
                 borderRadius: "5px",
@@ -119,7 +119,7 @@ function Login() {
                 border: "none",
               }}
             >
-              ตรวจสอบ
+              Login
             </button>
           </form>
         </div>

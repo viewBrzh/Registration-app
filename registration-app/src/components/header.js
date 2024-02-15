@@ -28,8 +28,8 @@ function Header() {
                 <Link to={`/about`} className="nav-item nav-link">
                   About
                 </Link>
-                <Link to={`/product`} className="nav-item nav-link">
-                  Products
+                <Link to={`/profile`} className="nav-item nav-link">
+                  Profile
                 </Link>
                 <Link to={`/course`} className="nav-item nav-link">
                   Course

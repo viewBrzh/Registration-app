@@ -5,7 +5,7 @@ import App from "./pages/home";
 import Login from "./pages/login";
 import Contact from "./pages/contact";
 import About from "./pages/about";
-import Product from "./pages/product";
+import Profile from "./pages/profile";
 import Course from "./pages/course";
 import Enroll from "./pages/enroll";
 import Detail from "./pages/detail";
@@ -30,8 +30,8 @@ const router = createBrowserRouter([
     element: <About />,
   },
   {
-    path: "/product",
-    element: <Product />,
+    path: "/profile",
+    element: <Profile />,
   },
   {
     path: "/course",
