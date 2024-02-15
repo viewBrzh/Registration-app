@@ -30,7 +30,7 @@
   }
   
   .card-header h2 {
-    color: #E60073;
+    color: #E60073 ;
   }
   
   /* Divider */
@@ -245,7 +245,6 @@
         opacity: 1;
     }
 }
-
 
 /*** Header ***/
 .carousel-caption {
@@ -489,6 +488,7 @@
     background: rgba(138, 180, 78, .3);
     opacity: 0;
     transition: .5s;
+    border-radius: 10px;
 }
 
 .store-item:hover .store-overlay {
@@ -593,6 +593,30 @@
     color: #FFFFFF !important;
 }
 
-.indented {
-    text-indent: 2em; /* Adjust the indentation as needed */
-  }
+.profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+}
+.profile-picture {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    align-items: flex-start;
+    flex-shrink: 0; /* ไม่ให้รูปภาพย่อเมื่อขนาดหน้าจอเล็กลง */
+    margin-right: 130px; /* เพื่อให้มีช่องว่างระหว่างรูปภาพกับข้อมูล */
+}
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.profile-details h2 {
+    margin-top: 0;
+}
