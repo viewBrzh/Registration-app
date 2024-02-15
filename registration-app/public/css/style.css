@@ -592,3 +592,7 @@
 .copyright a:hover {
     color: #FFFFFF !important;
 }
+
+.indented {
+    text-indent: 2em; /* Adjust the indentation as needed */
+  }
