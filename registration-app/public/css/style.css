@@ -30,7 +30,7 @@
   }
   
   .card-header h2 {
-    color: #88B44E;
+    color: #E60073;
   }
   
   /* Divider */
@@ -88,7 +88,7 @@
   }
   
 :root {
-    --primary: #88B44E;
+    --primary: #E60073;
     --secondary: #FB9F38;
     --light: #F5F8F2;
     --dark: #252C30;

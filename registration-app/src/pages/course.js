@@ -43,11 +43,7 @@ function Course(props) {
               data-wow-delay="0.1s"
             >
               <div className="store-item position-relative text-center">
-                <img
-                  className="img-fluid"
-                  src="img/store-product-1.jpg"
-                  alt=""
-                />
+                <img className="img-fluid" src="img/course1.jpg" alt="" />
                 <div className="p-4">
                   <div className="text-center mb-3">
                     <small className="fa fa-star text-primary"></small>
@@ -86,11 +82,7 @@ function Course(props) {
               data-wow-delay="0.3s"
             >
               <div className="store-item position-relative text-center">
-                <img
-                  className="img-fluid"
-                  src="img/store-product-2.jpg"
-                  alt=""
-                />
+                <img className="img-fluid" src="img/course2.jpg" alt="" />
                 <div className="p-4">
                   <div className="text-center mb-3">
                     <small className="fa fa-star text-primary"></small>
@@ -129,11 +121,7 @@ function Course(props) {
               data-wow-delay="0.5s"
             >
               <div className="store-item position-relative text-center">
-                <img
-                  className="img-fluid"
-                  src="img/store-product-3.jpg"
-                  alt=""
-                />
+                <img className="img-fluid" src="img/course3.jpg" alt="" />
                 <div className="p-4">
                   <div className="text-center mb-3">
                     <small className="fa fa-star text-primary"></small>
