@@ -22,6 +22,9 @@ function Header() {
             </button>
             <div className="collapse navbar-collapse" id="navbarCollapse">
               <div className="navbar-nav ms-auto">
+                <Link to={`/updatecourse`} className="nav-item nav-link">
+                  Update
+                </Link>
                 <Link to={`/`} className="nav-item nav-link">
                   Home
                 </Link>

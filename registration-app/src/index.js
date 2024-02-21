@@ -9,6 +9,7 @@ import Profile from "./pages/profile";
 import Course from "./pages/course";
 import Enroll from "./pages/enroll";
 import Detail from "./pages/detail";
+import Updatecourse from "./pages/updatecourse";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: "/detail",
     element: <Detail />,
+  },
+  {
+    path: "/updatecourse",
+    element: <Updatecourse />,
   },
 ]);
 

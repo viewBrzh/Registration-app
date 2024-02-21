@@ -10,7 +10,7 @@ function Course(props) {
         data-wow-delay="0.1s"
       >
         <div className="container text-center py-5">
-          <h1 className="display-2 text-dark mb-4 animated slideInDown"></h1>
+          <h1 className="display-2 text-dark mb-4 animated slideInDown" />
           <nav aria-label="breadcrumb animated slideInDown">
             <ol className="breadcrumb justify-content-center mb-0">
               <li className="breadcrumb-item">

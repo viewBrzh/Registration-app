@@ -7,13 +7,13 @@ function Profile(props) {
       <div className="profile">
         <div className="profile-picture">
           <img src="/img/testimonial-1.jpg" alt="Profile Picture" />
-        </div>
-        <div className="profile-details">
-          <h2>ชื่อ-สกุล</h2>
+          <p>ชื่อ-สกุล</p>
           <p>อายุ: XX ปี</p>
           <p>ที่อยู่: ที่อยู่ปัจจุบัน</p>
           <p>อีเมล: example@example.com</p>
           <p>โทร: 012-345-6789</p>
+        </div>
+        <div className="profile-details">
           <p>เคยอบรม:</p>
           <ul>
             <li>หลักสูตรที่ 1</li>
