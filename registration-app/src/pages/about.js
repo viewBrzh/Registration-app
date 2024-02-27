@@ -103,7 +103,7 @@ function About(props) {
                 <div className="col-sm-4">
                   <img
                     className="img-fluid bg-white w-100"
-                    src="img/about-6.jpg"
+                    src="/img/about-6.jpg"
                     alt=""
                   />
                 </div>
