@@ -8,7 +8,7 @@ function Header() {
             <Link to={`/`} className="navbar-brand">
               <img
                 className="img-fluid"
-                src="img/Walailak_University_Logo.svg.png"
+                src="/img/Walailak_University_Logo.svg.png"
                 alt="Logo"
               />
             </Link>
