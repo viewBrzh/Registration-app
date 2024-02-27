@@ -5,7 +5,9 @@ function Main(props) {
   return (
     <div id="page-top">
       <Header />
-      {props.children}
+      <div style={{ padding: "16px", minHeight: "calc(100vh - 110px)" }}>
+        {props.children}
+      </div>
       <Footer />
     </div>
   );
