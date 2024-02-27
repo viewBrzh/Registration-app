@@ -1,7 +1,7 @@
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 
-function Enroll(props) {
+function Updatecourse(props) {
   return (
     <Main>
       {/* Page Content */}
@@ -10,58 +10,46 @@ function Enroll(props) {
           {/* Card Header */}
           <div className="card-header">{/* <h2>Enroll</h2> */}</div>
           {/* Divider */}
-          <p className="divider">Your Details</p>
+          <p className="divider">Add or edit a course</p>
           {/* Card Body */}
           <form className="form-container">
             {/* Custom Input*/}
             <div className="custom-input">
               <label htmlFor="position" className="input-label">
-                Academic status
+                Upload file
               </label>
               <div className="input-wrapper">
                 <input type="text" id="position" className="input-field" />
-                <i className="fas fa-user icon"></i>
               </div>
             </div>
             <div className="custom-input">
               <label htmlFor="name" className="input-label">
-                Name
+                Course name
               </label>
               <div className="input-wrapper">
                 <input type="text" id="name" className="input-field" />
-                <i className="fas fa-user icon"></i>
               </div>
             </div>
             <div className="custom-input">
               <label htmlFor="major" className="input-label">
-                Major
+                Course details
               </label>
               <div className="input-wrapper">
                 <input type="text" id="major" className="input-field" />
-                <i className="fas fa-user icon"></i>
               </div>
             </div>
             <div className="custom-input">
               <label htmlFor="telephone" className="input-label">
-                Phone
+                Course duration
               </label>
               <div className="input-wrapper">
-                <input type="number" id="telephone" className="input-field" />
-                <i className="fas fa-phone icon"></i>
+                <input type="text" id="telephone" className="input-field" />
               </div>
             </div>
-            <div className="custom-input">
-              <label htmlFor="email" className="input-label">
-                E-mail
-              </label>
-              <div className="input-wrapper">
-                <input type="email" id="email" className="input-field" />
-                <i className="fas fa-envelope icon"></i>
-              </div>
-            </div>
+
             {/* Card Footer */}
             <button type="button" className="btn btn-primary">
-              Enroll
+              Update
             </button>
           </form>
         </div>
@@ -70,4 +58,4 @@ function Enroll(props) {
   );
 }
 
-export default Enroll;
+export default Updatecourse;

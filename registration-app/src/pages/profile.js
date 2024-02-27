@@ -4,26 +4,24 @@ import { Link } from "react-router-dom";
 function Profile(props) {
   return (
     <Main>
-      <div className="container text-center py-5" style={{ backgroundColor: '#E695B5' }}>
-        <h1 className="display-2 text-white mb-4 animated slideInDown">
-          Profile
-        </h1>
-        <nav aria-label="breadcrumb animated slideInDown">
-          <ol className="breadcrumb justify-content-center mb-0">
-            <li className="breadcrumb-item" style={{ color: 'white' }}>
-              <Link to={`/`} className="breadcrumb-item text-white">
-                Home
-              </Link>
-            </li>
-            <li className="breadcrumb-item text-white" aria-current="page">
-              Profile
-            </li>
-
-          </ol>
-        </nav>
+      <div className="profile">
+        <div className="profile-picture">
+          <img src="/img/testimonial-1.jpg" alt="Profile Picture" />
+          <p>ชื่อ-สกุล</p>
+          <p>อายุ: XX ปี</p>
+          <p>ที่อยู่: ที่อยู่ปัจจุบัน</p>
+          <p>อีเมล: example@example.com</p>
+          <p>โทร: 012-345-6789</p>
+        </div>
+        <div className="profile-details">
+          <p>เคยอบรม:</p>
+          <ul>
+            <li>หลักสูตรที่ 1</li>
+            <li>หลักสูตรที่ 2</li>
+            <li>หลักสูตรที่ 3</li>
+          </ul>
+        </div>
       </div>
-      <img src="registration-app/public/img/about-2.jpg" alt="Profile" className="img-fluid rounded-circle mb-4 animated slideInDown" style={{ width: '200px', height: '200px' }} />
-
     </Main>
   );
 }

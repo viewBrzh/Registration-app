@@ -1,7 +1,6 @@
 /********** Template CSS **********/
 /* Enroll.css */
 .page-content {
-    background-image: url('/img/Green Balloon Dog.png');
     background-size: cover;
     background-position: top center;
     min-height: 100vh;
@@ -30,7 +29,7 @@
   }
   
   .card-header h2 {
-    color: #E60073;
+    color: #E60073 ;
   }
   
   /* Divider */
@@ -38,7 +37,7 @@
     text-align: center;
     margin-top: 15px;
     font-size: 20px;
-    color: #FFFFFF;
+    color: #000000;
   }
   
   /* Card Body */
@@ -54,7 +53,7 @@
   
   .input-label {
     margin-bottom: 5px;
-    color: #ffffff;
+    color: #000000;
   }
   
   .input-wrapper {
@@ -245,7 +244,6 @@
         opacity: 1;
     }
 }
-
 
 /*** Header ***/
 .carousel-caption {
@@ -489,6 +487,7 @@
     background: rgba(138, 180, 78, .3);
     opacity: 0;
     transition: .5s;
+    border-radius: 10px;
 }
 
 .store-item:hover .store-overlay {
@@ -593,6 +592,30 @@
     color: #FFFFFF !important;
 }
 
-.indented {
-    text-indent: 2em; /* Adjust the indentation as needed */
+.profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
+  
+  .profile-picture {
+    display: flex; /* เพิ่ม display: flex เพื่อให้รูปและชื่ออยู่ในตำแหน่งเดียวกัน */
+    flex-direction: column; /* กำหนดให้รูปและชื่ออยู่ในคอลัมน์เดียวกัน */
+    align-items: center; /* กำหนดให้จุดศูนย์กลางของรูปและชื่ออยู่ตรงกลาง */
+  }
+  
+  .profile-picture img {
+    width: 200px; /* ลดขนาดรูปเพื่อให้มองเห็นชื่อได้ชัดเจน */
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .profile-details {
+    margin-left: 20px; /* เพิ่ม margin-left เพื่อเว้นระยะห่างระหว่างข้อมูลและรูป */
+  }
+
