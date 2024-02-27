@@ -1,6 +1,5 @@
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
-import api from "../../public/api/api";
 
 function Course(props) {
   return (
