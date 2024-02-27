@@ -42,7 +42,7 @@ const router = createBrowserRouter([
     element: <Enroll />,
   },
   {
-    path: "/detail",
+    path: "/detail/:id",
     element: <Detail />,
   },
 ]);
