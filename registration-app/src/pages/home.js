@@ -1,8 +1,34 @@
 import React from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
 
 function App() {
+
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:11230/course')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        const sortedCourses = data.sort((a, b) => {
+          const dateA = new Date(a.start_date);
+          const dateB = new Date(b.start_date);
+          return dateA - dateB;
+        });
+        setCourses(sortedCourses);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+
+  }, []);
+
+  const heroCourse = courses.length > 0 ? courses[0] : null;
+
   return (
     <Main>
       <div className="container-fluid px-0 mb-5">
@@ -12,60 +38,34 @@ function App() {
           data-bs-ride="carousel"
         >
           <div className="carousel-inner">
-            <div className="carousel-item active">
-              <img className="w-100" src="img/carousel-1.jpg" alt="Image" />
-              <div className="carousel-caption">
-                <div className="container">
-                  <div className="row justify-content-center">
-                    <div className="col-lg-7 text-center">
-                      <p className="fs-4 text-white animated zoomIn">
-                        Welcome to <strong className="text-dark">WU</strong>
-                      </p>
-                      <h1 className="display-1 text-dark mb-4 animated zoomIn">
-                        Course 2
-                      </h1>
-                      <p className="text-white fs-5 animated zoomIn">
-                        Improve your teaching skills and enhance student
-                        performance with our comprehensive course.
-                      </p>
-                      <Link
-                        to="/enroll"
-                        className="btn btn-light rounded-pill py-3 px-5 animated zoomIn"
-                      >
-                        Enroll Now
-                      </Link>
+            {courses.map((course, index) => (
+              <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+                <img className="w-100" src="/img/carousel-2.jpg" alt="Course Image" />
+                <div className="carousel-caption">
+                  <div className="container">
+                    <div className="row justify-content-center">
+                      <div className="col-lg-7 text-center">
+                        <p className="fs-4 text-white animated zoomIn">
+                          Welcome to <strong className="text-dark">WU</strong>
+                        </p>
+                        <h1 className="display-1 text-dark mb-4 animated zoomIn">
+                        {course.course_detail_name.length > 38 ? `${course.course_detail_name.substring(0, 38)}...` : course.course_detail_name}
+                        </h1>
+                        <p className="text-white fs-5 animated zoomIn">
+                          {course.train_detail}
+                        </p>
+                        <Link
+                          to={`/enroll/${course.train_course_id}`}
+                          className="btn btn-light rounded-pill py-3 px-5 animated zoomIn"
+                        >
+                          Enroll Now
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="carousel-item">
-              <img className="w-100" src="img/carousel-2.jpg" alt="Image" />
-              <div className="carousel-caption">
-                <div className="container">
-                  <div className="row justify-content-center">
-                    <div className="col-lg-7 text-center">
-                      <p className="fs-4 text-white animated zoomIn">
-                        Welcome to <strong className="text-dark">WU</strong>
-                      </p>
-                      <h1 className="display-1 text-dark mb-4 animated zoomIn">
-                        Course 2
-                      </h1>
-                      <p className="text-white fs-5 animated zoomIn">
-                        Learn innovative teaching methods and strategies to
-                        engage students effectively.
-                      </p>
-                      <Link
-                        to="/enroll"
-                        className="btn btn-light rounded-pill py-3 px-5 animated zoomIn"
-                      >
-                        Enroll Now
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
           <button
             className="carousel-control-prev"
@@ -73,10 +73,7 @@ function App() {
             data-bs-target="#header-carousel"
             data-bs-slide="prev"
           >
-            <span
-              className="carousel-control-prev-icon"
-              aria-hidden="true"
-            ></span>
+            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Previous</span>
           </button>
           <button
@@ -85,43 +82,9 @@ function App() {
             data-bs-target="#header-carousel"
             data-bs-slide="next"
           >
-            <span
-              className="carousel-control-next-icon"
-              aria-hidden="true"
-            ></span>
+            <span className="carousel-control-next-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Next</span>
           </button>
-        </div>
-      </div>
-
-      <div className="container mt-5">
-        <div className="row justify-content-center">
-          <div className="col-lg-6 text-center">
-            <h2 className="text-dark mb-4">Course Types</h2>
-            <div className="row">
-              <div className="col-md-6">
-                <div className="card mb-4">
-                  <div className="card-body">
-                    <h3 className="card-title">Basic Course</h3>
-                    <p className="card-text">
-                      Every new teacher in the current year must enroll in the
-                      basic course once.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="card mb-4">
-                  <div className="card-body">
-                    <h3 className="card-title">Retreat Course</h3>
-                    <p className="card-text">
-                      For teachers who have completed the basic course before.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       {/* Course Types End */}
