@@ -40,7 +40,7 @@ function App() {
           <div className="carousel-inner">
             {courses.map((course, index) => (
               <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
-                <img className="w-100" src="/img/carousel-2.jpg" alt="Course Image" />
+                <img className="w-100" src="/img/hero_bg.jpg" alt="Course Image" />
                 <div className="carousel-caption">
                   <div className="container">
                     <div className="row justify-content-center">
@@ -55,10 +55,10 @@ function App() {
                           {course.train_detail}
                         </p>
                         <Link
-                          to={`/enroll/${course.train_course_id}`}
+                          to={`/detail/${course.train_course_id}`}
                           className="btn btn-light rounded-pill py-3 px-5 animated zoomIn"
                         >
-                          Enroll Now
+                          More info
                         </Link>
                       </div>
                     </div>
@@ -85,6 +85,36 @@ function App() {
             <span className="carousel-control-next-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Next</span>
           </button>
+        </div>
+      </div>
+      <div className="container mt-5">
+        <div className="row justify-content-center">
+          <div className="col-lg-6 text-center">
+            <h2 className="text-dark mb-4">Course Types</h2>
+            <div className="row">
+              <div className="col-md-6">
+                <div className="card mb-4">
+                  <div className="card-body">
+                    <h3 className="card-title">Basic Course</h3>
+                    <p className="card-text">
+                      Every new teacher in the current year must enroll in the
+                      basic course once.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="card mb-4">
+                  <div className="card-body">
+                    <h3 className="card-title">Retreat Course</h3>
+                    <p className="card-text">
+                      For teachers who have completed the basic course before.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       {/* Course Types End */}

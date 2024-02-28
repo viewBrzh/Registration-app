@@ -253,7 +253,7 @@
     bottom: 0;
     display: flex;
     align-items: center;
-    background: rgba(136, 180, 78, .7);
+    background: rgba(188, 115, 176, 0.7);
     z-index: 1;
 }
 
@@ -286,7 +286,7 @@
 }
 
 .page-header {
-    background: linear-gradient(rgba(136, 180, 78, .7), rgba(136, 180, 78, .7)), url(../img/carousel-1.jpg) center center no-repeat;
+    background: linear-gradient(rgba(188, 115, 176, 0.7), rgba(188, 115, 176, 0.7)), url(../img/hero_bg.jpg) center center no-repeat;
     background-size: cover;
 }
 
@@ -376,7 +376,7 @@
 
 /*** About ***/
 .video {
-    background: linear-gradient(rgba(136, 180, 78, .85), rgba(136, 180, 78, .85)), url(../img/video-bg.jpg) center center no-repeat;
+    background: linear-gradient(rgba(188, 115, 176, 0.7), rgba(188, 115, 176, 0.7)), url(../img/video-bg.jpg) center center no-repeat;
     background-size: cover;
 }
 
@@ -507,7 +507,7 @@
 
 /*** Testimonial ***/
 .testimonial {
-    background: linear-gradient(rgba(136, 180, 78, .85), rgba(136, 180, 78, .85)), url(../img/testimonial-bg.jpg) center center no-repeat;
+    background: linear-gradient(rgba(188, 115, 176, 0.7), rgba(188, 115, 176, 0.7)), url(../img/testimonial-bg.jpg) center center no-repeat;
     background-size: cover;
 }
 
