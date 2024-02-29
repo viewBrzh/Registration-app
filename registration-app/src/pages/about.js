@@ -36,13 +36,13 @@ function About(props) {
                   <img
                     className="img-fluid bg-white w-100 mb-3 wow fadeIn"
                     data-wow-delay="0.1s"
-                    src="img/about-1.jpg"
+                    src="img/viewwu.jpg"
                     alt=""
                   />
                   <img
                     className="img-fluid bg-white w-50 wow fadeIn"
                     data-wow-delay="0.2s"
-                    src="img/about-3.jpg"
+                    src="img/smile2.jpg"
                     alt=""
                   />
                 </div>
@@ -50,13 +50,13 @@ function About(props) {
                   <img
                     className="img-fluid bg-white w-50 mb-3 wow fadeIn"
                     data-wow-delay="0.3s"
-                    src="img/about-4.jpg"
+                    src="img/teach.jpg"
                     alt=""
                   />
                   <img
                     className="img-fluid bg-white w-100 wow fadeIn"
                     data-wow-delay="0.4s"
-                    src="img/about-2.jpg"
+                    src="img/smile.jpg"
                     alt=""
                   />
                 </div>
@@ -75,35 +75,42 @@ function About(props) {
                 <div className="col-sm-4">
                   <img
                     className="img-fluid bg-white w-100"
-                    src="img/about-5.jpg"
+                    src="img/teaching.jpg"
                     alt=""
                   />
                 </div>
                 <div className="col-sm-8">
-                  <h5>
-                    Our tea is one of the most popular drinks in the world
-                  </h5>
+                  <h5>Center for Learning and Teaching Excellence</h5>
                   <p className="mb-0">
-                    Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit.
-                    Aliqu diam amet diam et eos. Clita erat ipsum et lorem et
-                    sit
+                    Encourage teachers to follow the guidelines in order to
+                    maintain quality control. The standard framework serves as a
+                    focus for leadership excellence in teaching (Teaching
+                    Excellence), and it may also involve students and the
+                    eco-system for teaching and learning. International
+                    standards exist, and meeting the Higher Education
+                    Qualifications Framework 2022's learning objectives requires
+                    ensuring that education meets AUN-QA standards for quality.
                   </p>
                 </div>
               </div>
               <div className="border-top mb-4"></div>
               <div className="row g-3">
                 <div className="col-sm-8">
-                  <h5>Daily use of a cup of tea is good for your health</h5>
+                  <h5>Objective</h5>
                   <p className="mb-0">
-                    Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit.
-                    Aliqu diam amet diam et eos. Clita erat ipsum et lorem et
-                    sit
+                    The Center for Teaching and Learning Excellence's
+                    operational objectives positioned inside each work's
+                    framework Through the work of teaching development Enhancing
+                    instructors' effectiveness as teachers is the aim. Work on
+                    developing and preparing curricula Supporting the creation
+                    of undergraduate curricula is the aim. as well as graduate
+                    school, and aid in academic administration
                   </p>
                 </div>
                 <div className="col-sm-4">
                   <img
                     className="img-fluid bg-white w-100"
-                    src="/img/about-6.jpg"
+                    src="img/ranking.jpg"
                     alt=""
                   />
                 </div>
