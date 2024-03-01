@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 
-function Course(props) {
-    const [courses, setCourses] = useState([]);
+function Demo(props) {
+  const [courses, setCourses] = useState([]);
   const [basicCourses, setBasicCourses] = useState([]);
   const [retreatCourses, setRetreatCourses] = useState([]);
 
@@ -121,4 +121,5 @@ function Course(props) {
     </Main>
   );
 }
-export default Course;
+
+export default Demo;
