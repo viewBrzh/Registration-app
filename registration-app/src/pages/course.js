@@ -66,9 +66,12 @@ function Course(props) {
                         <span>{course.start_date} - {course.finish_date}</span>
                       </div>
                     </div>
-                    <a href="#" className="border-btn border-btn2">
-                      Find out more
-                    </a>
+                    <Link to={`/course/detail/${course.train_course_id}`}>
+                        <a href="#" className="border-btn border-btn2">
+                        Find out more
+                        </a>
+                    </Link>
+                    
                   </div>
                 </div>
               </div>
@@ -107,9 +110,11 @@ function Course(props) {
                         <span>{course.start_date} - {course.finish_date}</span>
                       </div>
                     </div>
-                    <a href="#" className="border-btn border-btn2">
-                      Find out more
-                    </a>
+                    <Link to={`/course/detail/${course.train_course_id}`}>
+                        <a href="#" className="border-btn border-btn2">
+                        Find out more
+                        </a>
+                    </Link>
                   </div>
                 </div>
               </div>
