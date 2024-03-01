@@ -49,14 +49,14 @@ function Course(props) {
               <div className="properties properties2 mb-30" style={{ height: '570px' }}>
                 <div className="properties__card">
                   <div className="properties__img overlay1">
-                    <Link to={`/profile/${course.train_course_id}`}>
+                    <Link to={`/course/detail/${course.train_course_id}`}>
                       <img src="/img/ranking.jpg" alt="" />
                     </Link>
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>
                     <h3>
-                      <Link to={`/profile/${course.id}`}>
+                      <Link to={`/course/detail/${course.id}`}>
                         {course.course_detail_name}
                       </Link>
                     </h3>
@@ -93,14 +93,14 @@ function Course(props) {
               <div className="properties properties2 mb-30" style={{ height: '570px' }}>
                 <div className="properties__card">
                   <div className="properties__img overlay1">
-                    <Link to={`/profile/${course.train_course_id}`}>
+                    <Link to={`/course/detail/${course.train_course_id}`}>
                       <img src="/img/ranking.jpg" alt="" />
                     </Link>
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>
                     <h3>
-                      <Link to={`/profile/${course.id}`}>
+                      <Link to={`/course/detail/${course.id}`}>
                         {course.course_detail_name}
                       </Link>
                     </h3>
