@@ -697,3 +697,13 @@
     overflow: hidden;
     margin: 0;
 }
+
+.properties__card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+  
+.properties__caption {
+    flex-grow: 1;
+}

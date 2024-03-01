@@ -1,18 +1,28 @@
+import { useState, useEffect } from 'react';
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 
 function Demo(props) {
+  const [courses, setCourses] = useState([]);
+  const [basicCourses, setBasicCourses] = useState([]);
+  const [retreatCourses, setRetreatCourses] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:11230/course')
+      .then(response => response.json())
+      .then(data => {
+        setCourses(data);
+        setBasicCourses(data.filter(course => course.course_id === 1));
+        setRetreatCourses(data.filter(course => course.course_id === 2));
+      });
+  }, []);
+
   return (
     <Main>
-      {/* Page Header Start */}
-      <div
-        className="container-fluid page-header py-5 mb-5 wow fadeIn"
-        data-wow-delay="0.1s"
-      >
+      {/* Basic Courses Section */}
+      <div className="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div className="container text-center py-5">
-          <h1 className="display-2 text-dark mb-4 animated slideInDown">
-            Courses
-          </h1>
+          <h1 className="display-2 text-dark mb-4 animated slideInDown">Courses</h1>
           <nav aria-label="breadcrumb animated slideInDown">
             <ol className="breadcrumb justify-content-center mb-0">
               <li className="breadcrumb-item">
@@ -27,53 +37,33 @@ function Demo(props) {
           </nav>
         </div>
       </div>
-      {/* Page Header End */}
-      {/* Courses area start */}
-      <div className="courses-area section-padding40 fix">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-xl-7 col-lg-8">
-              <div className="section-tittle text-center mb-55">
-                <h2>Our featured courses</h2>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-lg-4">
-              <div className="properties properties2 mb-30">
+      <div className="container">
+      <br></br>
+        <div className="row justify-content-center mb-4">
+          
+          <h2 className="text-center">Basic Counseling</h2>
+        </div>
+        <div className="row">
+          {basicCourses.map(course => (
+            <div className="col-lg-4" key={course.train_course_id}>
+              <div className="properties properties2 mb-30" style={{ height: '570px' }}>
                 <div className="properties__card">
                   <div className="properties__img overlay1">
-                    <Link to={`/profile`}>
-                      <img src="img/ranking.jpg" alt="" />
+                    <Link to={`/profile/${course.train_course_id}`}>
+                      <img src="/img/ranking.jpg" alt="" />
                     </Link>
                   </div>
                   <div className="properties__caption">
-                    <p>User Experience</p>
+                    <p>{course.category}</p>
                     <h3>
-                      <Link to={`/profile`}>
-                        Fundamental of UX for Application design
+                      <Link to={`/profile/${course.id}`}>
+                        {course.course_detail_name}
                       </Link>
                     </h3>
-                    <p>
-                      The automated process all your website tasks. Discover
-                      tools and techniques to engage effectively with vulnerable
-                      children and young people.
-                    </p>
+                    <p>{course.train_detail}</p>
                     <div className="properties__footer d-flex justify-content-between align-items-center">
-                      <div className="restaurant-name">
-                        <div className="rating">
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star-half"></i>
-                        </div>
-                        <p>
-                          <span>(4.5)</span> based on 120
-                        </p>
-                      </div>
-                      <div className="price">
-                        <span>$135</span>
+                      <div className="date">
+                        <span>{course.start_date} - {course.finish_date}</span>
                       </div>
                     </div>
                     <a href="#" className="border-btn border-btn2">
@@ -83,239 +73,51 @@ function Demo(props) {
                 </div>
               </div>
             </div>
-            <div className="col-lg-4">
-              <div className="properties properties2 mb-30">
-                <div className="properties__card">
-                  <div className="properties__img overlay1">
-                    <Link to={`/profile`}>
-                      <img src="img/ranking.jpg" alt="" />
-                    </Link>
-                  </div>
-                  <div className="properties__caption">
-                    <p>User Experience</p>
-                    <h3>
-                      <Link to={`/profile`}>
-                        Fundamental of UX for Application design
-                      </Link>
-                    </h3>
-                    <p>
-                      The automated process all your website tasks. Discover
-                      tools and techniques to engage effectively with vulnerable
-                      children and young people.
-                    </p>
-                    <div className="properties__footer d-flex justify-content-between align-items-center">
-                      <div className="restaurant-name">
-                        <div className="rating">
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star-half"></i>
-                        </div>
-                        <p>
-                          <span>(4.5)</span> based on 120
-                        </p>
-                      </div>
-                      <div className="price">
-                        <span>$135</span>
-                      </div>
-                    </div>
-                    <a href="#" className="border-btn border-btn2">
-                      Find out more
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="properties properties2 mb-30">
-                <div className="properties__card">
-                  <div className="properties__img overlay1">
-                    <Link to={`/profile`}>
-                      <img src="img/ranking.jpg" alt="" />
-                    </Link>
-                  </div>
-                  <div className="properties__caption">
-                    <p>User Experience</p>
-                    <h3>
-                      <Link to={`/profile`}>
-                        Fundamental of UX for Application design
-                      </Link>
-                    </h3>
-                    <p>
-                      The automated process all your website tasks. Discover
-                      tools and techniques to engage effectively with vulnerable
-                      children and young people.
-                    </p>
-                    <div className="properties__footer d-flex justify-content-between align-items-center">
-                      <div className="restaurant-name">
-                        <div className="rating">
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star-half"></i>
-                        </div>
-                        <p>
-                          <span>(4.5)</span> based on 120
-                        </p>
-                      </div>
-                      <div className="price">
-                        <span>$135</span>
-                      </div>
-                    </div>
-                    <a href="#" className="border-btn border-btn2">
-                      Find out more
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="properties properties2 mb-30">
-                <div className="properties__card">
-                  <div className="properties__img overlay1">
-                    <Link to={`/profile`}>
-                      <img src="img/ranking.jpg" alt="" />
-                    </Link>
-                  </div>
-                  <div className="properties__caption">
-                    <p>User Experience</p>
-                    <h3>
-                      <Link to={`/profile`}>
-                        Fundamental of UX for Application design
-                      </Link>
-                    </h3>
-                    <p>
-                      The automated process all your website tasks. Discover
-                      tools and techniques to engage effectively with vulnerable
-                      children and young people.
-                    </p>
-                    <div className="properties__footer d-flex justify-content-between align-items-center">
-                      <div className="restaurant-name">
-                        <div className="rating">
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star-half"></i>
-                        </div>
-                        <p>
-                          <span>(4.5)</span> based on 120
-                        </p>
-                      </div>
-                      <div className="price">
-                        <span>$135</span>
-                      </div>
-                    </div>
-                    <a href="#" className="border-btn border-btn2">
-                      Find out more
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="properties properties2 mb-30">
-                <div className="properties__card">
-                  <div className="properties__img overlay1">
-                    <Link to={`/profile`}>
-                      <img src="img/ranking.jpg" alt="" />
-                    </Link>
-                  </div>
-                  <div className="properties__caption">
-                    <p>User Experience</p>
-                    <h3>
-                      <Link to={`/profile`}>
-                        Fundamental of UX for Application design
-                      </Link>
-                    </h3>
-                    <p>
-                      The automated process all your website tasks. Discover
-                      tools and techniques to engage effectively with vulnerable
-                      children and young people.
-                    </p>
-                    <div className="properties__footer d-flex justify-content-between align-items-center">
-                      <div className="restaurant-name">
-                        <div className="rating">
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star-half"></i>
-                        </div>
-                        <p>
-                          <span>(4.5)</span> based on 120
-                        </p>
-                      </div>
-                      <div className="price">
-                        <span>$135</span>
-                      </div>
-                    </div>
-                    <a href="#" className="border-btn border-btn2">
-                      Find out more
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="properties properties2 mb-30">
-                <div className="properties__card">
-                  <div className="properties__img overlay1">
-                    <Link to={`/profile`}>
-                      <img src="img/ranking.jpg" alt="" />
-                    </Link>
-                  </div>
-                  <div className="properties__caption">
-                    <p>User Experience</p>
-                    <h3>
-                      <Link to={`/profile`}>
-                        Fundamental of UX for Application design
-                      </Link>
-                    </h3>
-                    <p>
-                      The automated process all your website tasks. Discover
-                      tools and techniques to engage effectively with vulnerable
-                      children and young people.
-                    </p>
-                    <div className="properties__footer d-flex justify-content-between align-items-center">
-                      <div className="restaurant-name">
-                        <div className="rating">
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star"></i>
-                          <i className="fas fa-star-half"></i>
-                        </div>
-                        <p>
-                          <span>(4.5)</span> based on 120
-                        </p>
-                      </div>
-                      <div className="price">
-                        <span>$135</span>
-                      </div>
-                    </div>
-                    <a href="#" className="border-btn border-btn2">
-                      Find out more
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row justify-content-center">
-            <div className="col-xl-7 col-lg-8">
-              <div className="section-tittle text-center mt-40">
-                <a href="#" className="border-btn">
-                  Load More
-                </a>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
-      {/* Courses area End */}
+      {/* Basic Courses Section End */}
+      <hr></hr>
+      <br></br>
+      {/* Retreat Courses Section */}
+      <div className="container">
+        <div className="row justify-content-center mb-4">
+          <h2 className="text-center">Retreat Courses</h2>
+        </div>
+        <div className="row">
+          {retreatCourses.map(course => (
+            <div className="col-lg-4" key={course.train_course_id}>
+              <div className="properties properties2 mb-30" style={{ height: '570px' }}>
+                <div className="properties__card">
+                  <div className="properties__img overlay1">
+                    <Link to={`/profile/${course.train_course_id}`}>
+                      <img src="/img/ranking.jpg" alt="" />
+                    </Link>
+                  </div>
+                  <div className="properties__caption">
+                    <p>{course.category}</p>
+                    <h3>
+                      <Link to={`/profile/${course.id}`}>
+                        {course.course_detail_name}
+                      </Link>
+                    </h3>
+                    <p>{course.train_detail}</p>
+                    <div className="properties__footer d-flex justify-content-between align-items-center">
+                      <div className="date">
+                        <span>{course.start_date} - {course.finish_date}</span>
+                      </div>
+                    </div>
+                    <a href="#" className="border-btn border-btn2">
+                      Find out more
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Retreat Courses Section End */}
     </Main>
   );
 }
