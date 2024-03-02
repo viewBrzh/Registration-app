@@ -39,6 +39,14 @@ function Updatecourse(props) {
               </div>
             </div>
             <div className="custom-input">
+              <label htmlFor="major" className="input-label">
+                location
+              </label>
+              <div className="input-wrapper">
+                <input type="text" id="major" className="input-field" />
+              </div>
+            </div>
+            <div className="custom-input">
               <label htmlFor="telephone" className="input-label">
                 Course date start
               </label>
