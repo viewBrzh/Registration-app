@@ -16,10 +16,10 @@ function Updatecourse(props) {
             {/* Custom Input*/}
             <div className="custom-input">
               <label htmlFor="position" className="input-label">
-                Upload file
+                Upload image
               </label>
               <div className="input-wrapper">
-                <input type="text" id="position" className="input-field" />
+                <input type="file" id="position" className="input-field" />
               </div>
             </div>
             <div className="custom-input">
@@ -40,10 +40,18 @@ function Updatecourse(props) {
             </div>
             <div className="custom-input">
               <label htmlFor="telephone" className="input-label">
-                Course duration
+                Course date start
               </label>
               <div className="input-wrapper">
-                <input type="text" id="telephone" className="input-field" />
+                <input type="date" id="telephone" className="input-field" />
+              </div>
+            </div>
+            <div className="custom-input">
+              <label htmlFor="telephone" className="input-label">
+                Course date finish
+              </label>
+              <div className="input-wrapper">
+                <input type="date" id="telephone" className="input-field" />
               </div>
             </div>
 
