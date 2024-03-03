@@ -44,6 +44,24 @@ function Course(props) {
       </div>
       <div className="container">
         <br></br>
+        {/* serach */}
+        <div className="-center">
+          <div className="-search">
+            <div className="-search-box">
+              <input
+                type="search"
+                id="gsearch"
+                name="gsearch"
+                className="-search-input"
+                placeholder="Search"
+              />
+            </div>
+            <button type="submit" className="-btn-search">
+              <i className="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+        {/* serach */}
         <div className="row justify-content-center mb-4">
           <h2 className="text-center">Basic Counseling</h2>
         </div>
@@ -56,14 +74,14 @@ function Course(props) {
               >
                 <div className="properties__card">
                   <div className="properties__img overlay1">
-                    <Link to={`/profile/${course.train_course_id}`}>
+                    <Link to={`/detail/${course.train_course_id}`}>
                       <img src="/img/ranking.jpg" alt="" />
                     </Link>
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>
                     <h3>
-                      <Link to={`/profile/${course.id}`}>
+                      <Link to={`/detail/${course.train_course_id}`}>
                         {course.course_detail_name}
                       </Link>
                     </h3>
@@ -73,6 +91,9 @@ function Course(props) {
                         <span>
                           {course.start_date} - {course.finish_date}
                         </span>
+                      </div>
+                      <div className="location">
+                        <span>{course.train_place}</span>
                       </div>
                     </div>
                     <a href="#" className="border-btn border-btn2">
@@ -102,14 +123,14 @@ function Course(props) {
               >
                 <div className="properties__card">
                   <div className="properties__img overlay1">
-                    <Link to={`/profile/${course.train_course_id}`}>
+                    <Link to={`/detail/${course.train_course_id}`}>
                       <img src="/img/ranking.jpg" alt="" />
                     </Link>
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>
                     <h3>
-                      <Link to={`/profile/${course.id}`}>
+                      <Link to={`/detail/${course.train_course_id}`}>
                         {course.course_detail_name}
                       </Link>
                     </h3>
@@ -122,7 +143,7 @@ function Course(props) {
                       </div>
                     </div>
                     <a href="#" className="border-btn border-btn2">
-                      Find out more
+                      Enroll
                     </a>
                   </div>
                 </div>

@@ -1,4 +1,47 @@
 /********** Template CSS **********/
+/* search */
+.-center {
+    display: flex;
+    justify-content: center;
+  }
+.-search-input{
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    border: none;
+    padding-left: 2em;
+}
+.-search{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+}
+.-btn-search {
+    width: 64px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f8f8;
+    border-radius: 0 40px 40px 0;
+    border: 1px solid #ccc;
+    border-left: 0;
+    cursor: pointer;
+  }
+  .-search-box {
+    width: 514px;
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 40px 0 0 40px;
+    overflow: hidden;
+  }
+.-search-input:focus-visible{
+    outline: none;
+}
 /* Enroll.css */
 .page-content {
     background-size: cover;
@@ -92,6 +135,15 @@
     --secondary: #FB9F38;
     --light: #F5F8F2;
     --dark: #252C30;
+    --rad: .7rem;
+  --dur: .3s;
+  --color-dark: #2f2f2f;
+  --color-light: #fff;
+  --color-brand: #57bd84;
+  --font-fam: 'Lato', sans-serif;
+  --height: 5rem;
+  --btn-width: 6rem;
+  --bez: cubic-bezier(0, 0, 0.43, 1.49);
 }
 
 .back-to-top {
@@ -490,6 +542,10 @@
     transition: .5s;
     border-radius: 10px;
 }
+.p-4 p {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
 
 .store-item:hover .store-overlay {
     opacity: 1;
@@ -620,6 +676,11 @@
     margin-left: 20px; /* เพิ่ม margin-left เพื่อเว้นระยะห่างระหว่างข้อมูลและรูป */
   }
 
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .mb-55 {
     margin-bottom: 55px;
 }
@@ -651,6 +712,12 @@
     width: 100%;
     border-radius: 10px 10px 0 0; /* เพิ่มขอบมนเพื่อทำให้มีรูปร่างของ card */
   }
+
+.detail__img img {
+    width: 50%;
+    border-radius: 10px; /* เพิ่มขอบมนเพื่อทำให้มีรูปร่างของ card */
+    margin: 0 auto; /* จัดให้รูปภาพอยู่ตรงกลาง */
+}
 .overlay1 {
     position: relative;
     z-index: 1;
@@ -706,5 +773,16 @@
 }
   
 .properties__caption {
+    padding: 29px 20px 20px 20px;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
+
+.properties__caption p {
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* search */

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "react-router-dom": "^6.21.3"
   }
 }
