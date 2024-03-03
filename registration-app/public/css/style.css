@@ -3,10 +3,11 @@
 .page-content {
     background-size: cover;
     background-position: top center;
-    min-height: 100vh;
+    min-height: calc(100vh - 50px);
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 50px;
 }
 
 .card-container {

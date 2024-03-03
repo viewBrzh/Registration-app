@@ -7,8 +7,6 @@ function Updatecourse(props) {
       {/* Page Content */}
       <div className="page-content">
         <div className="card-container">
-          {/* Card Header */}
-          <div className="card-header">{/* <h2>Enroll</h2> */}</div>
           {/* Divider */}
           <p className="divider">Add or edit a course</p>
           {/* Card Body */}
@@ -62,10 +60,9 @@ function Updatecourse(props) {
                 <input type="date" id="telephone" className="input-field" />
               </div>
             </div>
-
             {/* Card Footer */}
             <button type="button" className="btn btn-primary">
-              Update
+              Submit
             </button>
           </form>
         </div>

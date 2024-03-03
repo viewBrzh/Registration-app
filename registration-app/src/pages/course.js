@@ -1,28 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 
 function Course(props) {
-    const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [basicCourses, setBasicCourses] = useState([]);
   const [retreatCourses, setRetreatCourses] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:11230/course')
-      .then(response => response.json())
-      .then(data => {
+    fetch("http://localhost:11230/course")
+      .then((response) => response.json())
+      .then((data) => {
         setCourses(data);
-        setBasicCourses(data.filter(course => course.course_id === 1));
-        setRetreatCourses(data.filter(course => course.course_id === 2));
+        setBasicCourses(data.filter((course) => course.course_id === 1));
+        setRetreatCourses(data.filter((course) => course.course_id === 2));
       });
   }, []);
 
   return (
     <Main>
       {/* Basic Courses Section */}
-      <div className="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+      <div
+        className="container-fluid page-header py-5 mb-5 wow fadeIn"
+        data-wow-delay="0.1s"
+      >
         <div className="container text-center py-5">
-          <h1 className="display-2 text-dark mb-4 animated slideInDown">Courses</h1>
+          <h1 className="display-2 text-dark mb-4 animated slideInDown">
+            Courses
+          </h1>
           <nav aria-label="breadcrumb animated slideInDown">
             <ol className="breadcrumb justify-content-center mb-0">
               <li className="breadcrumb-item">
@@ -38,15 +43,17 @@ function Course(props) {
         </div>
       </div>
       <div className="container">
-      <br></br>
+        <br></br>
         <div className="row justify-content-center mb-4">
-          
           <h2 className="text-center">Basic Counseling</h2>
         </div>
         <div className="row">
-          {basicCourses.map(course => (
+          {basicCourses.map((course) => (
             <div className="col-lg-4" key={course.train_course_id}>
-              <div className="properties properties2 mb-30" style={{ height: '570px' }}>
+              <div
+                className="properties properties2 mb-30"
+                style={{ height: "570px" }}
+              >
                 <div className="properties__card">
                   <div className="properties__img overlay1">
                     <Link to={`/profile/${course.train_course_id}`}>
@@ -63,11 +70,13 @@ function Course(props) {
                     <p>{course.train_detail}</p>
                     <div className="properties__footer d-flex justify-content-between align-items-center">
                       <div className="date">
-                        <span>{course.start_date} - {course.finish_date}</span>
+                        <span>
+                          {course.start_date} - {course.finish_date}
+                        </span>
                       </div>
                     </div>
                     <a href="#" className="border-btn border-btn2">
-                      Find out more
+                      Enroll
                     </a>
                   </div>
                 </div>
@@ -85,9 +94,12 @@ function Course(props) {
           <h2 className="text-center">Retreat Courses</h2>
         </div>
         <div className="row">
-          {retreatCourses.map(course => (
+          {retreatCourses.map((course) => (
             <div className="col-lg-4" key={course.train_course_id}>
-              <div className="properties properties2 mb-30" style={{ height: '570px' }}>
+              <div
+                className="properties properties2 mb-30"
+                style={{ height: "570px" }}
+              >
                 <div className="properties__card">
                   <div className="properties__img overlay1">
                     <Link to={`/profile/${course.train_course_id}`}>
@@ -104,7 +116,9 @@ function Course(props) {
                     <p>{course.train_detail}</p>
                     <div className="properties__footer d-flex justify-content-between align-items-center">
                       <div className="date">
-                        <span>{course.start_date} - {course.finish_date}</span>
+                        <span>
+                          {course.start_date} - {course.finish_date}
+                        </span>
                       </div>
                     </div>
                     <a href="#" className="border-btn border-btn2">
