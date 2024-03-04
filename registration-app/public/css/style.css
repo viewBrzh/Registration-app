@@ -786,3 +786,9 @@
     white-space: nowrap;
 }
 /* search */
+
+.fixed-search {
+    position: fixed;
+    top: 10px;
+    z-index: 1000;
+}
