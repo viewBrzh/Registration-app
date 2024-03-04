@@ -49,14 +49,14 @@ function Course(props) {
               <div className="properties properties2 mb-30" style={{ height: '570px' }}>
                 <div className="properties__card">
                   <div className="properties__img overlay1">
-                    <Link to={`/course/detail/${course.train_course_id}`}>
+                    <Link to={`/detail/${course.train_course_id}`}>
                       <img src="/img/ranking.jpg" alt="" />
                     </Link>
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>
                     <h3>
-                      <Link to={`/course/detail/${course.id}`}>
+                      <Link to={`/detail/${course.train_course_id}`}>
                         {course.course_detail_name}
                       </Link>
                     </h3>
@@ -66,7 +66,7 @@ function Course(props) {
                         <span>{course.start_date} - {course.finish_date}</span>
                       </div>
                     </div>
-                    <Link to={`/course/detail/${course.train_course_id}`}>
+                    <Link to={`/detail/${course.train_course_id}`}>
                         <a href="#" className="border-btn border-btn2">
                         Find out more
                         </a>
@@ -93,14 +93,14 @@ function Course(props) {
               <div className="properties properties2 mb-30" style={{ height: '570px' }}>
                 <div className="properties__card">
                   <div className="properties__img overlay1">
-                    <Link to={`/course/detail/${course.train_course_id}`}>
+                    <Link to={`/detail/${course.train_course_id}`}>
                       <img src="/img/ranking.jpg" alt="" />
                     </Link>
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>
                     <h3>
-                      <Link to={`/course/detail/${course.id}`}>
+                      <Link to={`/detail/${course.train_course_id}`}>
                         {course.course_detail_name}
                       </Link>
                     </h3>
@@ -110,7 +110,7 @@ function Course(props) {
                         <span>{course.start_date} - {course.finish_date}</span>
                       </div>
                     </div>
-                    <Link to={`/course/detail/${course.train_course_id}`}>
+                    <Link to={`/detail/${course.train_course_id}`}>
                         <a href="#" className="border-btn border-btn2">
                         Find out more
                         </a>
