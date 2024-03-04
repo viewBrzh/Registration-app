@@ -7,8 +7,6 @@ function Updatecourse(props) {
       {/* Page Content */}
       <div className="page-content">
         <div className="card-container">
-          {/* Card Header */}
-          <div className="card-header">{/* <h2>Enroll</h2> */}</div>
           {/* Divider */}
           <p className="divider">Add or edit a course</p>
           {/* Card Body */}
@@ -16,10 +14,10 @@ function Updatecourse(props) {
             {/* Custom Input*/}
             <div className="custom-input">
               <label htmlFor="position" className="input-label">
-                Upload file
+                Upload image
               </label>
               <div className="input-wrapper">
-                <input type="text" id="position" className="input-field" />
+                <input type="file" id="position" className="input-field" />
               </div>
             </div>
             <div className="custom-input">
@@ -39,17 +37,32 @@ function Updatecourse(props) {
               </div>
             </div>
             <div className="custom-input">
-              <label htmlFor="telephone" className="input-label">
-                Course duration
+              <label htmlFor="major" className="input-label">
+                location
               </label>
               <div className="input-wrapper">
-                <input type="text" id="telephone" className="input-field" />
+                <input type="text" id="major" className="input-field" />
               </div>
             </div>
-
+            <div className="custom-input">
+              <label htmlFor="telephone" className="input-label">
+                Course date start
+              </label>
+              <div className="input-wrapper">
+                <input type="date" id="telephone" className="input-field" />
+              </div>
+            </div>
+            <div className="custom-input">
+              <label htmlFor="telephone" className="input-label">
+                Course date finish
+              </label>
+              <div className="input-wrapper">
+                <input type="date" id="telephone" className="input-field" />
+              </div>
+            </div>
             {/* Card Footer */}
             <button type="button" className="btn btn-primary">
-              Update
+              Submit
             </button>
           </form>
         </div>

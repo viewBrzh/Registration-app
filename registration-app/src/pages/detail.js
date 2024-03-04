@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
 import { Link, useParams } from "react-router-dom";
 
@@ -8,14 +8,14 @@ function Detail(props) {
 
   useEffect(() => {
     fetch(`http://localhost:11230/course/detail/${id}`)
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
-      .then(data => setCourse(data))
-      .catch(error => console.error('Error fetching data:', error));
+      .then((data) => setCourse(data))
+      .catch((error) => console.error("Error fetching data:", error));
   }, [id]);
 
   if (!course) {
@@ -33,18 +33,20 @@ function Detail(props) {
           >
             <h1>{course.course_detail_name}</h1>
           </div>
+
+          <div className="detail__img text-center">
+            <img src="/img/ranking.jpg" alt="" />
+          </div>
           <div>
-            <div className="store-item position-relative text-center">
+            <div className="store-item position-relative text-center p-4">
               <div className="p-4">
-                <div className="text-center mb-3">
-                  {[...Array(5)].map((_, index) => (
-                    <small key={index} className="fa fa-star text-primary"></small>
-                  ))}
-                </div>
                 <h4 className="mb-3">{course.course_detail_name}</h4>
                 <p>{course.train_detail}</p>
-                <p>{course.start_date} - {course.finish_date}</p>
-                <p>{course.train_place}</p>
+                <p>
+                  ระยะเวลา: {course.start_date} - {course.finish_date}
+                </p>
+
+                <p>สถานที่อบรม: {course.train_place}</p>
                 <Link to={`/enroll`}>
                   <button type="button" className="btn btn-primary">
                     Enroll
