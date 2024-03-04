@@ -74,22 +74,14 @@ function Course(props) {
               >
                 <div className="properties__card">
                   <div className="properties__img overlay1">
-<<<<<<< HEAD
                     <Link to={`/profile/${course.train_course_id}`}>
-=======
-                    <Link to={`/detail/${course.train_course_id}`}>
->>>>>>> view
                       <img src="/img/ranking.jpg" alt="" />
                     </Link>
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>
                     <h3>
-<<<<<<< HEAD
                       <Link to={`/profile/${course.id}`}>
-=======
-                      <Link to={`/detail/${course.train_course_id}`}>
->>>>>>> view
                         {course.course_detail_name}
                       </Link>
                     </h3>
@@ -104,18 +96,9 @@ function Course(props) {
                         <span>{course.train_place}</span>
                       </div>
                     </div>
-<<<<<<< HEAD
                     <a href="#" className="border-btn border-btn2">
                       Find out more
                     </a>
-=======
-                    <Link to={`/detail/${course.train_course_id}`}>
-                        <a href="#" className="border-btn border-btn2">
-                        Find out more
-                        </a>
-                    </Link>
-                    
->>>>>>> view
                   </div>
                 </div>
               </div>
@@ -140,22 +123,14 @@ function Course(props) {
               >
                 <div className="properties__card">
                   <div className="properties__img overlay1">
-<<<<<<< HEAD
                     <Link to={`/profile/${course.train_course_id}`}>
-=======
-                    <Link to={`/detail/${course.train_course_id}`}>
->>>>>>> view
                       <img src="/img/ranking.jpg" alt="" />
                     </Link>
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>
                     <h3>
-<<<<<<< HEAD
                       <Link to={`/profile/${course.id}`}>
-=======
-                      <Link to={`/detail/${course.train_course_id}`}>
->>>>>>> view
                         {course.course_detail_name}
                       </Link>
                     </h3>
@@ -167,17 +142,9 @@ function Course(props) {
                         </span>
                       </div>
                     </div>
-<<<<<<< HEAD
                     <a href="#" className="border-btn border-btn2">
                       Find out more
                     </a>
-=======
-                    <Link to={`/detail/${course.train_course_id}`}>
-                        <a href="#" className="border-btn border-btn2">
-                        Find out more
-                        </a>
-                    </Link>
->>>>>>> view
                   </div>
                 </div>
               </div>
