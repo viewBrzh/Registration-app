@@ -21,7 +21,7 @@ function Header() {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarCollapse">
-              <div className="navbar-nav ms-auto">
+              <div className="navbar-nav ms-auto justify-content-end">
                 <Link to={`/updatecourse`} className="nav-item nav-link">
                   Update
                 </Link>
@@ -37,29 +37,7 @@ function Header() {
                 <Link to={`/course`} className="nav-item nav-link">
                   Course
                 </Link>
-                <div className="nav-item dropdown">
-                  <a
-                    href="#"
-                    className="nav-link dropdown-toggle"
-                    data-bs-toggle="dropdown"
-                  >
-                    Pages
-                  </a>
-                  <div className="dropdown-menu bg-light rounded-0 m-0">
-                    <a href="feature.html" className="dropdown-item">
-                      Features
-                    </a>
-                    <a href="blog.html" className="dropdown-item">
-                      Blog Article
-                    </a>
-                    <a href="testimonial.html" className="dropdown-item">
-                      Testimonial
-                    </a>
-                    <a href="404.html" className="dropdown-item">
-                      404 Page
-                    </a>
-                  </div>
-                </div>
+                
                 <Link to={`/login`} className="nav-item nav-link">
                   Login
                 </Link>

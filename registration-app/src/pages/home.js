@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 function App() {
   const [courses, setCourses] = useState([]);
@@ -53,12 +52,10 @@ function App() {
                         <p className="fs-4 text-white animated zoomIn">
                           Welcome to <strong className="text-dark">WU</strong>
                         </p>
-                        <h1 className="display-1 text-dark mb-4 animated zoomIn">
-                          {course.course_detail_name.length > 38
-                            ? `${course.course_detail_name.substring(0, 38)}...`
-                            : course.course_detail_name}
+                        <h1 className="display-1 text-dark mb-4 animated zoomIn" style={{ overflow: "hidden", display: "-webkit-box", WebkitLineClamp: "3", WebkitBoxOrient: "vertical" }}>
+                          {course.course_detail_name}
                         </h1>
-                        <p className="text-white fs-5 animated zoomIn">
+                        <p className="text-white fs-5 animated zoomIn" style={{ overflow: "hidden", display: "-webkit-box", WebkitLineClamp: "3", WebkitBoxOrient: "vertical" }}>
                           {course.train_detail} <br />
                           {course.start_date} - {course.finish_date} <br />
                           {course.train_place}
@@ -164,7 +161,7 @@ function App() {
           </div>
         </div>
 
-        <h2 className="text-dark mb-4 mt-5">Objective</h2>
+        <h2 className="text-dark mb-4 mt-5 text-end justify-content-center">Objective</h2>
         <div className="row">
           <div className="col-md-6">
             <img

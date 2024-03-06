@@ -1,11 +1,11 @@
 body {
   margin: 0;
-  font-family: SF Pro TH,SF Pro Text,SF Pro Icons,AOS Icons,Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: "Noto Sans Thai", sans-serif;
 }
+

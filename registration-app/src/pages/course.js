@@ -7,6 +7,7 @@ function Course(props) {
   const [basicCourses, setBasicCourses] = useState([]);
   const [retreatCourses, setRetreatCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:11230/course")
@@ -16,7 +17,24 @@ function Course(props) {
         setBasicCourses(data.filter((course) => course.course_id === 1));
         setRetreatCourses(data.filter((course) => course.course_id === 2));
       });
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Remove scroll event listener on cleanup
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
+
+  const handleScroll = () => {
+    const heroSectionBottom = document.querySelector(".hero-section").getBoundingClientRect().bottom;
+    if (window.scrollY > heroSectionBottom) {
+      setIsSearchVisible(true);
+    } else {
+      setIsSearchVisible(false);
+    }
+  };
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -32,9 +50,9 @@ function Course(props) {
 
   return (
     <Main>
-      {/* Basic Courses Section */}
+      {/* Hero Section */}
       <div
-        className="container-fluid page-header py-5 mb-5 wow fadeIn"
+        className="container-fluid page-header py-5 mb-5 wow fadeIn hero-section"
         data-wow-delay="0.1s"
       >
         <div className="container text-center py-5">
@@ -55,33 +73,31 @@ function Course(props) {
           </nav>
         </div>
       </div>
-      <div className="container">
-        <div className="row justify-content-end">
-          <div className="col-lg-6">
-            {/* Search */}
-            <div className="fixed-search">
-              <div className="-center">
-                <div className="-search">
-                  <div className="-search-box">
-                    <input
-                      type="search"
-                      id="gsearch"
-                      name="gsearch"
-                      className="-search-input"
-                      placeholder="Search"
-                      value={searchQuery}
-                      onChange={handleSearchChange}
-                    />
-                  </div>
-                  <button type="submit" className="-btn-search">
-                    <i className="fa fa-search"></i>
-                  </button>
-                </div>
+      
+      {/* Search Bar */}
+      {isSearchVisible && (
+        <div className="fixed-search" style={{ position: "fixed", right: 10 }}>
+          <div className="-center">
+            <div className="-search">
+              <div className="-search-box" style={{ width: "300px" }}>
+                <input
+                  type="search"
+                  id="gsearch"
+                  name="gsearch"
+                  className="-search-input"
+                  placeholder="Search"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                />
               </div>
+              <button type="submit" className="-btn-search">
+                <i className="fa fa-search"></i>
+              </button>
             </div>
-            {/* Search End */}
           </div>
         </div>
+      )}
+      <div className="container">
         <br></br>
         <div className="row justify-content-center mb-4">
           <h2 className="text-center">Basic Counseling</h2>
@@ -89,11 +105,11 @@ function Course(props) {
         <div className="row">
           {filteredBasicCourses.map((course) => (
             <div className="col-lg-4" key={course.train_course_id}>
-              <div className="properties properties2 mb-30" style={{ height: "570px", marginBottom: "20px", position: "relative" }}>
+              <div className="properties properties2 mb-30" style={{ height: "auto", marginBottom: "20px", position: "relative" }}>
                 <div className="properties__card" style={{ border: "1px solid #e0e0e0", borderRadius: "5px", overflow: "hidden" }}>
                   {/* Card content */}
                   <div className="properties__img overlay1">
-                    <Link to={`/profile/${course.train_course_id}`}>
+                    <Link to={`/detail/${course.train_course_id}`}>
                       <img src="/img/ranking.jpg" alt="" />
                     </Link>
                   </div>
@@ -101,7 +117,9 @@ function Course(props) {
                     <p>{course.category}</p>
                     <h3>
                       <Link to={`/detail/${course.train_course_id}`}>
-                        {course.course_detail_name}
+                        {course.course_detail_name.length > 63
+                          ? `${course.course_detail_name.substring(0, 63)}...`
+                          : course.course_detail_name}
                       </Link>
                     </h3>
                     <p>{course.train_detail}</p>
@@ -115,9 +133,11 @@ function Course(props) {
                         <span>{course.train_place}</span>
                       </div>
                     </div>
-                    <a href="#" className="border-btn border-btn2">
-                      Enroll
-                    </a>
+                    <Link to={`/detail/${course.train_course_id}`}>
+                      <a href="#" className="border-btn border-btn2">
+                        More Detail
+                      </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -137,11 +157,11 @@ function Course(props) {
         <div className="row">
           {filteredRetreatCourses.map((course) => (
             <div className="col-lg-4" key={course.train_course_id}>
-              <div className="properties properties2 mb-30" style={{ height: "570px", marginBottom: "20px", position: "relative" }}>
+              <div className="properties properties2 mb-30" style={{ height: "auto", marginBottom: "20px", position: "relative" }}>
                 <div className="properties__card" style={{ border: "1px solid #e0e0e0", borderRadius: "5px", overflow: "hidden" }}>
                   {/* Card content */}
                   <div className="properties__img overlay1">
-                    <Link to={`/profile/${course.train_course_id}`}>
+                    <Link to={`/detail/${course.train_course_id}`}>
                       <img src="/img/ranking.jpg" alt="" />
                     </Link>
                   </div>
@@ -149,7 +169,9 @@ function Course(props) {
                     <p>{course.category}</p>
                     <h3>
                       <Link to={`/detail/${course.train_course_id}`}>
-                        {course.course_detail_name}
+                        {course.course_detail_name.length > 63
+                          ? `${course.course_detail_name.substring(0, 63)}...`
+                          : course.course_detail_name}
                       </Link>
                     </h3>
                     <p>{course.train_detail}</p>
@@ -163,9 +185,11 @@ function Course(props) {
                         <span>{course.train_place}</span>
                       </div>
                     </div>
-                    <a href="#" className="border-btn border-btn2">
-                      Enroll
-                    </a>
+                    <Link to={`/detail/${course.train_course_id}`}>
+                      <a href="#" className="border-btn border-btn2">
+                        More Detail
+                      </a>
+                    </Link>
                   </div>
                 </div>
               </div>
