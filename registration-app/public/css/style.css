@@ -792,3 +792,40 @@
     top: 10px;
     z-index: 1000;
 }
+/* detail */
+.detailcard {
+    max-width: 800px;
+    margin: 100px auto 0;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex; /* เพิ่ม flexbox */
+    flex-direction: column; /* จัดเรียงเนื้อหาในแนวตั้ง */
+    align-items: center; /* จัดให้เนื้อหาตรงกลางแนวนอน */
+  }
+  
+  .detailcard-img-top {
+    width: 100%; /* ทำให้ภาพขยายเต็มกว้าง */
+    height: 100%; /* ให้ภาพขยายเต็มสูงตาม container */
+    object-fit: cover; /* ปรับภาพให้เต็มพื้นที่โดยไม่เกินขอบ container */
+    border-radius: 15px 15px 0 0; /* ให้มีขอบโค้งด้านบนเท่ากับการ์ด */
+  }
+  
+  .detailcard-body {
+    padding: 20px;
+    flex-grow: 1; /* ทำให้เนื้อหายืดเต็มพื้นที่ของการ์ด */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* จัดให้เนื้อหาตรงกลางแนวตั้ง */
+  }
+  
+  .detailcard-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px; /* เพิ่มช่องว่างด้านล่างของหัวข้อ */
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }

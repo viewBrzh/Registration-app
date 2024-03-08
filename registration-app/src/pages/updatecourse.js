@@ -61,9 +61,22 @@ function Updatecourse(props) {
               </div>
             </div>
             {/* Card Footer */}
-            <button type="button" className="btn btn-primary">
-              Submit
-            </button>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                style={{
+                  fontWeight: "bold",
+                  color: "red",
+                  textDecoration: "underline",
+                }}
+              >
+                Delete
+              </button>
+              <button type="button" className="btn btn-primary">
+                Update
+              </button>
+            </div>
           </form>
         </div>
       </div>

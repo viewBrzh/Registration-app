@@ -24,37 +24,26 @@ function Detail(props) {
 
   return (
     <Main>
-      <div className="container-xxl py-5">
-        <div className="container-center">
-          <div
-            className="section-title text-center mx-auto wow fadeInUp"
-            data-wow-delay="0.1s"
-            style={{ maxWidth: "500px" }}
-          >
-            <h1>{course.course_detail_name}</h1>
-          </div>
-
-          <div className="detail__img text-center">
-            <img src="/img/ranking.jpg" alt="" />
-          </div>
-          <div>
-            <div className="store-item position-relative text-center p-4">
-              <div className="p-4">
-                <h4 className="mb-3">{course.course_detail_name}</h4>
-                <p>{course.train_detail}</p>
-                <p>
-                  ระยะเวลา: {course.start_date} - {course.finish_date}
-                </p>
-
-                <p>สถานที่อบรม: {course.train_place}</p>
-                <Link to={`/enroll`}>
-                  <button type="button" className="btn btn-primary">
-                    Enroll
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
+      <div className="detailcard">
+        <div className="detailcard-img-top text-center">
+          <img
+            src="/img/ranking.jpg"
+            alt="Course Image"
+            className="detailcard-img-top"
+          />
+        </div>
+        <div className="detailcard-body">
+          <h4 className="detailcard-title">{course.course_detail_name}</h4>
+          <p className="detailcard-text">{course.train_detail}</p>
+          <p className="detailcard-text">
+            ระยะเวลา: {course.start_date} - {course.finish_date}
+          </p>
+          <p className="detailcard-text">สถานที่อบรม: {course.train_place}</p>
+          <Link to={`/enroll`}>
+            <button type="button" className="btn btn-primary ">
+              Enroll
+            </button>
+          </Link>
         </div>
       </div>
     </Main>
