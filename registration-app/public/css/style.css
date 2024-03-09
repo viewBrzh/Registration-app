@@ -953,3 +953,35 @@ body {
     text-indent: 2em;
     margin-bottom: 0; /* ลบระยะห่างด้านล่างของข้อความ */
   }
+
+  .warning {
+    color: #ff0000;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .font-btn {
+    color: #f54d4d;
+    font-size: 1rem;
+  }
+
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 1000;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
