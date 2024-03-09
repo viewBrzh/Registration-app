@@ -636,7 +636,7 @@
 
 .footer .btn.btn-link::before {
     position: relative;
-    content: "\f105";
+    
     font-family: "Athiti";
     font-weight: 900;
     color: var(--primary);
