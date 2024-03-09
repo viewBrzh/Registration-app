@@ -103,6 +103,11 @@ function App() {
         </div>
       </div>
       <br></br>
+
+      <br></br>
+      <hr></hr>
+      <br></br>
+      {/* Course Types End */}
       <div className="container mt-5">
         <div className="row justify-content-center">
           <div className="col-lg-6 text-center">
@@ -133,57 +138,59 @@ function App() {
           </div>
         </div>
       </div>
-      <br></br>
-      <hr></hr>
-      <br></br>
-      {/* Course Types End */}
       <div className="container mt-5">
-        <h2 className="text-dark mb-4">
-          Center for Learning and Teaching Excellence
-        </h2>
-        <div className="row">
-          <div className="col-md-6">
-            <p className="text-dark pr-4 indented" style={{ padding: "10%" }}>
-              &nbsp;&nbsp;&nbsp;Encourage teachers to follow the guidelines in
-              order to maintain quality control. The standard framework serves
-              as a focus for leadership excellence in teaching (Teaching
-              Excellence), and it may also involve students and the eco-system
-              for teaching and learning. International standards exist, and
-              meeting the Higher Education Qualifications Framework 2022's
-              learning objectives requires ensuring that education meets AUN-QA
-              standards for quality.
-            </p>
-          </div>
-          <div className="col-md-6">
-            <img
-              src="img/teaching.jpg"
-              className="img-fluid"
-              alt="Explanation"
-              style={{ maxWidth: "100%", height: "auto", padding: "5%" }}
-            />
+        <div className="card mb-4">
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-6">
+                <h2 className="card-title">
+                  Center for Learning and Teaching Excellence
+                </h2>
+                <p className="card-text indented">
+                  Encourage teachers to follow the guidelines in order to
+                  maintain quality control. The standard framework serves as a
+                  focus for leadership excellence in teaching (Teaching
+                  Excellence), and it may also involve students and the
+                  eco-system for teaching and learning. International standards
+                  exist, and meeting the Higher Education Qualifications
+                  Framework 2022's learning objectives requires ensuring that
+                  education meets AUN-QA standards for quality.
+                </p>
+              </div>
+              <div className="col-md-6">
+                <img
+                  src="img/teaching.jpg"
+                  className="card-img-top1"
+                  alt="Explanation"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
-        <h2 className="text-dark mb-4 mt-5">Objective</h2>
-        <div className="row">
-          <div className="col-md-6">
-            <img
-              src="img/ranking.jpg"
-              className="img-fluid"
-              alt="Student Development Center"
-              style={{ maxWidth: "100%", height: "auto", padding: "5%" }}
-            />
-          </div>
-          <div className="col-md-6">
-            <p className="text-dark pr-4 indented" style={{ padding: "10%" }}>
-              &nbsp;&nbsp;&nbsp;The Center for Teaching and Learning
-              Excellence's operational objectives positioned inside each work's
-              framework Through the work of teaching development Enhancing
-              instructors' effectiveness as teachers is the aim. Work on
-              developing and preparing curricula Supporting the creation of
-              undergraduate curricula is the aim. as well as graduate school,
-              and aid in academic administration
-            </p>
+        <div className="card mb-4">
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-6">
+                <img
+                  src="img/ranking.jpg"
+                  className="card-img-top2"
+                  alt="Student Development Center"
+                />
+              </div>
+              <div className="col-md-6">
+                <h2 className="card-title">Objective</h2>
+                <p className="card-text indented">
+                  The Center for Teaching and Learning Excellence's operational
+                  objectives positioned inside each work's framework Through the
+                  work of teaching development Enhancing instructors'
+                  effectiveness as teachers is the aim. Work on developing and
+                  preparing curricula Supporting the creation of undergraduate
+                  curricula is the aim. as well as graduate school, and aid in
+                  academic administration
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

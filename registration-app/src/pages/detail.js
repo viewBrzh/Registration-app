@@ -36,9 +36,13 @@ function Detail(props) {
           <h4 className="detailcard-title">{course.course_detail_name}</h4>
           <p className="detailcard-text">{course.train_detail}</p>
           <p className="detailcard-text">
-            ระยะเวลา: {course.start_date} - {course.finish_date}
+            <strong>ระยะเวลา: </strong>
+            {course.start_date} - {course.finish_date}
           </p>
-          <p className="detailcard-text">สถานที่อบรม: {course.train_place}</p>
+          <p className="detailcard-text">
+            <strong>สถานที่อบรม: </strong>
+            {course.train_place}
+          </p>
           <Link to={`/enroll`}>
             <button type="button" className="btn btn-primary ">
               Enroll
