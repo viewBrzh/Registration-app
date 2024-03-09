@@ -52,10 +52,26 @@ function App() {
                         <p className="fs-4 text-white animated zoomIn">
                           Welcome to <strong className="text-dark">WU</strong>
                         </p>
-                        <h1 className="display-1 text-dark mb-4 animated zoomIn" style={{ overflow: "hidden", display: "-webkit-box", WebkitLineClamp: "3", WebkitBoxOrient: "vertical" }}>
+                        <h1
+                          className="display-1 text-dark mb-4 animated zoomIn"
+                          style={{
+                            overflow: "hidden",
+                            display: "-webkit-box",
+                            WebkitLineClamp: "3",
+                            WebkitBoxOrient: "vertical",
+                          }}
+                        >
                           {course.course_detail_name}
                         </h1>
-                        <p className="text-white fs-5 animated zoomIn" style={{ overflow: "hidden", display: "-webkit-box", WebkitLineClamp: "3", WebkitBoxOrient: "vertical" }}>
+                        <p
+                          className="text-white fs-5 animated zoomIn"
+                          style={{
+                            overflow: "hidden",
+                            display: "-webkit-box",
+                            WebkitLineClamp: "3",
+                            WebkitBoxOrient: "vertical",
+                          }}
+                        >
                           {course.train_detail} <br />
                           {course.start_date} - {course.finish_date} <br />
                           {course.train_place}
@@ -100,13 +116,18 @@ function App() {
         </div>
       </div>
       <br></br>
+
+      <br></br>
+      <hr></hr>
+      <br></br>
+      {/* Course Types End */}
       <div className="container mt-5">
         <div className="row justify-content-center">
           <div className="col-lg-6 text-center">
             <h2 className="text-dark mb-4">Course Types</h2>
             <div className="row">
               <div className="col-md-6">
-                <div className="card mb-4" style={{height: 150}}>
+                <div className="card mb-4" style={{ height: 150 }}>
                   <div className="card-body">
                     <h3 className="card-title">Basic Counseling</h3>
                     <p className="card-text">
@@ -117,7 +138,7 @@ function App() {
                 </div>
               </div>
               <div className="col-md-6">
-                <div className="card mb-4" style={{height: 150}}>
+                <div className="card mb-4" style={{ height: 150 }}>
                   <div className="card-body">
                     <h3 className="card-title">Retreat Course</h3>
                     <p className="card-text">
@@ -130,12 +151,8 @@ function App() {
           </div>
         </div>
       </div>
-      <br></br>
-      <hr></hr>
-      <br></br>
-      {/* Course Types End */}
       <div className="container mt-5">
-        <h2 className="text-dark mb-4" >
+        <h2 className="text-dark mb-4">
           Center for Learning and Teaching Excellence
         </h2>
         <div className="row">
@@ -161,7 +178,12 @@ function App() {
           </div>
         </div>
 
-        <h2 className="text-dark mb-4 mt-5 text-end justify-content-center" style={{paddingRight: 120}}>Objective</h2>
+        <h2
+          className="text-dark mb-4 mt-5 text-end justify-content-center"
+          style={{ paddingRight: 120 }}
+        >
+          Objective
+        </h2>
         <div className="row">
           <div className="col-md-6">
             <img
