@@ -35,6 +35,12 @@ function Manage() {
       setIsSearchVisible(false);
     }
   };
+  const handleDelete = () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this course?");
+    if (confirmDelete) {
+      // Add logic here to handle the deletion
+    }
+  };
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -141,8 +147,8 @@ function Manage() {
                         Edit
                       </a>
                     </Link>
-                    <Link to={`/update/${course.train_course_id}`}>
-                      <a href="#" className="font-btn">
+                    <Link>
+                      <a href="#" className="font-btn" onClick={handleDelete}>
                         Delete
                       </a>
                     </Link>
@@ -199,8 +205,8 @@ function Manage() {
                         Edit
                       </a>
                     </Link>
-                    <Link to={`/update/${course.train_course_id}`}>
-                      <a href="#" className="font-btn">
+                    <Link>
+                      <a href="#" className="font-btn" onClick={handleDelete}>
                         Delete
                       </a>
                     </Link>

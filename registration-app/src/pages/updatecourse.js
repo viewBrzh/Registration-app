@@ -20,8 +20,8 @@ function Updatecourse(props) {
           const data = await response.json();
           setCourseData({
             ...data,
-            startDate: formatDate(data.start_date),
-            endDate: formatDate(data.finish_date)
+            start_date: formatDate(data.start_date),
+            finish_date: formatDate(data.finish_date)
           });
         } else {
           console.error("Failed to fetch course details");
@@ -69,6 +69,7 @@ function Updatecourse(props) {
         if (response.ok) {
           // Handle successful update
           console.log('Course updated successfully');
+          window.confirm("Course updated successfully")
         } else {
           console.error('Failed to update course');
         }
@@ -123,7 +124,7 @@ function Updatecourse(props) {
                 Course date start
               </label>
               <div className="input-wrapper">
-                <input type="date" id="startDate" className="input-field" onChange={(e) => setCourseData({ ...courseData, start_date: e.target.value })} />
+                <input type="date" id="startDate" className="input-field" value={courseData.start_date} onChange={(e) => setCourseData({ ...courseData, start_date: e.target.value })} />
               </div>
             </div>
             <div className="custom-input">
@@ -131,7 +132,7 @@ function Updatecourse(props) {
                 Course date finish
               </label>
               <div className="input-wrapper">
-                <input type="date" id="endDate" className="input-field" onChange={(e) => setCourseData({ ...courseData, finish_dateate: e.target.value })} />
+                <input type="date" id="endDate" className="input-field" value={courseData.finish_date} onChange={(e) => setCourseData({ ...courseData, finish_date: e.target.value })} />
               </div>
             </div>
             {/* Card Footer */}
