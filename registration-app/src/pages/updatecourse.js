@@ -1,8 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function Updatecourse(props) {
+  const { id } = useParams();
+  const [courseData, setCourseData] = useState({
+    course_detail_name: "",
+    train_detail: "",
+    train_place: "",
+    start_date: "",
+    finish_date: ""
+  });
+
+  useEffect(() => {
+    const fetchCourseDetails = async () => {
+      try {
+        const response = await fetch(`http://localhost:11230/course/detail/${id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setCourseData({
+            ...data,
+            startDate: formatDate(data.start_date),
+            endDate: formatDate(data.finish_date)
+          });
+        } else {
+          console.error("Failed to fetch course details");
+        }
+      } catch (error) {
+        console.error("Error fetching course details:", error);
+      }
+    };
+
+    fetchCourseDetails();
+  }, [id]);
+
+
+  const formatDate = (dateString) => {
+    if (!dateString) {
+      return ""; // or any default value you prefer
+    }
+    const parts = dateString.split("/");
+    // Ensure each part has at least 2 digits
+    const formattedParts = parts.map((part) => part.padStart(2, "0"));
+    // Rearrange the parts to dd/mm/yyyy format
+    return formattedParts[0] + "/" + formattedParts[1] + "/" + formattedParts[2];
+  };
+
   const handleDelete = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this course?");
     if (confirmDelete) {
@@ -10,62 +53,85 @@ function Updatecourse(props) {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const confirmUpdate = window.confirm("Are you sure you want to Update this course?");
+    if (confirmUpdate) {
+      try {
+        console.log("Updating course with data:", courseData);
+        const response = await fetch(`http://localhost:11230/course/update/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(courseData),
+        });
+        if (response.ok) {
+          // Handle successful update
+          console.log('Course updated successfully');
+        } else {
+          console.error('Failed to update course');
+        }
+      } catch (error) {
+        console.error('Error updating course:', error);
+      }
+    }
+  };
+
+
+
   return (
     <Main>
       {/* Page Content */}
       <div className="page-content">
         <div className="card-container">
           {/* Divider */}
-          <p className="divider">Add or edit a course</p>
+          <p className="divider">Edit course data</p>
           {/* Card Body */}
-          <form className="form-container">
+          <form className="form-container" onSubmit={handleSubmit}>
             {/* Custom Input*/}
-            <div className="custom-input">
-              <label htmlFor="position" className="input-label">
-                Upload image
-              </label>
-              <div className="input-wrapper">
-                <input type="file" id="position" className="input-field" />
-              </div>
-            </div>
             <div className="custom-input">
               <label htmlFor="name" className="input-label">
                 Course name
               </label>
               <div className="input-wrapper">
-                <input type="text" id="name" className="input-field" />
+                <input type="text" id="name" className="input-field" value={courseData.course_detail_name}
+                  onChange={(e) => setCourseData({ ...courseData, course_detail_name: e.target.value })} />
               </div>
             </div>
             <div className="custom-input">
-              <label htmlFor="major" className="input-label">
+              <label htmlFor="details" className="input-label">
                 Course details
               </label>
               <div className="input-wrapper">
-                <input type="text" id="major" className="input-field" />
+                <input type="text" id="details" className="input-field" value={courseData.train_detail}
+                  onChange={(e) => setCourseData({ ...courseData, train_details: e.target.value })} />
               </div>
             </div>
             <div className="custom-input">
-              <label htmlFor="major" className="input-label">
-                location
+              <label htmlFor="location" className="input-label">
+                Location
               </label>
               <div className="input-wrapper">
-                <input type="text" id="major" className="input-field" />
+                <input type="text" id="location" className="input-field" value={courseData.train_place}
+                  onChange={(e) => setCourseData({ ...courseData, train_place: e.target.value })}
+                />
               </div>
             </div>
             <div className="custom-input">
-              <label htmlFor="telephone" className="input-label">
+              <label htmlFor="startDate" className="input-label">
                 Course date start
               </label>
               <div className="input-wrapper">
-                <input type="date" id="telephone" className="input-field" />
+                <input type="date" id="startDate" className="input-field" onChange={(e) => setCourseData({ ...courseData, start_date: e.target.value })} />
               </div>
             </div>
             <div className="custom-input">
-              <label htmlFor="telephone" className="input-label">
+              <label htmlFor="endDate" className="input-label">
                 Course date finish
               </label>
               <div className="input-wrapper">
-                <input type="date" id="telephone" className="input-field" />
+                <input type="date" id="endDate" className="input-field" onChange={(e) => setCourseData({ ...courseData, finish_dateate: e.target.value })} />
               </div>
             </div>
             {/* Card Footer */}
@@ -81,7 +147,7 @@ function Updatecourse(props) {
               </button>
             </div>
           </form>
-          
+
         </div>
       </div>
     </Main>
