@@ -1,25 +1,13 @@
 import React, { useState } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
-import Modal from "react-modal";
-
-Modal.setAppElement("#root"); // Set the app element for accessibility
 
 function Updatecourse(props) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const handleDeleteClick = () => {
-    setModalIsOpen(true);
-  };
-
-  const handleConfirmDelete = () => {
-    // Add your delete logic here
-    console.log("Course deleted");
-    setModalIsOpen(false);
-  };
-
-  const handleCloseModal = () => {
-    setModalIsOpen(false);
+  const handleDelete = () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this course?");
+    if (confirmDelete) {
+      // Add logic here to handle the deletion
+    }
   };
 
   return (
@@ -83,7 +71,9 @@ function Updatecourse(props) {
             {/* Card Footer */}
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
               <Link style={{ display: "flex", alignItems: "center", padding: 20 }}>
-                <a className="font-btn" onClick={handleDeleteClick} style={{ margin: 0 }}>delete</a>
+                <a className="font-btn" style={{ margin: 0 }} onClick={handleDelete}>
+                  delete
+                </a>
               </Link>
               <a style={{ padding: 10 }}></a>
               <button type="submit" className="btn btn-primary" style={{ alignSelf: "center" }}>
@@ -91,19 +81,7 @@ function Updatecourse(props) {
               </button>
             </div>
           </form>
-          <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={handleCloseModal}
-            contentLabel="Confirm Delete"
-            className="modal"
-            overlayClassName="overlay"
-          >
-            <h2>Are you sure you want to delete this course?</h2>
-            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
-              <button onClick={handleConfirmDelete} className="btn btn-primary">Yes</button>
-              <button onClick={handleCloseModal} className="btn btn-secondary" style={{ marginLeft: 10 }}>Cancel</button>
-            </div>
-          </Modal>
+          
         </div>
       </div>
     </Main>
