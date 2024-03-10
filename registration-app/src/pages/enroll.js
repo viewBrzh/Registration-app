@@ -8,8 +8,6 @@ function Enroll(props) {
       <div className="page-content">
         <div className="card-container">
           {/* Card Header */}
-          <div className="card-header">{/* <h2>Enroll</h2> */}</div>
-          {/* Divider */}
           <p className="divider">Your Details</p>
           {/* Card Body */}
           <form className="form-container">
