@@ -13,6 +13,7 @@ import Updatecourse from "./pages/updatecourse";
 import Demo from "./pages/demo";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Manage from "./pages/manage";
 
 const router = createBrowserRouter([
   {
@@ -48,12 +49,16 @@ const router = createBrowserRouter([
     element: <Detail />,
   },
   {
-    path: "/updatecourse",
-    element: <Updatecourse />,
+    path: "/manage",
+    element: <Manage />,
   },
   {
     path: "/demo",
     element: <Demo />,
+  },
+  {
+    path: "/update/:id",
+    element: <Updatecourse />,
   },
 ]);
 
