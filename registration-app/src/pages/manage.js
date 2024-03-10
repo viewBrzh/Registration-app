@@ -37,14 +37,37 @@ function Manage() {
       setIsSearchVisible(false);
     }
   };
-  const handleDelete = () => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this course?"
-    );
-    if (confirmDelete) {
-      // Add logic here to handle the deletion
-    }
-  };
+
+  const handleDelete = (cid) => {
+  console.log("Deleting course with ID:", cid);
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this course? course id:"+{cid}
+  );
+  if (confirmDelete) {
+    fetch(`http://localhost:11230/course/${cid}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Course deleted successfully:", data);
+        // Handle success, e.g., remove the deleted course from state
+        setCourses(courses.filter((course) => course.train_course_id !== cid));
+        setBasicCourses(basicCourses.filter((course) => course.train_course_id !== cid));
+        setRetreatCourses(retreatCourses.filter((course) => course.train_course_id !== cid));
+      })
+      .catch((error) => {
+        console.error("Error deleting course:", error);
+      });
+  } else {
+    console.log("Delete operation cancelled.");
+  }
+};
+
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -174,7 +197,7 @@ function Manage() {
                       </a>
                     </Link>
                     <Link>
-                      <a href="#" className="font-btn" onClick={handleDelete}>
+                      <a href="#" className="font-btn" onClick={() => handleDelete(course.train_course_id)}>
                         Delete
                       </a>
                     </Link>
@@ -244,7 +267,7 @@ function Manage() {
                       </a>
                     </Link>
                     <Link>
-                      <a href="#" className="font-btn" onClick={handleDelete}>
+                      <a href="#" className="font-btn" onClick={() => handleDelete(course.train_course_id)}>
                         Delete
                       </a>
                     </Link>
