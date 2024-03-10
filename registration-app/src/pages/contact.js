@@ -62,8 +62,8 @@ function Contact(props) {
                   <div className="btn-square mx-auto mb-3">
                     <i className="fa fa-phone fa-2x text-white"></i>
                   </div>
-                  <p className="mb-2">โทรศัพท์ : 0-7567-3122-3</p>
-                  <p className="mb-0">ภายในกด 3122-3</p>
+                  <p className="mb-2">tel : 0-7567-3122-3</p>
+                  <p className="mb-0">Intercom : 3122-3</p>
                 </div>
                 <div
                   className="col-md-4 text-center wow fadeInUp"
@@ -72,8 +72,7 @@ function Contact(props) {
                   <div className="btn-square mx-auto mb-3">
                     <i className="fa fa-map-marker-alt fa-2x text-white"></i>
                   </div>
-                  <p className="mb-2">โถงอาคารไทยบุรี</p>
-                  <p className="mb-0">(ทางเชื่อมอาคารเรียนรวม 5)</p>
+                  <p className="mb-2">Thaiburi building</p>
                 </div>
               </div>
               <br></br>

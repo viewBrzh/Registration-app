@@ -127,7 +127,7 @@ function Updatecourse(props) {
               </label>
               <div className="input-wrapper">
                 <input type="text" id="details" className="input-field" value={courseData.train_detail}
-                  onChange={(e) => setCourseData({ ...courseData, train_details: e.target.value })} />
+                  onChange={(e) => setCourseData({ ...courseData, train_detail: e.target.value })} />
               </div>
             </div>
             <div className="custom-input">

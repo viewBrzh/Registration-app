@@ -39,34 +39,34 @@ function Manage() {
   };
 
   const handleDelete = (cid) => {
-  console.log("Deleting course with ID:", cid);
-  const confirmDelete = window.confirm(
-    "Are you sure you want to delete this course? This process is permanent."
-  );
-  if (confirmDelete) {
-    fetch(`http://localhost:11230/course/${cid}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
+    console.log("Deleting course with ID:", cid);
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this course? This process is permanent."
+    );
+    if (confirmDelete) {
+      fetch(`http://localhost:11230/course/${cid}`, {
+        method: "DELETE",
       })
-      .then((data) => {
-        console.log("Course deleted successfully:", data);
-        // Handle success, e.g., remove the deleted course from state
-        setCourses(courses.filter((course) => course.train_course_id !== cid));
-        setBasicCourses(basicCourses.filter((course) => course.train_course_id !== cid));
-        setRetreatCourses(retreatCourses.filter((course) => course.train_course_id !== cid));
-      })
-      .catch((error) => {
-        console.error("Error deleting course:", error);
-      });
-  } else {
-    console.log("Delete operation cancelled.");
-  }
-};
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Course deleted successfully:", data);
+          // Handle success, e.g., remove the deleted course from state
+          setCourses(courses.filter((course) => course.train_course_id !== cid));
+          setBasicCourses(basicCourses.filter((course) => course.train_course_id !== cid));
+          setRetreatCourses(retreatCourses.filter((course) => course.train_course_id !== cid));
+        })
+        .catch((error) => {
+          console.error("Error deleting course:", error);
+        });
+    } else {
+      console.log("Delete operation cancelled.");
+    }
+  };
 
 
   const handleSearchChange = (event) => {
@@ -142,6 +142,19 @@ function Manage() {
         </div>
       )}
       <div className="container">
+        <div className="row justify-content-start">
+          <div className="col-md-3" style={{width: 250}}>
+            <Link to={`/insert`}>
+              <div className="card mb-4" style={{ height: 70, border: "1px solid #e0e0e0", borderRadius: "10px", overflow: "hidden" }}>
+                <div className="card-body" style={{  justifyContent: "end" }}>
+                  <h5 style={{ margin: 5, color: '#E60073' }}>
+                    Insert Course
+                  </h5>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
         <br></br>
         <div className="row justify-content-center mb-4">
           <h2 className="text-center">Basic Counseling</h2>

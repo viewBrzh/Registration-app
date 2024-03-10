@@ -14,6 +14,7 @@ import Demo from "./pages/demo";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Manage from "./pages/manage";
+import InsertCourse from "./pages/insertCourse";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
     path: "/update/:id",
     element: <Updatecourse />,
   },
+  {
+    path: "/insert",
+    element: <InsertCourse />
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

@@ -11,16 +11,14 @@ function Footer() {
             <div className="col-lg-3 col-md-6">
               <h4 className="text-primary mb-4">Our Office</h4>
               <p className="mb-2">
-                <i className="fa fa-map-marker-alt text-primary me-3"></i>123
-                Street, New York, USA
+                <i className="fa fa-map-marker-alt text-primary me-3"></i>Thaiburi building
               </p>
               <p className="mb-2">
-                <i className="fa fa-phone-alt text-primary me-3"></i>+012 345
-                67890
+                <i className="fa fa-phone-alt text-primary me-3"></i>tel : 0-7567-3122-3
               </p>
               <p className="mb-2">
                 <i className="fa fa-envelope text-primary me-3"></i>
-                info@example.com
+                smilesmartcenter@gmail.com
               </p>
               <div className="d-flex pt-3">
                 <a
@@ -73,15 +71,13 @@ function Footer() {
             <div className="col-lg-3 col-md-6">
               <h4 className="text-primary mb-4">Business Hours</h4>
               <p className="mb-1">Monday - Friday</p>
-              <h6 className="text-light">09:00 am - 07:00 pm</h6>
-              <p className="mb-1">Saturday</p>
-              <h6 className="text-light">09:00 am - 12:00 pm</h6>
-              <p className="mb-1">Sunday</p>
+              <h6 className="text-light">09:00 am - 05:00 pm</h6>
+              <p className="mb-1">Saturday - Sunday</p>
               <h6 className="text-light">Closed</h6>
             </div>
             <div className="col-lg-3 col-md-6">
               <h4 className="text-primary mb-4">Newsletter</h4>
-              <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+              <p>Send us email.</p>
               <div className="position-relative w-100">
                 <input
                   className="form-control bg-transparent w-100 py-3 ps-4 pe-5"
