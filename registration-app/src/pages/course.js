@@ -28,7 +28,9 @@ function Course(props) {
   }, []);
 
   const handleScroll = () => {
-    const heroSectionBottom = document.querySelector(".hero-section").getBoundingClientRect().bottom;
+    const heroSectionBottom = document
+      .querySelector(".hero-section")
+      .getBoundingClientRect().bottom;
     if (window.scrollY > heroSectionBottom) {
       setIsSearchVisible(true);
     } else {
@@ -73,7 +75,7 @@ function Course(props) {
           </nav>
         </div>
       </div>
-      
+
       {/* Search Bar */}
       {isSearchVisible && (
         <div className="fixed-search" style={{ position: "fixed", right: 10 }}>
@@ -105,8 +107,22 @@ function Course(props) {
         <div className="row">
           {filteredBasicCourses.map((course) => (
             <div className="col-lg-4" key={course.train_course_id}>
-              <div className="properties properties2 mb-30" style={{ height: "auto", marginBottom: "20px", position: "relative" }}>
-                <div className="properties__card" style={{ border: "1px solid #e0e0e0", borderRadius: "5px", overflow: "hidden" }}>
+              <div
+                className="properties properties2 mb-30"
+                style={{
+                  height: "auto",
+                  marginBottom: "20px",
+                  position: "relative",
+                }}
+              >
+                <div
+                  className="properties__card"
+                  style={{
+                    border: "1px solid #e0e0e0",
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                  }}
+                >
                   {/* Card content */}
                   <div className="properties__img overlay1">
                     <Link to={`/detail/${course.train_course_id}`}>
@@ -142,7 +158,6 @@ function Course(props) {
                 </div>
               </div>
             </div>
-
           ))}
         </div>
       </div>
@@ -157,8 +172,22 @@ function Course(props) {
         <div className="row">
           {filteredRetreatCourses.map((course) => (
             <div className="col-lg-4" key={course.train_course_id}>
-              <div className="properties properties2 mb-30" style={{ height: "auto", marginBottom: "20px", position: "relative" }}>
-                <div className="properties__card" style={{ border: "1px solid #e0e0e0", borderRadius: "5px", overflow: "hidden" }}>
+              <div
+                className="properties properties2 mb-30"
+                style={{
+                  height: "auto",
+                  marginBottom: "20px",
+                  position: "relative",
+                }}
+              >
+                <div
+                  className="properties__card"
+                  style={{
+                    border: "1px solid #e0e0e0",
+                    borderRadius: "5px",
+                    overflow: "hidden",
+                  }}
+                >
                   {/* Card content */}
                   <div className="properties__img overlay1">
                     <Link to={`/detail/${course.train_course_id}`}>
@@ -198,7 +227,7 @@ function Course(props) {
         </div>
       </div>
       {/* Retreat Courses Section End */}
-    </Main >
+    </Main>
   );
 }
 export default Course;

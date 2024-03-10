@@ -28,7 +28,9 @@ function Manage() {
   }, []);
 
   const handleScroll = () => {
-    const heroSectionBottom = document.querySelector(".hero-section").getBoundingClientRect().bottom;
+    const heroSectionBottom = document
+      .querySelector(".hero-section")
+      .getBoundingClientRect().bottom;
     if (window.scrollY > heroSectionBottom) {
       setIsSearchVisible(true);
     } else {
@@ -36,7 +38,9 @@ function Manage() {
     }
   };
   const handleDelete = () => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this course?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this course?"
+    );
     if (confirmDelete) {
       // Add logic here to handle the deletion
     }
@@ -75,14 +79,22 @@ function Manage() {
               <li className="breadcrumb-item text-dark" aria-current="page">
                 Manage
               </li>
-              
             </ol>
             <br></br>
-            <div className="warning" style={{color: 'warning', backgroundColor: 'white', borderRadius: 5}}>This page is for Admin</div>
+            <div
+              className="warning"
+              style={{
+                color: "warning",
+                backgroundColor: "white",
+                borderRadius: 5,
+              }}
+            >
+              This page is for Admin
+            </div>
           </nav>
         </div>
       </div>
-      
+
       {/* Search Bar */}
       {isSearchVisible && (
         <div className="fixed-search" style={{ position: "fixed", right: 10 }}>
@@ -114,8 +126,22 @@ function Manage() {
         <div className="row">
           {filteredBasicCourses.map((course) => (
             <div className="col-lg-4" key={course.train_course_id}>
-              <div className="properties properties2 mb-30" style={{ height: "auto", marginBottom: "20px", position: "relative" }}>
-                <div className="properties__card" style={{ border: "1px solid #e0e0e0", borderRadius: "5px", overflow: "hidden" }}>
+              <div
+                className="properties properties2 mb-30"
+                style={{
+                  height: "auto",
+                  marginBottom: "20px",
+                  position: "relative",
+                }}
+              >
+                <div
+                  className="properties__card"
+                  style={{
+                    border: "1px solid #e0e0e0",
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                  }}
+                >
                   {/* Card content */}
                   <div className="properties__img overlay1">
                     <Link to={`/detail/${course.train_course_id}`}>
@@ -152,12 +178,10 @@ function Manage() {
                         Delete
                       </a>
                     </Link>
-                    
                   </div>
                 </div>
               </div>
             </div>
-
           ))}
         </div>
       </div>
@@ -172,8 +196,22 @@ function Manage() {
         <div className="row">
           {filteredRetreatCourses.map((course) => (
             <div className="col-lg-4" key={course.train_course_id}>
-              <div className="properties properties2 mb-30" style={{ height: "auto", marginBottom: "20px", position: "relative" }}>
-                <div className="properties__card" style={{ border: "1px solid #e0e0e0", borderRadius: "5px", overflow: "hidden" }}>
+              <div
+                className="properties properties2 mb-30"
+                style={{
+                  height: "auto",
+                  marginBottom: "20px",
+                  position: "relative",
+                }}
+              >
+                <div
+                  className="properties__card"
+                  style={{
+                    border: "1px solid #e0e0e0",
+                    borderRadius: "5px",
+                    overflow: "hidden",
+                  }}
+                >
                   {/* Card content */}
                   <div className="properties__img overlay1">
                     <Link to={`/detail/${course.train_course_id}`}>
@@ -218,7 +256,7 @@ function Manage() {
         </div>
       </div>
       {/* Retreat Courses Section End */}
-    </Main >
+    </Main>
   );
 }
 export default Manage;

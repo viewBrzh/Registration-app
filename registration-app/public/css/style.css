@@ -439,6 +439,89 @@
 
 
 /*** About ***/
+
+.aboutcenter-container {
+    display: flex;
+    flex-direction: column; /* จัดให้เนื้อหาอยู่ในคอลัมน์เดียวกัน */
+    justify-content: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวตั้ง */
+    align-items: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
+    margin-bottom: 30px;
+}
+.aboutcontainer {
+    display: flex;
+    
+    justify-content: center;
+    align-items: center; /* จัดการแนวตั้งให้เริ่มจากบน */
+    flex-wrap: wrap; /* จัดการการขึ้นบรรทัดใหม่เมื่อไม่พอสำหรับการ์ด */
+    gap: 20px; /* ระยะห่างระหว่างการ์ด */
+    
+}
+
+.aboutcard {
+    width: calc(50% - 20px); /* คำนวณความกว้างของการ์ดให้แสดง 2 ในแต่ละแถว */
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row; /* จัดการให้เนื้อหาแสดงในแนวนอน */
+    overflow: hidden; /* ป้องกันเนื้อหาที่เกินขอบการ์ด */
+}
+
+.aboutcard-img {
+    width: 60%; /* ให้รูปภาพใช้ 60% ของความกว้างของการ์ด */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* ป้องกันรูปภาพที่เกินขอบการ์ด */
+    padding: 20px;
+    object-fit: cover;
+}
+
+.aboutcard-img img {
+    width: 100%; /* ให้ภาพทำเต็มพื้นที่ของการ์ด */
+    height: 200px;
+    border-radius: 10px 10px 10px 10px;
+    object-fit: cover; /* ปรับขนาดของรูปภาพโดยไม่ยืดหรือบิดเบี้ยว */
+    
+}
+
+.aboutcard-content {
+    padding: 20px;
+    width: 60%; /* ให้เนื้อหาใช้ 60% ของความกว้างของการ์ด */
+    background-color: #FFFFFF;
+    
+}
+
+.aboutcard-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #E90073;
+}
+
+.aboutcard-text {
+    font-size: 14px;
+    color: #1d1d1f;
+}
+/* CSS สำหรับหน้าจอที่ขนาดเล็กกว่าหรือเท่ากับ 768px */
+@media (max-width: 768px) {
+    .aboutcard {
+      width: calc(100% - 20px); /* ให้การ์ดเต็มแถว */
+    }
+    .aboutcard-img img {
+        width: 100%; /* ปรับขนาดรูปภาพให้เต็มขอบการ์ด */
+        height: auto;
+        border-radius: 10px 10px 10px 10px; /* ปรับขอบรูปภาพเป็นสี่เหลี่ยมมุม */
+      }
+  }
+  
+  /* CSS สำหรับหน้าจอที่ขนาดมากกว่า 768px */
+  @media (min-width: 768px) {
+    .aboutcard {
+      width: calc(50% - 20px); /* ให้การ์ดแสดง 2 ในแต่ละแถว */
+    }
+  }
+
 .video {
     background: linear-gradient(rgba(188, 115, 176, 0.7), rgba(188, 115, 176, 0.7)), url(../img/video-bg.jpg) center center no-repeat;
     background-size: cover;
@@ -938,14 +1021,13 @@ body {
   }
   
   .card-img-top1 {
-    border-radius: 15px 0 0 15px;;
+    border-radius: 15px 15px 15px 15px;;
     object-fit: cover; /* ทำให้รูปภาพทำเต็มพื้นที่ของการ์ดโดยไม่เกินขอบ */
     height: 100%; /* ให้รูปภาพทำเต็มสูงของการ์ด */
     width: 100%; /* ให้รูปภาพทำเต็มกว้างของการ์ด */
   }
   .card-img-top2 {
-    border-radius: 0 15px 15px 0;
-    object-fit: cover; /* ทำให้รูปภาพทำเต็มพื้นที่ของการ์ดโดยไม่เกินขอบ */
+    border-radius: 15px 15px 15px 15px;
     height: 100%; /* ให้รูปภาพทำเต็มสูงของการ์ด */
     width: 100%; /* ให้รูปภาพทำเต็มกว้างของการ์ด */
   }
