@@ -127,9 +127,19 @@ function App() {
             <div className="row">
               <div className="col-md-6">
                 <Link to={`/course#basic`}>
-                  <div className="card mb-4" style={{height: 150}}>
+                  <div
+                    className="card mb-4"
+                    style={{
+                      height: 150,
+                      border: "1px solid #e0e0e0",
+                      borderRadius: "10px",
+                      overflow: "hidden",
+                    }}
+                  >
                     <div className="card-body">
-                      <h3 className="card-title" style={{margin: 5}}>Basic Counseling</h3>
+                      <h3 className="card-title" style={{ margin: 5 }}>
+                        Basic Counseling
+                      </h3>
                       <p className="card-text">
                         Every new teacher in the current year must enroll in the
                         basic course once.
@@ -140,9 +150,19 @@ function App() {
               </div>
               <div className="col-md-6">
                 <Link to={`/course#retreat`}>
-                  <div className="card mb-4" style={{height: 150}}>
+                  <div
+                    className="card mb-4"
+                    style={{
+                      height: 150,
+                      border: "1px solid #e0e0e0",
+                      borderRadius: "10px",
+                      overflow: "hidden",
+                    }}
+                  >
                     <div className="card-body">
-                      <h3 className="card-title" style={{margin: 5}}>Retreat Course</h3>
+                      <h3 className="card-title" style={{ margin: 5 }}>
+                        Retreat Course
+                      </h3>
                       <p className="card-text">
                         For teachers who have completed the basic course before.
                       </p>
@@ -156,13 +176,20 @@ function App() {
       </div>
       <div className="container mt-5">
         <div className="card mb-4">
-          <div className="card-body">
+          <div
+            className="card-body"
+            style={{
+              border: "1px solid #e0e0e0",
+              borderRadius: "10px",
+              overflow: "hidden",
+            }}
+          >
             <div className="row">
               <div className="col-md-6">
                 <h2 className="card-title">
                   Center for Learning and Teaching Excellence
                 </h2>
-                <p className="card-text indented" style={{padding: '10%'}}>
+                <p className="card-text indented" style={{ padding: "10%" }}>
                   Encourage teachers to follow the guidelines in order to
                   maintain quality control. The standard framework serves as a
                   focus for leadership excellence in teaching (Teaching
@@ -178,7 +205,7 @@ function App() {
                   src="img/teaching.jpg"
                   className="card-img-top1"
                   alt="Explanation"
-                  style={{padding: 10}}
+                  style={{ padding: 10 }}
                 />
               </div>
             </div>
@@ -186,19 +213,26 @@ function App() {
         </div>
 
         <div className="card mb-4">
-          <div className="card-body">
+          <div
+            className="card-body"
+            style={{
+              border: "1px solid #e0e0e0",
+              borderRadius: "10px",
+              overflow: "hidden",
+            }}
+          >
             <div className="row">
               <div className="col-md-6">
                 <img
                   src="img/ranking.jpg"
                   className="card-img-top2"
                   alt="Student Development Center"
-                  style={{padding: 10}}
+                  style={{ padding: 10 }}
                 />
               </div>
               <div className="col-md-6">
                 <h2 className="card-title">Objective</h2>
-                <p className="card-text indented" style={{padding: '10%'}}>
+                <p className="card-text indented" style={{ padding: "10%" }}>
                   The Center for Teaching and Learning Excellence's operational
                   objectives positioned inside each work's framework Through the
                   work of teaching development Enhancing instructors'

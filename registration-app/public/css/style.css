@@ -439,7 +439,6 @@
 
 
 /*** About ***/
-
 .aboutcenter-container {
     display: flex;
     flex-direction: column; /* จัดให้เนื้อหาอยู่ในคอลัมน์เดียวกัน */
@@ -468,7 +467,7 @@
 }
 
 .aboutcard-img {
-    width: 60%; /* ให้รูปภาพใช้ 60% ของความกว้างของการ์ด */
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -509,8 +508,8 @@
       width: calc(100% - 20px); /* ให้การ์ดเต็มแถว */
     }
     .aboutcard-img img {
-        width: 100%; /* ปรับขนาดรูปภาพให้เต็มขอบการ์ด */
-        height: auto;
+        width: 150px; /* ปรับขนาดรูปภาพให้เต็มขอบการ์ด */
+        height: 150px;
         border-radius: 10px 10px 10px 10px; /* ปรับขอบรูปภาพเป็นสี่เหลี่ยมมุม */
       }
   }
@@ -1000,8 +999,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; /* จัดให้เนื้อหาตรงกลางแนวนอน */
-    
+    align-items: center; /* จัดให้เนื้อหาตรงกลางแนวนอน */    
   }
 
   .card-title {
@@ -1067,3 +1065,23 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
   }
+  /* shape */
+  .custom-shape-divider-top-1710057287 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-top-1710057287 svg {
+    position: relative;
+    display: block;
+    width: calc(115% + 1.3px);
+    height: 210px;
+}
+
+.custom-shape-divider-top-1710057287 .shape-fill {
+    fill: #E695B5;
+}

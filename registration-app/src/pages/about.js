@@ -32,9 +32,15 @@ function About(props) {
       </div>
 
       <div className="aboutcontainer">
-        <div className="aboutcard">
+        <div
+          className="aboutcard"
+          style={{
+            border: "1px solid #e0e0e0",
+            overflow: "hidden",
+          }}
+        >
           <div className="aboutcard-img">
-            <img src="/img/smile4.jpg" alt="Image" />
+            <img src="/img/Smiling Face (HD).png" alt="Image" />
           </div>
           <div className="aboutcard-content">
             <h2 className="aboutcard-title">Smile & Smart Center</h2>
@@ -47,9 +53,15 @@ function About(props) {
             </p>
           </div>
         </div>
-        <div className="aboutcard">
+        <div
+          className="aboutcard"
+          style={{
+            border: "1px solid #e0e0e0",
+            overflow: "hidden",
+          }}
+        >
           <div className="aboutcard-img">
-            <img src="/img/location.jpg" alt="Image" />
+            <img src="/img/Maps 3D Icon Model For UI (HD).png" alt="Image" />
           </div>
           <div className="aboutcard-content">
             <h2 className="aboutcard-title">Location</h2>
@@ -61,9 +73,15 @@ function About(props) {
             </p>
           </div>
         </div>
-        <div className="aboutcard">
+        <div
+          className="aboutcard"
+          style={{
+            border: "1px solid #e0e0e0",
+            overflow: "hidden",
+          }}
+        >
           <div className="aboutcard-img">
-            <img src="/img/smile.jpg" alt="Image" />
+            <img src="/img/Consultation (HD).png" alt="Image" />
           </div>
           <div className="aboutcard-content">
             <h2 className="aboutcard-title">Consulting personnel</h2>
@@ -74,9 +92,15 @@ function About(props) {
             </p>
           </div>
         </div>
-        <div className="aboutcard">
+        <div
+          className="aboutcard"
+          style={{
+            border: "1px solid #e0e0e0",
+            overflow: "hidden",
+          }}
+        >
           <div className="aboutcard-img">
-            <img src="/img/smile3.jpg" alt="Image" />
+            <img src="/img/Heart Care (HD).png" alt="Image" />
           </div>
           <div className="aboutcard-content">
             <h2 className="aboutcard-title">
