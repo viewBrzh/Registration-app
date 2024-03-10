@@ -47,9 +47,30 @@ function Updatecourse(props) {
   };
 
   const handleDelete = () => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this course?");
+    console.log("Deleting course with ID:", id);
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this course? This process is permanent."
+    );
     if (confirmDelete) {
-      // Add logic here to handle the deletion
+      fetch(`http://localhost:11230/course/${id}`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Redirect to the manage page
+          props.history.push('/manage');
+          console.log("Course deleted successfully:", data);
+        })
+        .catch((error) => {
+          console.error("Error deleting course:", error);
+        });
+    } else {
+      console.log("Delete operation cancelled.");
     }
   };
 

@@ -41,7 +41,7 @@ function Manage() {
   const handleDelete = (cid) => {
   console.log("Deleting course with ID:", cid);
   const confirmDelete = window.confirm(
-    "Are you sure you want to delete this course? course id:"+{cid}
+    "Are you sure you want to delete this course? This process is permanent."
   );
   if (confirmDelete) {
     fetch(`http://localhost:11230/course/${cid}`, {
