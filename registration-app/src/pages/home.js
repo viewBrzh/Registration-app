@@ -126,25 +126,29 @@ function App() {
             <h2 className="text-dark mb-4">Course Types</h2>
             <div className="row">
               <div className="col-md-6">
-                <div className="card mb-4" style={{height: 150}}>
-                  <div className="card-body">
-                    <h3 className="card-title" style={{margin: 5}}>Basic Counseling</h3>
-                    <p className="card-text">
-                      Every new teacher in the current year must enroll in the
-                      basic course once.
-                    </p>
+                <Link to={`/course#basic`}>
+                  <div className="card mb-4" style={{height: 150}}>
+                    <div className="card-body">
+                      <h3 className="card-title" style={{margin: 5}}>Basic Counseling</h3>
+                      <p className="card-text">
+                        Every new teacher in the current year must enroll in the
+                        basic course once.
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </div>
               <div className="col-md-6">
-                <div className="card mb-4" style={{height: 150}}>
-                  <div className="card-body">
-                    <h3 className="card-title" style={{margin: 5}}>Retreat Course</h3>
-                    <p className="card-text">
-                      For teachers who have completed the basic course before.
-                    </p>
+                <Link to={`/course#retreat`}>
+                  <div className="card mb-4" style={{height: 150}}>
+                    <div className="card-body">
+                      <h3 className="card-title" style={{margin: 5}}>Retreat Course</h3>
+                      <p className="card-text">
+                        For teachers who have completed the basic course before.
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </div>
             </div>
           </div>

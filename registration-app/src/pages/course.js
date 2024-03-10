@@ -99,7 +99,7 @@ function Course(props) {
           </div>
         </div>
       )}
-      <div className="container">
+      <div id="basic" className="container section">
         <br></br>
         <div className="row justify-content-center mb-4">
           <h2 className="text-center">Basic Counseling</h2>
@@ -165,7 +165,7 @@ function Course(props) {
       <hr></hr>
       <br></br>
       {/* Retreat Courses Section */}
-      <div className="container">
+      <div id="retreat" className="container section">
         <div className="row justify-content-center mb-4">
           <h2 className="text-center">Retreat Courses</h2>
         </div>
