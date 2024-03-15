@@ -10,6 +10,7 @@ import Course from "./pages/course";
 import Enroll from "./pages/enroll";
 import Detail from "./pages/detail";
 import Updatecourse from "./pages/updatecourse";
+import Dashboard from "./pages/dashboard";
 import Demo from "./pages/demo";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -63,8 +64,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/insert",
-    element: <InsertCourse />
-  }
+    element: <InsertCourse />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
