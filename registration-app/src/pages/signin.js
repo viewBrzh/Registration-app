@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../App.css";
 import Main from "../layouts/main";
+import axios from "axios";
 
 function SignIn() {
   const [formData, setFormData] = useState({
@@ -20,8 +21,29 @@ function SignIn() {
       alert("Passwords do not match");
       return;
     }
-    // Add your form submission logic here
+  
+    const userData = {
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+    };
+  
+    axios
+      .post("http://localhost:11230/users/register", userData)
+      .then((response) => {
+        console.log("Response:", response.data);
+        alert("User registered successfully");
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 400 && error.response.data.message === 'Username already exists') {
+          alert('Username already exists');
+        } else {
+          console.error("Error:", error);
+          alert("Failed to register user");
+        }
+      });
   };
+  
 
   return (
     <Main>

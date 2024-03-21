@@ -1,9 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import "../App.css";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 
-function Login() {
+function Login(props) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:11230/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        console.log("Login successful");
+        props.history.push('/');
+      } else {
+        console.error("Login failed");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
+
+ 
+
   return (
     <Main>
       <div class="custom-shape-divider-top-1710057287">
@@ -62,6 +90,8 @@ function Login() {
                         className="form-control"
                         id="username"
                         name="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         required
                         style={{
                           width: "100%",
@@ -95,6 +125,8 @@ function Login() {
                         className="form-control"
                         id="password"
                         name="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         required
                         style={{
                           width: "100%",
@@ -128,6 +160,7 @@ function Login() {
                       color: "#fff",
                       cursor: "pointer",
                       textAlign: "center",
+                      
                     }}
                   >
                     Login
