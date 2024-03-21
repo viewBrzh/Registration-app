@@ -14,7 +14,9 @@ function Profile(props) {
       {/* Page Header End */}
       <div className="aboutcenter-container flex-left" style={{ justifyContent: 'flex-start' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img src={process.env.PUBLIC_URL + "/img/profile/p1.webp"} alt="" style={{ maxWidth: '100px', maxHeight: '100px', marginRight: '10px' }} />
+          <div className="profile-image-container" style={{ marginRight: '10px', border: '2px solid #ccc', borderRadius: '50%', padding: '5px' }}>
+            <img src={process.env.PUBLIC_URL + "/img/profile/p1.webp"} alt="" style={{ maxWidth: '100px', maxHeight: '100px' }} />
+          </div>
           <div>
             <h1>Profile</h1>
             <p>Name: John Doe</p>
@@ -30,6 +32,15 @@ function Profile(props) {
           </div>
         </div>
       </div>
+      {/* News Section Start */}
+      <div className="news-section text-center" style={{ display: 'flex', justifyContent: 'center', backgroundColor: '#f5f5f5', padding: '20px' }}>
+        <h2 style={{ marginBottom: '20px' }}>Courses trained:</h2>
+        <div className="image-frame" style={{ border: '2px solid #ccc', borderRadius: '10px', padding: '10px', maxWidth: '600px' }}>
+          <img src={process.env.PUBLIC_URL + "/img/course/c1.jpg"} alt="" style={{ maxWidth: '100%', height: 'auto' }} />
+        </div>
+        {/* Add news content here */}
+      </div>
+      {/* News Section End */}
     </Main>
   );
 }
