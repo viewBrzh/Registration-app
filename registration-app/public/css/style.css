@@ -1085,3 +1085,30 @@ body {
 .custom-shape-divider-top-1710057287 .shape-fill {
     fill: #E695B5;
 }
+/* dashboad */
+.chart-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .chart-card {
+    width: calc(50% - 20px); /* ปรับขนาดของการ์ดให้เป็นครึ่งหนึ่งของ container และลบช่องว่างระหว่างการ์ดออก */
+    background-color: #FFFFFF;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  canvas {
+    width: 100%;
+    height: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .chart-card {
+      width: calc(100% - 20px); /* เมื่อหน้าจอเล็กกว่าหรือเท่ากับ 768px กำหนดขนาดการ์ดให้เต็ม container และลบช่องว่างระหว่างการ์ดออก */
+    }
+  }

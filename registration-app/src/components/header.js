@@ -22,9 +22,11 @@ function Header() {
             </button>
             <div className="collapse navbar-collapse" id="navbarCollapse">
               <div className="navbar-nav ms-auto justify-content-end">
-                
                 <Link to={`/`} className="nav-item nav-link">
                   Home
+                </Link>
+                <Link to={`/dashboard`} className="nav-item nav-link">
+                  Dashboard
                 </Link>
                 <Link to={`/about`} className="nav-item nav-link">
                   About
@@ -38,7 +40,7 @@ function Header() {
                 <Link to={`/manage`} className="nav-item nav-link">
                   Manage
                 </Link>
-                
+
                 <Link to={`/login`} className="nav-item nav-link">
                   Login
                 </Link>

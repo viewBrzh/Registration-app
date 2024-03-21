@@ -4,36 +4,71 @@ import { Link } from "react-router-dom";
 import { Chart as ChartAuto } from "chart.js/auto";
 
 function Dashboard() {
-  const [courses, setCourses] = useState([]);
-
   useEffect(() => {
-    fetch("http://localhost:11230/course")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const sortedCourses = data.sort((a, b) => {
-          const dateA = new Date(a.start_date);
-          const dateB = new Date(b.start_date);
-          return dateA - dateB;
-        });
-        setCourses(sortedCourses);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
+    const ctx1 = document.getElementById("myChart").getContext("2d");
+    const existingChart1 = ChartAuto.getChart(ctx1);
+    if (existingChart1) {
+      existingChart1.destroy();
+    }
+    new ChartAuto(ctx1, {
+      type: "bar",
+      data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [
+          {
+            label: "test 1",
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(255, 206, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(153, 102, 255, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+            ],
+            borderColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)",
+              "rgba(75, 192, 192, 1)",
+              "rgba(153, 102, 255, 1)",
+              "rgba(255, 159, 64, 1)",
+            ],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            type: "linear",
+            beginAtZero: true,
+          },
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+            labels: {
+              boxWidth: 20,
+              font: {
+                size: 12,
+              },
+            },
+          },
+        },
+      },
+    });
   }, []);
 
   useEffect(() => {
-    const ctx = document.getElementById("myChart").getContext("2d");
-    const existingChart = ChartAuto.getChart(ctx); // เปลี่ยนจาก Chart เป็น ChartAuto ทั้งสองที่เกี่ยวข้อง
-    if (existingChart) {
-      existingChart.destroy();
+    const ctx2 = document.getElementById("myChart1").getContext("2d");
+    const existingChart2 = ChartAuto.getChart(ctx2);
+    if (existingChart2) {
+      existingChart2.destroy();
     }
-    new ChartAuto(ctx, {
-      // เปลี่ยนจาก Chart เป็น ChartAuto
-      type: "bar",
+    new ChartAuto(ctx2, {
+      type: "doughnut",
       data: {
         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
         datasets: [
@@ -69,11 +104,21 @@ function Dashboard() {
         },
       },
     });
-  }, [courses]);
+  }, []);
 
   return (
     <Main>
-      <canvas id="myChart"></canvas>
+      <div className="chart-card-container">
+        <div className="chart-card">
+          <canvas id="myChart" style={{ width: "80%", height: "80%" }}></canvas>
+        </div>
+        <div className="chart-card">
+          <canvas
+            id="myChart1"
+            style={{ width: "80%", height: "80%" }}
+          ></canvas>
+        </div>
+      </div>
     </Main>
   );
 }
