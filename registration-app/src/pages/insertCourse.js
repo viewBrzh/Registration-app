@@ -23,7 +23,7 @@ function InsertCourse() {
     if (confirmUpdate) {
       try {
         console.log("Updating course with data:", courseData);
-        const response = await fetch(`http://localhost:11230/course`, {
+        const response = await fetch(`http://localhost:11230/course/create`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

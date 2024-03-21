@@ -10,7 +10,7 @@ function Manage() {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:11230/course")
+    fetch("http://localhost:11230/course/get-all")
       .then((response) => response.json())
       .then((data) => {
         setCourses(data);
@@ -44,7 +44,7 @@ function Manage() {
       "Are you sure you want to delete this course? This process is permanent."
     );
     if (confirmDelete) {
-      fetch(`http://localhost:11230/course/${cid}`, {
+      fetch(`http://localhost:11230/course/delete/${cid}`, {
         method: "DELETE",
       })
         .then((response) => {

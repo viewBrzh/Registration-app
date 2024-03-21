@@ -6,7 +6,7 @@ function App() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:11230/course")
+    fetch("http://localhost:11230/course/get-all")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -130,7 +130,7 @@ function App() {
                   <div
                     className="card mb-4"
                     style={{
-                      height: 150,
+                      height: 155,
                       border: "1px solid #e0e0e0",
                       borderRadius: "10px",
                       overflow: "hidden",
@@ -153,7 +153,7 @@ function App() {
                   <div
                     className="card mb-4"
                     style={{
-                      height: 150,
+                      height: 155,
                       border: "1px solid #e0e0e0",
                       borderRadius: "10px",
                       overflow: "hidden",
