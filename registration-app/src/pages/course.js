@@ -10,7 +10,7 @@ function Course(props) {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:11230/course")
+    fetch("http://localhost:11230/course/get-all")
       .then((response) => response.json())
       .then((data) => {
         setCourses(data);

@@ -48,7 +48,7 @@ const router = createBrowserRouter([
     element: <Enroll />,
   },
   {
-    path: "/detail/:id",
+    path: "/detail/:courseId",
     element: <Detail />,
   },
   {
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
     element: <Demo />,
   },
   {
-    path: "/update/:id",
+    path: "/update/:courseId",
     element: <Updatecourse />,
   },
   {

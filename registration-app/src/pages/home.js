@@ -6,7 +6,7 @@ function App() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:11230/course")
+    fetch("http://localhost:11230/course/get-all")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

@@ -3,7 +3,7 @@ import Main from "../layouts/main";
 import { Link, useParams } from "react-router-dom";
 
 function Updatecourse(props) {
-  const { id } = useParams();
+  const { courseId } = useParams();
   const [courseData, setCourseData] = useState({
     course_detail_name: "",
     train_detail: "",
@@ -11,17 +11,18 @@ function Updatecourse(props) {
     start_date: "",
     finish_date: ""
   });
+  
 
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:11230/course/detail/${id}`);
+        const response = await fetch(`http://localhost:11230/course/get-data/${courseId}`);
         if (response.ok) {
           const data = await response.json();
           setCourseData({
-            ...data,
-            start_date: formatDate(data.start_date),
-            finish_date: formatDate(data.finish_date)
+            ...data[0],
+            start_date: formatDate(data[0].start_date),
+            finish_date: formatDate(data[0].finish_date)
           });
         } else {
           console.error("Failed to fetch course details");
@@ -30,10 +31,9 @@ function Updatecourse(props) {
         console.error("Error fetching course details:", error);
       }
     };
-
+  
     fetchCourseDetails();
-  }, [id]);
-
+  }, [courseId]);
 
   const formatDate = (dateString) => {
     if (!dateString) {
@@ -46,31 +46,27 @@ function Updatecourse(props) {
     return formattedParts[0] + "/" + formattedParts[1] + "/" + formattedParts[2];
   };
 
-  const handleDelete = () => {
-    console.log("Deleting course with ID:", id);
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this course? This process is permanent."
-    );
-    if (confirmDelete) {
-      fetch(`http://localhost:11230/course/${id}`, {
-        method: "DELETE",
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          // Redirect to the manage page
-          props.history.push('/manage');
-          console.log("Course deleted successfully:", data);
-        })
-        .catch((error) => {
-          console.error("Error deleting course:", error);
+  const handleDelete = async () => {
+    try {
+      console.log("Deleting course with ID:", courseId);
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this course? This process is permanent."
+      );
+      if (confirmDelete) {
+        const response = await fetch(`http://localhost:11230/course/delete/${courseId}`, {
+          method: "DELETE",
         });
-    } else {
-      console.log("Delete operation cancelled.");
+        if (response.ok) {
+          props.history.push('/manage'); // Redirect to the manage page
+          console.log("Course deleted successfully");
+        } else {
+          console.error("Failed to delete course");
+        }
+      } else {
+        console.log("Delete operation cancelled.");
+      }
+    } catch (error) {
+      console.error("Error deleting course:", error);
     }
   };
 
@@ -80,7 +76,7 @@ function Updatecourse(props) {
     if (confirmUpdate) {
       try {
         console.log("Updating course with data:", courseData);
-        const response = await fetch(`http://localhost:11230/course/update/${id}`, {
+        const response = await fetch(`http://localhost:11230/course/update/${courseId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -99,8 +95,6 @@ function Updatecourse(props) {
       }
     }
   };
-
-
 
   return (
     <Main>
