@@ -16,6 +16,7 @@ import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Manage from "./pages/manage";
 import InsertCourse from "./pages/insertCourse";
+import SignIn from "./pages/signin";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/signin",
+    element: <SignIn />,
   },
 ]);
 

@@ -130,7 +130,7 @@ function App() {
                   <div
                     className="card mb-4"
                     style={{
-                      height: 150,
+                      height: 155,
                       border: "1px solid #e0e0e0",
                       borderRadius: "10px",
                       overflow: "hidden",
@@ -153,7 +153,7 @@ function App() {
                   <div
                     className="card mb-4"
                     style={{
-                      height: 150,
+                      height: 155,
                       border: "1px solid #e0e0e0",
                       borderRadius: "10px",
                       overflow: "hidden",
