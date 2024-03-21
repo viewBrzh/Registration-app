@@ -90,7 +90,7 @@ function Profile(props) {
           borderBottom: "2px solid #ccc",
         }}
       >
-        <h2 style={{ marginBottom: "20px" }}>Courses Registered</h2>
+        <h2 style={{ marginBottom: "20px", color:'#E90073' }}>Courses Registered</h2>
         <ul>
           <li>Course 1</li>
           <li>Course 2</li>
