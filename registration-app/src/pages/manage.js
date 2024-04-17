@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 
@@ -6,8 +6,35 @@ function Manage() {
   const [courses, setCourses] = useState([]);
   const [basicCourses, setBasicCourses] = useState([]);
   const [retreatCourses, setRetreatCourses] = useState([]);
+
   const [searchQuery, setSearchQuery] = useState("");
+  const [isActive, setIsActive] = useState(false);
+  const searchWrapperRef = useRef(null);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
+
+  const toggleSearch = () => {
+    setIsActive((prevState) => !prevState);
+  };
+
+  const handleInputChange = (evt) => {
+    setSearchQuery(evt.target.value);
+    // Implement your search logic here
+  };
+
+  const handleClickOutside = (evt) => {
+    if (searchWrapperRef.current && !searchWrapperRef.current.contains(evt.target)) {
+      setIsActive(false);
+    }
+  };
+
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     fetch("http://localhost:11230/course/get-all")
@@ -69,10 +96,6 @@ function Manage() {
   };
 
 
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
   const filteredBasicCourses = basicCourses.filter((course) =>
     course.course_detail_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -118,35 +141,13 @@ function Manage() {
         </div>
       </div>
 
-      {/* Search Bar */}
-      {isSearchVisible && (
-        <div className="fixed-search" style={{ position: "fixed", right: 10 }}>
-          <div className="-center">
-            <div className="-search">
-              <div className="-search-box" style={{ width: "300px" }}>
-                <input
-                  type="search"
-                  id="gsearch"
-                  name="gsearch"
-                  className="-search-input"
-                  placeholder="Search"
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                />
-              </div>
-              <button type="submit" className="-btn-search">
-                <i className="fa fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+
       <div className="container">
         <div className="row justify-content-start">
-          <div className="col-md-3" style={{width: 250}}>
+          <div className="col-md-3" style={{ width: 250 }}>
             <Link to={`/insert`}>
               <div className="card mb-4" style={{ height: 70, border: "1px solid #e0e0e0", borderRadius: "10px", overflow: "hidden" }}>
-                <div className="card-body" style={{  justifyContent: "end" }}>
+                <div className="card-body" style={{ justifyContent: "end" }}>
                   <h5 style={{ margin: 5, color: '#E60073' }}>
                     Insert Course
                   </h5>
@@ -292,6 +293,31 @@ function Manage() {
         </div>
       </div>
       {/* Retreat Courses Section End */}
+
+      <Link to={'/insert'}>
+        <a className="circle-button">
+          +
+        </a>
+      </Link>
+
+      <a >
+        <div ref={searchWrapperRef} className={`search-wrapper ${isActive ? "active" : ""}`}>
+          <div className="input-holder">
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Type to search"
+              value={searchQuery}
+              onChange={handleInputChange}
+              autoFocus={isActive}
+            />
+            <button className="search-icon" onClick={toggleSearch}>
+              <span></span>
+            </button>
+          </div>
+          <span className="close" onClick={toggleSearch}></span>
+        </div>
+      </a>
     </Main>
   );
 }

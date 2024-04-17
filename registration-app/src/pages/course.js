@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 
@@ -6,8 +6,34 @@ function Course(props) {
   const [courses, setCourses] = useState([]);
   const [basicCourses, setBasicCourses] = useState([]);
   const [retreatCourses, setRetreatCourses] = useState([]);
+  
   const [searchQuery, setSearchQuery] = useState("");
+  const [isActive, setIsActive] = useState(false);
+  const searchWrapperRef = useRef(null);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
+
+  const toggleSearch = () => {
+    setIsActive((prevState) => !prevState);
+  };
+
+  const handleInputChange = (evt) => {
+    setSearchQuery(evt.target.value);
+    // Implement your search logic here
+  };
+
+  const handleClickOutside = (evt) => {
+    if (searchWrapperRef.current && !searchWrapperRef.current.contains(evt.target)) {
+      setIsActive(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     fetch("http://localhost:11230/course/get-all")
@@ -76,29 +102,6 @@ function Course(props) {
         </div>
       </div>
 
-      {/* Search Bar */}
-      {isSearchVisible && (
-        <div className="fixed-search" style={{ position: "fixed", right: 10 }}>
-          <div className="-center">
-            <div className="-search">
-              <div className="-search-box" style={{ width: "300px" }}>
-                <input
-                  type="search"
-                  id="gsearch"
-                  name="gsearch"
-                  className="-search-input"
-                  placeholder="Search"
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                />
-              </div>
-              <button type="submit" className="-btn-search">
-                <i className="fa fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
       <div id="basic" className="container section">
         <br></br>
         <div className="row justify-content-center mb-4">
@@ -227,6 +230,25 @@ function Course(props) {
         </div>
       </div>
       {/* Retreat Courses Section End */}
+
+      <a >
+        <div ref={searchWrapperRef} className={`search-wrapper ${isActive ? "active" : ""}`}>
+          <div className="input-holder">
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Type to search"
+              value={searchQuery}
+              onChange={handleInputChange}
+              autoFocus={isActive}
+            />
+            <button className="search-icon" onClick={toggleSearch}>
+              <span></span>
+            </button>
+          </div>
+          <span className="close" onClick={toggleSearch}></span>
+        </div>
+      </a>
     </Main>
   );
 }

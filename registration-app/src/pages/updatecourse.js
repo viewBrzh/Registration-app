@@ -5,13 +5,14 @@ import { Link, useParams } from "react-router-dom";
 function Updatecourse(props) {
   const { courseId } = useParams();
   const [courseData, setCourseData] = useState({
+    course_id: "",
     course_detail_name: "",
     train_detail: "",
     train_place: "",
     start_date: "",
     finish_date: ""
   });
-  
+
 
   useEffect(() => {
     const fetchCourseDetails = async () => {
@@ -31,7 +32,7 @@ function Updatecourse(props) {
         console.error("Error fetching course details:", error);
       }
     };
-  
+
     fetchCourseDetails();
   }, [courseId]);
 
@@ -105,6 +106,18 @@ function Updatecourse(props) {
           <p className="divider">Edit course data</p>
           {/* Card Body */}
           <form className="form-container" onSubmit={handleSubmit}>
+            <div className="custom-input">
+              <label htmlFor="courseType" className="input-label">
+                Course Type
+              </label>
+              <div className="input-wrapper">
+                <select id="courseType" className="input-field" value={courseData.course_id} onChange={(e) => setCourseData({ ...courseData, course_id: e.target.value })}>
+                  <option value="">Course type</option>
+                  <option value="1">Basic</option>
+                  <option value="2">Retreat</option>
+                </select>
+              </div>
+            </div>
             {/* Custom Input*/}
             <div className="custom-input">
               <label htmlFor="name" className="input-label">
