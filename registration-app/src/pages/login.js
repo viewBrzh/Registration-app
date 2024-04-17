@@ -147,7 +147,6 @@ function Login(props) {
                       ></i>
                     </div>
                   </div>
-                  <p style={{ textAlign: 'center', color: 'lightgray', display: 'block', padding: 5 }}><Link to=''>forgot your password?</Link></p>
                   <button
                     type="submit"
                     className="btn btn-primary"
@@ -166,7 +165,6 @@ function Login(props) {
                     Login
                   </button>
                 </form>
-                <p style={{ textAlign: 'center', color: 'gray', display: 'block', padding: 10 }}>Don't have an account yet? <Link to='/signin'>Sign-In</Link></p>
               </div>
               <div className="col-md-6">
                 <img
