@@ -4,126 +4,129 @@ import { Link } from "react-router-dom";
 function Profile(props) {
   return (
     <Main>
+      {/* Page Header */}
       <div
-        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}
+        className="container-fluid page-header py-5 mb-5 wow fadeIn"
+        data-wow-delay="0.1s"
       >
-        <div
-          className="profile"
-          style={{
-            marginTop: "100px",
-            backgroundColor: "#E695B5",
-            margin: "0 auto",
-            maxWidth: "900px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <div
-            className="profile"
+        <div className="container text-center py-5">
+          <h1 className="display-2 text-dark mb-4 animated slideInDown">
+            Profile
+          </h1>
+          <nav aria-label="breadcrumb animated slideInDown">
+            <ol className="breadcrumb justify-content-center mb-0">
+              <li className="breadcrumb-item">
+                <Link to={`/`} className="breadcrumb-item">
+                  Home
+                </Link>
+              </li>
+              <li
+                className="breadcrumb-item text-dark"
+                aria-current="page"
+              >
+                Profile
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      {/* Page Header End */}
+
+      {/* Hero Section */}
+      <div className="hero-section">
+        {/* Profile Picture */}
+        <div className="profile-image-container">
+          <img
+            src={process.env.PUBLIC_URL + "/img/profile/p1.jpg"}
+            alt="Profile"
             style={{
-              backgroundColor: "white",
-              padding: "20px",
-              borderRadius: "10px",
-              maxWidth: "900px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-end",
+              width: "300px",
+              height: "300px",
+              borderRadius: "50%",
+              marginLeft: "20px",
             }}
-          >
-            <div
-              className="profile-picture"
-              style={{
-                marginBottom: "20px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <img
-                src="/img/testimonial-1.jpg"
-                alt="Profile Picture"
-                style={{
-                  maxWidth: "200px",
-                  borderRadius: "50%",
-                  border: "5px solid #E695B5",
-                }}
-              />
-            </div>
-            <div className="profile-details" style={{ textAlign: "center" }}>
-              <h2 style={{ margin: "0" }}>ชื่อ-สกุล</h2>
-              <p style={{ margin: "5px 0" }}>อายุ: XX ปี</p>
-              <p style={{ margin: "5px 0" }}>ที่อยู่: ที่อยู่ปัจจุบัน</p>
-              <p style={{ margin: "5px 0" }}>อีเมล: example@example.com</p>
-              <p style={{ margin: "5px 0" }}>โทร: 012-345-6789</p>
-            </div>
-          </div>
+          />
         </div>
 
+        {/* User Information */}
         <div
-          className="profile"
+          className="user-info"
           style={{
-            marginTop: "100px",
-            backgroundColor: "#E695B5",
-            margin: "0 auto",
-            maxWidth: "900px",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
-            gap: "10px",
+            marginLeft: "100px",
+            marginBottom: "40px",
+            padding: "20px",
+            borderBottom: "2px solid #ccc",
           }}
         >
-          {[...Array(6)].map((_, index) => (
-            <div
-              key={index}
-              className="profile"
-              style={{
-                display: "flex",
-                backgroundColor: "white",
-                padding: "20px",
-                borderRadius: "10px",
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <div style={{ flex: "1", marginRight: "20px" }}>
-                <img
-                  src="/img/testimonial-1.jpg"
-                  alt="Profile Picture"
-                  style={{
-                    width: "100%",
-                    maxWidth: "200px",
-                    height: "auto",
-                    borderRadius: "10px",
-                  }}
-                />
-              </div>
-              <div
-                className="profile-details"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-              >
-                <p style={{ margin: "0" }}>เคยอบรม:</p>
-                <ul style={{ paddingLeft: "10px", margin: "5px 0" }}>
-                  <li>หลักสูตรที่ 1</li>
-                  <li>หลักสูตรที่ 2</li>
-                  <li>หลักสูตรที่ 3</li>
-                </ul>
-              </div>
-            </div>
-          ))}
+          <p>
+            <span style={{ fontWeight: "bold" }}>Name:</span> John Doe
+          </p>
+          <p>
+            <span style={{ fontWeight: "bold" }}>Email:</span>{" "}
+            johndoe@example.com
+          </p>
+          <p>
+            <span style={{ fontWeight: "bold" }}>Address:</span> 123 Street,
+            City
+          </p>
+          <p>
+            <span style={{ fontWeight: "bold" }}>Phone:</span> +123456789
+          </p>
+          <p>
+            <span style={{ fontWeight: "bold" }}>Social Media:</span>{" "}
+            <Link to="#">Facebook</Link>
+          </p>
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 900px) {
-          .profile:last-child {
-            grid-column: span 3; /* Span all 3 columns */
-          }
-        }
-      `}</style>
+      {/* Courses Section */}
+      <div
+        className="courses-section"
+        style={{
+          marginLeft: "100px",
+          marginBottom: "40px",
+          paddingTop: "20px",
+          width: "80%",
+          borderBottom: "2px solid #ccc",
+        }}
+      >
+        <h2 style={{ marginBottom: "20px", color:'#E90073' }}>Courses Registered</h2>
+        <ul>
+          <li>Course 1</li>
+          <li>Course 2</li>
+          <li>Course 3</li>
+          {/* Add more courses as needed */}
+        </ul>
+      </div>
+
+      {/* News Section */}
+      <div
+        className="news-section text-center"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "40px",
+          alignItems: "center",
+          marginLeft: "20px",
+        }}
+      >
+        <div style={{ flexBasis: "30%" }}>
+          <h2>Column 1</h2>
+          {/* Add content for column 1 */}
+        </div>
+        <div style={{ flexBasis: "30%" }}>
+          <h2>Course Registered on column</h2>
+          <img
+            src="/img/ranking.jpg"
+            alt="Ranking"
+            style={{ maxWidth: "100%", height: "auto" }}
+          />
+        </div>
+        <div style={{ flexBasis: "30%" }}>
+          <h2>Column 3</h2>
+          {/* Add content for column 3 */}
+        </div>
+      </div>
     </Main>
   );
 }
