@@ -283,7 +283,13 @@ function Dashboard() {
         {/* ================= New Customers ================ */}
         <div className="recentCustomers">
           <div className="cardHeader">
-            <h2>Recent Customers</h2>
+            <h2
+              style={{
+                color: "#E60073",
+              }}
+            >
+              Recent Customers
+            </h2>
           </div>
 
           <table>
