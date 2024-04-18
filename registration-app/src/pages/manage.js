@@ -22,11 +22,13 @@ function Manage() {
   };
 
   const handleClickOutside = (evt) => {
-    if (searchWrapperRef.current && !searchWrapperRef.current.contains(evt.target)) {
+    if (
+      searchWrapperRef.current &&
+      !searchWrapperRef.current.contains(evt.target)
+    ) {
       setIsActive(false);
     }
   };
-
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -83,9 +85,15 @@ function Manage() {
         .then((data) => {
           console.log("Course deleted successfully:", data);
           // Handle success, e.g., remove the deleted course from state
-          setCourses(courses.filter((course) => course.train_course_id !== cid));
-          setBasicCourses(basicCourses.filter((course) => course.train_course_id !== cid));
-          setRetreatCourses(retreatCourses.filter((course) => course.train_course_id !== cid));
+          setCourses(
+            courses.filter((course) => course.train_course_id !== cid)
+          );
+          setBasicCourses(
+            basicCourses.filter((course) => course.train_course_id !== cid)
+          );
+          setRetreatCourses(
+            retreatCourses.filter((course) => course.train_course_id !== cid)
+          );
         })
         .catch((error) => {
           console.error("Error deleting course:", error);
@@ -94,7 +102,6 @@ function Manage() {
       console.log("Delete operation cancelled.");
     }
   };
-
 
   const filteredBasicCourses = basicCourses.filter((course) =>
     course.course_detail_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -141,16 +148,21 @@ function Manage() {
         </div>
       </div>
 
-
       <div className="container">
         <div className="row justify-content-start">
           <div className="col-md-3" style={{ width: 250 }}>
             <Link to={`/insert`}>
-              <div className="card mb-4" style={{ height: 70, border: "1px solid #e0e0e0", borderRadius: "10px", overflow: "hidden" }}>
+              <div
+                className="card mb-4"
+                style={{
+                  height: 70,
+                  border: "1px solid #e0e0e0",
+                  borderRadius: "10px",
+                  overflow: "hidden",
+                }}
+              >
                 <div className="card-body" style={{ justifyContent: "end" }}>
-                  <h5 style={{ margin: 5, color: '#E60073' }}>
-                    Insert Course
-                  </h5>
+                  <h5 style={{ margin: 5, color: "#E60073" }}>Insert Course</h5>
                 </div>
               </div>
             </Link>
@@ -211,7 +223,11 @@ function Manage() {
                       </a>
                     </Link>
                     <Link>
-                      <a href="#" className="font-btn" onClick={() => handleDelete(course.train_course_id)}>
+                      <a
+                        href="#"
+                        className="font-btn"
+                        onClick={() => handleDelete(course.train_course_id)}
+                      >
                         Delete
                       </a>
                     </Link>
@@ -245,7 +261,7 @@ function Manage() {
                   className="properties__card"
                   style={{
                     border: "1px solid #e0e0e0",
-                    borderRadius: "5px",
+                    borderRadius: "10px",
                     overflow: "hidden",
                   }}
                 >
@@ -281,7 +297,11 @@ function Manage() {
                       </a>
                     </Link>
                     <Link>
-                      <a href="#" className="font-btn" onClick={() => handleDelete(course.train_course_id)}>
+                      <a
+                        href="#"
+                        className="font-btn"
+                        onClick={() => handleDelete(course.train_course_id)}
+                      >
                         Delete
                       </a>
                     </Link>
@@ -294,14 +314,15 @@ function Manage() {
       </div>
       {/* Retreat Courses Section End */}
 
-      <Link to={'/insert'}>
-        <a className="circle-button">
-          +
-        </a>
+      <Link to={"/insert"}>
+        <a className="circle-button">+</a>
       </Link>
 
-      <a >
-        <div ref={searchWrapperRef} className={`search-wrapper ${isActive ? "active" : ""}`}>
+      <a>
+        <div
+          ref={searchWrapperRef}
+          className={`search-wrapper ${isActive ? "active" : ""}`}
+        >
           <div className="input-holder">
             <input
               type="text"

@@ -80,6 +80,40 @@ function Login(props) {
             <div className="row">
               <div className="col-md-6">
                 <h2 className="card-title">Login</h2>
+                <div
+                  className="form-group"
+                  style={{
+                    marginBottom: "20px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <select
+                    className="btn btn-primary"
+                    value={role}
+                    onChange={(e) => handleRoleSelect(e.target.value)}
+                    style={{ marginRight: "10px" }}
+                  >
+                    <option
+                      value="teacher"
+                      className={role === "teacher" ? "active" : ""}
+                    >
+                      Teacher
+                    </option>
+                    <option
+                      value="executive"
+                      className={role === "executive" ? "active" : ""}
+                    >
+                      Executive
+                    </option>
+                    <option
+                      value="admin"
+                      className={role === "admin" ? "active" : ""}
+                    >
+                      Admin
+                    </option>
+                  </select>
+                </div>
                 <form style={{ maxWidth: "400px", margin: "auto" }}>
                   <div className="form-group" style={{ marginBottom: "20px" }}>
                     <label
@@ -179,33 +213,6 @@ function Login(props) {
                 />
               </div>
             </div>
-          </div>
-          <div>
-            <button
-              type="button"
-              className={`btn btn-primary ${role === "teacher" && "active"}`}
-              onClick={() => handleRoleSelect("teacher")}
-              style={{ marginRight: "10px" }}
-            >
-              Teacher
-            </button>
-            <button
-              type="button"
-              className={`btn btn-primary ${
-                role === "executive" && "active"
-              }`}
-              onClick={() => handleRoleSelect("executive")}
-              style={{ marginRight: "10px" }}
-            >
-              Executive
-            </button>
-            <button
-              type="button"
-              className={`btn btn-primary ${role === "admin" && "active"}`}
-              onClick={() => handleRoleSelect("admin")}
-            >
-              Admin
-            </button>
           </div>
         </div>
       </div>

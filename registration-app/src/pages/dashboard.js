@@ -108,14 +108,62 @@ function Dashboard() {
 
   return (
     <Main>
+      <div class="cardBox">
+        <div class="carddash">
+          <div>
+            <div class="numbers">1,504</div>
+            <div class="cardName">Daily Views</div>
+          </div>
+
+          <div class="iconBx">
+            <ion-icon name="eye-outline"></ion-icon>
+          </div>
+        </div>
+
+        <div class="carddash">
+          <div>
+            <div class="numbers">80</div>
+            <div class="cardName">Sales</div>
+          </div>
+
+          <div class="iconBx">
+            <ion-icon name="cart-outline"></ion-icon>
+          </div>
+        </div>
+
+        <div class="carddash">
+          <div>
+            <div class="numbers">284</div>
+            <div class="cardName">Comments</div>
+          </div>
+
+          <div class="iconBx">
+            <ion-icon name="chatbubbles-outline"></ion-icon>
+          </div>
+        </div>
+
+        <div class="carddash">
+          <div>
+            <div class="numbers">$7,842</div>
+            <div class="cardName">Earning</div>
+          </div>
+
+          <div class="iconBx">
+            <ion-icon name="cash-outline"></ion-icon>
+          </div>
+        </div>
+      </div>
       <div className="chart-card-container">
         <div className="chart-card">
-          <canvas id="myChart" style={{ width: "80%", height: "80%" }}></canvas>
+          <canvas
+            id="myChart"
+            style={{ width: "100%", height: "100%" }}
+          ></canvas>
         </div>
         <div className="chart-card">
           <canvas
             id="myChart1"
-            style={{ width: "80%", height: "80%" }}
+            style={{ width: "100%", height: "100%" }}
           ></canvas>
         </div>
       </div>
