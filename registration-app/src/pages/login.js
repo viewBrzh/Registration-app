@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../App.css";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
@@ -6,6 +6,12 @@ import { Link } from "react-router-dom";
 function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState(localStorage.getItem("userRole") || ""); // Initialize with role from localStorage if exists
+
+  const handleRoleSelect = (selectedRole) => {
+    setRole(selectedRole);
+    localStorage.setItem("userRole", selectedRole);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +27,7 @@ function Login(props) {
 
       if (response.ok) {
         console.log("Login successful");
-        props.history.push('/');
+        props.history.push("/");
       } else {
         console.error("Login failed");
       }
@@ -29,8 +35,6 @@ function Login(props) {
       console.error("An error occurred:", error);
     }
   };
-
- 
 
   return (
     <Main>
@@ -147,6 +151,7 @@ function Login(props) {
                       ></i>
                     </div>
                   </div>
+
                   <button
                     type="submit"
                     className="btn btn-primary"
@@ -159,7 +164,6 @@ function Login(props) {
                       color: "#fff",
                       cursor: "pointer",
                       textAlign: "center",
-                      
                     }}
                   >
                     Login
@@ -175,6 +179,33 @@ function Login(props) {
                 />
               </div>
             </div>
+          </div>
+          <div>
+            <button
+              type="button"
+              className={`btn btn-primary ${role === "teacher" && "active"}`}
+              onClick={() => handleRoleSelect("teacher")}
+              style={{ marginRight: "10px" }}
+            >
+              Teacher
+            </button>
+            <button
+              type="button"
+              className={`btn btn-primary ${
+                role === "executive" && "active"
+              }`}
+              onClick={() => handleRoleSelect("executive")}
+              style={{ marginRight: "10px" }}
+            >
+              Executive
+            </button>
+            <button
+              type="button"
+              className={`btn btn-primary ${role === "admin" && "active"}`}
+              onClick={() => handleRoleSelect("admin")}
+            >
+              Admin
+            </button>
           </div>
         </div>
       </div>

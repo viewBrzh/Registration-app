@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
+
 function Header() {
+  const userRole = localStorage.getItem("userRole");
+
   return (
     <header>
       <div className="container-fluid bg-white sticky-top">
@@ -37,10 +40,11 @@ function Header() {
                 <Link to={`/course`} className="nav-item nav-link">
                   Course
                 </Link>
-                <Link to={`/manage`} className="nav-item nav-link">
-                  Manage
-                </Link>
-
+                {userRole === 'admin' && (
+                  <Link to={`/manage`} className="nav-item nav-link">
+                    Manage Page
+                  </Link>
+                )}
                 <Link to={`/login`} className="nav-item nav-link">
                   Login
                 </Link>

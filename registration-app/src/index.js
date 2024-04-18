@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./pages/home";
 import Login from "./pages/login";
@@ -13,9 +13,11 @@ import Updatecourse from "./pages/updatecourse";
 import Dashboard from "./pages/dashboard";
 import Demo from "./pages/demo";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import Manage from "./pages/manage";
 import InsertCourse from "./pages/insertCourse";
+
+const isAdmin = () => localStorage.getItem("userRole") == "admin";
 
 const router = createBrowserRouter([
   {
@@ -52,7 +54,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/manage",
-    element: <Manage />,
+    element: isAdmin() ? <Manage /> : <Navigate to="/login" />,
   },
   {
     path: "/demo",
@@ -79,7 +81,4 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
