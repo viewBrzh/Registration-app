@@ -59,11 +59,6 @@ function Header() {
                 </Link>
                 )}
               </div>
-              {/* <div className="border-start ps-4 d-none d-lg-block">
-                <button type="button" className="btn btn-sm p-0">
-                  <i className="fa fa-search"></i>
-                </button>
-              </div> */}
             </div>
           </nav>
         </div>

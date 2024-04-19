@@ -80,40 +80,7 @@ function Login(props) {
             <div className="row">
               <div className="col-md-6">
                 <h2 className="card-title">Login</h2>
-                <div
-                  className="form-group"
-                  style={{
-                    marginBottom: "20px",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <select
-                    className="btn btn-primary"
-                    value={role}
-                    onChange={(e) => handleRoleSelect(e.target.value)}
-                    style={{ marginRight: "10px" }}
-                  >
-                    <option
-                      value="teacher"
-                      className={role === "teacher" ? "active" : ""}
-                    >
-                      Teacher
-                    </option>
-                    <option
-                      value="executive"
-                      className={role === "executive" ? "active" : ""}
-                    >
-                      Executive
-                    </option>
-                    <option
-                      value="admin"
-                      className={role === "admin" ? "active" : ""}
-                    >
-                      Admin
-                    </option>
-                  </select>
-                </div>
+
                 <form style={{ maxWidth: "400px", margin: "auto" }}>
                   <div className="form-group" style={{ marginBottom: "20px" }}>
                     <label
@@ -185,7 +152,51 @@ function Login(props) {
                       ></i>
                     </div>
                   </div>
+                  <div
+                    className="form-group"
+                    style={{
+                      marginBottom: "20px",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <div className="form-group" style={{ marginBottom: "20px" }}>
+                      <label style={{ fontWeight: "bold", color: "#E695B5" }}>Role</label>
+                      <div className="radio-inputs">
+                        <label className="radio">
+                          <input
+                            type="radio"
+                            name="role"
+                            value="teacher"
+                            checked={role === "teacher"}
+                            onChange={(e) => handleRoleSelect(e.target.value)}
+                          />
+                          <span className="name">Teacher</span>
+                        </label>
+                        <label className="radio">
+                          <input
+                            type="radio"
+                            name="role"
+                            value="executive"
+                            checked={role === "executive"}
+                            onChange={(e) => handleRoleSelect(e.target.value)}
+                          />
+                          <span className="name">Executive</span>
+                        </label>
+                        <label className="radio">
+                          <input
+                            type="radio"
+                            name="role"
+                            value="admin"
+                            checked={role === "admin"}
+                            onChange={(e) => handleRoleSelect(e.target.value)}
+                          />
+                          <span className="name">Admin</span>
+                        </label>
+                      </div>
+                    </div>
 
+                  </div>
                   <button
                     type="submit"
                     className="btn btn-primary"

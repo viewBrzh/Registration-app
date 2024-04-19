@@ -230,6 +230,7 @@
     background-color: #fca5d5; /* Brighter color */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Slightly larger shadow */
 	transition: all .4s cubic-bezier(0.650, -0.600, 0.240, 1.650);
+}
 
 
 @media (max-width: 768px) {

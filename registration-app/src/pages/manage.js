@@ -12,6 +12,48 @@ function Manage() {
   const searchWrapperRef = useRef(null);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
+  const [selectedCourses, setSelectedCourses] = useState([]);
+
+  const [isPublishStatus, setIsPublishStatus] = useState({});
+
+  const handleCheckboxChange = (courseId) => {
+    // Toggle the selectedCourses array
+    if (selectedCourses.includes(courseId)) {
+        setSelectedCourses(selectedCourses.filter((id) => id !== courseId));
+    } else {
+        setSelectedCourses([...selectedCourses, courseId]);
+    }
+
+    // Update the isPublish status in the state
+    const updatedIsPublishStatus = {
+        ...isPublishStatus,
+        [courseId]: !isPublishStatus[courseId],
+    };
+    setIsPublishStatus(updatedIsPublishStatus);
+
+    // Make a request to update the isPublish status in the database
+    fetch(`http://localhost:11230/course/set-publish/${courseId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isPublish: updatedIsPublishStatus[courseId] ? 1 : 0 }),
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return response.json();
+    })
+    .then((data) => {
+        console.log("Publish status updated successfully:", data);
+        // Handle success
+    })
+    .catch((error) => {
+        console.error("Error updating publish status:", error);
+    });
+};
+
   const toggleSearch = () => {
     setIsActive((prevState) => !prevState);
   };
@@ -45,6 +87,12 @@ function Manage() {
         setCourses(data);
         setBasicCourses(data.filter((course) => course.course_id === 1));
         setRetreatCourses(data.filter((course) => course.course_id === 2));
+
+        const initialPublishStatus = {};
+        data.forEach((course) => {
+          initialPublishStatus[course.train_course_id] = course.isPublish === 1;
+        });
+        setIsPublishStatus(initialPublishStatus);
       });
 
     // Add scroll event listener
@@ -222,15 +270,72 @@ function Manage() {
                         Edit
                       </a>
                     </Link>
-                    <Link>
-                      <a
-                        href="#"
-                        className="font-btn"
-                        onClick={() => handleDelete(course.train_course_id)}
-                      >
-                        Delete
-                      </a>
-                    </Link>
+                    <div className="actions-container">
+                      <Link>
+                        <a
+                          href="#"
+                          className="font-btn"
+                          onClick={() => handleDelete(course.train_course_id)}
+                        >
+                          Delete
+                        </a>
+                      </Link>
+                      <label className="switch">
+                        <input
+                          id={`checkbox-${course.train_course_id}`}
+                          type="checkbox"
+                          checked={isPublishStatus[course.train_course_id]}
+                          onChange={() => handleCheckboxChange(course.train_course_id)}
+                        />
+                        <div className="slider">
+                          <div className="circle">
+                            <svg
+                              className="cross"
+                              xmlSpace="preserve"
+                              style={{ enableBackground: "new 0 0 512 512" }}
+                              viewBox="0 0 365.696 365.696"
+                              y="0"
+                              x="0"
+                              height="6"
+                              width="6"
+                              xmlnsXlink="http://www.w3.org/1999/xlink"
+                              version="1.1"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g>
+                                <path
+                                  data-original="#000000"
+                                  fill="currentColor"
+                                  d="M243.188 182.86 356.32 69.726c12.5-12.5 12.5-32.766 0-45.247L341.238 9.398c-12.504-12.503-32.77-12.503-45.25 0L182.86 122.528 69.727 9.374c-12.5-12.5-32.766-12.5-45.247 0L9.375 24.457c-12.5 12.504-12.5 32.77 0 45.25l113.152 113.152L9.398 295.99c-12.503 12.503-12.503 32.769 0 45.25L24.48 356.32c12.5 12.5 32.766 12.5 45.247 0l113.132-113.132L295.99 356.32c12.503 12.5 32.769 12.5 45.25 0l15.081-15.082c12.5-12.504 12.5-32.77 0-45.25zm0 0"
+                                ></path>
+                              </g>
+                            </svg>
+                            <svg
+                              className="checkmark"
+                              xmlSpace="preserve"
+                              style={{ enableBackground: "new 0 0 512 512" }}
+                              viewBox="0 0 24 24"
+                              y="0"
+                              x="0"
+                              height="10"
+                              width="10"
+                              xmlnsXlink="http://www.w3.org/1999/xlink"
+                              version="1.1"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g>
+                                <path
+                                  className=""
+                                  data-original="#000000"
+                                  fill="currentColor"
+                                  d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                ></path>
+                              </g>
+                            </svg>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -296,15 +401,72 @@ function Manage() {
                         Edit
                       </a>
                     </Link>
-                    <Link>
-                      <a
-                        href="#"
-                        className="font-btn"
-                        onClick={() => handleDelete(course.train_course_id)}
-                      >
-                        Delete
-                      </a>
-                    </Link>
+                    <div className="actions-container">
+                      <Link>
+                        <a
+                          href="#"
+                          className="font-btn"
+                          onClick={() => handleDelete(course.train_course_id)}
+                        >
+                          Delete
+                        </a>
+                      </Link>
+                      <label className="switch">
+                        <input
+                          id={`checkbox-${course.train_course_id}`}
+                          type="checkbox"
+                          checked={isPublishStatus[course.train_course_id]}
+                          onChange={() => handleCheckboxChange(course.train_course_id)}
+                        />
+                        <div className="slider">
+                          <div className="circle">
+                            <svg
+                              className="cross"
+                              xmlSpace="preserve"
+                              style={{ enableBackground: "new 0 0 512 512" }}
+                              viewBox="0 0 365.696 365.696"
+                              y="0"
+                              x="0"
+                              height="6"
+                              width="6"
+                              xmlnsXlink="http://www.w3.org/1999/xlink"
+                              version="1.1"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g>
+                                <path
+                                  data-original="#000000"
+                                  fill="currentColor"
+                                  d="M243.188 182.86 356.32 69.726c12.5-12.5 12.5-32.766 0-45.247L341.238 9.398c-12.504-12.503-32.77-12.503-45.25 0L182.86 122.528 69.727 9.374c-12.5-12.5-32.766-12.5-45.247 0L9.375 24.457c-12.5 12.504-12.5 32.77 0 45.25l113.152 113.152L9.398 295.99c-12.503 12.503-12.503 32.769 0 45.25L24.48 356.32c12.5 12.5 32.766 12.5 45.247 0l113.132-113.132L295.99 356.32c12.503 12.5 32.769 12.5 45.25 0l15.081-15.082c12.5-12.504 12.5-32.77 0-45.25zm0 0"
+                                ></path>
+                              </g>
+                            </svg>
+                            <svg
+                              className="checkmark"
+                              xmlSpace="preserve"
+                              style={{ enableBackground: "new 0 0 512 512" }}
+                              viewBox="0 0 24 24"
+                              y="0"
+                              x="0"
+                              height="10"
+                              width="10"
+                              xmlnsXlink="http://www.w3.org/1999/xlink"
+                              version="1.1"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g>
+                                <path
+                                  className=""
+                                  data-original="#000000"
+                                  fill="currentColor"
+                                  d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                ></path>
+                              </g>
+                            </svg>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>

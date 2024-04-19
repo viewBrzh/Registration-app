@@ -10,7 +10,6 @@ function Course(props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isActive, setIsActive] = useState(false);
   const searchWrapperRef = useRef(null);
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const toggleSearch = () => {
     setIsActive((prevState) => !prevState);
@@ -40,33 +39,14 @@ function Course(props) {
       .then((response) => response.json())
       .then((data) => {
         setCourses(data);
-        setBasicCourses(data.filter((course) => course.course_id === 1));
-        setRetreatCourses(data.filter((course) => course.course_id === 2));
+        setBasicCourses(data.filter((course) => course.course_id === 1 && course.isPublish === 1));
+        setRetreatCourses(data.filter((course) => course.course_id === 2 && course.isPublish === 1));
       });
 
-    // Add scroll event listener
-    window.addEventListener("scroll", handleScroll);
-
-    // Remove scroll event listener on cleanup
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+   
   }, []);
 
-  const handleScroll = () => {
-    const heroSectionBottom = document
-      .querySelector(".hero-section")
-      .getBoundingClientRect().bottom;
-    if (window.scrollY > heroSectionBottom) {
-      setIsSearchVisible(true);
-    } else {
-      setIsSearchVisible(false);
-    }
-  };
-
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
+  
 
   const filteredBasicCourses = basicCourses.filter((course) =>
     course.course_detail_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -253,3 +233,4 @@ function Course(props) {
   );
 }
 export default Course;
+
