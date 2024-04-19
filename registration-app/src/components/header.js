@@ -32,12 +32,16 @@ function Header() {
                 <Link to={`/dashboard`} className={`nav-item nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}>
                   Dashboard
                 </Link>
+                {userRole !== 'admin' && (
                 <Link to={`/about`} className={`nav-item nav-link ${location.pathname === '/about' ? 'active' : ''}`}>
                   About
                 </Link>
+                )}
+                {userRole !== 'admin' && (
                 <Link to={`/profile`} className={`nav-item nav-link ${location.pathname === '/profile' ? 'active' : ''}`}>
                   Profile
                 </Link>
+                )}
                 <Link to={`/course`} className={`nav-item nav-link ${location.pathname === '/course' ? 'active' : ''}`}>
                   Course
                 </Link>
@@ -49,9 +53,11 @@ function Header() {
                 <Link to={`/login`} className={`nav-item nav-link ${location.pathname === '/login' ? 'active' : ''}`}>
                   Login
                 </Link>
+                {userRole !== 'admin' && (
                 <Link to={`/contact`} className={`nav-item nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>
                   Contact
                 </Link>
+                )}
               </div>
               {/* <div className="border-start ps-4 d-none d-lg-block">
                 <button type="button" className="btn btn-sm p-0">
