@@ -17,7 +17,7 @@ import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
 import Manage from "./pages/manage";
 import InsertCourse from "./pages/insertCourse";
 
-const isAdmin = () => localStorage.getItem("userRole") == "admin";
+const isAdmin = () => localStorage.getItem("userRole") === "admin";
 
 const router = createBrowserRouter([
   {

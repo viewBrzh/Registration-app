@@ -169,6 +169,10 @@
     color: #ffffff; /* Set placeholder color to white */
 }
 
+.search-wrapper .input-holder .search-icon:hover {
+    background-color: #fca5d5; /* Brighter color */
+}
+
 #contacts {
 	display: flex;
 	flex-wrap: wrap;
@@ -219,6 +223,14 @@
 	z-index: 1000;
 	/* Ensure the button is above other elements */
 }
+
+.circle-button:hover {
+    width: 55px;
+    height: 55px;
+    background-color: #fca5d5; /* Brighter color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Slightly larger shadow */
+	transition: all .4s cubic-bezier(0.650, -0.600, 0.240, 1.650);
+
 
 @media (max-width: 768px) {
 	.circle-button {

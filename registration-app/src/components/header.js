@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Header() {
   const userRole = localStorage.getItem("userRole");
+  const location = useLocation();
 
   return (
     <header>
@@ -25,30 +26,30 @@ function Header() {
             </button>
             <div className="collapse navbar-collapse" id="navbarCollapse">
               <div className="navbar-nav ms-auto justify-content-end">
-                <Link to={`/`} className="nav-item nav-link">
+                <Link to={`/`} className={`nav-item nav-link ${location.pathname === '/' ? 'active' : ''}`}>
                   Home
                 </Link>
-                <Link to={`/dashboard`} className="nav-item nav-link">
+                <Link to={`/dashboard`} className={`nav-item nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}>
                   Dashboard
                 </Link>
-                <Link to={`/about`} className="nav-item nav-link">
+                <Link to={`/about`} className={`nav-item nav-link ${location.pathname === '/about' ? 'active' : ''}`}>
                   About
                 </Link>
-                <Link to={`/profile`} className="nav-item nav-link">
+                <Link to={`/profile`} className={`nav-item nav-link ${location.pathname === '/profile' ? 'active' : ''}`}>
                   Profile
                 </Link>
-                <Link to={`/course`} className="nav-item nav-link">
+                <Link to={`/course`} className={`nav-item nav-link ${location.pathname === '/course' ? 'active' : ''}`}>
                   Course
                 </Link>
                 {userRole === 'admin' && (
-                  <Link to={`/manage`} className="nav-item nav-link">
+                  <Link to={`/manage`} className={`nav-item nav-link ${location.pathname === '/manage' ? 'active' : ''}`}>
                     Manage Page
                   </Link>
                 )}
-                <Link to={`/login`} className="nav-item nav-link">
+                <Link to={`/login`} className={`nav-item nav-link ${location.pathname === '/login' ? 'active' : ''}`}>
                   Login
                 </Link>
-                <Link to={`/contact`} className="nav-item nav-link">
+                <Link to={`/contact`} className={`nav-item nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>
                   Contact
                 </Link>
               </div>

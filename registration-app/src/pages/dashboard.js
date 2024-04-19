@@ -108,6 +108,9 @@ function Dashboard() {
 
   return (
     <Main>
+      <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+        <h1 style={{ textAlign: "center" }}>Dashboard</h1>
+      </div>
       <div className="cardBox">
         <div className="carddash">
           <div>
