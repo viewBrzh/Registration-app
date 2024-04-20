@@ -441,29 +441,39 @@
 /*** About ***/
 .aboutcenter-container {
     display: flex;
-    flex-direction: column; /* จัดให้เนื้อหาอยู่ในคอลัมน์เดียวกัน */
-    justify-content: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวตั้ง */
-    align-items: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
+    flex-direction: column;
+    /* จัดให้เนื้อหาอยู่ในคอลัมน์เดียวกัน */
+    justify-content: center;
+    /* จัดให้เนื้อหาอยู่ตรงกลางแนวตั้ง */
+    align-items: center;
+    /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
     margin-bottom: 30px;
 }
+
 .aboutcontainer {
     display: flex;
-    
+
     justify-content: center;
-    align-items: center; /* จัดการแนวตั้งให้เริ่มจากบน */
-    flex-wrap: wrap; /* จัดการการขึ้นบรรทัดใหม่เมื่อไม่พอสำหรับการ์ด */
-    gap: 20px; /* ระยะห่างระหว่างการ์ด */
-    
+    align-items: center;
+    /* จัดการแนวตั้งให้เริ่มจากบน */
+    flex-wrap: wrap;
+    /* จัดการการขึ้นบรรทัดใหม่เมื่อไม่พอสำหรับการ์ด */
+    gap: 20px;
+    /* ระยะห่างระหว่างการ์ด */
+
 }
 
 .aboutcard {
-    width: calc(50% - 20px); /* คำนวณความกว้างของการ์ดให้แสดง 2 ในแต่ละแถว */
+    width: calc(50% - 20px);
+    /* คำนวณความกว้างของการ์ดให้แสดง 2 ในแต่ละแถว */
     background-color: #FFFFFF;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
-    flex-direction: row; /* จัดการให้เนื้อหาแสดงในแนวนอน */
-    overflow: hidden; /* ป้องกันเนื้อหาที่เกินขอบการ์ด */
+    flex-direction: row;
+    /* จัดการให้เนื้อหาแสดงในแนวนอน */
+    overflow: hidden;
+    /* ป้องกันเนื้อหาที่เกินขอบการ์ด */
 }
 
 .aboutcard-img {
@@ -471,24 +481,28 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* ป้องกันรูปภาพที่เกินขอบการ์ด */
+    overflow: hidden;
+    /* ป้องกันรูปภาพที่เกินขอบการ์ด */
     padding: 20px;
     object-fit: cover;
 }
 
 .aboutcard-img img {
-    width: 100%; /* ให้ภาพทำเต็มพื้นที่ของการ์ด */
+    width: 100%;
+    /* ให้ภาพทำเต็มพื้นที่ของการ์ด */
     height: 200px;
     border-radius: 10px 10px 10px 10px;
-    object-fit: cover; /* ปรับขนาดของรูปภาพโดยไม่ยืดหรือบิดเบี้ยว */
-    
+    object-fit: cover;
+    /* ปรับขนาดของรูปภาพโดยไม่ยืดหรือบิดเบี้ยว */
+
 }
 
 .aboutcard-content {
     padding: 20px;
-    width: 60%; /* ให้เนื้อหาใช้ 60% ของความกว้างของการ์ด */
+    width: 60%;
+    /* ให้เนื้อหาใช้ 60% ของความกว้างของการ์ด */
     background-color: #FFFFFF;
-    
+
 }
 
 .aboutcard-title {
@@ -502,24 +516,30 @@
     font-size: 14px;
     color: #1d1d1f;
 }
+
 /* CSS สำหรับหน้าจอที่ขนาดเล็กกว่าหรือเท่ากับ 768px */
 @media (max-width: 768px) {
     .aboutcard {
-      width: calc(100% - 20px); /* ให้การ์ดเต็มแถว */
+        width: calc(100% - 20px);
+        /* ให้การ์ดเต็มแถว */
     }
+
     .aboutcard-img img {
-        width: 150px; /* ปรับขนาดรูปภาพให้เต็มขอบการ์ด */
+        width: 150px;
+        /* ปรับขนาดรูปภาพให้เต็มขอบการ์ด */
         height: 150px;
-        border-radius: 10px 10px 10px 10px; /* ปรับขอบรูปภาพเป็นสี่เหลี่ยมมุม */
-      }
-  }
-  
-  /* CSS สำหรับหน้าจอที่ขนาดมากกว่า 768px */
-  @media (min-width: 768px) {
-    .aboutcard {
-      width: calc(50% - 20px); /* ให้การ์ดแสดง 2 ในแต่ละแถว */
+        border-radius: 10px 10px 10px 10px;
+        /* ปรับขอบรูปภาพเป็นสี่เหลี่ยมมุม */
     }
-  }
+}
+
+/* CSS สำหรับหน้าจอที่ขนาดมากกว่า 768px */
+@media (min-width: 768px) {
+    .aboutcard {
+        width: calc(50% - 20px);
+        /* ให้การ์ดแสดง 2 ในแต่ละแถว */
+    }
+}
 
 .video {
     background: linear-gradient(rgba(188, 115, 176, 0.7), rgba(188, 115, 176, 0.7)), url(../img/video-bg.jpg) center center no-repeat;
@@ -718,7 +738,7 @@
 
 .footer .btn.btn-link::before {
     position: relative;
-    
+
     font-family: "Athiti";
     font-weight: 900;
     color: var(--primary);
@@ -945,107 +965,138 @@
     top: 10px;
     z-index: 1000;
 }
+
 /* detail */
 body {
-    background-color: #f5f5f5; /* สีพื้นหลังของหน้าเว็บ */
-  }
+    background-color: #f5f5f5;
+    /* สีพื้นหลังของหน้าเว็บ */
+}
+
 .detailcard {
     max-width: 800px;
     margin: 100px auto 0;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex; /* เพิ่ม flexbox */
-    flex-direction: column; /* จัดเรียงเนื้อหาในแนวตั้ง */
-    align-items: center; /* จัดให้เนื้อหาตรงกลางแนวนอน */
-  }
-  
-  .detailcard-img-top {
-    width: 100%; /* ทำให้ภาพขยายเต็มกว้าง */
-    height: 100%; /* ให้ภาพขยายเต็มสูงตาม container */
-    object-fit: cover; /* ปรับภาพให้เต็มพื้นที่โดยไม่เกินขอบ container */
-    border-radius: 15px 15px 0 0; /* ให้มีขอบโค้งด้านบนเท่ากับการ์ด */
-  }
-  
-  .detailcard-body {
-    padding: 20px;
-    flex-grow: 1; /* ทำให้เนื้อหายืดเต็มพื้นที่ของการ์ด */
     display: flex;
+    /* เพิ่ม flexbox */
     flex-direction: column;
-    justify-content: center; /* จัดให้เนื้อหาตรงกลางแนวตั้ง */
-    background-color: #FFFFFF;
-  }
-  
-  .detailcard-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px; /* เพิ่มช่องว่างด้านล่างของหัวข้อ */
-  }
-  
-  .card-text {
-    font-size: 1rem;
-    margin-bottom: 10px;
-  }
-  /* home */
-  .card {
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: inline-block; /* ใช้แบบ inline-block เพื่อให้การ์ดมีขนาดพอดีกับเนื้อหาภายใน */
-    width: fit-content; /* ให้การ์ดมีความกว้างเท่ากับเนื้อหาข้างใน */
-    max-width: 100%; /* กำหนดความกว้างสูงสุดเป็น 100% เพื่อป้องกันการเกินขอบเขต */
-  }
-  .card-body {
+    /* จัดเรียงเนื้อหาในแนวตั้ง */
+    align-items: center;
+    /* จัดให้เนื้อหาตรงกลางแนวนอน */
+}
+
+.detailcard-img-top {
+    width: 100%;
+    /* ทำให้ภาพขยายเต็มกว้าง */
+    height: 100%;
+    /* ให้ภาพขยายเต็มสูงตาม container */
+    object-fit: cover;
+    /* ปรับภาพให้เต็มพื้นที่โดยไม่เกินขอบ container */
+    border-radius: 15px 15px 0 0;
+    /* ให้มีขอบโค้งด้านบนเท่ากับการ์ด */
+}
+
+.detailcard-body {
+    padding: 20px;
+    flex-grow: 1;
+    /* ทำให้เนื้อหายืดเต็มพื้นที่ของการ์ด */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; /* จัดให้เนื้อหาตรงกลางแนวนอน */    
-  }
+    /* จัดให้เนื้อหาตรงกลางแนวตั้ง */
+    background-color: #FFFFFF;
+}
 
-  .card-title {
+.detailcard-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    /* เพิ่มช่องว่างด้านล่างของหัวข้อ */
+}
+
+.card-text {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* home */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    /* ใช้แบบ inline-block เพื่อให้การ์ดมีขนาดพอดีกับเนื้อหาภายใน */
+    width: fit-content;
+    /* ให้การ์ดมีความกว้างเท่ากับเนื้อหาข้างใน */
+    max-width: 100%;
+    /* กำหนดความกว้างสูงสุดเป็น 100% เพื่อป้องกันการเกินขอบเขต */
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* จัดให้เนื้อหาตรงกลางแนวนอน */
+}
+
+.card-title {
     font-size: 1.5rem;
     font-weight: bold;
     color: #E90073;
-    text-align: center; /* จัดให้หัวข้ออยู่ตรงกลาง */
+    text-align: center;
+    /* จัดให้หัวข้ออยู่ตรงกลาง */
     margin-top: 1.5em;
-    margin-bottom: 1.5rem; /* เพิ่มระยะห่างระหว่างหัวข้อกับเนื้อหา */
-  }
+    margin-bottom: 1.5rem;
+    /* เพิ่มระยะห่างระหว่างหัวข้อกับเนื้อหา */
+}
 
-  .card-text {
+.card-text {
     font-size: 1rem;
     color: #1d1d1f;
-    margin-top: auto; /* ให้ข้อความมีระยะห่างบนล่างเท่ากัน */
-    
-  }
-  
-  .card-img-top1 {
-    border-radius: 15px 15px 15px 15px;;
-    object-fit: cover; /* ทำให้รูปภาพทำเต็มพื้นที่ของการ์ดโดยไม่เกินขอบ */
-    height: 100%; /* ให้รูปภาพทำเต็มสูงของการ์ด */
-    width: 100%; /* ให้รูปภาพทำเต็มกว้างของการ์ด */
-  }
-  .card-img-top2 {
-    border-radius: 15px 15px 15px 15px;
-    height: 100%; /* ให้รูปภาพทำเต็มสูงของการ์ด */
-    width: 100%; /* ให้รูปภาพทำเต็มกว้างของการ์ด */
-  }
-  .indented {
-    text-indent: 2em;
-    margin-bottom: 0; /* ลบระยะห่างด้านล่างของข้อความ */
-  }
+    margin-top: auto;
+    /* ให้ข้อความมีระยะห่างบนล่างเท่ากัน */
 
-  .warning {
+}
+
+.card-img-top1 {
+    border-radius: 15px 15px 15px 15px;
+    ;
+    object-fit: cover;
+    /* ทำให้รูปภาพทำเต็มพื้นที่ของการ์ดโดยไม่เกินขอบ */
+    height: 100%;
+    /* ให้รูปภาพทำเต็มสูงของการ์ด */
+    width: 100%;
+    /* ให้รูปภาพทำเต็มกว้างของการ์ด */
+}
+
+.card-img-top2 {
+    border-radius: 15px 15px 15px 15px;
+    height: 100%;
+    /* ให้รูปภาพทำเต็มสูงของการ์ด */
+    width: 100%;
+    /* ให้รูปภาพทำเต็มกว้างของการ์ด */
+}
+
+.indented {
+    text-indent: 2em;
+    margin-bottom: 0;
+    /* ลบระยะห่างด้านล่างของข้อความ */
+}
+
+.warning {
     color: #ff0000;
     font-size: 1.5rem;
     font-weight: bold;
-  }
+}
 
-  .font-btn {
+.font-btn {
     color: #f54d4d;
     font-size: 1rem;
-  }
+}
 
-  .modal {
+.modal {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -1054,9 +1105,9 @@ body {
     padding: 20px;
     border-radius: 5px;
     z-index: 1000;
-  }
-  
-  .overlay {
+}
+
+.overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -1064,9 +1115,10 @@ body {
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
-  }
-  /* shape */
-  .custom-shape-divider-top-1710057287 {
+}
+
+/* shape */
+.custom-shape-divider-top-1710057287 {
     position: absolute;
     top: 0;
     left: 0;
@@ -1085,52 +1137,60 @@ body {
 .custom-shape-divider-top-1710057287 .shape-fill {
     fill: #E695B5;
 }
+
 /* dashboad */
 .chart-card-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     gap: 20px;
-  }
-  
-  .chart-card {
-    width: 500px; /* กำหนดความกว้างเป็นค่าคงที่ */
-    height: 450px; /* กำหนดความสูงเป็นค่าคงที่ */
+}
+
+.chart-card {
+    width: 500px;
+    /* กำหนดความกว้างเป็นค่าคงที่ */
+    height: 450px;
+    /* กำหนดความสูงเป็นค่าคงที่ */
     background-color: #FFFFFF;
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    display: flex; /* ทำให้เนื้อหาอยู่ในส่วนกลาง */
-    justify-content: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
-    align-items: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวตั้ง */
-  }
-  
-  
-  canvas {
+    display: flex;
+    /* ทำให้เนื้อหาอยู่ในส่วนกลาง */
+    justify-content: center;
+    /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
+    align-items: center;
+    /* จัดให้เนื้อหาอยู่ตรงกลางแนวตั้ง */
+}
+
+
+canvas {
     width: 100%;
     height: 100%;
-  }
-  
-  @media (max-width: 768px) {
-    .chart-card {
-      width: calc(100% - 20px); /* ปรับเป็นความกว้างเต็มหน้าจอแล้วลบระยะห่าง */
-      height: auto; /* ปรับความสูงให้เป็น auto เพื่อให้ canvas ปรับขนาดตาม */
-    }
-  }
-  
+}
 
-  /* ======================= Cards Dash ====================== */
-  .cardBox {
+@media (max-width: 768px) {
+    .chart-card {
+        width: calc(100% - 20px);
+        /* ปรับเป็นความกว้างเต็มหน้าจอแล้วลบระยะห่าง */
+        height: auto;
+        /* ปรับความสูงให้เป็น auto เพื่อให้ canvas ปรับขนาดตาม */
+    }
+}
+
+
+/* ======================= Cards Dash ====================== */
+.cardBox {
     position: relative;
     width: 100%;
     padding: 20px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 30px;
-  }
-  
-  .cardBox .carddash {
+}
+
+.cardBox .carddash {
     position: relative;
     background: #FFFFFF;
     padding: 30px;
@@ -1139,35 +1199,37 @@ body {
     justify-content: space-between;
     cursor: pointer;
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-  }
-  
-  .cardBox .carddash .numbers {
+}
+
+.cardBox .carddash .numbers {
     position: relative;
     font-weight: 500;
     font-size: 2.5rem;
     color: #e90073;
-  }
-  
-  .cardBox .carddash .cardName {
+}
+
+.cardBox .carddash .cardName {
     color: #252c30;
     font-size: 1.1rem;
     margin-top: 5px;
-  }
-  
-  .cardBox .carddash .iconBx {
+}
+
+.cardBox .carddash .iconBx {
     font-size: 3.5rem;
     color: #e90073;
-  }
-  
-  .cardBox .carddash:hover {
+}
+
+.cardBox .carddash:hover {
     background: var(--blue);
-  }
-  .cardBox .carddash:hover .numbers,
-  .cardBox .carddash:hover .cardName,
-  .cardBox .carddash:hover .iconBx {
+}
+
+.cardBox .carddash:hover .numbers,
+.cardBox .carddash:hover .cardName,
+.cardBox .carddash:hover .iconBx {
     color: var(--white);
-  }
-  /* ================== Order Details List ============== */
+}
+
+/* ================== Order Details List ============== */
 .details {
     position: relative;
     width: 100%;
@@ -1176,9 +1238,9 @@ body {
     grid-template-columns: 2fr 1fr;
     grid-gap: 30px;
     /* margin-top: 10px; */
-  }
-  
-  .details .recentOrders {
+}
+
+.details .recentOrders {
     position: relative;
     display: grid;
     min-height: 500px;
@@ -1186,91 +1248,105 @@ body {
     padding: 20px;
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
     border-radius: 20px;
-  }
-  
-  .details .cardHeader {
+}
+
+.details .cardHeader {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-  }
-  .cardHeader h2 {
+}
+
+.cardHeader h2 {
     font-weight: 600;
     color: var(--blue);
-  }
-  .cardHeader .btn {
+}
+
+.cardHeader .btn {
     position: relative;
     padding: 5px 10px;
     background: var(--blue);
     text-decoration: none;
     color: var(--white);
     border-radius: 6px;
-  }
-  
-  .details table {
+}
+
+.details table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-  }
-  .details table thead td {
+}
+
+.details table thead td {
     font-weight: 600;
-  }
-  .details .recentOrders table tr {
+}
+
+.details .recentOrders table tr {
     color: var(--black1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  .details .recentOrders table tr:last-child {
+}
+
+.details .recentOrders table tr:last-child {
     border-bottom: none;
-  }
-  .details .recentOrders table tbody tr:hover {
+}
+
+.details .recentOrders table tbody tr:hover {
     background: var(--blue);
     color: var(--white);
-  }
-  .details .recentOrders table tr td {
+}
+
+.details .recentOrders table tr td {
     padding: 10px;
-  }
-  .details .recentOrders table tr td:last-child {
+}
+
+.details .recentOrders table tr td:last-child {
     text-align: end;
-  }
-  .details .recentOrders table tr td:nth-child(2) {
+}
+
+.details .recentOrders table tr td:nth-child(2) {
     text-align: end;
-  }
-  .details .recentOrders table tr td:nth-child(3) {
+}
+
+.details .recentOrders table tr td:nth-child(3) {
     text-align: center;
-  }
-  .status.delivered {
+}
+
+.status.delivered {
     padding: 2px 4px;
     background: #8de02c;
     color: #FFFFFF;
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
-  }
-  .status.pending {
+}
+
+.status.pending {
     padding: 2px 4px;
     background: #e9b10a;
     color: #FFFFFF;
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
-  }
-  .status.return {
+}
+
+.status.return {
     padding: 2px 4px;
     background: #f00;
     color: #FFFFFF;
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
-  }
-  .status.inProgress {
+}
+
+.status.inProgress {
     padding: 2px 4px;
     background: #1795ce;
     color: #FFFFFF;
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
-  }
-  
-  .recentCustomers {
+}
+
+.recentCustomers {
     position: relative;
     display: grid;
     min-height: 500px;
@@ -1278,63 +1354,76 @@ body {
     background: #FFFFFF;
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
     border-radius: 20px;
-  }
-  .recentCustomers .imgBx {
+}
+
+.recentCustomers .imgBx {
     position: relative;
     width: 40px;
     height: 40px;
     border-radius: 50px;
     overflow: hidden;
-  }
-  .recentCustomers .imgBx img {
+}
+
+.recentCustomers .imgBx img {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-  .recentCustomers table tr td {
+}
+
+.recentCustomers table tr td {
     padding: 12px 10px;
-  }
-  .recentCustomers table tr td h4 {
+}
+
+.recentCustomers table tr td h4 {
     font-size: 16px;
     font-weight: 500;
     line-height: 1.2rem;
-  }
-  .recentCustomers table tr td h4 span {
+}
+
+.recentCustomers table tr td h4 span {
     font-size: 14px;
     color: var(--black2);
-  }
-  .recentCustomers table tr:hover {
+}
+
+.recentCustomers table tr:hover {
     background: var(--blue);
     color: var(--white);
-  }
-  .recentCustomers table tr:hover td h4 span {
-    color: var(--white);
-  }
+}
 
-  /* ====================== Responsive Design ========================== */
+.recentCustomers table tr:hover td h4 span {
+    color: var(--white);
+}
+
+/* ====================== Responsive Design ========================== */
 @media (max-width: 991px) {
     .cardBox {
-      grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
-  }
-  
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
     .details {
-      grid-template-columns: 1fr;
+        grid-template-columns: 1fr;
     }
+
     .recentOrders {
-      overflow-x: auto;
+        overflow-x: auto;
     }
+
     .status.inProgress {
-      white-space: nowrap;
+        white-space: nowrap;
     }
-  }
-  
-  @media (max-width: 480px) {
+}
+
+@media (max-width: 480px) {
     .cardBox {
-      grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat(1, 1fr);
     }
-  }
+}
+
+.table-responsive {
+    overflow-x: auto;
+}

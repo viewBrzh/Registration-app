@@ -104,7 +104,7 @@ function Manage() {
   const handleDelete = (cid) => {
     console.log("Deleting course with ID:", cid);
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this course? This process is permanent."
+      "Are you sure you want to DELETE this course? This process is permanent."
     );
     if (confirmDelete) {
       fetch(`http://localhost:11230/course/delete/${cid}`, {
@@ -160,93 +160,110 @@ function Manage() {
           </div>
         </div>
         <div className="row">
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Course Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">Place</th>
-                <th scope="col">Course Type</th>
-                <th scope="col">Publish Status</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredCoursesByName.map((course) => (
-                <tr key={course.train_course_id}>
-                  <td>{course.course_detail_name}</td>
-                  <td>{course.train_detail}</td>
-                  <td>{course.start_date}</td>
-                  <td>{course.finish_date}</td>
-                  <td>{course.train_place}</td>
-                  <td>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
-                  <td>
-                    <label className="switch">
-                      <input
-                        id={`publish-checkbox-${course.train_course_id}`}
-                        type="checkbox"
-                        checked={isPublishStatus[course.train_course_id]}
-                        onChange={() => handleCheckboxChange(course.train_course_id)}
-                      />
-                      <div className="slider">
-                        <div className="circle">
-                          <svg
-                            className="cross"
-                            xmlSpace="preserve"
-                            style={{ enableBackground: "new 0 0 512 512" }}
-                            viewBox="0 0 365.696 365.696"
-                            y="0"
-                            x="0"
-                            height="6"
-                            width="6"
-                            xmlnsXlink="http://www.w3.org/1999/xlink"
-                            version="1.1"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <g>
-                              <path
-                                data-original="#000000"
-                                fill="currentColor"
-                                d="M243.188 182.86 356.32 69.726c12.5-12.5 12.5-32.766 0-45.247L341.238 9.398c-12.504-12.503-32.77-12.503-45.25 0L182.86 122.528 69.727 9.374c-12.5-12.5-32.766-12.5-45.247 0L9.375 24.457c-12.5 12.504-12.5 32.77 0 45.25l113.152 113.152L9.398 295.99c-12.503 12.503-12.503 32.769 0 45.25L24.48 356.32c12.5 12.5 32.766 12.5 45.247 0l113.132-113.132L295.99 356.32c12.503 12.5 32.769 12.5 45.25 0l15.081-15.082c12.5-12.504 12.5-32.77 0-45.25zm0 0"
-                              ></path>
-                            </g>
-                          </svg>
-                          <svg
-                            className="checkmark"
-                            xmlSpace="preserve"
-                            style={{ enableBackground: "new 0 0 512 512" }}
-                            viewBox="0 0 24 24"
-                            y="0"
-                            x="0"
-                            height="10"
-                            width="10"
-                            xmlnsXlink="http://www.w3.org/1999/xlink"
-                            version="1.1"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <g>
-                              <path
-                                className=""
-                                data-original="#000000"
-                                fill="currentColor"
-                                d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
-                              ></path>
-                            </g>
-                          </svg>
-                        </div>
-                      </div>
-                    </label>
-                  </td>
-                  <td>
-                    <Link to={`/update/${course.train_course_id}`} className="btn btn-sm btn-primary">Edit</Link>
-                    <button onClick={() => handleDelete(course.train_course_id)} className="btn btn-sm btn-danger ml-2">Delete</button>
-                  </td>
+          <div className="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">Course Name</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date</th>
+                  <th scope="col">Place</th>
+                  <th scope="col">Course Type</th>
+                  <th scope="col">Publish Status</th>
+                  <th scope="col" style={{ width: '10%' }}>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredCoursesByName.map((course) => (
+                  <tr key={course.train_course_id}>
+                    <td>{course.course_detail_name}</td>
+                    <td>{course.train_detail}</td>
+                    <td>{course.start_date}</td>
+                    <td>{course.finish_date}</td>
+                    <td>{course.train_place}</td>
+                    <td>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
+                    <td>
+                      <label className="switch">
+                        <input
+                          id={`publish-checkbox-${course.train_course_id}`}
+                          type="checkbox"
+                          checked={isPublishStatus[course.train_course_id]}
+                          onChange={() => handleCheckboxChange(course.train_course_id)}
+                        />
+                        <div className="slider">
+                          <div className="circle">
+                            <svg
+                              className="cross"
+                              xmlSpace="preserve"
+                              style={{ enableBackground: "new 0 0 512 512" }}
+                              viewBox="0 0 365.696 365.696"
+                              y="0"
+                              x="0"
+                              height="6"
+                              width="6"
+                              xmlnsXlink="http://www.w3.org/1999/xlink"
+                              version="1.1"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g>
+                                <path
+                                  data-original="#000000"
+                                  fill="currentColor"
+                                  d="M243.188 182.86 356.32 69.726c12.5-12.5 12.5-32.766 0-45.247L341.238 9.398c-12.504-12.503-32.77-12.503-45.25 0L182.86 122.528 69.727 9.374c-12.5-12.5-32.766-12.5-45.247 0L9.375 24.457c-12.5 12.504-12.5 32.77 0 45.25l113.152 113.152L9.398 295.99c-12.503 12.503-12.503 32.769 0 45.25L24.48 356.32c12.5 12.5 32.766 12.5 45.247 0l113.132-113.132L295.99 356.32c12.503 12.5 32.769 12.5 45.25 0l15.081-15.082c12.5-12.504 12.5-32.77 0-45.25zm0 0"
+                                ></path>
+                              </g>
+                            </svg>
+                            <svg
+                              className="checkmark"
+                              xmlSpace="preserve"
+                              style={{ enableBackground: "new 0 0 512 512" }}
+                              viewBox="0 0 24 24"
+                              y="0"
+                              x="0"
+                              height="10"
+                              width="10"
+                              xmlnsXlink="http://www.w3.org/1999/xlink"
+                              version="1.1"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g>
+                                <path
+                                  className=""
+                                  data-original="#000000"
+                                  fill="currentColor"
+                                  d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                ></path>
+                              </g>
+                            </svg>
+                          </div>
+                        </div>
+                      </label>
+                    </td>
+                    <td>
+                      <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
+                        <button className="btn btn-sm btn-secondary" aria-label="View Students">
+                          <i className="bi bi-people" style={{ color: 'white' }}></i>
+                        </button>
+                      </div>
+                      <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
+                        <Link to={`/update/${course.train_course_id}`}>
+                          <button className="btn btn-sm btn-primary" aria-label="Edit">
+                            <i className="bi bi-pencil"></i>
+                          </button>
+                        </Link>
+                      </div>
+                      <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
+                        <button onClick={() => handleDelete(course.train_course_id)} className="btn btn-sm btn-danger" aria-label="Delete">
+                          <i className="bi bi-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       {/* Courses Section End */}
@@ -267,3 +284,4 @@ function Manage() {
 
 }
 export default Manage;
+
