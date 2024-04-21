@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
+import { exportToExcel } from "../components/excelUtils";
 
 function Manage() {
   const [courses, setCourses] = useState([]);
@@ -12,6 +13,10 @@ function Manage() {
   const [filter, setFilter] = useState("all");
   const searchWrapperRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
+
+  const handleDownload = () => {
+    exportToExcel(filteredCourses, isPublishStatus);
+  };
 
   const handleCheckboxChange = (courseId) => {
     // Toggle the selectedCourses array
@@ -151,13 +156,15 @@ function Manage() {
           <div className="col-auto">
             <h2 className="text-center">Manage Courses</h2>
           </div>
-          <div className="col-auto">
+          <div className="col-auto d-flex align-items-center">
+            <button className="btn btn-primary me-3" style={{height: 37.6, width: 150}} onClick={handleDownload}>Download</button>
             <select className="form-select" value={filter} onChange={handleFilterChange}>
               <option value="all">All Courses</option>
               <option value="basic">Basic Courses</option>
               <option value="retreat">Retreat Courses</option>
             </select>
           </div>
+
         </div>
         <div className="row">
           <div className="table-responsive">
