@@ -10,20 +10,21 @@ function Updatecourse(props) {
     train_detail: "",
     train_place: "",
     start_date: "",
-    finish_date: ""
+    finish_date: "",
   });
-
 
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:11230/course/get-data/${courseId}`);
+        const response = await fetch(
+          `http://localhost:11230/course/get-data/${courseId}`
+        );
         if (response.ok) {
           const data = await response.json();
           setCourseData({
             ...data[0],
             start_date: formatDate(data[0].start_date),
-            finish_date: formatDate(data[0].finish_date)
+            finish_date: formatDate(data[0].finish_date),
           });
         } else {
           console.error("Failed to fetch course details");
@@ -44,7 +45,9 @@ function Updatecourse(props) {
     // Ensure each part has at least 2 digits
     const formattedParts = parts.map((part) => part.padStart(2, "0"));
     // Rearrange the parts to dd/mm/yyyy format
-    return formattedParts[0] + "/" + formattedParts[1] + "/" + formattedParts[2];
+    return (
+      formattedParts[0] + "/" + formattedParts[1] + "/" + formattedParts[2]
+    );
   };
 
   const handleDelete = async () => {
@@ -54,11 +57,14 @@ function Updatecourse(props) {
         "Are you sure you want to delete this course? This process is permanent."
       );
       if (confirmDelete) {
-        const response = await fetch(`http://localhost:11230/course/delete/${courseId}`, {
-          method: "DELETE",
-        });
+        const response = await fetch(
+          `http://localhost:11230/course/delete/${courseId}`,
+          {
+            method: "DELETE",
+          }
+        );
         if (response.ok) {
-          props.history.push('/manage'); // Redirect to the manage page
+          props.history.push("/manage"); // Redirect to the manage page
           console.log("Course deleted successfully");
         } else {
           console.error("Failed to delete course");
@@ -73,26 +79,31 @@ function Updatecourse(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const confirmUpdate = window.confirm("Are you sure you want to Update this course?");
+    const confirmUpdate = window.confirm(
+      "Are you sure you want to Update this course?"
+    );
     if (confirmUpdate) {
       try {
         console.log("Updating course with data:", courseData);
-        const response = await fetch(`http://localhost:11230/course/update/${courseId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(courseData),
-        });
+        const response = await fetch(
+          `http://localhost:11230/course/update/${courseId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(courseData),
+          }
+        );
         if (response.ok) {
           // Handle successful update
-          console.log('Course updated successfully');
-          window.confirm("Course updated successfully")
+          console.log("Course updated successfully");
+          window.confirm("Course updated successfully");
         } else {
-          console.error('Failed to update course');
+          console.error("Failed to update course");
         }
       } catch (error) {
-        console.error('Error updating course:', error);
+        console.error("Error updating course:", error);
       }
     }
   };
@@ -111,7 +122,14 @@ function Updatecourse(props) {
                 Course Type
               </label>
               <div className="input-wrapper">
-                <select id="courseType" className="input-field" value={courseData.course_id} onChange={(e) => setCourseData({ ...courseData, course_id: e.target.value })}>
+                <select
+                  id="courseType"
+                  className="input-field"
+                  value={courseData.course_id}
+                  onChange={(e) =>
+                    setCourseData({ ...courseData, course_id: e.target.value })
+                  }
+                >
                   <option value="">Course type</option>
                   <option value="1">Basic</option>
                   <option value="2">Retreat</option>
@@ -124,8 +142,18 @@ function Updatecourse(props) {
                 Course name
               </label>
               <div className="input-wrapper">
-                <input type="text" id="name" className="input-field" value={courseData.course_detail_name}
-                  onChange={(e) => setCourseData({ ...courseData, course_detail_name: e.target.value })} />
+                <input
+                  type="text"
+                  id="name"
+                  className="input-field"
+                  value={courseData.course_detail_name}
+                  onChange={(e) =>
+                    setCourseData({
+                      ...courseData,
+                      course_detail_name: e.target.value,
+                    })
+                  }
+                />
               </div>
             </div>
             <div className="custom-input">
@@ -133,8 +161,18 @@ function Updatecourse(props) {
                 Course details
               </label>
               <div className="input-wrapper">
-                <input type="text" id="details" className="input-field" value={courseData.train_detail}
-                  onChange={(e) => setCourseData({ ...courseData, train_detail: e.target.value })} />
+                <input
+                  type="text"
+                  id="details"
+                  className="input-field"
+                  value={courseData.train_detail}
+                  onChange={(e) =>
+                    setCourseData({
+                      ...courseData,
+                      train_detail: e.target.value,
+                    })
+                  }
+                />
               </div>
             </div>
             <div className="custom-input">
@@ -142,8 +180,17 @@ function Updatecourse(props) {
                 Location
               </label>
               <div className="input-wrapper">
-                <input type="text" id="location" className="input-field" value={courseData.train_place}
-                  onChange={(e) => setCourseData({ ...courseData, train_place: e.target.value })}
+                <input
+                  type="text"
+                  id="location"
+                  className="input-field"
+                  value={courseData.train_place}
+                  onChange={(e) =>
+                    setCourseData({
+                      ...courseData,
+                      train_place: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
@@ -152,7 +199,15 @@ function Updatecourse(props) {
                 Course date start
               </label>
               <div className="input-wrapper">
-                <input type="date" id="startDate" className="input-field" value={courseData.start_date} onChange={(e) => setCourseData({ ...courseData, start_date: e.target.value })} />
+                <input
+                  type="date"
+                  id="startDate"
+                  className="input-field"
+                  value={courseData.start_date}
+                  onChange={(e) =>
+                    setCourseData({ ...courseData, start_date: e.target.value })
+                  }
+                />
               </div>
             </div>
             <div className="custom-input">
@@ -160,23 +215,49 @@ function Updatecourse(props) {
                 Course date finish
               </label>
               <div className="input-wrapper">
-                <input type="date" id="endDate" className="input-field" value={courseData.finish_date} onChange={(e) => setCourseData({ ...courseData, finish_date: e.target.value })} />
+                <input
+                  type="date"
+                  id="endDate"
+                  className="input-field"
+                  value={courseData.finish_date}
+                  onChange={(e) =>
+                    setCourseData({
+                      ...courseData,
+                      finish_date: e.target.value,
+                    })
+                  }
+                />
               </div>
             </div>
             {/* Card Footer */}
-            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
-              <Link style={{ display: "flex", alignItems: "center", padding: 20 }}>
-                <a className="font-btn" style={{ margin: 0 }} onClick={handleDelete}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginTop: 20,
+              }}
+            >
+              <Link
+                style={{ display: "flex", alignItems: "center", padding: 20 }}
+              >
+                <a
+                  className="font-btn"
+                  style={{ margin: 0 }}
+                  onClick={handleDelete}
+                >
                   delete
                 </a>
               </Link>
               <a style={{ padding: 10 }}></a>
-              <button type="submit" className="btn btn-primary" style={{ alignSelf: "center" }}>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ alignSelf: "center" }}
+              >
                 Confirm
               </button>
             </div>
           </form>
-
         </div>
       </div>
     </Main>

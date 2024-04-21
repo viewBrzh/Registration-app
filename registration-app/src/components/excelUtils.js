@@ -1,4 +1,4 @@
-import * as XLSX from 'xlsx';
+import * as XLSX from "xlsx";
 
 export const exportToExcel = (data, isPublishStatus) => {
   const dataToExport = data.map((course) => ({
@@ -8,7 +8,9 @@ export const exportToExcel = (data, isPublishStatus) => {
     "End Date": course.finish_date,
     Place: course.train_place,
     "Course Type": course.course_id === 1 ? "Basic" : "Retreat",
-    "Publish Status": isPublishStatus[course.train_course_id] ? "Published" : "Not Published",
+    "Publish Status": isPublishStatus[course.train_course_id]
+      ? "Published"
+      : "Not Published",
   }));
 
   const workbook = XLSX.utils.book_new();

@@ -29,38 +29,78 @@ function Header() {
             </button>
             <div className="collapse navbar-collapse" id="navbarCollapse">
               <div className="navbar-nav ms-auto justify-content-end">
-                <Link to={`/`} className={`nav-item nav-link ${location.pathname === '/' ? 'active' : ''}`}>
+                <Link
+                  to={`/`}
+                  className={`nav-item nav-link ${
+                    location.pathname === "/" ? "active" : ""
+                  }`}
+                >
                   Home
                 </Link>
-                <Link to={`/dashboard`} className={`nav-item nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}>
+                <Link
+                  to={`/dashboard`}
+                  className={`nav-item nav-link ${
+                    location.pathname === "/dashboard" ? "active" : ""
+                  }`}
+                >
                   Dashboard
                 </Link>
-                {userRole !== 'admin' && (
-                  <Link to={`/about`} className={`nav-item nav-link ${location.pathname === '/about' ? 'active' : ''}`}>
+                {userRole !== "admin" && (
+                  <Link
+                    to={`/about`}
+                    className={`nav-item nav-link ${
+                      location.pathname === "/about" ? "active" : ""
+                    }`}
+                  >
                     About
                   </Link>
                 )}
-                
-                <Link to={`/course`} className={`nav-item nav-link ${location.pathname === '/course' ? 'active' : ''}`}>
+
+                <Link
+                  to={`/course`}
+                  className={`nav-item nav-link ${
+                    location.pathname === "/course" ? "active" : ""
+                  }`}
+                >
                   Course
                 </Link>
-                {userRole === 'admin' && (
-                  <Link to={`/manage`} className={`nav-item nav-link ${location.pathname === '/manage' ? 'active' : ''}`}>
+                {userRole === "admin" && (
+                  <Link
+                    to={`/manage`}
+                    className={`nav-item nav-link ${
+                      location.pathname === "/manage" ? "active" : ""
+                    }`}
+                  >
                     Manage Page
                   </Link>
                 )}
-                {userRole !== 'admin' && (
-                  <Link to={`/contact`} className={`nav-item nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>
+                {userRole !== "admin" && (
+                  <Link
+                    to={`/contact`}
+                    className={`nav-item nav-link ${
+                      location.pathname === "/contact" ? "active" : ""
+                    }`}
+                  >
                     Contact
                   </Link>
                 )}
                 {!isAuthenticated && (
-                  <Link to={`/login`} className={`nav-item nav-link ${location.pathname === '/login' ? 'active' : ''}`}>
+                  <Link
+                    to={`/login`}
+                    className={`nav-item nav-link ${
+                      location.pathname === "/login" ? "active" : ""
+                    }`}
+                  >
                     Login
                   </Link>
                 )}
                 {isAuthenticated && (
-                  <Link to={`/profile`} className={`nav-item nav-link ${location.pathname === '/profile' ? 'active' : ''}`}>
+                  <Link
+                    to={`/profile`}
+                    className={`nav-item nav-link ${
+                      location.pathname === "/profile" ? "active" : ""
+                    }`}
+                  >
                     Profile
                   </Link>
                 )}

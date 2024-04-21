@@ -11,10 +11,12 @@ function Footer() {
             <div className="col-lg-3 col-md-6">
               <h4 className="text-primary mb-4">Our Office</h4>
               <p className="mb-2">
-                <i className="fa fa-map-marker-alt text-primary me-3"></i>Thaiburi building
+                <i className="fa fa-map-marker-alt text-primary me-3"></i>
+                Thaiburi building
               </p>
               <p className="mb-2">
-                <i className="fa fa-phone-alt text-primary me-3"></i>tel : 0-7567-3122-3
+                <i className="fa fa-phone-alt text-primary me-3"></i>tel :
+                0-7567-3122-3
               </p>
               <p className="mb-2">
                 <i className="fa fa-envelope text-primary me-3"></i>

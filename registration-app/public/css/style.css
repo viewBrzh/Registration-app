@@ -982,8 +982,7 @@ body {
     /* เพิ่ม flexbox */
     flex-direction: column;
     /* จัดเรียงเนื้อหาในแนวตั้ง */
-    align-items: center;
-    /* จัดให้เนื้อหาตรงกลางแนวนอน */
+    
 }
 
 .detailcard-img-top {
