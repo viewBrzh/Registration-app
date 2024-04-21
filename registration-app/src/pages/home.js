@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 
-function App() {
+function Home() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
@@ -250,4 +250,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

@@ -2,7 +2,10 @@ import { Link, useLocation } from "react-router-dom";
 
 function Header() {
   const userRole = localStorage.getItem("userRole");
+  const userData = localStorage.getItem("userData");
   const location = useLocation();
+
+  const isAuthenticated = userData && Object.keys(userData).length !== 0;
 
   return (
     <header>
@@ -33,15 +36,11 @@ function Header() {
                   Dashboard
                 </Link>
                 {userRole !== 'admin' && (
-                <Link to={`/about`} className={`nav-item nav-link ${location.pathname === '/about' ? 'active' : ''}`}>
-                  About
-                </Link>
+                  <Link to={`/about`} className={`nav-item nav-link ${location.pathname === '/about' ? 'active' : ''}`}>
+                    About
+                  </Link>
                 )}
-                {userRole !== 'admin' && (
-                <Link to={`/profile`} className={`nav-item nav-link ${location.pathname === '/profile' ? 'active' : ''}`}>
-                  Profile
-                </Link>
-                )}
+                
                 <Link to={`/course`} className={`nav-item nav-link ${location.pathname === '/course' ? 'active' : ''}`}>
                   Course
                 </Link>
@@ -50,13 +49,20 @@ function Header() {
                     Manage Page
                   </Link>
                 )}
-                <Link to={`/login`} className={`nav-item nav-link ${location.pathname === '/login' ? 'active' : ''}`}>
-                  Login
-                </Link>
                 {userRole !== 'admin' && (
-                <Link to={`/contact`} className={`nav-item nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>
-                  Contact
-                </Link>
+                  <Link to={`/contact`} className={`nav-item nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>
+                    Contact
+                  </Link>
+                )}
+                {!isAuthenticated && (
+                  <Link to={`/login`} className={`nav-item nav-link ${location.pathname === '/login' ? 'active' : ''}`}>
+                    Login
+                  </Link>
+                )}
+                {isAuthenticated && (
+                  <Link to={`/profile`} className={`nav-item nav-link ${location.pathname === '/profile' ? 'active' : ''}`}>
+                    Profile
+                  </Link>
                 )}
               </div>
             </div>

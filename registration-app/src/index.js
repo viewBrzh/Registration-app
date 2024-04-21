@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./pages/home";
+import Home from "./pages/home";
 import Login from "./pages/login";
 import Contact from "./pages/contact";
 import About from "./pages/about";
@@ -13,72 +13,35 @@ import Updatecourse from "./pages/updatecourse";
 import Dashboard from "./pages/dashboard";
 import Demo from "./pages/demo";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Manage from "./pages/manage";
 import InsertCourse from "./pages/insertCourse";
 
 const isAdmin = () => localStorage.getItem("userRole") === "admin";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/contact",
-    element: <Contact />,
-  },
-  {
-    path: "/about",
-    element: <About />,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
-  },
-  {
-    path: "/course",
-    element: <Course />,
-  },
-  {
-    path: "/enroll",
-    element: <Enroll />,
-  },
-  {
-    path: "/detail/:courseId",
-    element: <Detail />,
-  },
-  {
-    path: "/manage",
-    element: isAdmin() ? <Manage /> : <Navigate to="/login" />,
-  },
-  {
-    path: "/demo",
-    element: <Demo />,
-  },
-  {
-    path: "/update/:courseId",
-    element: <Updatecourse />,
-  },
-  {
-    path: "/insert",
-    element: <InsertCourse />,
-  },
-  {
-    path: "/dashboard",
-    element: <Dashboard />,
-  },
-]);
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
+ReactDOM.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/course" element={<Course />} />
+        <Route path="/enroll" element={<Enroll />} />
+        <Route path="/detail/:courseId" element={<Detail />} />
+        <Route path="/manage" element={isAdmin() ? <Manage /> : <Navigate to="/login" />} />
+        <Route path="/demo" element={<Demo />} />
+        <Route path="/update/:courseId" element={<Updatecourse />} />
+        <Route path="/insert" element={<InsertCourse />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        {/* Add more routes as needed */}
+      </Routes>
+    </Router>
+  </React.StrictMode>,
+  document.getElementById("root")
 );
 
 reportWebVitals();

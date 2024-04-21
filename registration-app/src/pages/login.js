@@ -1,20 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../App.css";
 import Main from "../layouts/main";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState(localStorage.getItem("userRole") || ""); // Initialize with role from localStorage if exists
+  // const [role, setRole] = useState(localStorage.getItem("userRole") || "");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleRoleSelect = (selectedRole) => {
-    setRole(selectedRole);
-    localStorage.setItem("userRole", selectedRole);
-  };
+  // const handleRoleSelect = (selectedRole) => {
+  //   setRole(selectedRole);
+  //   localStorage.setItem("userRole", selectedRole);
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await fetch("http://localhost:11230/users/login", {
@@ -26,19 +30,36 @@ function Login(props) {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("userData", JSON.stringify(data));
         console.log("Login successful");
-        props.history.push("/");
+        console.log(data.user.role);
+        localStorage.setItem("userRole", data.user.role);
+        setLoading(false);
+        navigate("/", { replace: true });
       } else {
-        console.error("Login failed");
+        const data = await response.json();
+        setLoading(false);
+        setError(data.message);
       }
     } catch (error) {
       console.error("An error occurred:", error);
+      setLoading(false);
+      setError("An error occurred. Please try again later.");
+      console.log(username + password);
     }
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Function to toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
     <Main>
-      <div class="custom-shape-divider-top-1710057287">
+      <div className="custom-shape-divider-top-1710057287">
         <svg
           data-name="Layer 1"
           xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +102,7 @@ function Login(props) {
               <div className="col-md-6">
                 <h2 className="card-title">Login</h2>
 
-                <form style={{ maxWidth: "400px", margin: "auto" }}>
+                <form style={{ maxWidth: "400px", margin: "auto" }} onSubmit={handleSubmit}>
                   <div className="form-group" style={{ marginBottom: "20px" }}>
                     <label
                       htmlFor="username"
@@ -126,7 +147,7 @@ function Login(props) {
                     </label>
                     <div style={{ position: "relative" }}>
                       <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         className="form-control"
                         id="password"
                         name="password"
@@ -141,14 +162,16 @@ function Login(props) {
                         }}
                       />
                       <i
-                        className="fas fa-lock"
+                        className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`}
                         style={{
                           position: "absolute",
                           top: "50%",
                           right: "10px",
                           transform: "translateY(-50%)",
                           color: "#E695B5",
+                          cursor: "pointer",
                         }}
+                        onClick={togglePasswordVisibility}
                       ></i>
                     </div>
                   </div>
@@ -160,7 +183,7 @@ function Login(props) {
                       justifyContent: "center",
                     }}
                   >
-                    <div className="form-group" style={{ marginBottom: "20px" }}>
+                    {/* <div className="form-group" style={{ marginBottom: "20px" }}>
                       <label style={{ fontWeight: "bold", color: "#E695B5" }}>Role</label>
                       <div className="radio-inputs">
                         <label className="radio">
@@ -194,12 +217,13 @@ function Login(props) {
                           <span className="name">Admin</span>
                         </label>
                       </div>
-                    </div>
+                    </div> */}
 
                   </div>
                   <button
                     type="submit"
                     className="btn btn-primary"
+                    disabled={loading}
                     style={{
                       width: "100%",
                       padding: "10px",
@@ -211,7 +235,7 @@ function Login(props) {
                       textAlign: "center",
                     }}
                   >
-                    Login
+                    {loading ? "Logging in..." : "Login"}
                   </button>
                 </form>
               </div>

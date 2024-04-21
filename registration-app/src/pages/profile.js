@@ -1,37 +1,24 @@
+import React from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 
-function Profile(props) {
+function Profile() {
+  const storedUserData = localStorage.getItem("userData");
+
+  let userData = null;
+  try {
+    userData = JSON.parse(storedUserData);
+  } catch (error) {
+    console.error("Failed to parse user data from localStorage");
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("userData");
+    localStorage.removeItem("userRole");
+  };
+
   return (
     <Main>
-      {/* Page Header */}
-      <div
-        className="container-fluid page-header py-5 mb-5 wow fadeIn"
-        data-wow-delay="0.1s"
-      >
-        <div className="container text-center py-5">
-          <h1 className="display-2 text-dark mb-4 animated slideInDown">
-            Profile
-          </h1>
-          <nav aria-label="breadcrumb animated slideInDown">
-            <ol className="breadcrumb justify-content-center mb-0">
-              <li className="breadcrumb-item">
-                <Link to={`/`} className="breadcrumb-item">
-                  Home
-                </Link>
-              </li>
-              <li
-                className="breadcrumb-item text-dark"
-                aria-current="page"
-              >
-                Profile
-              </li>
-            </ol>
-          </nav>
-        </div>
-      </div>
-      {/* Page Header End */}
-
       {/* Hero Section */}
       <div className="hero-section">
         {/* Profile Picture */}
@@ -58,24 +45,25 @@ function Profile(props) {
             borderBottom: "2px solid #ccc",
           }}
         >
-          <p>
-            <span style={{ fontWeight: "bold" }}>Name:</span> John Doe
-          </p>
-          <p>
-            <span style={{ fontWeight: "bold" }}>Email:</span>{" "}
-            johndoe@example.com
-          </p>
-          <p>
-            <span style={{ fontWeight: "bold" }}>Address:</span> 123 Street,
-            City
-          </p>
-          <p>
-            <span style={{ fontWeight: "bold" }}>Phone:</span> +123456789
-          </p>
-          <p>
-            <span style={{ fontWeight: "bold" }}>Social Media:</span>{" "}
-            <Link to="#">Facebook</Link>
-          </p>
+          {userData && (
+            <div>
+              <p>
+                <span style={{ fontWeight: "bold" }}>Name:</span>{" "}
+                {userData.user.username}
+              </p>
+              <p>
+                <span style={{ fontWeight: "bold" }}>Email:</span>{" "}
+                {userData.user.email}
+              </p>
+              <p>
+                <span style={{ fontWeight: "bold" }}>Role:</span>{" "}
+                {userData.user.role}
+              </p>
+            </div>
+          )}
+          <Link to="/">
+            <button onClick={handleLogout}>Log-out</button>
+          </Link>
         </div>
       </div>
 
@@ -90,7 +78,9 @@ function Profile(props) {
           borderBottom: "2px solid #ccc",
         }}
       >
-        <h2 style={{ marginBottom: "20px", color:'#E90073' }}>Courses Registered</h2>
+        <h2 style={{ marginBottom: "20px", color: "#E90073" }}>
+          Courses Registered
+        </h2>
         <ul>
           <li>Course 1</li>
           <li>Course 2</li>
