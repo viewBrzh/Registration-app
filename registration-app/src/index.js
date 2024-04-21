@@ -16,6 +16,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Manage from "./pages/manage";
 import InsertCourse from "./pages/insertCourse";
+import EnrollManage from "./pages/enrollManage";
 
 const isAdmin = () => localStorage.getItem("userRole") === "admin";
 
@@ -37,6 +38,7 @@ ReactDOM.render(
         <Route path="/update/:courseId" element={<Updatecourse />} />
         <Route path="/insert" element={<InsertCourse />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/enrollManage/:courseId" element={<EnrollManage />} />
         {/* Add more routes as needed */}
       </Routes>
     </Router>

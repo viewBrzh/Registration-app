@@ -249,9 +249,11 @@ function Manage() {
                     </td>
                     <td>
                       <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
+                      <Link to={`/enrollManage/${course.train_course_id}`}>
                         <button className="btn btn-sm btn-secondary" aria-label="View Students">
                           <i className="bi bi-people" style={{ color: 'white' }}></i>
                         </button>
+                        </Link>
                       </div>
                       <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
                         <Link to={`/update/${course.train_course_id}`}>
