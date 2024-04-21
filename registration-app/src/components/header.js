@@ -32,26 +32,25 @@ function Header() {
                 <Link to={`/`} className={`nav-item nav-link ${location.pathname === '/' ? 'active' : ''}`}>
                   Home
                 </Link>
-                <Link to={`/dashboard`} className={`nav-item nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}>
-                  Dashboard
-                </Link>
+                {userRole !== 'admin' && (
+                  <Link to={`/contact`} className={`nav-item nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>
+                    Contact
+                  </Link>
+                )}
                 {userRole !== 'admin' && (
                   <Link to={`/about`} className={`nav-item nav-link ${location.pathname === '/about' ? 'active' : ''}`}>
                     About
                   </Link>
                 )}
-                
+                <Link to={`/dashboard`} className={`nav-item nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}>
+                  Dashboard
+                </Link>
                 <Link to={`/course`} className={`nav-item nav-link ${location.pathname === '/course' ? 'active' : ''}`}>
                   Course
                 </Link>
                 {userRole === 'admin' && (
                   <Link to={`/manage`} className={`nav-item nav-link ${location.pathname === '/manage' ? 'active' : ''}`}>
                     Manage Page
-                  </Link>
-                )}
-                {userRole !== 'admin' && (
-                  <Link to={`/contact`} className={`nav-item nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>
-                    Contact
                   </Link>
                 )}
                 {!isAuthenticated && (
