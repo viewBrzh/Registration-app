@@ -6,15 +6,13 @@ import { useNavigate } from "react-router-dom";
 function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [role, setRole] = useState(localStorage.getItem("userRole") || "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [success, setSuccess] = useState(false);
+  const [userData, setUserData] = useState(null);
 
-  // const handleRoleSelect = (selectedRole) => {
-  //   setRole(selectedRole);
-  //   localStorage.setItem("userRole", selectedRole);
-  // };
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,11 +30,13 @@ function Login(props) {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("userData", JSON.stringify(data));
-        console.log("Login successful");
-        console.log(data.user.role);
         localStorage.setItem("userRole", data.user.role);
         setLoading(false);
-        navigate("/", { replace: true });
+        setUsername("");
+        setPassword("");
+        setUserData(data);
+        console.log(userData)
+        setSuccess(true);
       } else {
         const data = await response.json();
         setLoading(false);
@@ -46,15 +46,18 @@ function Login(props) {
       console.error("An error occurred:", error);
       setLoading(false);
       setError("An error occurred. Please try again later.");
-      console.log(username + password);
     }
   };
 
   const [showPassword, setShowPassword] = useState(false);
 
-  // Function to toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleConfirm = () => {
+    setSuccess(false);
+    navigate("/", { replace: true });
   };
 
   return (
@@ -182,44 +185,7 @@ function Login(props) {
                       display: "flex",
                       justifyContent: "center",
                     }}
-                  >
-                    {/* <div className="form-group" style={{ marginBottom: "20px" }}>
-                      <label style={{ fontWeight: "bold", color: "#E695B5" }}>Role</label>
-                      <div className="radio-inputs">
-                        <label className="radio">
-                          <input
-                            type="radio"
-                            name="role"
-                            value="teacher"
-                            checked={role === "teacher"}
-                            onChange={(e) => handleRoleSelect(e.target.value)}
-                          />
-                          <span className="name">Teacher</span>
-                        </label>
-                        <label className="radio">
-                          <input
-                            type="radio"
-                            name="role"
-                            value="executive"
-                            checked={role === "executive"}
-                            onChange={(e) => handleRoleSelect(e.target.value)}
-                          />
-                          <span className="name">Executive</span>
-                        </label>
-                        <label className="radio">
-                          <input
-                            type="radio"
-                            name="role"
-                            value="admin"
-                            checked={role === "admin"}
-                            onChange={(e) => handleRoleSelect(e.target.value)}
-                          />
-                          <span className="name">Admin</span>
-                        </label>
-                      </div>
-                    </div> */}
-
-                  </div>
+                  ></div>
                   <button
                     type="submit"
                     className="btn btn-primary"
@@ -237,6 +203,35 @@ function Login(props) {
                   >
                     {loading ? "Logging in..." : "Login"}
                   </button>
+
+                  {error && (
+                    <div className="row justify-content-center">
+                      <div className="notifications-container" style={{ paddingTop: 20 }}>
+                        <div className="error-alert">
+                          <div className="flex">
+                            <div className="flex-shrink-0">
+                              <svg
+                                aria-hidden="true"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="error-svg"
+                              >
+                                <path
+                                  clip-rule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                  fill-rule="evenodd"
+                                ></path>
+                              </svg>
+                            </div>
+                            <div className="error-prompt-container">
+                              <p className="error-prompt-heading">{error}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </form>
               </div>
               <div className="col-md-6">
@@ -251,6 +246,19 @@ function Login(props) {
           </div>
         </div>
       </div>
+
+      {/* Success modal */}
+      {success && (
+        <div className="modal" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+          <div className="modal-content" style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "5px", width: "300px", margin: "auto", marginTop: "100px" }}>
+            <h3>Login successful</h3>
+            <p>Username: {userData.user.username}</p>
+            <p>User Role: {userData.user.role}</p>
+            <button className="btn btn-primary" onClick={handleConfirm}>Confirm</button>
+          </div>
+        </div>
+      )}
+      
     </Main>
   );
 }
