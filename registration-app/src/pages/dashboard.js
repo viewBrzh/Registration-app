@@ -178,8 +178,14 @@ function Dashboard() {
           </div>
         </div>
       </div>
+      
 
-      <div className="details d-flex justify-content-center">
+      
+
+      <div className="dashboard-container">
+  <div className="recommend-course-container">
+    {/*Recommend Course start*/}
+    <div className="details d-flex">
         <div className="recentOrders">
           <div className="cardHeader ">
             <h2>Recommend Course</h2>
@@ -239,6 +245,127 @@ function Dashboard() {
           </table>
         </div>
       </div>
+      {/*Recommend Course End*/}
+  </div>
+  <div className="course-registered-container">
+    {/* ================= New Customers ================ */}
+    <div className="recentCustomers">
+          <div className="cardHeader">
+            <h2
+              style={{
+                color: "#E60073",
+              }}
+            >
+              Course registered
+            </h2>
+          </div>
+
+          <table>
+            <tr>
+              <td width="60px">
+                <div className="imgBx">
+                  <img src="img\profile\profile_test.jpg" alt="" />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  David <br /> <span>Italy</span>
+                </h4>
+              </td>
+            </tr>
+
+            <tr>
+              <td width="60px">
+                <div className="imgBx">
+                  <img src="img\profile\profile_test.jpg" alt="" />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  Amit <br /> <span>India</span>
+                </h4>
+              </td>
+            </tr>
+
+            <tr>
+              <td width="60px">
+                <div className="imgBx">
+                  <img src="img\profile\profile_test.jpg" alt="" />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  David <br /> <span>Italy</span>
+                </h4>
+              </td>
+            </tr>
+
+            <tr>
+              <td width="60px">
+                <div className="imgBx">
+                  <img src="img\profile\profile_test.jpg" alt="" />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  Amit <br /> <span>India</span>
+                </h4>
+              </td>
+            </tr>
+
+            <tr>
+              <td width="60px">
+                <div className="imgBx">
+                  <img src="img\profile\profile_test.jpg" alt="" />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  David <br /> <span>Italy</span>
+                </h4>
+              </td>
+            </tr>
+
+            <tr>
+              <td width="60px">
+                <div className="imgBx">
+                  <img src="img\profile\profile_test.jpg" alt="" />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  Amit <br /> <span>India</span>
+                </h4>
+              </td>
+            </tr>
+
+            <tr>
+              <td width="60px">
+                <div className="imgBx">
+                  <img src="img\profile\profile_test.jpg" alt="" />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  David <br /> <span>Italy</span>
+                </h4>
+              </td>
+            </tr>
+
+            <tr>
+              <td width="60px">
+                <div className="imgBx">
+                  <img src="img\profile\profile_test.jpg" alt="" />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  Amit <br /> <span>India</span>
+                </h4>
+              </td>
+            </tr>
+          </table>
+        </div>
 
       <div className="chart-card-container">
         <div className="chart-card">
@@ -254,7 +381,8 @@ function Dashboard() {
           ></canvas>
         </div>
       </div>
-
+  </div>
+</div>
 
 
 

@@ -1427,5 +1427,18 @@ canvas {
     overflow-x: auto;
 }
 
+.dashboard-container {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  
+  .recommend-course-container {
+    
+  }
+  
+  .course-registered-container {
+    
+  }
+  
   
 
