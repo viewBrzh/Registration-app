@@ -157,28 +157,28 @@ function Manage() {
             <h2 className="text-center">Manage Courses</h2>
           </div>
           <div className="col-auto d-flex align-items-center">
-            <button className="btn btn-primary me-3" style={{height: 37.6, width: 150}} onClick={handleDownload}>Download</button>
+            <button className="btn btn-primary me-3" style={{ height: 37.6, width: 150 }} onClick={handleDownload}>Download</button>
             <select className="form-select" value={filter} onChange={handleFilterChange}>
               <option value="all">All Courses</option>
               <option value="basic">Basic Courses</option>
               <option value="retreat">Retreat Courses</option>
             </select>
           </div>
-
         </div>
+        
         <div className="row">
           <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
                   <th scope="col" style={{ width: '12%' }}>Course Name</th>
-                  <th scope="col" style={{ width: '20%' }}>Description</th>
-                  <th scope="col" style={{ width: '10%' }}>Start Date</th>
-                  <th scope="col" style={{ width: '10%' }}>End Date</th>
+                  <th scope="col" style={{ width: '24%' }}>Description</th>
+                  <th scope="col" style={{ width: '8%' }}>Start Date</th>
+                  <th scope="col" style={{ width: '8%' }}>End Date</th>
                   <th scope="col" style={{ width: '10%' }}>Place</th>
-                  <th scope="col" style={{ width: '10%' }}>Course Type</th>
+                  <th scope="col" style={{ width: '8%' }}>Course Type</th>
                   <th scope="col" style={{ width: '8%' }}>Publish Status</th>
-                  <th scope="col" style={{ width: '10%' }}>Actions</th>
+                  <th scope="col" style={{ width: '12%' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -186,8 +186,8 @@ function Manage() {
                   <tr key={course.train_course_id}>
                     <td>{course.course_detail_name}</td>
                     <td>{course.train_detail}</td>
-                    <td>{course.start_date}</td>
-                    <td>{course.finish_date}</td>
+                    <td>{new Date(course.start_date).toLocaleDateString('en-GB')}</td>
+                    <td>{new Date(course.finish_date).toLocaleDateString('en-GB')}</td>
                     <td>{course.train_place}</td>
                     <td>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
                     <td>
@@ -248,11 +248,18 @@ function Manage() {
                       </label>
                     </td>
                     <td>
+                    <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
+                        <Link to={`/detail/${course.train_course_id}`}>
+                          <button className="btn btn-sm btn-info" aria-label="Detail">
+                            <i className="bi bi-eye"></i>
+                          </button>
+                        </Link>
+                      </div>
                       <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
-                      <Link to={`/enrollManage/${course.train_course_id}`}>
-                        <button className="btn btn-sm btn-secondary" aria-label="View Students">
-                          <i className="bi bi-people" style={{ color: 'white' }}></i>
-                        </button>
+                        <Link to={`/enrollManage/${course.train_course_id}`}>
+                          <button className="btn btn-sm btn-secondary" aria-label="View Students">
+                            <i className="bi bi-people" style={{ color: 'white' }}></i>
+                          </button>
                         </Link>
                       </div>
                       <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 function Updatecourse(props) {
   const { courseId } = useParams();
+  const navigate = useNavigate();
   const [courseData, setCourseData] = useState({
     course_id: "",
     course_detail_name: "",
@@ -64,7 +65,7 @@ function Updatecourse(props) {
           }
         );
         if (response.ok) {
-          props.history.push("/manage"); // Redirect to the manage page
+          navigate("/", { replace: true });          
           console.log("Course deleted successfully");
         } else {
           console.error("Failed to delete course");
@@ -95,10 +96,10 @@ function Updatecourse(props) {
             body: JSON.stringify(courseData),
           }
         );
-        if (response.ok) {
+        if (response) {
           // Handle successful update
           console.log("Course updated successfully");
-          window.confirm("Course updated successfully");
+          (navigate("/", { replace: true }));
         } else {
           console.error("Failed to update course");
         }
