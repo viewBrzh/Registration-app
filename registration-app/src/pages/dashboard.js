@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 import { Chart as ChartAuto } from "chart.js/auto";
-
 
 function Dashboard() {
   useEffect(() => {
@@ -14,10 +13,16 @@ function Dashboard() {
     new ChartAuto(ctx1, {
       type: "bar",
       data: {
-        labels: ["การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1", "การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2", "อบรมให้การปรึกษา", "การให้การปรึกษาตามแนวซาเทียร์", "การให้การปรึกษาสำหรับอาจารย์ใหม่ online"],
+        labels: [
+          "การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1",
+          "การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2",
+          "อบรมให้การปรึกษา",
+          "การให้การปรึกษาตามแนวซาเทียร์",
+          "การให้การปรึกษาสำหรับอาจารย์ใหม่ online",
+        ],
         datasets: [
           {
-            label: "	Quantity",
+            label: "Quantity",
             data: [68, 0, 108, 0, 130],
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",
@@ -25,7 +30,6 @@ function Dashboard() {
               "rgba(255, 206, 86, 0.2)",
               "rgba(75, 192, 192, 0.2)",
               "rgba(153, 102, 255, 0.2)",
-  
             ],
             borderColor: [
               "rgba(255, 99, 132, 1)",
@@ -33,7 +37,6 @@ function Dashboard() {
               "rgba(255, 206, 86, 1)",
               "rgba(75, 192, 192, 1)",
               "rgba(153, 102, 255, 1)",
-              
             ],
             borderWidth: 1,
           },
@@ -60,9 +63,7 @@ function Dashboard() {
         },
       },
     });
-  }, []);
 
-  useEffect(() => {
     const ctx2 = document.getElementById("myChart1").getContext("2d");
     const existingChart2 = ChartAuto.getChart(ctx2);
     if (existingChart2) {
@@ -71,7 +72,13 @@ function Dashboard() {
     new ChartAuto(ctx2, {
       type: "doughnut",
       data: {
-        labels: ["การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1", "การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2", "อบรมให้การปรึกษา", "การให้การปรึกษาตามแนวซาเทียร์", "การให้การปรึกษาสำหรับอาจารย์ใหม่ online"],
+        labels: [
+          "การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1",
+          "การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2",
+          "อบรมให้การปรึกษา",
+          "การให้การปรึกษาตามแนวซาเทียร์",
+          "การให้การปรึกษาสำหรับอาจารย์ใหม่ online"
+        ],
         datasets: [
           {
             label: "# of Votes",
@@ -81,16 +88,14 @@ function Dashboard() {
               "rgba(54, 162, 235, 0.2)",
               "rgba(255, 206, 86, 0.2)",
               "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              
+              "rgba(153, 102, 255, 0.2)"
             ],
             borderColor: [
               "rgba(255, 99, 132, 1)",
               "rgba(54, 162, 235, 1)",
               "rgba(255, 206, 86, 1)",
               "rgba(75, 192, 192, 1)",
-              "rgba(153, 102, 255, 1)",
-              
+              "rgba(153, 102, 255, 1)"
             ],
             borderWidth: 1,
           },
@@ -99,8 +104,19 @@ function Dashboard() {
       options: {
         scales: {
           y: {
-            type: "linear",
-            beginAtZero: true,
+            display: false,
+          },
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: "bottom",
+            labels: {
+              boxWidth: 20,
+              font: {
+                size: 12,
+              },
+            },
           },
         },
       },
@@ -153,7 +169,7 @@ function Dashboard() {
           </div>
 
           <div className="iconBx">
-          <ion-icon name="checkmark-outline"></ion-icon>
+            <ion-icon name="checkmark-outline"></ion-icon>
           </div>
         </div>
 
@@ -164,7 +180,7 @@ function Dashboard() {
           </div>
 
           <div className="iconBx">
-          <ion-icon name="close-outline"></ion-icon>
+            <ion-icon name="close-outline"></ion-icon>
           </div>
         </div>
 
@@ -178,214 +194,225 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      
-
-      
 
       <div className="dashboard-container">
-  <div className="recommend-course-container">
-    {/*Recommend Course start*/}
-    <div className="details d-flex">
-        <div className="recentOrders">
-          <div className="cardHeader ">
-            <h2>Recommend Course</h2>
-            <Link to="/">View All</Link>
+        <div className="recommend-course-container">
+          {/*Recommend Course start*/}
+          <div className="details d-flex">
+            <div className="recentOrders">
+              <div className="cardHeader ">
+                <h2>Recommend Course</h2>
+                <Link to="/">View All</Link>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <td>Course name</td>
+                    <td>Training location</td>
+                    <td>Quantity</td>
+                    <td>Status</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1
+                    </td>
+                    <td>
+                      ห้องประชุม 1 ชั้น 2 อาคารวิจัย
+                    </td>
+                    <td>68</td>
+                    <td>
+                      <span className="status delivered">Opening</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2
+                    </td>
+                    <td>
+                      ห้องประชุม 1 ชั้น 2 อาคารวิจัย
+                    </td>
+                    <td>0</td>
+                    <td>
+                      <span className="status pending">Waiting</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>อบรมให้การปรึกษา (Basic Counseling)</td>
+                    <td>ห้องประชุม 4 อาคารนวัตกรรม</td>
+                    <td>108</td>
+                    <td>
+                      <span className="status delivered">Opening</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>การให้การปรึกษาตามแนวซาเทียร์</td>
+                    <td>
+                      ห้องประชุมหัวตะพาน โรงพยาบาลศูนย์การแพทย์
+                    </td>
+                    <td>0</td>
+                    <td>
+                      <span className="status pending">Waiting</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      การให้การปรึกษาสำหรับอาจารย์ใหม่ online
+                    </td>
+                    <td>Zoom</td>
+                    <td>130</td>
+                    <td>
+                      <span className="status delivered">Opening</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <table>
-            <thead>
+          {/*Recommend Course End*/}
+        </div>
+
+        <div className="course-registered-container">
+          {/* ================= New Customers ================ */}
+          <div className="recentCustomers">
+            <div className="cardHeader">
+              <h2
+                style={{
+                  color: "#E60073",
+                }}
+              >
+                Course registered
+              </h2>
+            </div>
+
+            <table>
               <tr>
-                <td>Course name</td>
-                <td>Training location</td>
-                <td>Quantity</td>
-                <td>Status</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1</td>
-                <td>ห้องประชุม 1 ชั้น 2 อาคารวิจัย</td>
-                <td>68</td>
+                <td width="60px">
+                  <div className="imgBx">
+                    <img src="img\profile\profile_test.jpg" alt="" />
+                  </div>
+                </td>
                 <td>
-                  <span className="status delivered">Opening</span>
+                  <h4>
+                    David <br /> <span>Italy</span>
+                  </h4>
                 </td>
               </tr>
+
               <tr>
-                <td>การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2</td>
-                <td>ห้องประชุม 1 ชั้น 2 อาคารวิจัย</td>
-                <td>0</td>
+                <td width="60px">
+                  <div className="imgBx">
+                    <img src="img\profile\profile_test.jpg" alt="" />
+                  </div>
+                </td>
                 <td>
-                  <span className="status pending">Waiting</span>
+                  <h4>
+                    Amit <br /> <span>India</span>
+                  </h4>
                 </td>
               </tr>
+
               <tr>
-                <td>อบรมให้การปรึกษา (Basic Counseling)</td>
-                <td>ห้องประชุม 4 อาคารนวัตกรรม</td>
-                <td>108</td>
+                <td width="60px">
+                  <div className="imgBx">
+                    <img src="img\profile\profile_test.jpg" alt="" />
+                  </div>
+                </td>
                 <td>
-                  <span className="status delivered">Opening</span>
+                  <h4>
+                    David <br /> <span>Italy</span>
+                  </h4>
                 </td>
               </tr>
+
               <tr>
-                <td>การให้การปรึกษาตามแนวซาเทียร์</td>
-                <td>ห้องประชุมหัวตะพาน โรงพยาบาลศูนย์การแพทย์</td>
-                <td>0</td>
+                <td width="60px">
+                  <div className="imgBx">
+                    <img src="img\profile\profile_test.jpg" alt="" />
+                  </div>
+                </td>
                 <td>
-                  <span className="status pending">Waiting</span>
+                  <h4>
+                    Amit <br /> <span>India</span>
+                  </h4>
                 </td>
               </tr>
+
               <tr>
-                <td>การให้การปรึกษาสำหรับอาจารย์ใหม่ online</td>
-                <td>Zoom</td>
-                <td>130</td>
+                <td width="60px">
+                  <div className="imgBx">
+                    <img src="img\profile\profile_test.jpg" alt="" />
+                  </div>
+                </td>
                 <td>
-                  <span className="status delivered">Opening</span>
+                  <h4>
+                    David <br /> <span>Italy</span>
+                  </h4>
                 </td>
               </tr>
-            </tbody>
-          </table>
+
+              <tr>
+                <td width="60px">
+                  <div className="imgBx">
+                    <img src="img\profile\profile_test.jpg" alt="" />
+                  </div>
+                </td>
+                <td>
+                  <h4>
+                    Amit <br /> <span>India</span>
+                  </h4>
+                </td>
+              </tr>
+
+              <tr>
+                <td width="60px">
+                  <div className="imgBx">
+                    <img src="img\profile\profile_test.jpg" alt="" />
+                  </div>
+                </td>
+                <td>
+                  <h4>
+                    David <br /> <span>Italy</span>
+                  </h4>
+                </td>
+              </tr>
+
+              <tr>
+                <td width="60px">
+                  <div className="imgBx">
+                    <img src="img\profile\profile_test.jpg" alt="" />
+                  </div>
+                </td>
+                <td>
+                  <h4>
+                    Amit <br /> <span>India</span>
+                  </h4>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <br></br>
+
+          {/* Charts Row */}
+          <div className="centering-container">
+            <div className="chart-row-container">
+              <div className="chart-card">
+                <canvas
+                  id="myChart"
+                  style={{ width: "100%", height: "100%" }}
+                ></canvas>
+              </div>
+              <div className="chart-card">
+                <canvas
+                  id="myChart1"
+                  style={{ width: "100%", height: "100%" }}
+                ></canvas>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      {/*Recommend Course End*/}
-  </div>
-  <div className="course-registered-container">
-    {/* ================= New Customers ================ */}
-    <div className="recentCustomers">
-          <div className="cardHeader">
-            <h2
-              style={{
-                color: "#E60073",
-              }}
-            >
-              Course registered
-            </h2>
-          </div>
-
-          <table>
-            <tr>
-              <td width="60px">
-                <div className="imgBx">
-                  <img src="img\profile\profile_test.jpg" alt="" />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  David <br /> <span>Italy</span>
-                </h4>
-              </td>
-            </tr>
-
-            <tr>
-              <td width="60px">
-                <div className="imgBx">
-                  <img src="img\profile\profile_test.jpg" alt="" />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  Amit <br /> <span>India</span>
-                </h4>
-              </td>
-            </tr>
-
-            <tr>
-              <td width="60px">
-                <div className="imgBx">
-                  <img src="img\profile\profile_test.jpg" alt="" />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  David <br /> <span>Italy</span>
-                </h4>
-              </td>
-            </tr>
-
-            <tr>
-              <td width="60px">
-                <div className="imgBx">
-                  <img src="img\profile\profile_test.jpg" alt="" />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  Amit <br /> <span>India</span>
-                </h4>
-              </td>
-            </tr>
-
-            <tr>
-              <td width="60px">
-                <div className="imgBx">
-                  <img src="img\profile\profile_test.jpg" alt="" />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  David <br /> <span>Italy</span>
-                </h4>
-              </td>
-            </tr>
-
-            <tr>
-              <td width="60px">
-                <div className="imgBx">
-                  <img src="img\profile\profile_test.jpg" alt="" />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  Amit <br /> <span>India</span>
-                </h4>
-              </td>
-            </tr>
-
-            <tr>
-              <td width="60px">
-                <div className="imgBx">
-                  <img src="img\profile\profile_test.jpg" alt="" />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  David <br /> <span>Italy</span>
-                </h4>
-              </td>
-            </tr>
-
-            <tr>
-              <td width="60px">
-                <div className="imgBx">
-                  <img src="img\profile\profile_test.jpg" alt="" />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  Amit <br /> <span>India</span>
-                </h4>
-              </td>
-            </tr>
-          </table>
-        </div>
-
-      <div className="chart-card-container">
-        <div className="chart-card">
-          <canvas
-            id="myChart"
-            style={{ width: "100%", height: "100%" }}
-          ></canvas>
-        </div>
-        <div className="chart-card">
-          <canvas
-            id="myChart1"
-            style={{ width: "100%", height: "100%" }}
-          ></canvas>
-        </div>
-      </div>
-  </div>
-</div>
-
-
-
     </Main>
   );
 }

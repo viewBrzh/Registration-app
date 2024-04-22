@@ -1426,18 +1426,29 @@ canvas {
 .table-responsive {
     overflow-x: auto;
 }
-
+/* ====================== Dashboard ========================== */    
 .dashboard-container {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
   }
   
   .recommend-course-container {
-    
+    /* Styles for Recommend Course section */
   }
   
   .course-registered-container {
-    
+    /* Styles for Course registered section */
+  }
+  
+  .chart-row-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px; /* Adjust top margin as needed */
+  }
+  
+  .chart-card {
+    flex: 1;
+    margin-left: 10px; /* Adjust spacing between charts */
   }
   
   
