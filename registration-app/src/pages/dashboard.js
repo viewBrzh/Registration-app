@@ -17,7 +17,7 @@ function Dashboard() {
         labels: ["การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1", "การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2", "อบรมให้การปรึกษา", "การให้การปรึกษาตามแนวซาเทียร์", "การให้การปรึกษาสำหรับอาจารย์ใหม่ online"],
         datasets: [
           {
-            label: "Quantity",
+            label: "	Quantity",
             data: [68, 0, 108, 0, 130],
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",
@@ -148,12 +148,23 @@ function Dashboard() {
 
         <div className="carddash">
           <div>
-            <div className="numbers">80</div>
-            <div className="cardName">Sales</div>
+            <div className="numbers">1,018</div>
+            <div className="cardName">Enrolled</div>
           </div>
 
           <div className="iconBx">
-            <ion-icon name="cart-outline"></ion-icon>
+          <ion-icon name="checkmark-outline"></ion-icon>
+          </div>
+        </div>
+
+        <div className="carddash">
+          <div>
+            <div className="numbers">486</div>
+            <div className="cardName">Not yet enrolled</div>
+          </div>
+
+          <div className="iconBx">
+          <ion-icon name="close-outline"></ion-icon>
           </div>
         </div>
 
@@ -162,27 +173,15 @@ function Dashboard() {
             <div className="numbers">284</div>
             <div className="cardName">Comments</div>
           </div>
-
           <div className="iconBx">
             <ion-icon name="chatbubbles-outline"></ion-icon>
           </div>
         </div>
-
-        <div className="carddash">
-          <div>
-            <div className="numbers">$7,842</div>
-            <div className="cardName">Earning</div>
-          </div>
-
-          <div className="iconBx">
-            <ion-icon name="cash-outline"></ion-icon>
-          </div>
-        </div>
       </div>
 
-      <div className="details">
+      <div className="details d-flex justify-content-center">
         <div className="recentOrders">
-          <div className="cardHeader">
+          <div className="cardHeader ">
             <h2>Recommend Course</h2>
             <Link to="/">View All</Link>
           </div>
