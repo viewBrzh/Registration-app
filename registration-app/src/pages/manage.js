@@ -171,13 +171,13 @@ function Manage() {
             <table className="table">
               <thead>
                 <tr>
-                  <th scope="col">Course Name</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Start Date</th>
-                  <th scope="col">End Date</th>
-                  <th scope="col">Place</th>
-                  <th scope="col">Course Type</th>
-                  <th scope="col">Publish Status</th>
+                  <th scope="col" style={{ width: '12%' }}>Course Name</th>
+                  <th scope="col" style={{ width: '20%' }}>Description</th>
+                  <th scope="col" style={{ width: '10%' }}>Start Date</th>
+                  <th scope="col" style={{ width: '10%' }}>End Date</th>
+                  <th scope="col" style={{ width: '10%' }}>Place</th>
+                  <th scope="col" style={{ width: '10%' }}>Course Type</th>
+                  <th scope="col" style={{ width: '8%' }}>Publish Status</th>
                   <th scope="col" style={{ width: '10%' }}>Actions</th>
                 </tr>
               </thead>
