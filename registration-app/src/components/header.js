@@ -8,13 +8,13 @@ function Header() {
   const isAuthenticated = userData && Object.keys(userData).length !== 0;
 
   return (
-    <header>
+    <header className="sticky-top">
       <div className="container-fluid bg-white sticky-top">
         <div className="container">
           <nav className="navbar navbar-expand-lg bg-white navbar-light py-2 py-lg-0">
             <Link to={`/`} className="navbar-brand">
               <img
-                className="img-fluid"
+                className="img-fluid logo-wu"
                 src="/img/Walailak_University_Logo.svg.png"
                 alt="Logo"
               />

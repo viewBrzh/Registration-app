@@ -42,11 +42,15 @@ function Course(props) {
         setBasicCourses(data.filter((course) => course.course_id === 1 && course.isPublish === 1));
         setRetreatCourses(data.filter((course) => course.course_id === 2 && course.isPublish === 1));
       });
-
-   
   }, []);
 
-  
+  const formatDate = (start_date, finish_date) => {
+    if (start_date === finish_date) {
+      return new Date(start_date).toLocaleDateString('en-GB');
+    } else {
+      return `${new Date(start_date).toLocaleDateString('en-GB')} - ${new Date(finish_date).toLocaleDateString('en-GB')}`;
+    }
+  };
 
   const filteredBasicCourses = basicCourses.filter((course) =>
     course.course_detail_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -113,7 +117,7 @@ function Course(props) {
                     </Link>
                   </div>
                   <div className="properties__caption">
-                    <p>{course.category}</p>
+                    <p style={{ padding: 5}}>{course.category}</p>
                     <h3>
                       <Link to={`/detail/${course.train_course_id}`}>
                         {course.course_detail_name.length > 63
@@ -123,13 +127,15 @@ function Course(props) {
                     </h3>
                     <p>{course.train_detail}</p>
                     <div className="properties__footer d-flex justify-content-between align-items-center">
-                      <div className="date">
+                      <div className="date" style={{color: 'blue'}}>
                         <span>
-                          {course.start_date} - {course.finish_date}
+                          {formatDate(course.start_date, course.finish_date)}
                         </span>
                       </div>
                       <div className="location">
-                        <span>{course.train_place}</span>
+                        <span>{course.train_place.length > 25
+                          ? `${course.train_place .substring(0, 25)}...`
+                          : course.train_place }</span>
                       </div>
                     </div>
                     <Link to={`/detail/${course.train_course_id}`}>
@@ -186,15 +192,17 @@ function Course(props) {
                           : course.course_detail_name}
                       </Link>
                     </h3>
-                    <p>{course.train_detail}</p>
+                    <p style={{ padding: 5}}>{course.train_detail}</p>
                     <div className="properties__footer d-flex justify-content-between align-items-center">
-                      <div className="date">
-                        <span>
-                          {course.start_date} - {course.finish_date}
+                      <div className="date" style={{color: 'blue'}}>
+                        <span >
+                          {formatDate(course.start_date, course.finish_date)}
                         </span>
                       </div>
                       <div className="location">
-                        <span>{course.train_place}</span>
+                        <span>{course.train_place.length > 25
+                          ? `${course.train_place .substring(0, 25)}...`
+                          : course.train_place }</span>
                       </div>
                     </div>
                     <Link to={`/detail/${course.train_course_id}`}>
@@ -233,4 +241,3 @@ function Course(props) {
   );
 }
 export default Course;
-

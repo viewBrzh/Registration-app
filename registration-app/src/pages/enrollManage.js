@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Main from "../layouts/main";
 import { useParams } from "react-router-dom";
 import { exportEnrollToExcel } from "../components/excelUtils"; // Assuming exportToExcel is in the same directory as this file
@@ -8,6 +8,41 @@ function EnrollManage() {
   const [users, setUsers] = useState({});
   const { courseId } = useParams();
   const [course, setCourse] = useState();
+
+  const [filteredEnrollments, setFilteredEnrollments] = useState([]);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isActive, setIsActive] = useState(false);
+  const searchWrapperRef = useRef(null);
+
+  const toggleSearch = () => {
+    setIsActive((prevState) => !prevState);
+  };
+
+  const handleInputChange = (evt) => {
+    setSearchQuery(evt.target.value);
+  
+    const filteredEnrollments = enrollments.filter((enrollment) => {
+      const username = users[enrollment.user_id]?.username.toLowerCase();
+      return username.includes(evt.target.value.toLowerCase());
+    });
+  
+    setFilteredEnrollments(filteredEnrollments);
+  };
+
+  const handleClickOutside = (evt) => {
+    if (searchWrapperRef.current && !searchWrapperRef.current.contains(evt.target)) {
+      setIsActive(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     fetch(`http://localhost:11230/enroll/get-byCourse/${courseId}`)
@@ -27,8 +62,7 @@ function EnrollManage() {
             });
         });
       });
-    console.log(enrollments);
-  }, []);
+  }, [courseId]);
 
   useEffect(() => {
     fetch(`http://localhost:11230/course/get-data/${courseId}`)
@@ -36,10 +70,14 @@ function EnrollManage() {
       .then((data) => {
         setCourse(data[0]);
       });
-  }, []);
+  }, [courseId]);
+
+  useEffect(() => {
+    setFilteredEnrollments(enrollments);
+  }, [enrollments]);
 
   const handleDownload = () => {
-    const dataToExport = formatDataForDownload(enrollments, users);
+    const dataToExport = formatDataForDownload(filteredEnrollments, users);
     exportEnrollToExcel(dataToExport);
   };
 
@@ -85,7 +123,7 @@ function EnrollManage() {
         </div>
 
         <div className="row">
-          {isNull(enrollments) ? (
+          {filteredEnrollments?.length === 0 ? (
             <div className="text-center">No Enrollment Yet.</div>
           ) : (
             <div className="table-responsive">
@@ -101,7 +139,7 @@ function EnrollManage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {enrollments?.map((enrollment, index) => (
+                  {filteredEnrollments ? (filteredEnrollments?.map((enrollment, index) => (
                     <tr key={enrollment.user_id}>
                       <td>{index + 1}</td>
                       <td>{users[enrollment.user_id]?.username}</td>
@@ -116,13 +154,24 @@ function EnrollManage() {
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  ))) : (<div><div>no enrollment yet.</div></div>)}
                 </tbody>
               </table>
             </div>
           )}
         </div>
       </div>
+
+      <a>
+        <div ref={searchWrapperRef} className={`search-wrapper ${isActive ? "active" : ""}`}>
+          <div className="input-holder">
+            <input type="text" className="search-input" placeholder="Type to search" value={searchQuery} onChange={handleInputChange} autoFocus={isActive} />
+            <button className="search-icon" onClick={toggleSearch}><span></span></button>
+          </div>
+          <span className="close" onClick={toggleSearch}></span>
+        </div>
+      </a>
+
     </Main>
   );
 }
@@ -141,6 +190,3 @@ function formatDataForDownload(enrollments, users) {
   });
 }
 
-function isNull(value) {
-  return value === null;
-}

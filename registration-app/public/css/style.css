@@ -237,6 +237,16 @@
     transition: .5s;
 }
 
+.sticky-top {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    transition: .5s;
+    top: 0;
+    z-index: 1000; /* Adjust z-index as needed */
+    background-color: #ffffff; /* Background color of the header */
+    border-bottom: 1px solid #e9ecef; /* Optional: Add a border at the bottom */
+  }
+
 .navbar .navbar-brand {
     position: absolute;
     padding: 0;
@@ -1417,12 +1427,24 @@ canvas {
     }
 }
 
+img.logo-wu {
+    width: 125px;
+    padding-top: 4px;
+}
+
 @media (max-width: 480px) {
     .cardBox {
         grid-template-columns: repeat(1, 1fr);
+    }
+
+    img.logo-wu {
+        width: 75px;
+        padding-top: 4px;
     }
 }
 
 .table-responsive {
     overflow-x: auto;
 }
+
+
