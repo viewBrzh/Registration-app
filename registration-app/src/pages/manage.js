@@ -89,9 +89,9 @@ function Manage() {
         setCourses(data);
 
         const initialPublishStatus = {};
-        data.forEach((course) => {
+        if (data != null) {data?.forEach((course) => {
           initialPublishStatus[course.train_course_id] = course.isPublish === 1;
-        });
+        })}
         setIsPublishStatus(initialPublishStatus);
       });
   }, []);
@@ -100,9 +100,9 @@ function Manage() {
     if (filter === "all") {
       setFilteredCourses(courses);
     } else if (filter === "basic") {
-      setFilteredCourses(courses.filter((course) => course.course_id === 1));
+      setFilteredCourses(courses?.filter((course) => course.course_id === 1));
     } else if (filter === "retreat") {
-      setFilteredCourses(courses.filter((course) => course.course_id === 2));
+      setFilteredCourses(courses?.filter((course) => course.course_id === 2));
     }
   }, [courses, filter]);
 
@@ -140,8 +140,8 @@ function Manage() {
     setFilter(evt.target.value);
   };
 
-  const filteredCoursesByName = filteredCourses.filter((course) =>
-    course.course_detail_name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredCoursesByName = filteredCourses?.filter((course) =>
+    course.course_detail_name?.toLowerCase().includes(searchQuery?.toLowerCase())
   );
 
   return (
@@ -250,14 +250,14 @@ function Manage() {
                     <td>
                     <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
                         <Link to={`/detail/${course.train_course_id}`}>
-                          <button className="btn btn-sm btn-info" aria-label="Detail">
+                          <button className="btn btn-sm  btn-secondary" aria-label="Detail">
                             <i className="bi bi-eye"></i>
                           </button>
                         </Link>
                       </div>
                       <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
                         <Link to={`/enrollManage/${course.train_course_id}`}>
-                          <button className="btn btn-sm btn-secondary" aria-label="View Students">
+                          <button className="btn btn-sm btn-info" aria-label="View Students">
                             <i className="bi bi-people" style={{ color: 'white' }}></i>
                           </button>
                         </Link>
