@@ -191,7 +191,6 @@ function Dashboard() {
                 <td>Course name</td>
                 <td>Training location</td>
                 <td>Quantity</td>
-                <td>Enroll</td>
                 <td>Status</td>
               </tr>
             </thead>
@@ -200,13 +199,6 @@ function Dashboard() {
                 <td>การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1</td>
                 <td>ห้องประชุม 1 ชั้น 2 อาคารวิจัย</td>
                 <td>68</td>
-                <Link to={`/enroll`}>
-                  <button type="button" className="btn btn-primary ">
-                    Enroll
-                  </button>
-                </Link>
-
-
                 <td>
                   <span className="status delivered">Opening</span>
                 </td>
@@ -216,14 +208,6 @@ function Dashboard() {
                 <td>ห้องประชุม 1 ชั้น 2 อาคารวิจัย</td>
                 <td>0</td>
                 <td>
-
-                  {/*ยังไม่ได้ link to*/}
-                    <button type="button" className="btn btn-primary ">
-                      Enroll
-                    </button>
-                  
-                </td>
-                <td>
                   <span className="status pending">Waiting</span>
                 </td>
               </tr>
@@ -231,13 +215,6 @@ function Dashboard() {
                 <td>อบรมให้การปรึกษา (Basic Counseling)</td>
                 <td>ห้องประชุม 4 อาคารนวัตกรรม</td>
                 <td>108</td>
-                <td>
-                  <Link to={`/enroll`}>
-                    <button type="button" className="btn btn-primary ">
-                      Enroll
-                    </button>
-                  </Link>
-                </td>
                 <td>
                   <span className="status delivered">Opening</span>
                 </td>
@@ -247,14 +224,6 @@ function Dashboard() {
                 <td>ห้องประชุมหัวตะพาน โรงพยาบาลศูนย์การแพทย์</td>
                 <td>0</td>
                 <td>
-
-                  {/*ยังไม่ได้ link to*/}
-                    <button type="button" className="btn btn-primary ">
-                      Enroll
-                    </button>
-                  
-                </td>
-                <td>
                   <span className="status pending">Waiting</span>
                 </td>
               </tr>
@@ -262,13 +231,6 @@ function Dashboard() {
                 <td>การให้การปรึกษาสำหรับอาจารย์ใหม่ online</td>
                 <td>Zoom</td>
                 <td>130</td>
-                <td>
-                  <Link to={`/enroll`}>
-                    <button type="button" className="btn btn-primary ">
-                      Enroll
-                    </button>
-                  </Link>
-                </td>
                 <td>
                   <span className="status delivered">Opening</span>
                 </td>
