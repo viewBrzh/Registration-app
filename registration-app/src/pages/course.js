@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
+import apiUrl from '../api/apiConfig';
 
 function Course(props) {
   const [courses, setCourses] = useState([]);
@@ -124,7 +125,7 @@ function Course(props) {
                   {/* Card content */}
                   <div className="properties__img overlay1">
                     <Link to={`/detail/${course.train_course_id}`}>
-                      <img src="/img/ranking.jpg" alt="" />
+                      <img src={`${apiUrl}/images/${course.image}`} alt="" />
                     </Link>
                     {/* Add bookmark button here */}
                     <button
@@ -180,7 +181,7 @@ function Course(props) {
         <div className="row justify-content-center mb-4">
           <h2 className="text-center">Retreat Courses</h2>
         </div>
-        <div className="row section">
+        <div className="row justify-content-center section">
           {filteredRetreatCourses?.map((course) => (
             <div className="col-lg-3" key={course.train_course_id}>
               <div
@@ -202,7 +203,7 @@ function Course(props) {
                   {/* Card content */}
                   <div className="properties__img overlay1">
                     <Link to={`/detail/${course.train_course_id}`}>
-                      <img src="/img/ranking.jpg" alt="" />
+                      <img src={`${apiUrl}/images/${course.image}`} alt="" />
                     </Link>
                     {/* Add bookmark button here */}
                     <button

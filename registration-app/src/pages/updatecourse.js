@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import FileUpload from "../components/fileUpload";
 
 function Updatecourse(props) {
   const { courseId } = useParams();
@@ -12,6 +13,7 @@ function Updatecourse(props) {
     train_place: "",
     start_date: "",
     finish_date: "",
+    image: "",
   });
 
   useEffect(() => {
@@ -65,7 +67,7 @@ function Updatecourse(props) {
           }
         );
         if (response.ok) {
-          navigate("/", { replace: true });          
+          navigate("/", { replace: true });
           console.log("Course deleted successfully");
         } else {
           console.error("Failed to delete course");
@@ -96,10 +98,10 @@ function Updatecourse(props) {
             body: JSON.stringify(courseData),
           }
         );
-        if (response) {
+        if (response.ok) {
           // Handle successful update
           console.log("Course updated successfully");
-          (navigate("/", { replace: true }));
+          navigate("/", { replace: true });
         } else {
           console.error("Failed to update course");
         }
@@ -108,7 +110,7 @@ function Updatecourse(props) {
       }
     }
   };
-
+  
   return (
     <Main>
       {/* Page Content */}
@@ -229,6 +231,9 @@ function Updatecourse(props) {
                   }
                 />
               </div>
+            </div>
+            <div className="custom-input">
+              <FileUpload onFileUpload={(imageName) => setCourseData({ ...courseData, image: imageName })} />
             </div>
             {/* Card Footer */}
             <div
