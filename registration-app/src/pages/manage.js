@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 import { exportToExcel } from "../components/excelUtils";
+import apiUrl from "../api/apiConfig";
+import DownloadButton from "../components/downloadButton";
 
 function Manage() {
   const [courses, setCourses] = useState([]);
@@ -34,7 +36,7 @@ function Manage() {
     setIsPublishStatus(updatedIsPublishStatus);
 
     // Make a request to update the isPublish status in the database
-    fetch(`http://localhost:11230/course/set-publish/${courseId}`, {
+    fetch(`${apiUrl}/course/set-publish/${courseId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -83,15 +85,17 @@ function Manage() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:11230/course/get-all")
+    fetch(`${apiUrl}/course/get-all`)
       .then((response) => response.json())
       .then((data) => {
         setCourses(data);
 
         const initialPublishStatus = {};
-        if (data != null) {data?.forEach((course) => {
-          initialPublishStatus[course.train_course_id] = course.isPublish === 1;
-        })}
+        if (data != null) {
+          data?.forEach((course) => {
+            initialPublishStatus[course.train_course_id] = course.isPublish === 1;
+          })
+        }
         setIsPublishStatus(initialPublishStatus);
       });
   }, []);
@@ -112,7 +116,7 @@ function Manage() {
       "Are you sure you want to DELETE this course? This process is permanent."
     );
     if (confirmDelete) {
-      fetch(`http://localhost:11230/course/delete/${cid}`, {
+      fetch(`${apiUrl}/course/delete/${cid}`, {
         method: "DELETE",
       })
         .then((response) => {
@@ -157,7 +161,8 @@ function Manage() {
             <h2 className="text-center">Manage Courses</h2>
           </div>
           <div className="col-auto d-flex align-items-center">
-            <button className="btn btn-primary me-3" style={{ height: 37.6, width: 150 }} onClick={handleDownload}>Download</button>
+            <DownloadButton class="download-button" onClick={handleDownload}></DownloadButton>
+
             <select className="form-select" value={filter} onChange={handleFilterChange}>
               <option value="all">All Courses</option>
               <option value="basic">Basic Courses</option>
@@ -165,7 +170,7 @@ function Manage() {
             </select>
           </div>
         </div>
-        
+
         <div className="row">
           <div className="table-responsive">
             <table className="table">
@@ -248,7 +253,7 @@ function Manage() {
                       </label>
                     </td>
                     <td>
-                    <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
+                      <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
                         <Link to={`/detail/${course.train_course_id}`}>
                           <button className="btn btn-sm  btn-secondary" aria-label="Detail">
                             <i className="bi bi-eye"></i>
@@ -258,7 +263,7 @@ function Manage() {
                       <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
                         <Link to={`/enrollManage/${course.train_course_id}`}>
                           <button className="btn btn-sm btn-info" aria-label="View Students">
-                            <i className="bi bi-people" style={{ color: 'white' }}></i>
+                            <i className="bi bi-people"></i>
                           </button>
                         </Link>
                       </div>

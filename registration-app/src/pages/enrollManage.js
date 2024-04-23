@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import Main from "../layouts/main";
 import { useParams } from "react-router-dom";
-import { exportEnrollToExcel } from "../components/excelUtils"; // Assuming exportToExcel is in the same directory as this file
+import { exportEnrollToExcel } from "../components/excelUtils";
+import apiUrl from "../api/apiConfig";
+import DownloadButton from "../components/downloadButton";
 
 function EnrollManage() {
   const [enrollments, setEnrollments] = useState([]);
@@ -45,7 +47,7 @@ function EnrollManage() {
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:11230/enroll/get-byCourse/${courseId}`)
+    fetch(`${apiUrl}/enroll/get-byCourse/${courseId}`)
       .then((response) => response.json())
       .then((data) => {
         setEnrollments(data);
@@ -65,7 +67,7 @@ function EnrollManage() {
   }, [courseId]);
 
   useEffect(() => {
-    fetch(`http://localhost:11230/course/get-data/${courseId}`)
+    fetch(`${apiUrl}/course/get-data/${courseId}`)
       .then((response) => response.json())
       .then((data) => {
         setCourse(data[0]);
@@ -86,7 +88,7 @@ function EnrollManage() {
       "Are you sure you want to DELETE this course? This process is permanent."
     );
     if (confirmDelete) {
-      fetch(`http://localhost:11230/enroll/delete/${enrollId}`, {
+      fetch(`${apiUrl}/enroll/delete/${enrollId}`, {
         method: 'DELETE'
       })
         .then(response => {
@@ -118,7 +120,7 @@ function EnrollManage() {
             <h2 className="text-center">Course: {course?.course_detail_name}</h2>
           </div>
           <div className="col-auto d-flex align-items-center">
-            {enrollments !== null && enrollments.length > 0 && (<button className="btn btn-primary me-3" style={{ height: 37.6, width: 150 }} onClick={handleDownload}>Download</button>)}
+            {enrollments !== null && enrollments.length > 0 && (<DownloadButton onClick={handleDownload}/>)}
           </div>
         </div>
 

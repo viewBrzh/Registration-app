@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
 import FileUpload from "../components/fileUpload";
+import apiUrl from '../api/apiConfig';
 
 function InsertCourse() {
     const [courseData, setCourseData] = useState({
@@ -26,7 +27,7 @@ function InsertCourse() {
         if (confirmUpdate) {
             try {
                 console.log("Inserting course with data:", courseData);
-                const response = await fetch(`http://localhost:11230/course/create`, {
+                const response = await fetch(`${apiUrl}/course/create`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -37,7 +37,7 @@ function Course(props) {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:11230/course/get-all")
+    fetch(`${apiUrl}/course/get-all`)
       .then((response) => response.json())
       .then((data) => {
         setCourses(data);

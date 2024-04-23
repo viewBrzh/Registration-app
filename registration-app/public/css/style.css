@@ -855,6 +855,12 @@
     /* เพิ่มขอบมนเพื่อทำให้มีรูปร่างของ card */
 }
 
+.properties__img img:hover {
+    filter: brightness(75%);
+    transition: all .4s;
+}
+
+
 .detail__img img {
     width: 50%;
     border-radius: 10px;
@@ -1445,6 +1451,12 @@ canvas {
 img.logo-wu {
     width: 125px;
     padding-top: 4px;
+    filter: drop-shadow(2px 2px 2px #616161);
+}
+
+img.logo-wu:hover {
+    transform: scale(1.02);
+    filter: brightness(85%) drop-shadow(2px 2px 2px #616161);
 }
 
 @media (max-width: 480px) {
@@ -1522,4 +1534,12 @@ img.logo-wu {
     justify-content: center;
     flex-direction: column;
     align-items: center;
+}
+
+.bi{
+    color: white;
+}
+
+.bi:hover{
+    color: black;
 }

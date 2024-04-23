@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import FileUpload from "../components/fileUpload";
+import apiUrl from "../api/apiConfig";
 
 function Updatecourse(props) {
   const { courseId } = useParams();
@@ -20,7 +21,7 @@ function Updatecourse(props) {
     const fetchCourseDetails = async () => {
       try {
         const response = await fetch(
-          `http://localhost:11230/course/get-data/${courseId}`
+          `${apiUrl}/course/get-data/${courseId}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -61,7 +62,7 @@ function Updatecourse(props) {
       );
       if (confirmDelete) {
         const response = await fetch(
-          `http://localhost:11230/course/delete/${courseId}`,
+          `${apiUrl}/course/delete/${courseId}`,
           {
             method: "DELETE",
           }
@@ -89,7 +90,7 @@ function Updatecourse(props) {
       try {
         console.log("Updating course with data:", courseData);
         const response = await fetch(
-          `http://localhost:11230/course/update/${courseId}`,
+          `${apiUrl}/course/update/${courseId}`,
           {
             method: "PUT",
             headers: {

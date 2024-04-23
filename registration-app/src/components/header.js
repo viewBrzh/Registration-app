@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 function Header() {
   const userRole = localStorage.getItem("userRole");
@@ -6,6 +7,10 @@ function Header() {
   const location = useLocation();
 
   const isAuthenticated = userData && Object.keys(userData).length !== 0;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <header className="sticky-top">
