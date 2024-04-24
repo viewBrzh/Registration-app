@@ -11,6 +11,8 @@ import Enroll from "./pages/enroll";
 import Detail from "./pages/detail";
 import Updatecourse from "./pages/updatecourse";
 import Dashboard from "./pages/dashboard";
+import DashboardExecutive from "./pages/dashboardExecutive";
+import DashboardAdmin from "./pages/dashboardAdmin";
 import Demo from "./pages/demo";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
@@ -38,6 +40,8 @@ ReactDOM.render(
         <Route path="/update/:courseId" element={<Updatecourse />} />
         <Route path="/insert" element={<InsertCourse />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboardExecutive" element={<DashboardExecutive />} />
+        <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
         <Route path="/enrollManage/:courseId" element={<EnrollManage />} />
         {/* Add more routes as needed */}
       </Routes>

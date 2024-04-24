@@ -45,6 +45,22 @@ function Header() {
                 >
                   Dashboard
                 </Link>
+                <Link
+                  to={`/dashboardExecutive`}
+                  className={`nav-item nav-link ${
+                    location.pathname === "/dashboardExecutive" ? "active" : ""
+                  }`}
+                >
+                  Dashboard Executive
+                </Link>
+                <Link
+                  to={`/dashboardAdmin`}
+                  className={`nav-item nav-link ${
+                    location.pathname === "/dashboardAdmin" ? "active" : ""
+                  }`}
+                >
+                  Dashboard Admin
+                </Link>
                 {userRole !== "admin" && (
                   <Link
                     to={`/about`}

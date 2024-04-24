@@ -81,7 +81,7 @@ function Dashboard() {
         ],
         datasets: [
           {
-            label: "# of Votes",
+            label: "Quantity",
             data: [68, 0, 108, 0, 130],
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",
