@@ -10,7 +10,7 @@ function Login(props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState("");
 
 
   const navigate = useNavigate();
@@ -34,11 +34,9 @@ function Login(props) {
         delete userDataToStore.password; // Remove the password from the data to be stored
         localStorage.setItem("userData", JSON.stringify(userDataToStore));
         console.log(JSON.stringify(userDataToStore));
-        localStorage.setItem("userRole", data.user.role);
+        localStorage.setItem("userRole", data.role);
         setLoading(false);
-        setUsername("");
-        setPassword("");
-        setUserData(data);
+        setUserData(userDataToStore);
         setSuccess(true);
       } else {
         const data = await response.json();
@@ -257,8 +255,8 @@ function Login(props) {
         <div className="modal" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
           <div className="modal-content" style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "5px", width: "300px", margin: "auto", marginTop: "100px" }}>
             <h3>Login successful</h3>
-            <p>Username: {userData?.user.username}</p>
-            <p>User Role: {userData?.user.role}</p>
+            <p>Username: {userData?.username}</p>
+            <p>Role: {userData?.role}</p>
             <button className="btn btn-primary" onClick={handleConfirm}>Confirm</button>
           </div>
         </div>

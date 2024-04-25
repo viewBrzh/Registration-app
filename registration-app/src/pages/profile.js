@@ -24,37 +24,31 @@ function Profile() {
     image: ""
   });
 
-  console.log(userDatas);
-
   const [showModal, setShowModal] = useState(false);
 
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
 
-  const updateUser = async (id, userData) => {
+  const updateUser = async () => {
     try {
       // Update user data
-      const response = await axios.put(`${apiUrl}/users/update/${id}`, userData);
-      console.log(response.data);
+      axios.put(`${apiUrl}/users/update/${userDatas.user_id}`, userDatas);
 
       // Fetch updated user data
-      const getUserResponse = await axios.get(`${apiUrl}/users/${id}`);
+      const getUserResponse = await axios.get(`${apiUrl}/users/${userDatas.user_id}`);
       const updatedUserData = getUserResponse.data[0]; // Assuming response is an array with a single object
       setUserDatas(updatedUserData);
       userData = userDatas;
-      localStorage.setItem("userData", JSON.stringify(userData));
-      console.log(updatedUserData);
 
       // Update local storage with updated user data
-      localStorage.setItem("userData", JSON.stringify(updatedUserData));
+      localStorage.setItem("userData", JSON.stringify(userDatas));
     } catch (error) {
       console.error("Failed to update user data:", error);
     }
   };
 
   const handleSaveChanges = () => {
-    console.log("updating" + userDatas);
-    updateUser(userData.user_id, userDatas); // Pass userData instead of userDatas
+    updateUser(userDatas.user_id, userDatas); // Pass userData instead of userDatas
     handleCloseModal();
   };
   return (

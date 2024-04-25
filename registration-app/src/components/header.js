@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import apiUrl from "../api/apiConfig";
 
 function Header() {
   const userRole = localStorage.getItem("userRole");
   const userData = localStorage.getItem("userData");
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const storedUserData = localStorage.getItem("userData");
-  let user = null;
-  try {
-    user = JSON.parse(storedUserData);
-  } catch (error) {
-    console.error("Failed to parse user data from localStorage");
-  }
+  const [user, setUser] = useState("");
 
   const isAuthenticated = userData && Object.keys(userData).length !== 0;
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+    // Get user data from local storage
+    const storedUserData = localStorage.getItem("userData");
+    setUser(JSON.parse(storedUserData));
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("userData");
@@ -108,15 +105,25 @@ function Header() {
                 )}
 
                 {isAuthenticated && (
-                  <div className="nav-item  nav-link" style={{marginTop: '-5px'}}>
+                  <div className="nav-item  nav-link" style={{ marginTop: '-10px' }}>
                     <button
                       className="btn"
                       type="button"
                       id="dropdownMenuButton"
                       aria-expanded={"false"}
+                      style={{ display: 'flex', alignItems: 'center' }}
                     >
-                      {user.username} <i className="fas fa-user" style={{ paddingLeft: 5 }}></i>
+                      {user?.username}
+                      <div style={{ display: 'inline-block', width: '30px', height: '30px', borderRadius: '50%', overflow: 'hidden', marginLeft: 5 }}>
+                        <img
+                          className='avatar-'
+                          src={`${apiUrl}/profiles/${user?.image}`}
+                          alt="User Avatar"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      </div>
                     </button>
+
                     <ul
                       className={`dropdown-menu dropdown-menu-end ${isOpen ? "show" : ""}`}
                       aria-labelledby="dropdownMenuButton"
