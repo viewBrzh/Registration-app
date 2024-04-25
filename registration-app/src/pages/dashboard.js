@@ -393,14 +393,16 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      {/* ส่วน Recommend Course และ Course Registered */}
-      <div className="chart-card">
-  <canvas id="myChart" width="400" height="400"></canvas>
-</div>
-<div className="chart-card">
-  <canvas id="myChart1" width="400" height="400"></canvas>
-</div>
-
+     {/* Charts */}
+     <div className="chart-card-container">
+        <div className="chart-card">
+          <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+        <div className="chart-card">
+          <canvas id="myChart1" width="400" height="400"></canvas>
+        </div>
+      </div>
+      {/* Charts End */}
     </Main>
   );
 }
