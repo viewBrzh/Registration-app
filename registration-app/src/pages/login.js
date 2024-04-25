@@ -58,6 +58,7 @@ function Login(props) {
   const handleConfirm = () => {
     setSuccess(false);
     navigate("/", { replace: true });
+    window.location.reload();
   };
 
   return (
@@ -165,7 +166,7 @@ function Login(props) {
                         }}
                       />
                       <i
-                        className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`}
+                        className={`fas ${showPassword ? "fa-eye" : "fa-eye-slash"}`}
                         style={{
                           position: "absolute",
                           top: "50%",

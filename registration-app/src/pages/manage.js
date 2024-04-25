@@ -161,7 +161,7 @@ function Manage() {
             <h2 className="text-center">Manage Courses</h2>
           </div>
           <div className="col-auto d-flex align-items-center">
-            <DownloadButton class="download-button" onClick={handleDownload}></DownloadButton>
+            <DownloadButton className="download-button" onClick={handleDownload}></DownloadButton>
 
             <select className="form-select" value={filter} onChange={handleFilterChange}>
               <option value="all">All Courses</option>

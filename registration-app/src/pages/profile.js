@@ -21,7 +21,9 @@ function Profile() {
     <Main>
       {/* Hero Section */}
       <div className="hero-section">
-        {/* Profile Picture */}
+        <div className="container-fluid page-header py-5 mb-5 wow fadeIn hero-section" data-wow-delay="0.1s">
+          {/* Content */}
+        </div>
         <div className="profile-image-container">
           <img
             src={process.env.PUBLIC_URL + "/img/profile/p1.jpg"}
