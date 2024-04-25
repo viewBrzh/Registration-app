@@ -81,17 +81,18 @@ function DashboardExecutive() {
       </div>
       {/* Page Header End */}
 
-      {/* Recommend Course */}
-      <div className="dashboard-container">
-        <div className="recommend-course-container">
-          {/*Recommend Course start*/}
-          <div className="details d-flex">
-            <div className="recentOrders">
-              <div className="cardHeader ">
-                <h2>Recommend Course</h2>
-                <Link to="/">View All</Link>
-              </div>
-              <table>
+      {/* Content */}
+      <div className="container-fluid">
+        <div className="row">
+          {/* Recommend Course */}
+          <div className="col-lg-6">
+            <div className="details d-flex">
+              <div className="recentOrders">
+                <div className="cardHeader ">
+                  <h2>Recommend Course</h2>
+                  <Link to="/">View All</Link>
+                </div>
+                <table>
                 <thead>
                   <tr>
                     <td>Course name</td>
@@ -132,7 +133,7 @@ function DashboardExecutive() {
                     <td>อบรมให้การปรึกษา (Basic Counseling)</td>
                     <td>ห้องประชุม 4 อาคารนวัตกรรม</td>
                     <td>108</td>
-                    <td className="text-center">12</td>
+                    <td className="text-center">15</td>
                     <td>
                       <span className="status delivered">Opening</span>
                     </td>
@@ -154,22 +155,25 @@ function DashboardExecutive() {
                     </td>
                     <td>Zoom</td>
                     <td>130</td>
-                    <td className="text-center">25</td>
+                    <td className="text-center">22</td>
                     <td>
                       <span className="status delivered">Opening</span>
                     </td>
                   </tr>
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
-          {/*Recommend Course End*/}
-        </div>
-      </div>
+          {/* Recommend Course End */}
 
-      {/* Doughnut Chart */}
-      <div className="chart-container" style={{ maxWidth: "400px", margin: "0 auto" }}>
-        <canvas ref={chartRef} id="courseStatusChart"></canvas>
+          {/* Doughnut Chart */}
+          <div className="col-lg-6">
+            <div className="chart-container" style={{ maxWidth: "400px", margin: "0 auto" }}>
+              <canvas ref={chartRef} id="courseStatusChart"></canvas>
+            </div>
+          </div>
+        </div>
       </div>
     </Main>
   );
