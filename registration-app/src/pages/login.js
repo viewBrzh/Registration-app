@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../App.css";
 import Main from "../layouts/main";
 import { useNavigate } from "react-router-dom";
+import apiUrl from "../api/apiConfig";
 
 function Login(props) {
   const [username, setUsername] = useState("");
@@ -17,25 +18,26 @@ function Login(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
-      const response = await fetch("http://localhost:11230/users/login", {
+      const response = await fetch(`${apiUrl}/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem("userData", JSON.stringify(data));
+        const userDataToStore = { ...data.user };
+        delete userDataToStore.password; // Remove the password from the data to be stored
+        localStorage.setItem("userData", JSON.stringify(userDataToStore));
         localStorage.setItem("userRole", data.user.role);
         setLoading(false);
         setUsername("");
         setPassword("");
         setUserData(data);
-        console.log(userData)
         setSuccess(true);
       } else {
         const data = await response.json();
@@ -48,6 +50,7 @@ function Login(props) {
       setError("An error occurred. Please try again later.");
     }
   };
+  
 
   const [showPassword, setShowPassword] = useState(false);
 
