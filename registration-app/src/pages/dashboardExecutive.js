@@ -186,10 +186,10 @@ function DashboardExecutive() {
                         </div>
                       </div>
                       <div className="chart-card">
-                      <canvas
-  id={`basicPieChart  1${course.train_course_id}`}
-  style={{ width: "100%", height: "100%" }}
-></canvas>
+                        <canvas
+                          id={`basicPieChart  1${course.train_course_id}`}
+                          style={{ width: "100%", height: "100%" }}
+                        ></canvas>
 
                       </div>
                     </div>
