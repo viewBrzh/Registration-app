@@ -33,6 +33,7 @@ function Login(props) {
         const userDataToStore = { ...data.user };
         delete userDataToStore.password; // Remove the password from the data to be stored
         localStorage.setItem("userData", JSON.stringify(userDataToStore));
+        console.log(JSON.stringify(userDataToStore));
         localStorage.setItem("userRole", data.user.role);
         setLoading(false);
         setUsername("");
@@ -256,8 +257,8 @@ function Login(props) {
         <div className="modal" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
           <div className="modal-content" style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "5px", width: "300px", margin: "auto", marginTop: "100px" }}>
             <h3>Login successful</h3>
-            <p>Username: {userData.user.username}</p>
-            <p>User Role: {userData.user.role}</p>
+            <p>Username: {userData?.user.username}</p>
+            <p>User Role: {userData?.user.role}</p>
             <button className="btn btn-primary" onClick={handleConfirm}>Confirm</button>
           </div>
         </div>

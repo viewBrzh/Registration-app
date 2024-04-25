@@ -115,7 +115,7 @@ function Header() {
                       id="dropdownMenuButton"
                       aria-expanded={"false"}
                     >
-                      {user.user.username} <i className="fas fa-user" style={{ paddingLeft: 5 }}></i>
+                      {user.username} <i className="fas fa-user" style={{ paddingLeft: 5 }}></i>
                     </button>
                     <ul
                       className={`dropdown-menu dropdown-menu-end ${isOpen ? "show" : ""}`}
