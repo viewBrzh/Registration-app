@@ -1,20 +1,70 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
+import { Chart as ChartAuto } from "chart.js/auto";
 
 function DashboardExecutive() {
+  // Ref for the chart canvas
+  const chartRef = useRef(null);
+
+  // Chart data
+  const data = {
+    labels: ["Opening", "Waiting"],
+    datasets: [
+      {
+        label: "Course Status",
+        data: [4, 1], // Sample data for demonstration
+        backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
+        borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  // Chart options
+  const options = {
+    plugins: {
+      legend: {
+        display: true,
+        position: "bottom",
+      },
+    },
+    responsive: true,
+    maintainAspectRatio: false, // Disable aspect ratio to allow resizing
+    layout: {
+      padding: {
+        left: 10,
+        right: 10,
+        top: 10,
+        bottom: 10,
+      },
+    },
+  };
+
+  // Create or update chart on component mount or data change
+  useEffect(() => {
+    if (chartRef.current) {
+      const ctx = chartRef.current.getContext("2d");
+
+      // Check if chart instance exists, destroy it before creating a new one
+      if (chartRef.current.chart) {
+        chartRef.current.chart.destroy();
+      }
+
+      chartRef.current.chart = new ChartAuto(ctx, {
+        type: "doughnut",
+        data: data,
+        options: options,
+      });
+    }
+  }, [data, options]);
+
   return (
     <Main>
-      {/* Page Header Start */}
-      <div
-        className="container-fluid page-header py-5 mb-5 wow fadeIn"
-        data-wow-delay="0.1s"
-      >
+      {/* Page Header */}
+      <div className="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div className="container text-center py-5 justify-content-center">
-          {/* Centered content */}
-          <h1 className="display-2 text-dark mb-4 animated slideInDown">
-            Dashboard
-          </h1>
+          <h1 className="display-2 text-dark mb-4 animated slideInDown">Dashboard</h1>
           <nav aria-label="breadcrumb animated slideInDown">
             <ol className="breadcrumb justify-content-center mb-0">
               <li className="breadcrumb-item">
@@ -22,10 +72,7 @@ function DashboardExecutive() {
                   Home
                 </Link>
               </li>
-              <li
-                className="breadcrumb-item text-dark"
-                aria-current="page"
-              >
+              <li className="breadcrumb-item text-dark" aria-current="page">
                 Dashboard Executive
               </li>
             </ol>
@@ -34,80 +81,96 @@ function DashboardExecutive() {
       </div>
       {/* Page Header End */}
 
-      {/* Recommend Course start */}
-      <div className="details d-flex">
-        <div className="recentOrders">
-          <div className="cardHeader ">
-            <h2>Recommend Course</h2>
-            <Link to="/">View All</Link>
+      {/* Recommend Course */}
+      <div className="dashboard-container">
+        <div className="recommend-course-container">
+          {/*Recommend Course start*/}
+          <div className="details d-flex">
+            <div className="recentOrders">
+              <div className="cardHeader ">
+                <h2>Recommend Course</h2>
+                <Link to="/">View All</Link>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <td>Course name</td>
+                    <td>Training location</td>
+                    <td>Quantity</td>
+                    <td>subordinate</td>
+                    <td>Status</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1
+                    </td>
+                    <td>
+                      ห้องประชุม 1 ชั้น 2 อาคารวิจัย
+                    </td>
+                    <td>68</td>
+                    <td className="text-center">10</td>
+                    <td>
+                      <span className="status delivered">Opening</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2
+                    </td>
+                    <td>
+                      ห้องประชุม 1 ชั้น 2 อาคารวิจัย
+                    </td>
+                    <td>0</td>
+                    <td className="text-center">0</td>
+                    <td>
+                      <span className="status pending">Waiting</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>อบรมให้การปรึกษา (Basic Counseling)</td>
+                    <td>ห้องประชุม 4 อาคารนวัตกรรม</td>
+                    <td>108</td>
+                    <td className="text-center">12</td>
+                    <td>
+                      <span className="status delivered">Opening</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>การให้การปรึกษาตามแนวซาเทียร์</td>
+                    <td>
+                      ห้องประชุมหัวตะพาน โรงพยาบาลศูนย์การแพทย์
+                    </td>
+                    <td>0</td>
+                    <td className="text-center">0</td>
+                    <td>
+                      <span className="status pending">Waiting</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      การให้การปรึกษาสำหรับอาจารย์ใหม่ online
+                    </td>
+                    <td>Zoom</td>
+                    <td>130</td>
+                    <td className="text-center">25</td>
+                    <td>
+                      <span className="status delivered">Opening</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <td>Course name</td>
-                <td>Training location</td>
-                <td>Quantity</td>
-                <td className="text-center">subordinate</td>
-                <td>Status</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1
-                </td>
-                <td>ห้องประชุม 1 ชั้น 2 อาคารวิจัย</td>
-                <td>68</td>
-                <td className="text-center">10</td> {/* Centered column */}
-                <td>
-                      <span className="status delivered">Opening</span>
-                    </td>
-              </tr>
-              <tr>
-                <td>
-                  การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2
-                </td>
-                <td>ห้องประชุม 1 ชั้น 2 อาคารวิจัย</td>
-                <td>0</td>
-                <td className="text-center">12</td> {/* Centered column */}
-                <td>
-                      <span className="status pending">Waiting</span>
-                    </td>
-              </tr>
-              <tr>
-                <td>อบรมให้การปรึกษา (Basic Counseling)</td>
-                <td>ห้องประชุม 4 อาคารนวัตกรรม</td>
-                <td>108</td>
-                <td className="text-center">25</td> {/* Centered column */}
-                <td>
-                      <span className="status delivered">Opening</span>
-                    </td>
-              </tr>
-              <tr>
-                <td>การให้การปรึกษาตามแนวซาเทียร์</td>
-                <td>ห้องประชุมหัวตะพาน โรงพยาบาลศูนย์การแพทย์</td>
-                <td>0</td>
-                <td className="text-center">0</td> {/* Centered column */}
-                <td>
-                      <span className="status pending">Waiting</span>
-                    </td>
-              </tr>
-              <tr>
-                <td>
-                  การให้การปรึกษาสำหรับอาจารย์ใหม่ online
-                </td>
-                <td>Zoom</td>
-                <td>130</td>
-                <td className="text-center">20</td> {/* Centered column */}
-                <td>
-                      <span className="status delivered">Opening</span>
-                    </td>
-              </tr>
-            </tbody>
-          </table>
+          {/*Recommend Course End*/}
         </div>
       </div>
-      {/*Recommend Course End*/}
+
+      {/* Doughnut Chart */}
+      <div className="chart-container" style={{ maxWidth: "400px", margin: "0 auto" }}>
+        <canvas ref={chartRef} id="courseStatusChart"></canvas>
+      </div>
     </Main>
   );
 }
