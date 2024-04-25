@@ -58,7 +58,10 @@ function Profile() {
                 {/* Info Card */}
                 <div className="col-md-4">
                   <div className="custom-info-card">
-                    <h4>Contact</h4>
+                    <div className="row">
+                      <h4 className="col-md-6">Contact </h4>
+                      <Link to="#" onClick={handleShowModal} className="col-md-6 text-end">Edit</Link>
+                    </div>
                     <p><i className="bi-custom bi-envelope-fill" />{userData.user.email}</p>
                     <p><i className="bi-custom bi-telephone-fill" />{userData.user.email}</p>
                     <hr />

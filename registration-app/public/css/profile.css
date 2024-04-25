@@ -88,6 +88,7 @@
     padding-top: 8rem!important;
     background: linear-gradient(rgba(188, 115, 176, 0.7), rgba(188, 115, 176, 0.7)), url(../img/hero_bg.jpg) center center no-repeat;
     background-size: cover;
+    height: 250px;
 }
 
 .custom-px-4 {
