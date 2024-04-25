@@ -137,13 +137,15 @@ function Header() {
                           Profile
                         </Link>
                       </li>
-                      <li>
-                        <button
-                          className="dropdown-item"
-                          onClick={handleLogout}
+                      <li onClick={handleLogout}>
+                        <Link
+                          to={`/`}
+                          className={`dropdown-item ${
+                            location.pathname === "/" ? "active" : ""
+                          }`}
                         >
                           Log-out
-                        </button>
+                        </Link>
                       </li>
                     </ul>
                   </div>
