@@ -9,11 +9,11 @@ function DashboardExecutive() {
 
   // Chart data
   const data = {
-    labels: ["subordinate", "Quantity"],
+    labels: ["Quantity", "subordinate"],
     datasets: [
       {
         label: "Course Status",
-        data: [47, 259], // Sample data for demonstration
+        data: [306, 47], // Sample data for demonstration
         backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
         borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
         borderWidth: 1,
@@ -39,6 +39,34 @@ function DashboardExecutive() {
         bottom: 10,
       },
     },
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true,
+          text: "Course Status",
+          color: "#333",
+          font: {
+            weight: "bold",
+          },
+        },
+      },
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: "Quantity",
+          color: "#333",
+          font: {
+            weight: "bold",
+          },
+        },
+        beginAtZero: true,
+        ticks: {
+          stepSize: 50,
+        },
+      },
+    },
   };
 
   // Create or update chart on component mount or data change
@@ -52,7 +80,7 @@ function DashboardExecutive() {
       }
 
       chartRef.current.chart = new ChartAuto(ctx, {
-        type: "doughnut",
+        type: "bar",
         data: data,
         options: options,
       });
@@ -93,86 +121,88 @@ function DashboardExecutive() {
                   <Link to="/">View All</Link>
                 </div>
                 <table>
-                <thead>
-                  <tr>
-                    <td>Course name</td>
-                    <td>Training location</td>
-                    <td>Quantity</td>
-                    <td>subordinate</td>
-                    <td>Status</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1
-                    </td>
-                    <td>
-                      ห้องประชุม 1 ชั้น 2 อาคารวิจัย
-                    </td>
-                    <td>68</td>
-                    <td className="text-center">10</td>
-                    <td>
-                      <span className="status delivered">Opening</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2
-                    </td>
-                    <td>
-                      ห้องประชุม 1 ชั้น 2 อาคารวิจัย
-                    </td>
-                    <td>0</td>
-                    <td className="text-center">0</td>
-                    <td>
-                      <span className="status pending">Waiting</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>อบรมให้การปรึกษา (Basic Counseling)</td>
-                    <td>ห้องประชุม 4 อาคารนวัตกรรม</td>
-                    <td>108</td>
-                    <td className="text-center">15</td>
-                    <td>
-                      <span className="status delivered">Opening</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>การให้การปรึกษาตามแนวซาเทียร์</td>
-                    <td>
-                      ห้องประชุมหัวตะพาน โรงพยาบาลศูนย์การแพทย์
-                    </td>
-                    <td>0</td>
-                    <td className="text-center">0</td>
-                    <td>
-                      <span className="status pending">Waiting</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      การให้การปรึกษาสำหรับอาจารย์ใหม่ online
-                    </td>
-                    <td>Zoom</td>
-                    <td>130</td>
-                    <td className="text-center">22</td>
-                    <td>
-                      <span className="status delivered">Opening</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                  <thead>
+                    <tr>
+                      <td>Course name</td>
+                      <td>Training location</td>
+                      <td>Quantity</td>
+                      <td>subordinate</td>
+                      <td>Status</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1
+                      </td>
+                      <td>
+                        ห้องประชุม 1 ชั้น 2 อาคารวิจัย
+                      </td>
+                      <td>68</td>
+                      <td className="text-center">10</td>
+                      <td>
+                        <span className="status delivered">Opening</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2
+                      </td>
+                      <td>
+                        ห้องประชุม 1 ชั้น 2 อาคารวิจัย
+                      </td>
+                      <td>0</td>
+                      <td className="text-center">0</td>
+                      <td>
+                        <span className="status pending">Waiting</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>อบรมให้การปรึกษา (Basic Counseling)</td>
+                      <td>ห้องประชุม 4 อาคารนวัตกรรม</td>
+                      <td>108</td>
+                      <td className="text-center">15</td>
+                      <td>
+                        <span className="status delivered">Opening</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>การให้การปรึกษาตามแนวซาเทียร์</td>
+                      <td>
+                        ห้องประชุมหัวตะพาน โรงพยาบาลศูนย์การแพทย์
+                      </td>
+                      <td>0</td>
+                      <td className="text-center">0</td>
+                      <td>
+                        <span className="status pending">Waiting</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        การให้การปรึกษาสำหรับอาจารย์ใหม่ online
+                      </td>
+                      <td>Zoom</td>
+                      <td>130</td>
+                      <td className="text-center">22</td>
+                      <td>
+                        <span className="status delivered">Opening</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
           {/* Recommend Course End */}
 
-          {/* Doughnut Chart */}
-          <div className="col-lg-6">
-            <div className="chart-container" style={{ maxWidth: "400px", margin: "0 auto" }}>
-              <canvas ref={chartRef} id="courseStatusChart"></canvas>
-            </div>
-          </div>
+          {/* Bar Chart */}
+          <div className="col-lg-6" style={{ marginBottom: "500px" }}>
+  <div className="col-lg-6 chart-container" style={{ maxWidth: "400px", margin: "0 auto", marginBottom: "100px" }}>
+    <canvas ref={chartRef} id="courseStatusChart"></canvas>
+  </div>
+</div>
+
+
         </div>
       </div>
     </Main>
