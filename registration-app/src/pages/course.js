@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
+import apiUrl from '../api/apiConfig';
 
 function Course(props) {
   const [courses, setCourses] = useState([]);
   const [basicCourses, setBasicCourses] = useState([]);
   const [retreatCourses, setRetreatCourses] = useState([]);
-  
+  const [favorites, setFavorites] = useState(new Set());
+
   const [searchQuery, setSearchQuery] = useState("");
   const [isActive, setIsActive] = useState(false);
   const searchWrapperRef = useRef(null);
@@ -35,18 +37,32 @@ function Course(props) {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:11230/course/get-all")
+    fetch(`${apiUrl}/course/get-all`)
       .then((response) => response.json())
       .then((data) => {
         setCourses(data);
-        setBasicCourses(data.filter((course) => course.course_id === 1 && course.isPublish === 1));
-        setRetreatCourses(data.filter((course) => course.course_id === 2 && course.isPublish === 1));
+        setBasicCourses(data?.filter((course) => course.course_id === 1 && course.isPublish === 1));
+        setRetreatCourses(data?.filter((course) => course.course_id === 2 && course.isPublish === 1));
       });
-
-   
   }, []);
 
-  
+  const formatDate = (start_date, finish_date) => {
+    if (start_date === finish_date) {
+      return new Date(start_date).toLocaleDateString('en-GB');
+    } else {
+      return `${new Date(start_date).toLocaleDateString('en-GB')} - ${new Date(finish_date).toLocaleDateString('en-GB')}`;
+    }
+  };
+
+  const toggleFavorite = (courseId) => {
+    const updatedFavorites = new Set(favorites);
+    if (updatedFavorites.has(courseId)) {
+      updatedFavorites.delete(courseId);
+    } else {
+      updatedFavorites.add(courseId);
+    }
+    setFavorites(updatedFavorites);
+  };
 
   const filteredBasicCourses = basicCourses.filter((course) =>
     course.course_detail_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -87,11 +103,11 @@ function Course(props) {
         <div className="row justify-content-center mb-4">
           <h2 className="text-center">Basic Counseling</h2>
         </div>
-        <div className="row">
-          {filteredBasicCourses.map((course) => (
-            <div className="col-lg-4" key={course.train_course_id}>
+        <div className="row justify-content-center section">
+          {filteredBasicCourses?.map((course) => (
+            <div className="col-lg-3" key={course.train_course_id}>
               <div
-                className="properties properties2 mb-30"
+                className="properties properties2 mb-30 center-div"
                 style={{
                   height: "auto",
                   marginBottom: "20px",
@@ -109,8 +125,19 @@ function Course(props) {
                   {/* Card content */}
                   <div className="properties__img overlay1">
                     <Link to={`/detail/${course.train_course_id}`}>
-                      <img src="/img/ranking.jpg" alt="" />
+                      <img src={`${apiUrl}/images/${course.image}`} alt="" />
                     </Link>
+                    {/* Add bookmark button here */}
+                    <button
+                      className={`bookmark-button ${favorites.has(course.train_course_id) ? "active" : ""}`}
+                      onClick={() => toggleFavorite(course.train_course_id)}
+                    >
+                      {favorites?.has(course.train_course_id) ? (
+                        <i className="bi bi-bookmark-star-fill"></i>
+                      ) : (
+                        <i className="bi bi-bookmark-star"></i>
+                      )}
+                    </button>
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>
@@ -123,17 +150,19 @@ function Course(props) {
                     </h3>
                     <p>{course.train_detail}</p>
                     <div className="properties__footer d-flex justify-content-between align-items-center">
-                      <div className="date">
+                      <div className="date" style={{ color: 'blue' }}>
                         <span>
-                          {course.start_date} - {course.finish_date}
+                          {formatDate(course.start_date, course.finish_date)}
                         </span>
                       </div>
                       <div className="location">
-                        <span>{course.train_place}</span>
+                        <span>{course.train_place.length > 20
+                          ? `${course.train_place.substring(0, 20)}...`
+                          : course.train_place}</span>
                       </div>
                     </div>
                     <Link to={`/detail/${course.train_course_id}`}>
-                      <a href="#" className="border-btn border-btn2">
+                      <a href="#" className="btn card-btn">
                         More Detail
                       </a>
                     </Link>
@@ -152,11 +181,11 @@ function Course(props) {
         <div className="row justify-content-center mb-4">
           <h2 className="text-center">Retreat Courses</h2>
         </div>
-        <div className="row">
-          {filteredRetreatCourses.map((course) => (
-            <div className="col-lg-4" key={course.train_course_id}>
+        <div className="row justify-content-center section">
+          {filteredRetreatCourses?.map((course) => (
+            <div className="col-lg-3" key={course.train_course_id}>
               <div
-                className="properties properties2 mb-30"
+                className="properties properties2 mb-30 center-div"
                 style={{
                   height: "auto",
                   marginBottom: "20px",
@@ -174,8 +203,20 @@ function Course(props) {
                   {/* Card content */}
                   <div className="properties__img overlay1">
                     <Link to={`/detail/${course.train_course_id}`}>
-                      <img src="/img/ranking.jpg" alt="" />
+                      <img src={`${apiUrl}/images/${course.image}`} alt="" />
                     </Link>
+                    {/* Add bookmark button here */}
+                    <button
+                      className={`bookmark-button${favorites.has(course.train_course_id) ? ' active' : ''}`}
+                      onClick={() => toggleFavorite(course.train_course_id)}
+                    >
+                      {favorites?.has(course.train_course_id) ? (
+                        <i className="bi bi-bookmark-star-fill"></i>
+                      ) : (
+                        <i className="bi bi-bookmark-star"></i>
+                      )}
+                    </button>
+
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>
@@ -186,19 +227,21 @@ function Course(props) {
                           : course.course_detail_name}
                       </Link>
                     </h3>
-                    <p>{course.train_detail}</p>
+                    <p style={{ padding: 5 }}>{course.train_detail}</p>
                     <div className="properties__footer d-flex justify-content-between align-items-center">
-                      <div className="date">
-                        <span>
-                          {course.start_date} - {course.finish_date}
+                      <div className="date" style={{ color: 'blue' }}>
+                        <span >
+                          {formatDate(course.start_date, course.finish_date)}
                         </span>
                       </div>
                       <div className="location">
-                        <span>{course.train_place}</span>
+                        <span >{course.train_place.length > 20
+                          ? `${course.train_place.substring(0, 20)}...`
+                          : course.train_place}</span>
                       </div>
                     </div>
                     <Link to={`/detail/${course.train_course_id}`}>
-                      <a href="#" className="border-btn border-btn2">
+                      <a href="#" className="btn card-btn">
                         More Detail
                       </a>
                     </Link>
@@ -233,4 +276,3 @@ function Course(props) {
   );
 }
 export default Course;
-

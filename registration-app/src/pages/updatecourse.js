@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import FileUpload from "../components/fileUpload";
+import apiUrl from "../api/apiConfig";
 
 function Updatecourse(props) {
   const { courseId } = useParams();
@@ -12,13 +14,14 @@ function Updatecourse(props) {
     train_place: "",
     start_date: "",
     finish_date: "",
+    image: "",
   });
 
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
         const response = await fetch(
-          `http://localhost:11230/course/get-data/${courseId}`
+          `${apiUrl}/course/get-data/${courseId}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -59,13 +62,13 @@ function Updatecourse(props) {
       );
       if (confirmDelete) {
         const response = await fetch(
-          `http://localhost:11230/course/delete/${courseId}`,
+          `${apiUrl}/course/delete/${courseId}`,
           {
             method: "DELETE",
           }
         );
         if (response.ok) {
-          navigate("/", { replace: true });          
+          navigate("/", { replace: true });
           console.log("Course deleted successfully");
         } else {
           console.error("Failed to delete course");
@@ -87,7 +90,7 @@ function Updatecourse(props) {
       try {
         console.log("Updating course with data:", courseData);
         const response = await fetch(
-          `http://localhost:11230/course/update/${courseId}`,
+          `${apiUrl}/course/update/${courseId}`,
           {
             method: "PUT",
             headers: {
@@ -96,10 +99,10 @@ function Updatecourse(props) {
             body: JSON.stringify(courseData),
           }
         );
-        if (response) {
+        if (response.ok) {
           // Handle successful update
           console.log("Course updated successfully");
-          (navigate("/", { replace: true }));
+          navigate("/", { replace: true });
         } else {
           console.error("Failed to update course");
         }
@@ -108,7 +111,7 @@ function Updatecourse(props) {
       }
     }
   };
-
+  
   return (
     <Main>
       {/* Page Content */}
@@ -229,6 +232,9 @@ function Updatecourse(props) {
                   }
                 />
               </div>
+            </div>
+            <div className="custom-input">
+              <FileUpload onFileUpload={(imageName) => setCourseData({ ...courseData, image: imageName })} />
             </div>
             {/* Card Footer */}
             <div

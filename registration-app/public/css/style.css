@@ -237,6 +237,20 @@
     transition: .5s;
 }
 
+.sticky-top {
+    position: -webkit-sticky;
+    /* For Safari */
+    position: sticky;
+    transition: .5s;
+    top: 0;
+    z-index: 1000;
+    /* Adjust z-index as needed */
+    background-color: #ffffff;
+    /* Background color of the header */
+    border-bottom: 1px solid #e9ecef;
+    /* Optional: Add a border at the bottom */
+}
+
 .navbar .navbar-brand {
     position: absolute;
     padding: 0;
@@ -251,7 +265,6 @@
     padding: 25px 0;
     color: var(--dark);
     font-weight: 600;
-    text-transform: uppercase;
     outline: none;
 }
 
@@ -841,6 +854,12 @@
     /* เพิ่มขอบมนเพื่อทำให้มีรูปร่างของ card */
 }
 
+.properties__img img:hover {
+    filter: brightness(75%);
+    transition: all .4s;
+}
+
+
 .detail__img img {
     width: 50%;
     border-radius: 10px;
@@ -855,7 +874,15 @@
 }
 
 .courses-area .properties__caption {
-    padding: 29px 20px 20px 20px;
+    padding: 20px 20px 20px 20px;
+}
+
+.properties__caption a {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .properties__footer {
@@ -907,11 +934,19 @@
 .properties__card {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: auto;
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.properties__card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .properties__caption {
-    padding: 29px 20px 20px 20px;
+    padding: 0px 10px 10px 10px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -925,12 +960,7 @@
     white-space: nowrap;
 }
 
-@media (max-width: 767px) {
-    .properties__card {
-        height: 540px !important;
-        /* Set the height to 500px for screens less than 768px wide */
-    }
-}
+
 
 .properties__caption h3 {
     max-height: 2.8em;
@@ -982,7 +1012,7 @@ body {
     /* เพิ่ม flexbox */
     flex-direction: column;
     /* จัดเรียงเนื้อหาในแนวตั้ง */
-    
+
 }
 
 .detailcard-img-top {
@@ -1417,39 +1447,98 @@ canvas {
     }
 }
 
+img.logo-wu {
+    width: 125px;
+    padding-top: 4px;
+    filter: drop-shadow(2px 2px 2px #616161);
+}
+
+img.logo-wu:hover {
+    transform: scale(1.02);
+    filter: brightness(85%) drop-shadow(2px 2px 2px #616161);
+}
+
 @media (max-width: 480px) {
     .cardBox {
         grid-template-columns: repeat(1, 1fr);
+    }
+
+    img.logo-wu {
+        width: 75px;
+        padding-top: 4px;
     }
 }
 
 .table-responsive {
     overflow-x: auto;
 }
-/* ====================== Dashboard ========================== */    
-.dashboard-container {
-    display: flex;
-    flex-direction: row;
-  }
-  
-  .recommend-course-container {
-    /* Styles for Recommend Course section */
-  }
-  
-  .course-registered-container {
-    /* Styles for Course registered section */
-  }
-  
-  .chart-row-container {
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px; /* Adjust top margin as needed */
-  }
-  
-  .chart-card {
-    flex: 1;
-    margin-left: 10px; /* Adjust spacing between charts */
-  }
-  
-  
 
+/* Styles for the bookmark button */
+.bookmark-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    font-size: 2rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+}
+
+.bookmark-button:hover {
+    color: #fbff89;
+}
+
+/* Active state for the bookmark button */
+.bookmark-button.active {
+    color: #fff700;
+}
+
+.card-btn {
+    bottom: 0;
+}
+
+.card-btn:hover {
+    background-color: #d6d6d6;
+}
+
+@media (max-width: 1400px) {
+    .col-lg-3 {
+        flex: 0 0 33.33%;
+        max-width: 33.33%;
+    }
+}
+
+@media (max-width: 992px) {
+    .col-lg-3 {
+        flex: 0 0 50%;
+        /* Two columns on medium screens */
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 768px) {
+    .col-lg-3 {
+        flex: 0 0 100%;
+        /* One column on small screens */
+        max-width: 100%;
+    }
+}
+
+.center-div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bi{
+    color: white;
+}
+
+.bi:hover{
+    color: black;
+}
