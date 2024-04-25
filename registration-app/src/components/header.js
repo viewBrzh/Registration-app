@@ -1,16 +1,27 @@
 import { Link, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function Header() {
   const userRole = localStorage.getItem("userRole");
   const userData = localStorage.getItem("userData");
   const location = useLocation();
+  const [selectedOption, setSelectedOption] = useState("");
 
   const isAuthenticated = userData && Object.keys(userData).length !== 0;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  const handleOptionChange = (event) => {
+    const value = event.target.value;
+    setSelectedOption(value);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userData");
+    localStorage.removeItem("userRole");
+  };
 
   return (
     <header className="sticky-top">
@@ -99,15 +110,43 @@ function Header() {
                     Login
                   </Link>
                 )}
+
                 {isAuthenticated && (
-                  <Link
-                    to={`/profile`}
-                    className={`nav-item nav-link ${
-                      location.pathname === "/profile" ? "active" : ""
-                    }`}
-                  >
-                    Profile
-                  </Link>
+                  <div className="nav-item  nav-link">
+                    <button
+                      className="btn"
+                      type="button"
+                      id="dropdownMenuButton"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      style={{ fontWeight: "bold" }}
+                    >
+                      User <i className="fas fa-user"></i>
+                    </button>
+                    <ul
+                      className="dropdown-menu dropdown-menu-end"
+                      aria-labelledby="dropdownMenuButton"
+                    >
+                      <li>
+                        <Link
+                          to={`/profile`}
+                          className={`dropdown-item ${
+                            location.pathname === "/profile" ? "active" : ""
+                          }`}
+                        >
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={handleLogout}
+                        >
+                          Log-out
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
                 )}
               </div>
             </div>
