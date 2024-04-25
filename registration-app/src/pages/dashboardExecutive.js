@@ -9,11 +9,11 @@ function DashboardExecutive() {
 
   // Chart data
   const data = {
-    labels: ["Opening", "Waiting"],
+    labels: ["subordinate", "Quantity"],
     datasets: [
       {
         label: "Course Status",
-        data: [4, 1], // Sample data for demonstration
+        data: [47, 259], // Sample data for demonstration
         backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
         borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
         borderWidth: 1,
