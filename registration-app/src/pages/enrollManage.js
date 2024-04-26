@@ -19,6 +19,10 @@ function EnrollManage() {
 
   const toggleSearch = () => {
     setIsActive((prevState) => !prevState);
+    if (!isActive) {
+      setSearchQuery("");
+      setFilteredEnrollments(enrollments);
+    }
   };
 
   const handleInputChange = (evt) => {
@@ -35,6 +39,8 @@ function EnrollManage() {
   const handleClickOutside = (evt) => {
     if (searchWrapperRef.current && !searchWrapperRef.current.contains(evt.target)) {
       setIsActive(false);
+      setFilteredEnrollments(enrollments);
+      setSearchQuery("");
     }
   };
 

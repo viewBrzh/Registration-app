@@ -41,7 +41,17 @@
     width: 10rem;
     position: relative;
     transition: filter 0.3s; /* Add a transition for a smooth effect */
+    border-radius: 50%; /* Make the avatar a circle by default */
 }
+
+@media (max-width: 768px) {
+    .custom-avatar-xxl {
+        height: 6rem;
+        width: 10rem; /* Maintain width for ovals */
+        border-radius: 50%; /* Keep the avatar round on smaller screens */
+    }
+}
+
 
 .custom-avatar-xxl:hover {
     filter: brightness(85%);

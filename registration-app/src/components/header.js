@@ -23,6 +23,10 @@ function Header() {
     window.location.reload();
   };
 
+  const toggleDrop = () => {
+    setIsOpen(false);
+  }
+
   return (
     <header className="sticky-top">
       <div className="container-fluid bg-white sticky-top">
@@ -112,6 +116,7 @@ function Header() {
                       id="dropdownMenuButton"
                       aria-expanded={"false"}
                       style={{ display: 'flex', alignItems: 'center' }}
+                      onClick={toggleDrop}
                     >
                       {user?.username}
                       <div style={{ display: 'inline-block', width: '30px', height: '30px', borderRadius: '50%', overflow: 'hidden', marginLeft: 5 }}>

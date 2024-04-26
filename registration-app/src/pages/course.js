@@ -15,6 +15,9 @@ function Course(props) {
 
   const toggleSearch = () => {
     setIsActive((prevState) => !prevState);
+    if (!isActive) {
+      setSearchQuery("");
+    }
   };
 
   const handleInputChange = (evt) => {

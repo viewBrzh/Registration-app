@@ -12,7 +12,6 @@ function Profile() {
   let userData = null;
   try {
     userData = JSON.parse(storedUserData);
-    console.log(userData);
   } catch (error) {
     console.error("Failed to parse user data from localStorage");
   }
@@ -67,7 +66,7 @@ function Profile() {
                       src={`${apiUrl}/profiles/${userDatas.image}`}
                       className="rounded-circle border border-2"
                       alt="Image"
-                      style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                      style={{ objectFit: 'cover', width: '100%' }}
                     />
                   </div>
                   <div className="lh-1">
