@@ -52,6 +52,7 @@ function Header() {
                 >
                   Home
                 </Link>
+                {userRole === "teacher" && (
                 <Link
                   to={`/dashboard`}
                   className={`nav-item nav-link ${location.pathname === "/dashboard" ? "active" : ""
@@ -59,6 +60,8 @@ function Header() {
                 >
                   Dashboard
                 </Link>
+                )}
+                {userRole === "executive" && (
                 <Link
                   to={`/dashboardExecutive`}
                   className={`nav-item nav-link ${
@@ -67,6 +70,8 @@ function Header() {
                 >
                   Dashboard Executive
                 </Link>
+                )}
+                {userRole === "admin" && (
                 <Link
                   to={`/dashboardAdmin`}
                   className={`nav-item nav-link ${
@@ -75,6 +80,7 @@ function Header() {
                 >
                   Dashboard Admin
                 </Link>
+                )}
                 {userRole !== "admin" && (
                   <Link
                     to={`/about`}
