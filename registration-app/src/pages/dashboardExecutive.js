@@ -112,7 +112,7 @@ function DashboardExecutive() {
       {/* Content */}
       <div className="container-fluid">
         <div className="row">
-          {/* Recommend Course */}
+          {/*Course */}
           <div className="col-lg-6">
             <div className="details d-flex">
               <div className="recentOrders">
@@ -193,7 +193,7 @@ function DashboardExecutive() {
               </div>
             </div>
           </div>
-          {/* Recommend Course End */}
+          {/* Course End */}
 
           {/* Bar Chart */}
           <div className="col-lg-6 ">
