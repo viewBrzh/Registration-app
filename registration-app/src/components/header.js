@@ -1,26 +1,26 @@
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import apiUrl from "../api/apiConfig";
 
 function Header() {
   const userRole = localStorage.getItem("userRole");
   const userData = localStorage.getItem("userData");
   const location = useLocation();
-  const [selectedOption, setSelectedOption] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState("");
 
   const isAuthenticated = userData && Object.keys(userData).length !== 0;
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
-
-  const handleOptionChange = (event) => {
-    const value = event.target.value;
-    setSelectedOption(value);
-  };
+    // Get user data from local storage
+    const storedUserData = localStorage.getItem("userData");
+    setUser(JSON.parse(storedUserData));
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("userData");
     localStorage.removeItem("userRole");
+    window.location.reload();
   };
 
   return (
@@ -47,17 +47,15 @@ function Header() {
               <div className="navbar-nav ms-auto justify-content-end">
                 <Link
                   to={`/`}
-                  className={`nav-item nav-link ${
-                    location.pathname === "/" ? "active" : ""
-                  }`}
+                  className={`nav-item nav-link ${location.pathname === "/" ? "active" : ""
+                    }`}
                 >
                   Home
                 </Link>
                 <Link
                   to={`/dashboard`}
-                  className={`nav-item nav-link ${
-                    location.pathname === "/dashboard" ? "active" : ""
-                  }`}
+                  className={`nav-item nav-link ${location.pathname === "/dashboard" ? "active" : ""
+                    }`}
                 >
                   Dashboard
                 </Link>
@@ -80,9 +78,8 @@ function Header() {
                 {userRole !== "admin" && (
                   <Link
                     to={`/about`}
-                    className={`nav-item nav-link ${
-                      location.pathname === "/about" ? "active" : ""
-                    }`}
+                    className={`nav-item nav-link ${location.pathname === "/about" ? "active" : ""
+                      }`}
                   >
                     About
                   </Link>
@@ -90,18 +87,16 @@ function Header() {
 
                 <Link
                   to={`/course`}
-                  className={`nav-item nav-link ${
-                    location.pathname === "/course" ? "active" : ""
-                  }`}
+                  className={`nav-item nav-link ${location.pathname === "/course" ? "active" : ""
+                    }`}
                 >
                   Course
                 </Link>
                 {userRole === "admin" && (
                   <Link
                     to={`/manage`}
-                    className={`nav-item nav-link ${
-                      location.pathname === "/manage" ? "active" : ""
-                    }`}
+                    className={`nav-item nav-link ${location.pathname === "/manage" ? "active" : ""
+                      }`}
                   >
                     Manage Page
                   </Link>
@@ -109,9 +104,8 @@ function Header() {
                 {userRole !== "admin" && (
                   <Link
                     to={`/contact`}
-                    className={`nav-item nav-link ${
-                      location.pathname === "/contact" ? "active" : ""
-                    }`}
+                    className={`nav-item nav-link ${location.pathname === "/contact" ? "active" : ""
+                      }`}
                   >
                     Contact
                   </Link>
@@ -119,47 +113,52 @@ function Header() {
                 {!isAuthenticated && (
                   <Link
                     to={`/login`}
-                    className={`nav-item nav-link ${
-                      location.pathname === "/login" ? "active" : ""
-                    }`}
+                    className={`nav-item nav-link ${location.pathname === "/login" ? "active" : ""
+                      }`}
                   >
                     Login
                   </Link>
                 )}
 
                 {isAuthenticated && (
-                  <div className="nav-item  nav-link">
+                  <div className="nav-item  nav-link" style={{ marginTop: '-10px' }}>
                     <button
                       className="btn"
                       type="button"
                       id="dropdownMenuButton"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      style={{ fontWeight: "bold" }}
+                      aria-expanded={"false"}
+                      style={{ display: 'flex', alignItems: 'center' }}
                     >
-                      User <i className="fas fa-user"></i>
+                      {user?.username}
+                      <div style={{ display: 'inline-block', width: '30px', height: '30px', borderRadius: '50%', overflow: 'hidden', marginLeft: 5 }}>
+                        <img
+                          className='avatar-'
+                          src={`${apiUrl}/profiles/${user?.image}`}
+                          alt="User Avatar"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      </div>
                     </button>
+
                     <ul
-                      className="dropdown-menu dropdown-menu-end"
+                      className={`dropdown-menu dropdown-menu-end ${isOpen ? "show" : ""}`}
                       aria-labelledby="dropdownMenuButton"
                     >
                       <li>
                         <Link
                           to={`/profile`}
-                          className={`dropdown-item ${
-                            location.pathname === "/profile" ? "active" : ""
-                          }`}
+                          className={`dropdown-item ${location.pathname === "/profile" ? "active" : ""}`}
                         >
                           Profile
                         </Link>
                       </li>
-                      <li>
-                        <button
-                          className="dropdown-item"
-                          onClick={handleLogout}
+                      <li onClick={handleLogout}>
+                        <Link
+                          to={`/`}
+                          className={`dropdown-item ${location.pathname === "/" ? "active" : ""}`}
                         >
                           Log-out
-                        </button>
+                        </Link>
                       </li>
                     </ul>
                   </div>

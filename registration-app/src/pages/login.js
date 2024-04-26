@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../App.css";
 import Main from "../layouts/main";
 import { useNavigate } from "react-router-dom";
+import apiUrl from "../api/apiConfig";
 
 function Login(props) {
   const [username, setUsername] = useState("");
@@ -9,7 +10,7 @@ function Login(props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState("");
 
 
   const navigate = useNavigate();
@@ -17,25 +18,25 @@ function Login(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
-      const response = await fetch("http://localhost:11230/users/login", {
+      const response = await fetch(`${apiUrl}/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem("userData", JSON.stringify(data));
+        const userDataToStore = { ...data.user };
+        delete userDataToStore.password; // Remove the password from the data to be stored
+        localStorage.setItem("userData", JSON.stringify(userDataToStore));
+        console.log(JSON.stringify(userDataToStore));
         localStorage.setItem("userRole", data.user.role);
         setLoading(false);
-        setUsername("");
-        setPassword("");
-        setUserData(data);
-        console.log(userData)
+        setUserData(userDataToStore);
         setSuccess(true);
       } else {
         const data = await response.json();
@@ -48,6 +49,7 @@ function Login(props) {
       setError("An error occurred. Please try again later.");
     }
   };
+  
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -58,6 +60,7 @@ function Login(props) {
   const handleConfirm = () => {
     setSuccess(false);
     navigate("/", { replace: true });
+    window.location.reload();
   };
 
   return (
@@ -165,7 +168,7 @@ function Login(props) {
                         }}
                       />
                       <i
-                        className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`}
+                        className={`fas ${showPassword ? "fa-eye" : "fa-eye-slash"}`}
                         style={{
                           position: "absolute",
                           top: "50%",
@@ -252,8 +255,8 @@ function Login(props) {
         <div className="modal" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
           <div className="modal-content" style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "5px", width: "300px", margin: "auto", marginTop: "100px" }}>
             <h3>Login successful</h3>
-            <p>Username: {userData.user.username}</p>
-            <p>User Role: {userData.user.role}</p>
+            <p>Username: {userData?.username}</p>
+            <p>Role: {userData?.role}</p>
             <button className="btn btn-primary" onClick={handleConfirm}>Confirm</button>
           </div>
         </div>

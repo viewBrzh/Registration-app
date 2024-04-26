@@ -19,6 +19,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import Manage from "./pages/manage";
 import InsertCourse from "./pages/insertCourse";
 import EnrollManage from "./pages/enrollManage";
+import Logout from "./pages/logout";
 
 const isAdmin = () => localStorage.getItem("userRole") === "admin";
 
@@ -43,6 +44,7 @@ ReactDOM.render(
         <Route path="/dashboardExecutive" element={<DashboardExecutive />} />
         <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
         <Route path="/enrollManage/:courseId" element={<EnrollManage />} />
+        <Route path="/logout" element={<Logout />} />
         {/* Add more routes as needed */}
       </Routes>
     </Router>

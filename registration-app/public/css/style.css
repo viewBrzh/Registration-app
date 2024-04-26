@@ -1535,10 +1535,14 @@ img.logo-wu:hover {
     align-items: center;
 }
 
-.bi{
+.bi {
     color: white;
 }
 
-.bi:hover{
+.bi:hover {
     color: black;
+}
+
+.nav-item:hover .dropdown-menu {
+    display: block;
 }
