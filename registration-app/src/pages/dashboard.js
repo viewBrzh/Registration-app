@@ -198,8 +198,8 @@ function Dashboard() {
       <div className="dashboard-container">
         <div className="recommend-course-container">
           {/*Recommend Course start*/}
-          <div className="details d-flex">
-            <div className="recentOrders">
+          <div className="details d-flex row">
+            <div className="recentOrders col-8">
               <div className="cardHeader ">
                 <h2>Recommend Course</h2>
                 <Link to="/">View All</Link>
@@ -269,132 +269,133 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
-          </div>
-          {/*Recommend Course End*/}
-        </div>
-        <div className="course-registered-container">
-          {/* ================= New Customers ================ */}
-          <div className="recentCustomers">
-            <div className="cardHeader">
-              <h2
-                style={{
-                  color: "#E60073",
-                }}
-              >
-                Course registered
-              </h2>
+            {/* ================= New Customers ================ */}
+            <div className="recentCustomers col-4">
+              <div className="cardHeader">
+                <h2
+                  style={{
+                    color: "#E60073",
+                  }}
+                >
+                  Course registered
+                </h2>
+              </div>
+
+              <table>
+                <tr>
+                  <td width="60px">
+                    <div className="imgBx">
+                      <img src="img\profile\profile_test.jpg" alt="" />
+                    </div>
+                  </td>
+                  <td>
+                    <h4>
+                      David <br /> <span>Italy</span>
+                    </h4>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td width="60px">
+                    <div className="imgBx">
+                      <img src="img\profile\profile_test.jpg" alt="" />
+                    </div>
+                  </td>
+                  <td>
+                    <h4>
+                      Amit <br /> <span>India</span>
+                    </h4>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td width="60px">
+                    <div className="imgBx">
+                      <img src="img\profile\profile_test.jpg" alt="" />
+                    </div>
+                  </td>
+                  <td>
+                    <h4>
+                      David <br /> <span>Italy</span>
+                    </h4>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td width="60px">
+                    <div className="imgBx">
+                      <img src="img\profile\profile_test.jpg" alt="" />
+                    </div>
+                  </td>
+                  <td>
+                    <h4>
+                      Amit <br /> <span>India</span>
+                    </h4>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td width="60px">
+                    <div className="imgBx">
+                      <img src="img\profile\profile_test.jpg" alt="" />
+                    </div>
+                  </td>
+                  <td>
+                    <h4>
+                      David <br /> <span>Italy</span>
+                    </h4>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td width="60px">
+                    <div className="imgBx">
+                      <img src="img\profile\profile_test.jpg" alt="" />
+                    </div>
+                  </td>
+                  <td>
+                    <h4>
+                      Amit <br /> <span>India</span>
+                    </h4>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td width="60px">
+                    <div className="imgBx">
+                      <img src="img\profile\profile_test.jpg" alt="" />
+                    </div>
+                  </td>
+                  <td>
+                    <h4>
+                      David <br /> <span>Italy</span>
+                    </h4>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td width="60px">
+                    <div className="imgBx">
+                      <img src="img\profile\profile_test.jpg" alt="" />
+                    </div>
+                  </td>
+                  <td>
+                    <h4>
+                      Amit <br /> <span>India</span>
+                    </h4>
+                  </td>
+                </tr>
+              </table>
             </div>
 
-            <table>
-              <tr>
-                <td width="60px">
-                  <div className="imgBx">
-                    <img src="img\profile\profile_test.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    David <br /> <span>Italy</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div className="imgBx">
-                    <img src="img\profile\profile_test.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    Amit <br /> <span>India</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div className="imgBx">
-                    <img src="img\profile\profile_test.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    David <br /> <span>Italy</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div className="imgBx">
-                    <img src="img\profile\profile_test.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    Amit <br /> <span>India</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div className="imgBx">
-                    <img src="img\profile\profile_test.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    David <br /> <span>Italy</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div className="imgBx">
-                    <img src="img\profile\profile_test.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    Amit <br /> <span>India</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div className="imgBx">
-                    <img src="img\profile\profile_test.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    David <br /> <span>Italy</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div className="imgBx">
-                    <img src="img\profile\profile_test.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    Amit <br /> <span>India</span>
-                  </h4>
-                </td>
-              </tr>
-            </table>
           </div>
+
+          {/*Recommend Course End*/}
         </div>
+
       </div>
-     {/* Charts */}
-     <div className="chart-card-container">
+      {/* Charts */}
+      <div className="chart-card-container">
         <div className="chart-card">
           <canvas id="myChart" width="400" height="400"></canvas>
         </div>

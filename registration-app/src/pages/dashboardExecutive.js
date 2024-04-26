@@ -117,7 +117,7 @@ function DashboardExecutive() {
             <div className="details d-flex">
               <div className="recentOrders">
                 <div className="cardHeader ">
-                  <h2>Recommend Course</h2>
+                  <h2>Course</h2>
                   <Link to="/">View All</Link>
                 </div>
                 <table>
