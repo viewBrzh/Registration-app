@@ -1375,15 +1375,39 @@ canvas {
     font-weight: 500;
 }
 
-.recentCustomers {
+.recommend-course-container {
+    display: flex; /* Use flexbox to arrange items in a row */
+    flex-wrap: wrap; /* Allow wrapping to handle smaller screens */
+  }
+  
+  .recentOrders {
+    flex: 1; /* Allow the element to grow to fill available space */
+    margin-right: 10px; /* Add margin for spacing */
+  }
+  
+  .recentCustomers {
+    flex: 1; /* Allow the element to grow to fill available space */
+    margin-left: 10px; /* Add margin for spacing */
     position: relative;
     display: grid;
     min-height: 500px;
-    padding: 20px;
     background: #FFFFFF;
+    padding: 20px;
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
     border-radius: 20px;
-}
+  }
+  
+  .cardHeader {
+    display: flex;
+    justify-content: space-between; /* Align items with space between them */
+    align-items: center;
+  }
+  
+  .cardHeader h2 {
+    margin-bottom: 0; /* Remove bottom margin for the heading */
+    color: #E60073;
+  }
+  
 
 .recentCustomers .imgBx {
     position: relative;

@@ -34,7 +34,7 @@ function FileUpload({ onFileUpload }) {
     return (
         <div className="custom-input">
             <label htmlFor="file" className="input-label">
-                Course File
+                Choose an Image
             </label>
             <div className="input-wrapper">
                 <input type="file" id="file" className="input-field" onChange={handleFileChange} />
