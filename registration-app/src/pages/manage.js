@@ -60,10 +60,6 @@ function Manage() {
 
   const toggleSearch = () => {
     setIsActive((prevState) => !prevState);
-    if (!isActive) {
-      setSearchQuery("");
-      setFilteredCourses(courses);
-    }
   };
 
   const handleInputChange = (evt) => {
@@ -77,8 +73,6 @@ function Manage() {
       !searchWrapperRef.current.contains(evt.target)
     ) {
       setIsActive(false);
-      setSearchQuery("");
-      setFilteredCourses(courses);
     }
   };
 
