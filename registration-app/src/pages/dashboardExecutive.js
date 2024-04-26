@@ -196,12 +196,17 @@ function DashboardExecutive() {
           {/* Recommend Course End */}
 
           {/* Bar Chart */}
-          <div className="col-lg-6" style={{ marginBottom: "500px" }}>
-  <div className="col-lg-6 chart-container" style={{ maxWidth: "400px", margin: "0 auto", marginBottom: "100px" }}>
-    <canvas ref={chartRef} id="courseStatusChart"></canvas>
-  </div>
-</div>
-
+          <div className="col-lg-6 ">
+            <div className="details d-flex">
+              <div className="recentOrders">
+                <div className="cardHeader"><h2>Quantity Chart</h2></div>
+                <br></br> 
+                <div className="chart-container">
+                  <canvas ref={chartRef} id="courseStatusChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
 
         </div>
       </div>
