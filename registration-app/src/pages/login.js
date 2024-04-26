@@ -34,7 +34,7 @@ function Login(props) {
         delete userDataToStore.password; // Remove the password from the data to be stored
         localStorage.setItem("userData", JSON.stringify(userDataToStore));
         console.log(JSON.stringify(userDataToStore));
-        localStorage.setItem("userRole", data.role);
+        localStorage.setItem("userRole", data.user.role);
         setLoading(false);
         setUserData(userDataToStore);
         setSuccess(true);
