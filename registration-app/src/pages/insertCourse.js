@@ -1,8 +1,9 @@
-// InsertCourse.js
 import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
 import FileUpload from "../components/fileUpload";
 import apiUrl from '../api/apiConfig';
+import { Modal, Button } from "react-bootstrap";
+import { Navigate } from "react-router-dom";
 
 function InsertCourse() {
     const [courseData, setCourseData] = useState({
@@ -15,6 +16,13 @@ function InsertCourse() {
         image: ""
     });
     const [formValid, setFormValid] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedTags, setSelectedTags] = useState([]);
+    const [courseId, setCourseId] = useState("");
+
+    const handleNext = () => {
+        setShowModal(true);
+    }
 
     useEffect(() => {
         const isValid = Object.values(courseData).every(value => !!value);
@@ -34,16 +42,58 @@ function InsertCourse() {
                     },
                     body: JSON.stringify(courseData),
                 });
+                const data = await response.json(); // Parse response JSON
                 if (response.ok) {
                     // Handle successful insertion
-                    console.log('Course inserted successfully');
-                    window.confirm("Course inserted successfully");
+                    const insertId = data.insertId[0].insertId;
+                    console.log("Inserted course with ID:", insertId);
+                    setCourseId(insertId);
+                    setShowModal(true); // Open the modal after inserting the course
                 } else {
                     console.error('Failed to insert course');
                 }
             } catch (error) {
                 console.error('Error inserting course:', error);
             }
+        }
+    };
+    
+
+    const handleTagSelection = (tag) => {
+        setSelectedTags((prevTags) =>
+            prevTags.includes(tag)
+                ? prevTags.filter((t) => t !== tag)
+                : [...prevTags, tag]
+        );
+    };
+
+    const handleSaveTags = async () => {
+        try {
+            const response = await fetch(`${apiUrl}/course/${courseId}/update-skills`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ skills: selectedTags }),
+            });
+            if (response.ok) {
+                // Handle successful update of skills
+                console.log(courseId + selectedTags);
+                window.confirm("Skills updated successfully");
+                <Navigate to="/home"/>
+
+                // Update the course data with the new skills
+                setCourseData((prevCourseData) => ({
+                    ...prevCourseData,
+                    skills: selectedTags,
+                }));
+
+                setShowModal(false); // Close the modal after updating the skills
+            } else {
+                console.error('Failed to update skills');
+            }
+        } catch (error) {
+            console.error('Error updating skills:', error);
         }
     };
 
@@ -113,13 +163,52 @@ function InsertCourse() {
                             <FileUpload onFileUpload={(imageName) => setCourseData({ ...courseData, image: imageName })} />
                         </div>
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
-                            <button type="submit" className="btn btn-primary" style={{ alignSelf: "center" }} disabled={!formValid}>
-                                Confirm
+                            <button onClick={handleNext} className="btn btn-primary" style={{ alignSelf: "center" }} disabled={!formValid}>
+                                Next
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
+
+            <Modal show={showModal} onHide={() => setShowModal(false)} style={{ zIndex: 9999 }}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Choose Skills</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {[
+                        "MENTALIZATION-BASED THERAPY",
+                        "Satir systemic therapy",
+                        "Coaching",
+                        "Mindfullness-based therapy",
+                        "Communication with parents",
+                        "Oracle card into the mind",
+                        "Problem-solvingtherapy",
+                        "Enneagram",
+                        "Relaxation technique",
+                        "PSYCHOEDUCATION",
+                        "Basic Counseling"
+                    ].map(tag => (
+                        <Button
+                            key={tag}
+                            variant={selectedTags.includes(tag) ? "primary" : "outline-primary"}
+                            onClick={() => handleTagSelection(tag)}
+                            style={{ margin: "5px" }}
+                        >
+                            {tag}
+                        </Button>
+                    ))}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowModal(false)}>
+                        Back
+                    </Button>
+                    <Button variant="primary" onClick={handleSaveTags}>
+                        Confirm
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </Main>
     );
 }

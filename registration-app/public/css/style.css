@@ -1614,3 +1614,11 @@ img.logo-wu:hover {
     align-items: center;
     height: 100vh;
 }
+
+.tag-select {
+    border-color: #ea64a7;
+}
+
+.tag-select:hover {
+    background-color: #efc0d8;
+}
