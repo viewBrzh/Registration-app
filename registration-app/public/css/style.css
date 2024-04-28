@@ -1603,6 +1603,14 @@ img.logo-wu:hover {
     border-color: #ea64a7;
 }
 
-.pagination-span{
+.pagination-span {
     opacity: 0.8;
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }

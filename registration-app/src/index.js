@@ -13,15 +13,17 @@ import Updatecourse from "./pages/updatecourse";
 import Dashboard from "./pages/dashboard";
 import DashboardExecutive from "./pages/dashboardExecutive";
 import DashboardAdmin from "./pages/dashboardAdmin";
-import Demo from "./pages/demo";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Manage from "./pages/manage";
 import InsertCourse from "./pages/insertCourse";
 import EnrollManage from "./pages/enrollManage";
 import Logout from "./pages/logout";
+import Error404Page from "./pages/error/notFound";
 
 const isAdmin = () => localStorage.getItem("userRole") === "admin";
+const isTeacher = () => localStorage.getItem("userRole") === "teacher";
+const isExecutive = () => localStorage.getItem("userRole") === "executive";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -36,16 +38,18 @@ ReactDOM.render(
         <Route path="/course" element={<Course />} />
         <Route path="/enroll" element={<Enroll />} />
         <Route path="/detail/:courseId" element={<Detail />} />
-        <Route path="/manage" element={isAdmin() ? <Manage /> : <Navigate to="/login" />} />
-        <Route path="/demo" element={<Demo />} />
+        <Route path="/manage" element={isAdmin() ? <Manage /> : <Navigate to="/404" />} />
         <Route path="/update/:courseId" element={<Updatecourse />} />
         <Route path="/insert" element={<InsertCourse />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboardExecutive" element={<DashboardExecutive />} />
-        <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
+        <Route path="/dashboard" element={isTeacher() ? <Dashboard /> : <Navigate to="/404" />} />
+        <Route path="/dashboardExecutive" element={isExecutive() ? <DashboardExecutive /> : <Navigate to="/404" />} />
+        <Route path="/dashboardAdmin" element={isAdmin() ? <DashboardAdmin /> : <Navigate to="/404" />} />
         <Route path="/enrollManage/:courseId" element={<EnrollManage />} />
         <Route path="/logout" element={<Logout />} />
-        {/* Add more routes as needed */}
+        <Route path="/404" element={<Error404Page/>} />
+        
+        {/* Bring user to 404 if path not exist */}
+        <Route path="*" element={<Navigate to="/404" />} />
       </Routes>
     </Router>
   </React.StrictMode>,

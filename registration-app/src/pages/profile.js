@@ -178,7 +178,7 @@ function Profile() {
                     <div className="skill-group">
                       <div className="skill">
                         <img
-                          src="img/profile/Certificate (1).bak.bak.png"
+                          src="./img/profile/Certificate (1).bak.bak.png"
                           className="card-img-top1"
                           alt="Explanation"
                         />
@@ -187,7 +187,7 @@ function Profile() {
 
                       <div className="skill">
                         <img
-                          src="img/profile/Certificate Of Deposit.png"
+                          src="./img/profile/Certificate Of Deposit.png"
                           className="card-img-top1"
                           alt="Explanation"
                         />
@@ -195,7 +195,7 @@ function Profile() {
                       </div>
                       <div className="skill">
                         <img
-                          src="img/profile/Certificate.bak.bak.png"
+                          src="./img/profile/Certificate.bak.bak.png"
                           className="card-img-top1"
                           alt="Explanation"
                         />
@@ -203,7 +203,7 @@ function Profile() {
                       </div>
                       <div className="skill">
                         <img
-                          src="img/profile/Certificate.png"
+                          src="./img/profile/Certificate.png"
                           className="card-img-top1"
                           alt="Explanation"
                         />
@@ -211,7 +211,7 @@ function Profile() {
                       </div>
                       <div className="skill">
                         <img
-                          src="img/profile/Education Scholarship.png"
+                          src="./img/profile/Education Scholarship.png"
                           className="card-img-top1"
                           alt="Explanation"
                         />
@@ -219,7 +219,7 @@ function Profile() {
                       </div>
                       <div className="skill">
                         <img
-                          src="img/profile/Graduation Certificate Scroll.png"
+                          src="./img/profile/Graduation Certificate Scroll.png"
                           className="card-img-top1"
                           alt="Explanation"
                         />
@@ -227,7 +227,7 @@ function Profile() {
                       </div>
                       <div className="skill">
                         <img
-                          src="img/profile/Graduation.bak.bak.png"
+                          src="./img/profile/Graduation.bak.bak.png"
                           className="card-img-top1"
                           alt="Explanation"
                         />
@@ -235,7 +235,7 @@ function Profile() {
                       </div>
                       <div className="skill">
                         <img
-                          src="img/profile/Medical Certificate.png"
+                          src="./img/profile/Medical Certificate.png"
                           className="card-img-top1"
                           alt="Explanation"
                         />
@@ -243,7 +243,7 @@ function Profile() {
                       </div>
                       <div className="skill">
                         <img
-                          src="img/profile/Self Learning.bak.bak.png"
+                          src="./img/profile/Self Learning.bak.bak.png"
                           className="card-img-top1"
                           alt="Explanation"
                         />
@@ -251,7 +251,7 @@ function Profile() {
                       </div>
                       <div className="skill">
                         <img
-                          src="img/profile/The Road To Graduation.bak.bak.png"
+                          src="./img/profile/The Road To Graduation.bak.bak.png"
                           className="card-img-top1"
                           alt="Explanation"
                         />
@@ -259,7 +259,7 @@ function Profile() {
                       </div>
                       <div className="skill">
                         <img
-                          src="img/profile/Certificate Paper 3D Icon Model With A Star Badge.png"
+                          src="./img/profile/Certificate Paper 3D Icon Model With A Star Badge.png"
                           className="card-img-top1"
                           alt="Explanation"
                         />

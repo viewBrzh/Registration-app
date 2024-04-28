@@ -50,8 +50,8 @@ function Header() {
             <div className="collapse navbar-collapse" id="navbarCollapse">
               <div className="navbar-nav ms-auto justify-content-end">
                 <Link
-                  to={`/`}
-                  className={`nav-item nav-link ${location.pathname === "/" ? "active" : ""
+                  to={`/home`}
+                  className={`nav-item nav-link ${location.pathname === "/home" ? "active" : ""
                     }`}
                 >
                   Home
@@ -72,7 +72,7 @@ function Header() {
                     location.pathname === "/dashboardExecutive" ? "active" : ""
                   }`}
                 >
-                  Dashboard Executive
+                  Dashboard
                 </Link>
                 )}
                 {userRole === "admin" && (
@@ -82,7 +82,7 @@ function Header() {
                     location.pathname === "/dashboardAdmin" ? "active" : ""
                   }`}
                 >
-                  Dashboard Admin
+                  Dashboard
                 </Link>
                 )}
                 {userRole !== "admin" && (
@@ -161,6 +161,13 @@ function Header() {
                           className={`dropdown-item ${location.pathname === "/profile" ? "active" : ""}`}
                         >
                           Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                        to=""
+                        className={`dropdown-item ${location.pathname === "/profile" ? "active" : ""}`}>
+                        Notification
                         </Link>
                       </li>
                       <li onClick={handleLogout}>
