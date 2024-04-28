@@ -71,7 +71,34 @@ function Profile() {
         <div className="row">
           <div className="col-xl-12 col-lg-12 col-md-12 col-12">
             {/* Bg */}
-            <div className="custom-pt-20 rounded-top"></div>
+
+            <div className="custom-pt-20 rounded-top">
+              <div
+                className="container text-center py-5"
+                style={{ position: "relative", top: "-100px" }}
+              >
+                <h1 className="display-2 text-dark mb-4 animated slideInDown">
+                  Profile {userDatas && userDatas.username}
+                </h1>
+                <nav aria-label="breadcrumb animated slideInDown">
+                  <ol className="breadcrumb justify-content-center mb-0">
+                    <li className="breadcrumb-item">
+                      <Link
+                        to={`/`}
+                        className="breadcrumb-item"
+                        style={{ color: "#f5f8f2" }}
+                      >
+                        Home /
+                      </Link>
+                    </li>
+                    <li className="text-dark" aria-current="page">
+                      Profile
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+
             <div
               className="custom-card custom-rounded-bottom smooth-shadow-sm"
               style={{ backgroundColor: "#FFFFFF" }}
