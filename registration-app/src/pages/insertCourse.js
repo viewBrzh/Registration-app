@@ -3,9 +3,10 @@ import Main from "../layouts/main";
 import FileUpload from "../components/fileUpload";
 import apiUrl from '../api/apiConfig';
 import { Modal, Button } from "react-bootstrap";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function InsertCourse() {
+    const navigate = useNavigate();
     const [courseData, setCourseData] = useState({
         course_detail_name: "",
         course_id: "",
@@ -57,7 +58,7 @@ function InsertCourse() {
             }
         }
     };
-    
+
 
     const handleTagSelection = (tag) => {
         setSelectedTags((prevTags) =>
@@ -79,8 +80,10 @@ function InsertCourse() {
             if (response.ok) {
                 // Handle successful update of skills
                 console.log(courseId + selectedTags);
-                window.confirm("Skills updated successfully");
-                <Navigate to="/home"/>
+                const confirm = window.confirm("Skills updated successfully");
+                if (confirm) {
+                    navigate("/home", { replace: true });
+                }
 
                 // Update the course data with the new skills
                 setCourseData((prevCourseData) => ({

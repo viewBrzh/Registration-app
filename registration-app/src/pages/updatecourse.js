@@ -3,7 +3,6 @@ import Main from "../layouts/main";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import FileUpload from "../components/fileUpload";
 import apiUrl from "../api/apiConfig";
-import { Navigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 
 function Updatecourse(props) {
@@ -47,8 +46,7 @@ function Updatecourse(props) {
       if (response.ok) {
         // Handle successful update of skills
         console.log(courseId + selectedTags);
-        window.confirm("Skills updated successfully");
-        <Navigate to="/home" />
+        window.alert("Successfully update skills.");
 
         // Update the course data with the new skills
         setCourseData((prevCourseData) => ({
@@ -347,9 +345,6 @@ function Updatecourse(props) {
           ))}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Back
-          </Button>
           <Button variant="primary" onClick={handleSaveTags}>
             Confirm
           </Button>
