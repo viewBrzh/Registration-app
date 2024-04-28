@@ -1,76 +1,109 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 import { Chart as ChartAuto } from "chart.js/auto";
+import CourseTable from "../components/courseTable";
+import apiUrl from "../api/apiConfig";
 
 function DashboardAdmin() {
-  // Refs for the chart canvases
   const chartRef1 = useRef(null);
   const chartRef2 = useRef(null);
+  const [courseData, setCourseData] = useState([]);
+  const [departmentData, setDepartmentData] = useState([]);
 
-  // Chart data for the first chart
-  const data1 = {
-    labels: ["Quantity", "subordinate"],
-    datasets: [
-      {
-        label: "Course Status",
-        data: [306, 47], // Sample data for demonstration
-        backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
-        borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
-        borderWidth: 1,
-      },
-    ],
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch course names
+        const coursesResponse = await fetch(`${apiUrl}/course/get-all`);
+        if (!coursesResponse.ok) {
+          throw new Error("Failed to fetch courses");
+        }
+        const coursesData = await coursesResponse.json();
 
-  // Chart options for the first chart
-  const options1 = {
-    plugins: {
-      legend: {
-        display: true,
-        position: "bottom",
-      },
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    // other options...
-  };
+        // Fetch enrollment counts for each course
+        const enrollmentData = await Promise.all(
+          coursesData.map(async (course) => {
+            const enrollResponse = await fetch(`${apiUrl}/course/${course.train_course_id}/enrollCount`);
+            if (!enrollResponse.ok) {
+              throw new Error(`Failed to fetch enroll count for course ${course.train_course_id}`);
+            }
+            const enrollData = await enrollResponse.json();
+            return {
+              courseName: course.course_detail_name,
+              quantity: enrollData.enrollCount,
+            };
+          })
+        );
 
-  // Chart data for the second chart
-  const data2 = {
-    labels: ["Department 1", "Department 2", "Department 3"], // Sample labels
-    datasets: [
-      {
-        label: "Department Data",
-        data: [50, 70, 40], // Sample data
-        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(255, 206, 86, 0.2)"],
-        borderColor: ["rgba(255, 99, 132, 1)", "rgba(75, 192, 192, 1)", "rgba(255, 206, 86, 1)"],
-        borderWidth: 1,
-      },
-    ],
-  };
+        setCourseData(enrollmentData);
 
-  // Chart options for the second chart
-  const options2 = {
-    plugins: {
-      legend: {
-        display: true,
-        position: "bottom",
-      },
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    // other options...
-  };
+        // Fetch department names and enrollment counts
+        const departmentsResponse = await fetch(`${apiUrl}/users/departments`);
+        if (!departmentsResponse.ok) {
+          throw new Error("Failed to fetch departments");
+        }
+        const departmentsData = await departmentsResponse.json();
+        console.log(departmentData);
 
-  // Create or update charts on component mount or data change
+        // Fetch enrollment counts for each department
+        const departmentEnrollmentData = await Promise.all(
+          departmentsData.map(async (department) => {
+            const departmentResponse = await fetch(`${apiUrl}/enroll/getCoutByDepartment/${department.department}`);
+            if (!departmentResponse.ok) {
+              throw new Error(`Failed to fetch enroll count for department ${department.department}`);
+            }
+            const departmentEnrollData = await departmentResponse.json();
+            return {
+              departmentName: department.department,
+              quantity: departmentEnrollData.count,
+            };
+          })
+        );
+
+        setDepartmentData(departmentEnrollmentData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   useEffect(() => {
     if (chartRef1.current) {
       const ctx1 = chartRef1.current.getContext("2d");
-
-      // Check if chart instance exists, destroy it before creating a new one
       if (chartRef1.current.chart) {
         chartRef1.current.chart.destroy();
       }
+
+      const data1 = {
+        labels: courseData.map((data) =>
+          data.courseName.length > 20
+            ? `${data.courseName.substring(0, 20)}...`
+            : data.courseName
+        ),
+        datasets: [
+          {
+            label: "Course enrollment",
+            data: courseData.map((data) => data.quantity),
+            backgroundColor: ["rgba(75, 192, 192, 0.2)"],
+            borderColor: ["rgba(75, 192, 192, 1)"],
+            borderWidth: 1,
+          },
+        ],
+      };
+
+      const options1 = {
+        plugins: {
+          legend: {
+            display: true,
+            position: "bottom",
+          },
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+      };
 
       chartRef1.current.chart = new ChartAuto(ctx1, {
         type: "bar",
@@ -78,22 +111,55 @@ function DashboardAdmin() {
         options: options1,
       });
     }
+  }, [courseData]);
 
+  useEffect(() => {
     if (chartRef2.current) {
       const ctx2 = chartRef2.current.getContext("2d");
-
-      // Check if chart instance exists, destroy it before creating a new one
       if (chartRef2.current.chart) {
         chartRef2.current.chart.destroy();
       }
 
+      const data2 = {
+        labels: departmentData.map((data) => data.departmentName),
+        datasets: [
+          {
+            label: "Department Criteria",
+            data: departmentData.map((data) => data.quantity),
+            backgroundColor: departmentData.map((data) => data.quantity >= 12 ? "rgba(54, 162, 235, 0.2)" : "rgba(255, 99, 132, 0.2)"),
+            borderColor: departmentData.map((data) => data.quantity >= 12 ? "rgba(54, 162, 235, 1)" : "rgba(255, 99, 132, 1)"),
+            borderWidth: 1,
+          },
+        ],
+      };
+      
+      const options2 = {
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.dataset.label || '';
+                if (context.parsed.y >= 12) {
+                  return `Passed the criteria: ${label}`;
+                } else {
+                  return `Not pass the criteria: ${label}`;
+                }
+              }
+            }
+          }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+      };
+      
+      // Update the chart creation to include the options
       chartRef2.current.chart = new ChartAuto(ctx2, {
         type: "bar",
         data: data2,
         options: options2,
       });
     }
-  }, [data1, options1, data2, options2]);
+  }, [departmentData]);
 
   return (
     <Main>
@@ -109,7 +175,7 @@ function DashboardAdmin() {
                 </Link>
               </li>
               <li className="breadcrumb-item text-dark" aria-current="page">
-                Dashboard Executive
+                Dashboard admin
               </li>
             </ol>
           </nav>
@@ -121,90 +187,13 @@ function DashboardAdmin() {
       <div className="container-fluid">
         <div className="row">
           {/*Course */}
-          <div className="col-lg-6">
-            <div className="details d-flex">
-              <div className="recentOrders">
-                <div className="cardHeader ">
-                  <h2>Course</h2>
-                  <Link to="/">View All</Link>
-                </div>
-                <table>
-                  <thead>
-                    <tr>
-                      <td>Course name</td>
-                      <td>Training location</td>
-                      <td>Quantity</td>
-                      <td>subordinate</td>
-                      <td>Status</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1
-                      </td>
-                      <td>
-                        ห้องประชุม 1 ชั้น 2 อาคารวิจัย
-                      </td>
-                      <td>68</td>
-                      <td className="text-center">10</td>
-                      <td>
-                        <span className="status delivered">Opening</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2
-                      </td>
-                      <td>
-                        ห้องประชุม 1 ชั้น 2 อาคารวิจัย
-                      </td>
-                      <td>0</td>
-                      <td className="text-center">0</td>
-                      <td>
-                        <span className="status pending">Waiting</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>อบรมให้การปรึกษา (Basic Counseling)</td>
-                      <td>ห้องประชุม 4 อาคารนวัตกรรม</td>
-                      <td>108</td>
-                      <td className="text-center">15</td>
-                      <td>
-                        <span className="status delivered">Opening</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>การให้การปรึกษาตามแนวซาเทียร์</td>
-                      <td>
-                        ห้องประชุมหัวตะพาน โรงพยาบาลศูนย์การแพทย์
-                      </td>
-                      <td>0</td>
-                      <td className="text-center">0</td>
-                      <td>
-                        <span className="status pending">Waiting</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        การให้การปรึกษาสำหรับอาจารย์ใหม่ online
-                      </td>
-                      <td>Zoom</td>
-                      <td>130</td>
-                      <td className="text-center">22</td>
-                      <td>
-                        <span className="status delivered">Opening</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          <div className="col-sm-6">
+            <CourseTable/>
           </div>
           {/* Course End */}
 
           {/* Bar Chart */}
-          <div className="col-lg-6 ">
+          <div className="col-sm-6 ">
             <div className="details d-flex">
               <div className="recentOrders">
                 <div className="cardHeader"><h2>Quantity Chart</h2></div>
@@ -221,10 +210,10 @@ function DashboardAdmin() {
       <div className="container-fluid py-5 mb-5 wow fadeIn">
         <div className="details d-flex">
               <div className="recentOrders">
-                <div className="cardHeader"><h2>Quantity Chart</h2></div>
+                <div className="cardHeader"><h2>Department Chart</h2></div>
                 <br></br> 
                 <div className="chart-container">
-                  <canvas ref={chartRef2} id="coursedepartment"></canvas>
+                  <canvas ref={chartRef2} id="departmentChart"></canvas>
                 </div>
               </div>
             </div>

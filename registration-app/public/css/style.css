@@ -1376,18 +1376,24 @@ canvas {
 }
 
 .recommend-course-container {
-    display: flex; /* Use flexbox to arrange items in a row */
-    flex-wrap: wrap; /* Allow wrapping to handle smaller screens */
-  }
-  
-  .recentOrders {
-    flex: 1; /* Allow the element to grow to fill available space */
-    margin-right: 10px; /* Add margin for spacing */
-  }
-  
-  .recentCustomers {
-    flex: 1; /* Allow the element to grow to fill available space */
-    margin-left: 10px; /* Add margin for spacing */
+    display: flex;
+    /* Use flexbox to arrange items in a row */
+    flex-wrap: wrap;
+    /* Allow wrapping to handle smaller screens */
+}
+
+.recentOrders {
+    flex: 1;
+    /* Allow the element to grow to fill available space */
+    margin-right: 10px;
+    /* Add margin for spacing */
+}
+
+.recentCustomers {
+    flex: 1;
+    /* Allow the element to grow to fill available space */
+    margin-left: 10px;
+    /* Add margin for spacing */
     position: relative;
     display: grid;
     min-height: 500px;
@@ -1395,19 +1401,21 @@ canvas {
     padding: 20px;
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
     border-radius: 20px;
-  }
-  
-  .cardHeader {
+}
+
+.cardHeader {
     display: flex;
-    justify-content: space-between; /* Align items with space between them */
+    justify-content: space-between;
+    /* Align items with space between them */
     align-items: center;
-  }
-  
-  .cardHeader h2 {
-    margin-bottom: 0; /* Remove bottom margin for the heading */
+}
+
+.cardHeader h2 {
+    margin-bottom: 0;
+    /* Remove bottom margin for the heading */
     color: #E60073;
-  }
-  
+}
+
 
 .recentCustomers .imgBx {
     position: relative;
@@ -1569,4 +1577,32 @@ img.logo-wu:hover {
 
 .nav-item:hover .dropdown-menu {
     display: block;
+}
+
+.previous-btn {
+    background-color: #f1f1f1;
+    color: black;
+    border-color: #e60073;
+    border-radius: 10%;
+    border-width: 2px;
+    padding: 5px;
+}
+
+.next-btn {
+    background-color: #ea64a7;
+    color: white;
+    border-color: #e60073;
+    border-radius: 10%;
+    border-width: 2px;
+    padding: 5px;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.2;
+    border-color: #ea64a7;
+}
+
+.pagination-span{
+    opacity: 0.8;
 }

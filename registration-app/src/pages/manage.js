@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { exportToExcel } from "../components/excelUtils";
 import apiUrl from "../api/apiConfig";
 import DownloadButton from "../components/downloadButton";
+import Quantity from "../components/quantity";
 
 function Manage() {
   const [courses, setCourses] = useState([]);
@@ -15,6 +16,8 @@ function Manage() {
   const [filter, setFilter] = useState("all");
   const searchWrapperRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(25);
 
   const handleDownload = () => {
     exportToExcel(filteredCourses, isPublishStatus);
@@ -142,11 +145,26 @@ function Manage() {
 
   const handleFilterChange = (evt) => {
     setFilter(evt.target.value);
+    setCurrentPage(1); // Reset current page to 1 when filter changes
   };
 
   const filteredCoursesByName = filteredCourses?.filter((course) =>
     course.course_detail_name?.toLowerCase().includes(searchQuery?.toLowerCase())
   );
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredCoursesByName.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(filteredCoursesByName.length / itemsPerPage);
+
+  const handleClick = (type) => {
+    if (type === "prev") {
+      setCurrentPage((prev) => Math.max(prev - 1, 1));
+    } else if (type === "next") {
+      setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    }
+  };
 
   return (
     <Main>
@@ -176,25 +194,29 @@ function Manage() {
             <table className="table">
               <thead>
                 <tr>
+                  <th scope="col" style={{ width: '2%' }}>id</th>
                   <th scope="col" style={{ width: '12%' }}>Course Name</th>
                   <th scope="col" style={{ width: '24%' }}>Description</th>
                   <th scope="col" style={{ width: '8%' }}>Start Date</th>
                   <th scope="col" style={{ width: '8%' }}>End Date</th>
                   <th scope="col" style={{ width: '10%' }}>Place</th>
-                  <th scope="col" style={{ width: '8%' }}>Course Type</th>
+                  <th scope="col" style={{ width: '6%' }}>Course Type</th>
+                  <th scope="col" style={{ width: '8%' }}>Enrollments</th>
                   <th scope="col" style={{ width: '8%' }}>Publish Status</th>
-                  <th scope="col" style={{ width: '12%' }}>Actions</th>
+                  <th scope="col" style={{ width: '14%' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredCoursesByName.map((course) => (
+                {currentItems.map((course) => (
                   <tr key={course.train_course_id}>
+                    <td>{course.train_course_id}</td>
                     <td>{course.course_detail_name}</td>
                     <td>{course.train_detail}</td>
                     <td>{new Date(course.start_date).toLocaleDateString('en-GB')}</td>
                     <td>{new Date(course.finish_date).toLocaleDateString('en-GB')}</td>
                     <td>{course.train_place}</td>
                     <td>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
+                    <td><Quantity courseId={course.train_course_id} /></td>
                     <td>
                       <label className="switch">
                         <input
@@ -286,23 +308,25 @@ function Manage() {
             </table>
           </div>
         </div>
+        <br></br>
+        <div className="row">
+          <div className="col">
+            <div className="pagination">
+              <button href="#" onClick={() => handleClick("prev")} className={`previous-btn ${currentPage === 1 ? 'disabled' : ''}`} disabled={currentPage === 1}>
+                &laquo; Previous
+              </button>
+              <span style={{padding: '5px'}} className="btn pagination-span"> Page {currentPage} of {totalPages} </span>
+              <button href="#" onClick={() => handleClick("next")} className={`next-btn ${currentPage === totalPages ? 'disabled' : ''}`} disabled={currentPage === totalPages}>
+                Next &raquo;
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       {/* Courses Section End */}
 
-      <Link to={"/insert"}><a className="circle-button">+</a></Link>
-
-      <a>
-        <div ref={searchWrapperRef} className={`search-wrapper ${isActive ? "active" : ""}`}>
-          <div className="input-holder">
-            <input type="text" className="search-input" placeholder="Type to search" value={searchQuery} onChange={handleInputChange} autoFocus={isActive} />
-            <button className="search-icon" onClick={toggleSearch}><span></span></button>
-          </div>
-          <span className="close" onClick={toggleSearch}></span>
-        </div>
-      </a>
     </Main>
   );
-
 }
-export default Manage;
 
+export default Manage;
