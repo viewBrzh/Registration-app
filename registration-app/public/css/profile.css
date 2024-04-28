@@ -25,6 +25,33 @@
     box-shadow: 1px 2px 4px rgba(0, 0, 20, 0.08), 1px 1px 2px rgba(0, 0, 20, 0.08);
     width: 100%;
 }
+.skill-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+.skill {
+    width: calc(33.33% - 10px); /* คำนวณขนาดของแต่ละส่วนให้แสดง 3 ข้อมูลต่อแถว */
+    text-align: center;
+  }
+.skill p {
+    margin-top: 10px;
+}
+.skill img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    transition: box-shadow 0.3s ease-in-out;
+}
+.skill img:hover {
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* เพิ่มเงาเมื่อเมาส์วางบนรูปภาพ */
+}
 
 .history{
     
@@ -41,7 +68,6 @@
   
   .history th {
     font-weight: bold;
-    background-color: #f0f0f0;
   }
   
   .history tr:last-child td {
@@ -161,3 +187,9 @@
     padding-right: 20px;
     padding-left: 20px;
 }
+
+@media (max-width: 768px) {
+    .custom-skill-card {
+      margin-top: 20px; /* เพิ่มระยะห่างด้านบนเมื่อหน้าจอย่อลงไป */
+    }
+  }
