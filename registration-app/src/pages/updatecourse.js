@@ -3,6 +3,7 @@ import Main from "../layouts/main";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import FileUpload from "../components/fileUpload";
 import apiUrl from "../api/apiConfig";
+import { Modal, Button } from "react-bootstrap";
 
 function Updatecourse(props) {
   const { courseId } = useParams();
@@ -16,6 +17,52 @@ function Updatecourse(props) {
     finish_date: "",
     image: "",
   });
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  }
+
+
+  const handleTagSelection = (tag) => {
+    setSelectedTags((prevTags) =>
+      prevTags.includes(tag)
+        ? prevTags.filter((t) => t !== tag)
+        : [...prevTags, tag]
+    );
+  };
+
+  const handleSaveTags = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/course/${courseId}/update-skills`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ skills: selectedTags }),
+      });
+      if (response.ok) {
+        // Handle successful update of skills
+        console.log(courseId + selectedTags);
+        window.alert("Successfully update skills.");
+
+        // Update the course data with the new skills
+        setCourseData((prevCourseData) => ({
+          ...prevCourseData,
+          skills: selectedTags,
+        }));
+
+        setShowModal(false); // Close the modal after updating the skills
+      } else {
+        console.error('Failed to update skills');
+      }
+    } catch (error) {
+      console.error('Error updating skills:', error);
+    }
+  };
+
 
   useEffect(() => {
     const fetchCourseDetails = async () => {
@@ -111,7 +158,7 @@ function Updatecourse(props) {
       }
     }
   };
-  
+
   return (
     <Main>
       {/* Page Content */}
@@ -236,6 +283,7 @@ function Updatecourse(props) {
             <div className="custom-input">
               <FileUpload onFileUpload={(imageName) => setCourseData({ ...courseData, image: imageName })} />
             </div>
+            <a className="btn tag-select" onClick={handleShowModal}>Choose skill tags</a>
             {/* Card Footer */}
             <div
               style={{
@@ -267,6 +315,42 @@ function Updatecourse(props) {
           </form>
         </div>
       </div>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)} style={{ zIndex: 9999 }}>
+        <Modal.Header closeButton>
+          <Modal.Title>Choose Skills</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {[
+            "MENTALIZATION-BASED THERAPY",
+            "Satir systemic therapy",
+            "Coaching",
+            "Mindfullness-based therapy",
+            "Communication with parents",
+            "Oracle card into the mind",
+            "Problem-solvingtherapy",
+            "Enneagram",
+            "Relaxation technique",
+            "PSYCHOEDUCATION",
+            "Basic Counseling"
+          ].map(tag => (
+            <Button
+              key={tag}
+              variant={selectedTags.includes(tag) ? "primary" : "outline-primary"}
+              onClick={() => handleTagSelection(tag)}
+              style={{ margin: "5px" }}
+            >
+              {tag}
+            </Button>
+          ))}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleSaveTags}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </Main>
   );
 }

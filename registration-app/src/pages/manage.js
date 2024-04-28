@@ -325,6 +325,17 @@ function Manage() {
       </div>
       {/* Courses Section End */}
 
+      <Link to={"/insert"}><a className="circle-button">+</a></Link>
+
+      <a>
+        <div ref={searchWrapperRef} className={`search-wrapper ${isActive ? "active" : ""}`}>
+          <div className="input-holder">
+            <input type="text" className="search-input" placeholder="Type to search" value={searchQuery} onChange={handleInputChange} autoFocus={isActive} />
+            <button className="search-icon" onClick={toggleSearch}><span></span></button>
+          </div>
+          <span className="close" onClick={toggleSearch}></span>
+        </div>
+      </a>
     </Main>
   );
 }
