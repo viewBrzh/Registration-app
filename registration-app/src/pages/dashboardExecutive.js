@@ -109,6 +109,52 @@ function DashboardExecutive() {
       </div>
       {/* Page Header End */}
 
+      <div className="cardBox">
+        <div className="carddash">
+          <div>
+            <div className="cardName">Subordinate</div>
+            <div className="numbers">124</div>
+          </div>
+
+          <div className="iconBx">
+            <ion-icon name="eye-outline"></ion-icon>
+          </div>
+        </div>
+
+        <div className="carddash">
+          <div>
+            <div className="cardName">Enrolled</div>
+            <div className="numbers">24</div>
+          </div>
+
+          <div className="iconBx">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+          </div>
+        </div>
+
+        <div className="carddash">
+          <div>
+          <div className="cardName">Not yet enrolled</div>
+            <div className="numbers">100</div>    
+          </div>
+
+          <div className="iconBx">
+            <ion-icon name="close-circle-outline"></ion-icon>
+          </div>
+        </div>
+
+        <div className="carddash">
+          <div>
+            <div className="cardName">Missing</div>
+            <div className="numbers">284</div>
+            <div className="cardName">people to pass the criteria</div>
+          </div>
+          <div className="iconBx">
+            <ion-icon name="ban"></ion-icon>
+          </div>
+        </div>
+      </div>
+
       {/* Content */}
       <div className="container-fluid">
         <div className="row">
