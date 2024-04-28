@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
-import apiUrl from '../api/apiConfig';
+import apiUrl from "../api/apiConfig";
 
 function Course(props) {
   const [courses, setCourses] = useState([]);
@@ -26,7 +26,10 @@ function Course(props) {
   };
 
   const handleClickOutside = (evt) => {
-    if (searchWrapperRef.current && !searchWrapperRef.current.contains(evt.target)) {
+    if (
+      searchWrapperRef.current &&
+      !searchWrapperRef.current.contains(evt.target)
+    ) {
       setIsActive(false);
     }
   };
@@ -44,16 +47,26 @@ function Course(props) {
       .then((response) => response.json())
       .then((data) => {
         setCourses(data);
-        setBasicCourses(data?.filter((course) => course.course_id === 1 && course.isPublish === 1));
-        setRetreatCourses(data?.filter((course) => course.course_id === 2 && course.isPublish === 1));
+        setBasicCourses(
+          data?.filter(
+            (course) => course.course_id === 1 && course.isPublish === 1
+          )
+        );
+        setRetreatCourses(
+          data?.filter(
+            (course) => course.course_id === 2 && course.isPublish === 1
+          )
+        );
       });
   }, []);
 
   const formatDate = (start_date, finish_date) => {
     if (start_date === finish_date) {
-      return new Date(start_date).toLocaleDateString('en-GB');
+      return new Date(start_date).toLocaleDateString("en-GB");
     } else {
-      return `${new Date(start_date).toLocaleDateString('en-GB')} - ${new Date(finish_date).toLocaleDateString('en-GB')}`;
+      return `${new Date(start_date).toLocaleDateString("en-GB")} - ${new Date(
+        finish_date
+      ).toLocaleDateString("en-GB")}`;
     }
   };
 
@@ -132,7 +145,9 @@ function Course(props) {
                     </Link>
                     {/* Add bookmark button here */}
                     <button
-                      className={`bookmark-button ${favorites.has(course.train_course_id) ? "active" : ""}`}
+                      className={`bookmark-button ${
+                        favorites.has(course.train_course_id) ? "active" : ""
+                      }`}
                       onClick={() => toggleFavorite(course.train_course_id)}
                     >
                       {favorites?.has(course.train_course_id) ? (
@@ -153,15 +168,17 @@ function Course(props) {
                     </h3>
                     <p>{course.train_detail}</p>
                     <div className="properties__footer d-flex justify-content-between align-items-center">
-                      <div className="date" style={{ color: 'blue' }}>
+                      <div className="date" style={{ color: "blue" }}>
                         <span>
                           {formatDate(course.start_date, course.finish_date)}
                         </span>
                       </div>
                       <div className="location">
-                        <span>{course.train_place.length > 20
-                          ? `${course.train_place.substring(0, 20)}...`
-                          : course.train_place}</span>
+                        <span>
+                          {course.train_place.length > 20
+                            ? `${course.train_place.substring(0, 20)}...`
+                            : course.train_place}
+                        </span>
                       </div>
                     </div>
                     <Link to={`/detail/${course.train_course_id}`}>
@@ -210,7 +227,9 @@ function Course(props) {
                     </Link>
                     {/* Add bookmark button here */}
                     <button
-                      className={`bookmark-button${favorites.has(course.train_course_id) ? ' active' : ''}`}
+                      className={`bookmark-button${
+                        favorites.has(course.train_course_id) ? " active" : ""
+                      }`}
                       onClick={() => toggleFavorite(course.train_course_id)}
                     >
                       {favorites?.has(course.train_course_id) ? (
@@ -219,7 +238,6 @@ function Course(props) {
                         <i className="bi bi-bookmark-star"></i>
                       )}
                     </button>
-
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>
@@ -232,15 +250,17 @@ function Course(props) {
                     </h3>
                     <p style={{ padding: 5 }}>{course.train_detail}</p>
                     <div className="properties__footer d-flex justify-content-between align-items-center">
-                      <div className="date" style={{ color: 'blue' }}>
-                        <span >
+                      <div className="date" style={{ color: "blue" }}>
+                        <span>
                           {formatDate(course.start_date, course.finish_date)}
                         </span>
                       </div>
                       <div className="location">
-                        <span >{course.train_place.length > 20
-                          ? `${course.train_place.substring(0, 20)}...`
-                          : course.train_place}</span>
+                        <span>
+                          {course.train_place.length > 20
+                            ? `${course.train_place.substring(0, 20)}...`
+                            : course.train_place}
+                        </span>
                       </div>
                     </div>
                     <Link to={`/detail/${course.train_course_id}`}>
@@ -257,8 +277,11 @@ function Course(props) {
       </div>
       {/* Retreat Courses Section End */}
 
-      <a >
-        <div ref={searchWrapperRef} className={`search-wrapper ${isActive ? "active" : ""}`}>
+      <a>
+        <div
+          ref={searchWrapperRef}
+          className={`search-wrapper ${isActive ? "active" : ""}`}
+        >
           <div className="input-holder">
             <input
               type="text"

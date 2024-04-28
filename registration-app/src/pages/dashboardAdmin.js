@@ -42,8 +42,16 @@ function DashboardAdmin() {
       {
         label: "Department Data",
         data: [50, 70, 40], // Sample data
-        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(255, 206, 86, 0.2)"],
-        borderColor: ["rgba(255, 99, 132, 1)", "rgba(75, 192, 192, 1)", "rgba(255, 206, 86, 1)"],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(255, 206, 86, 1)",
+        ],
         borderWidth: 1,
       },
     ],
@@ -98,9 +106,14 @@ function DashboardAdmin() {
   return (
     <Main>
       {/* Page Header */}
-      <div className="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+      <div
+        className="container-fluid page-header py-5 mb-5 wow fadeIn"
+        data-wow-delay="0.1s"
+      >
         <div className="container text-center py-5 justify-content-center">
-          <h1 className="display-2 text-dark mb-4 animated slideInDown">Dashboard</h1>
+          <h1 className="display-2 text-dark mb-4 animated slideInDown">
+            Dashboard
+          </h1>
           <nav aria-label="breadcrumb animated slideInDown">
             <ol className="breadcrumb justify-content-center mb-0">
               <li className="breadcrumb-item">
@@ -140,12 +153,8 @@ function DashboardAdmin() {
                   </thead>
                   <tbody>
                     <tr>
-                      <td>
-                        การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1
-                      </td>
-                      <td>
-                        ห้องประชุม 1 ชั้น 2 อาคารวิจัย
-                      </td>
+                      <td>การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1</td>
+                      <td>ห้องประชุม 1 ชั้น 2 อาคารวิจัย</td>
                       <td>68</td>
                       <td className="text-center">10</td>
                       <td>
@@ -153,12 +162,8 @@ function DashboardAdmin() {
                       </td>
                     </tr>
                     <tr>
-                      <td>
-                        การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2
-                      </td>
-                      <td>
-                        ห้องประชุม 1 ชั้น 2 อาคารวิจัย
-                      </td>
+                      <td>การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2</td>
+                      <td>ห้องประชุม 1 ชั้น 2 อาคารวิจัย</td>
                       <td>0</td>
                       <td className="text-center">0</td>
                       <td>
@@ -176,9 +181,7 @@ function DashboardAdmin() {
                     </tr>
                     <tr>
                       <td>การให้การปรึกษาตามแนวซาเทียร์</td>
-                      <td>
-                        ห้องประชุมหัวตะพาน โรงพยาบาลศูนย์การแพทย์
-                      </td>
+                      <td>ห้องประชุมหัวตะพาน โรงพยาบาลศูนย์การแพทย์</td>
                       <td>0</td>
                       <td className="text-center">0</td>
                       <td>
@@ -186,9 +189,7 @@ function DashboardAdmin() {
                       </td>
                     </tr>
                     <tr>
-                      <td>
-                        การให้การปรึกษาสำหรับอาจารย์ใหม่ online
-                      </td>
+                      <td>การให้การปรึกษาสำหรับอาจารย์ใหม่ online</td>
                       <td>Zoom</td>
                       <td>130</td>
                       <td className="text-center">22</td>
@@ -207,8 +208,10 @@ function DashboardAdmin() {
           <div className="col-lg-6 ">
             <div className="details d-flex">
               <div className="recentOrders">
-                <div className="cardHeader"><h2>Quantity Chart</h2></div>
-                <br></br> 
+                <div className="cardHeader">
+                  <h2>Quantity Chart</h2>
+                </div>
+                <br></br>
                 <div className="chart-container">
                   <canvas ref={chartRef1} id="courseStatusChart"></canvas>
                 </div>
@@ -220,16 +223,17 @@ function DashboardAdmin() {
 
       <div className="container-fluid py-5 mb-5 wow fadeIn">
         <div className="details d-flex">
-              <div className="recentOrders">
-                <div className="cardHeader"><h2>Quantity Chart</h2></div>
-                <br></br> 
-                <div className="chart-container">
-                  <canvas ref={chartRef2} id="coursedepartment"></canvas>
-                </div>
-              </div>
+          <div className="recentOrders">
+            <div className="cardHeader">
+              <h2>Quantity Chart</h2>
             </div>
+            <br></br>
+            <div className="chart-container">
+              <canvas ref={chartRef2} id="coursedepartment"></canvas>
+            </div>
+          </div>
+        </div>
       </div>
-      
     </Main>
   );
 }
