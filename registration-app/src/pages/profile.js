@@ -6,24 +6,9 @@ import FileUploadProfile from "../components/fileUploadProfile";
 import axios from "axios";
 import apiUrl from "../api/apiConfig";
 
-function Profile(props) {
+function Profile() {
   const storedUserData = localStorage.getItem("userData");
   const [courses, setCourses] = useState([]);
-
-  useEffect(() => {
-    fetch(`/course/get-all`)
-      .then((response) => response.json())
-      .then((json) => {
-        if (Array.isArray(json.courses)) {
-          setCourses(json.courses.slice(0, 4));
-        } else {
-          console.error("Invalid data format: courses is not an array");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching courses data:", error);
-      });
-  }, []);
 
   let userData = null;
   try {
@@ -70,6 +55,15 @@ function Profile(props) {
     updateUser(userDatas.user_id, userDatas); // Pass userData instead of userDatas
     handleCloseModal();
   };
+
+  useEffect(() => {
+    fetch(`${apiUrl}/course/get-all`)
+      .then((response) => response.json())
+      .then((data) => {
+        setCourses(data);
+      });
+  }, []);
+
   return (
     <Main>
       {/* Hero Section */}
@@ -78,7 +72,10 @@ function Profile(props) {
           <div className="col-xl-12 col-lg-12 col-md-12 col-12">
             {/* Bg */}
             <div className="custom-pt-20 rounded-top"></div>
-            <div className="custom-card custom-rounded-bottom smooth-shadow-sm">
+            <div
+              className="custom-card custom-rounded-bottom smooth-shadow-sm"
+              style={{ backgroundColor: "#FFFFFF" }}
+            >
               <div className="d-flex align-items-center justify-content-between pt-4 pb-6 px-4">
                 <div className="d-flex align-items-center">
                   <div
@@ -122,7 +119,10 @@ function Profile(props) {
               <div className="row">
                 {/* Info Card */}
                 <div className="col-md-4">
-                  <div className="custom-info-card">
+                  <div
+                    className="custom-info-card"
+                    style={{ backgroundColor: "#FFFFFF" }}
+                  >
                     <div className="row">
                       <h4 className="col-md-6">Contact </h4>
                       <Link
@@ -143,51 +143,129 @@ function Profile(props) {
                     </p>
                     <hr />
                     <div className="row">
-                      <h4 className="col-md-6">History </h4>
+                      <h4 className="col-md-6">History Course</h4>
                       <Link to="#" className="col-md-6 text-end">
                         See all
                       </Link>
                     </div>
                     <div className="history">
-                      <div className="container-fluid">
-                        <div className="row">
-                          {/*Course */}
-
-                          <div className="details d-flex">
-                            <table>
-                              <thead>
-                                <tr>
-                                  <td>Course name</td>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td style={{ textAlign: "left" }}>
-                                    {courses.map((courseItem, index) => (
-                                      <span key={index}>
-                                        {courseItem.course_detail_name}
-                                        <br />
-                                      </span>
-                                    ))}
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-
-                          {/* Course End */}
-                        </div>
-                      </div>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td style={{ textAlign: "left" }}>
+                              {courses.slice(0, 5).map((course) => (
+                                <p key={course.id}>
+                                  {course.course_detail_name}
+                                  <br />
+                                </p>
+                              ))}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
 
                 {/* Skill Card */}
                 <div className="col-md-8">
-                  <div className="custom-skill-card">
-                    {/* Skill Card Content Here */}
-                    <div className=""></div>
+                  <div
+                    className="custom-skill-card"
+                    style={{ backgroundColor: "#FFFFFF" }}
+                  >
                     <h4>Skills</h4>
+                    {/* Skill Card Content Here */}
+                    <div className="skill-group">
+                      <div className="skill">
+                        <img
+                          src="img/profile/Certificate (1).bak.bak.png"
+                          className="card-img-top1"
+                          alt="Explanation"
+                        />
+                        <p>Basic Counseling</p>
+                      </div>
+
+                      <div className="skill">
+                        <img
+                          src="img/profile/Certificate Of Deposit.png"
+                          className="card-img-top1"
+                          alt="Explanation"
+                        />
+                        <p>Satir systemic therapy </p>
+                      </div>
+                      <div className="skill">
+                        <img
+                          src="img/profile/Certificate.bak.bak.png"
+                          className="card-img-top1"
+                          alt="Explanation"
+                        />
+                        <p>Coaching</p>
+                      </div>
+                      <div className="skill">
+                        <img
+                          src="img/profile/Certificate.png"
+                          className="card-img-top1"
+                          alt="Explanation"
+                        />
+                        <p>Mindfullness-based therapy </p>
+                      </div>
+                      <div className="skill">
+                        <img
+                          src="img/profile/Education Scholarship.png"
+                          className="card-img-top1"
+                          alt="Explanation"
+                        />
+                        <p>Communication with parents </p>
+                      </div>
+                      <div className="skill">
+                        <img
+                          src="img/profile/Graduation Certificate Scroll.png"
+                          className="card-img-top1"
+                          alt="Explanation"
+                        />
+                        <p>Oracle card into the mind </p>
+                      </div>
+                      <div className="skill">
+                        <img
+                          src="img/profile/Graduation.bak.bak.png"
+                          className="card-img-top1"
+                          alt="Explanation"
+                        />
+                        <p>Problem-solvingtherapy </p>
+                      </div>
+                      <div className="skill">
+                        <img
+                          src="img/profile/Medical Certificate.png"
+                          className="card-img-top1"
+                          alt="Explanation"
+                        />
+                        <p>Enneagram</p>
+                      </div>
+                      <div className="skill">
+                        <img
+                          src="img/profile/Self Learning.bak.bak.png"
+                          className="card-img-top1"
+                          alt="Explanation"
+                        />
+                        <p>PSYCHOEDUCATION </p>
+                      </div>
+                      <div className="skill">
+                        <img
+                          src="img/profile/The Road To Graduation.bak.bak.png"
+                          className="card-img-top1"
+                          alt="Explanation"
+                        />
+                        <p>MENTALIZATION-BASED THERAPY</p>
+                      </div>
+                      <div className="skill">
+                        <img
+                          src="img/profile/Certificate Paper 3D Icon Model With A Star Badge.png"
+                          className="card-img-top1"
+                          alt="Explanation"
+                        />
+                        <p>Relaxation technique </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
