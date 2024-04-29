@@ -77,7 +77,7 @@ function Profile() {
                 className="container text-center py-5"
                 style={{ position: "relative", top: "-100px" }}
               >
-                <h1 className="display-2 text-dark mb-4 animated slideInDown">
+                {/* <h1 className="display-2 text-dark mb-4 animated slideInDown">
                   Profile {userDatas && userDatas.username}
                 </h1>
                 <nav aria-label="breadcrumb animated slideInDown">
@@ -95,7 +95,7 @@ function Profile() {
                       Profile
                     </li>
                   </ol>
-                </nav>
+                </nav> */}
               </div>
             </div>
 
@@ -170,7 +170,7 @@ function Profile() {
                     </p>
                     <hr />
                     <div className="row">
-                      <h4 className="col-md-6">History Course</h4>
+                      <h4 className="col-md-6">History</h4>
                       <Link to="#" className="col-md-6 text-end">
                         See all
                       </Link>

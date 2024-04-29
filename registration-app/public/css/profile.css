@@ -45,7 +45,9 @@
     justify-content: center;
     align-items: center;
     border: 2px solid #e90073;
-    border-radius: 10%;
+    border-radius: 50%;
+    background-color: #e90073;
+    color: white;
 }
 .skill-group {
     display: flex;
