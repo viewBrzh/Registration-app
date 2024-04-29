@@ -19,7 +19,7 @@ function About(props) {
                   Home
                 </Link>
               </li>
-              <li className="breadcrumb-item text-dark" aria-current="page">
+              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold'}}>
                 About
               </li>
             </ol>

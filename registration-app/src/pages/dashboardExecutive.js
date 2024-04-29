@@ -100,7 +100,7 @@ function DashboardExecutive() {
                   Home
                 </Link>
               </li>
-              <li className="breadcrumb-item text-dark" aria-current="page">
+              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold'}}>
                 Dashboard Executive
               </li>
             </ol>

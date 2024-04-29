@@ -174,7 +174,7 @@ function DashboardAdmin() {
                   Home
                 </Link>
               </li>
-              <li className="breadcrumb-item text-dark" aria-current="page">
+              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold'}}>
                 Dashboard admin
               </li>
             </ol>
@@ -182,6 +182,52 @@ function DashboardAdmin() {
         </div>
       </div>
       {/* Page Header End */}
+
+      <div className="cardBox">
+        <div className="carddash">
+          <div>
+            <div className="cardName">Subordinate</div>
+            <div className="numbers">124</div>
+          </div>
+
+          <div className="iconBx">
+            <ion-icon name="people-outline"></ion-icon>
+          </div>
+        </div>
+
+        <div className="carddash">
+          <div>
+            <div className="cardName">Enrolled</div>
+            <div className="numbers">24</div>
+          </div>
+
+          <div className="iconBx">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+          </div>
+        </div>
+
+        <div className="carddash">
+          <div>
+          <div className="cardName">Not enrolled yet</div>
+            <div className="numbers">100</div>    
+          </div>
+
+          <div className="iconBx">
+            <ion-icon name="close-circle-outline"></ion-icon>
+          </div>
+        </div>
+
+        <div className="carddash">
+          <div>
+            <div className="cardName">Missing</div>
+            <div className="numbers">284</div>
+            <div className="cardName">people to pass the criteria</div>
+          </div>
+          <div className="iconBx">
+            <ion-icon name="ban"></ion-icon>
+          </div>
+        </div>
+      </div>
 
       {/* Content */}
       <div className="container-fluid">

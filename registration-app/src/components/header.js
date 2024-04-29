@@ -100,7 +100,7 @@ function Header() {
                   className={`nav-item nav-link ${location.pathname === "/course" ? "active" : ""
                     }`}
                 >
-                  Course
+                  Courses
                 </Link>
                 {userRole === "admin" && (
                   <Link
