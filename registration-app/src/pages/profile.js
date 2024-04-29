@@ -71,7 +71,34 @@ function Profile() {
         <div className="row">
           <div className="col-xl-12 col-lg-12 col-md-12 col-12">
             {/* Bg */}
-            <div className="custom-pt-20 rounded-top"></div>
+
+            <div className="custom-pt-20 rounded-top">
+              <div
+                className="container text-center py-5"
+                style={{ position: "relative", top: "-100px" }}
+              >
+                <h1 className="display-2 text-dark mb-4 animated slideInDown">
+                  Profile {userDatas && userDatas.username}
+                </h1>
+                <nav aria-label="breadcrumb animated slideInDown">
+                  <ol className="breadcrumb justify-content-center mb-0">
+                    <li className="breadcrumb-item">
+                      <Link
+                        to={`/`}
+                        className="breadcrumb-item"
+                        style={{ color: "#f5f8f2" }}
+                      >
+                        Home /
+                      </Link>
+                    </li>
+                    <li className="text-dark" aria-current="page">
+                      Profile
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+
             <div
               className="custom-card custom-rounded-bottom smooth-shadow-sm"
               style={{ backgroundColor: "#FFFFFF" }}
@@ -177,92 +204,124 @@ function Profile() {
                     {/* Skill Card Content Here */}
                     <div className="skill-group">
                       <div className="skill">
-                        <img
-                          src="./img/profile/Certificate (1).bak.bak.png"
-                          className="card-img-top1"
-                          alt="Explanation"
-                        />
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Certificate (1).bak.bak.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">1</span>
+                        </div>
                         <p>Basic Counseling</p>
                       </div>
-
                       <div className="skill">
-                        <img
-                          src="./img/profile/Certificate Of Deposit.png"
-                          className="card-img-top1"
-                          alt="Explanation"
-                        />
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Certificate Of Deposit.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">1</span>
+                        </div>
                         <p>Satir systemic therapy </p>
                       </div>
                       <div className="skill">
-                        <img
-                          src="./img/profile/Certificate.bak.bak.png"
-                          className="card-img-top1"
-                          alt="Explanation"
-                        />
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Certificate.bak.bak.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">1</span>
+                        </div>
                         <p>Coaching</p>
                       </div>
                       <div className="skill">
-                        <img
-                          src="./img/profile/Certificate.png"
-                          className="card-img-top1"
-                          alt="Explanation"
-                        />
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Certificate.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">1</span>
+                        </div>
                         <p>Mindfullness-based therapy </p>
                       </div>
                       <div className="skill">
-                        <img
-                          src="./img/profile/Education Scholarship.png"
-                          className="card-img-top1"
-                          alt="Explanation"
-                        />
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Education Scholarship.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">1</span>
+                        </div>
                         <p>Communication with parents </p>
                       </div>
                       <div className="skill">
-                        <img
-                          src="./img/profile/Graduation Certificate Scroll.png"
-                          className="card-img-top1"
-                          alt="Explanation"
-                        />
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Graduation Certificate Scroll.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">1</span>
+                        </div>
                         <p>Oracle card into the mind </p>
                       </div>
                       <div className="skill">
-                        <img
-                          src="./img/profile/Graduation.bak.bak.png"
-                          className="card-img-top1"
-                          alt="Explanation"
-                        />
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Graduation.bak.bak.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">1</span>
+                        </div>
                         <p>Problem-solvingtherapy </p>
                       </div>
                       <div className="skill">
-                        <img
-                          src="./img/profile/Medical Certificate.png"
-                          className="card-img-top1"
-                          alt="Explanation"
-                        />
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Medical Certificate.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">1</span>
+                        </div>
                         <p>Enneagram</p>
                       </div>
                       <div className="skill">
-                        <img
-                          src="./img/profile/Self Learning.bak.bak.png"
-                          className="card-img-top1"
-                          alt="Explanation"
-                        />
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Self Learning.bak.bak.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">1</span>
+                        </div>
                         <p>PSYCHOEDUCATION </p>
                       </div>
                       <div className="skill">
-                        <img
-                          src="./img/profile/The Road To Graduation.bak.bak.png"
-                          className="card-img-top1"
-                          alt="Explanation"
-                        />
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/The Road To Graduation.bak.bak.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">1</span>
+                        </div>
                         <p>MENTALIZATION-BASED THERAPY</p>
                       </div>
                       <div className="skill">
-                        <img
-                          src="./img/profile/Certificate Paper 3D Icon Model With A Star Badge.png"
-                          className="card-img-top1"
-                          alt="Explanation"
-                        />
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Certificate Paper 3D Icon Model With A Star Badge.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">1</span>
+                        </div>
                         <p>Relaxation technique </p>
                       </div>
                     </div>
