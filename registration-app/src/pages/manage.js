@@ -191,19 +191,19 @@ function Manage() {
 
         <div className="row">
           <div className="table-responsive">
-            <table className="table">
+            <table>
               <thead>
                 <tr>
-                  <th scope="col" style={{ width: '2%' }}>id</th>
-                  <th scope="col" style={{ width: '12%' }}>Course Name</th>
-                  <th scope="col" style={{ width: '24%' }}>Description</th>
-                  <th scope="col" style={{ width: '8%' }}>Start Date</th>
-                  <th scope="col" style={{ width: '8%' }}>End Date</th>
-                  <th scope="col" style={{ width: '10%' }}>Place</th>
-                  <th scope="col" style={{ width: '6%' }}>Course Type</th>
-                  <th scope="col" style={{ width: '8%' }}>Enrollments</th>
-                  <th scope="col" style={{ width: '8%' }}>Publish Status</th>
-                  <th scope="col" style={{ width: '14%' }}>Actions</th>
+                  <th scope="col" className="pink-th" style={{ width: '2%' }}>id</th>
+                  <th scope="col" className="pink-th" style={{ width: '12%' }}>Course Name</th>
+                  <th scope="col" className="pink-th" style={{ width: '24%' }}>Description</th>
+                  <th scope="col" className="pink-th" style={{ width: '8%' }}>Start Date</th>
+                  <th scope="col" className="pink-th" style={{ width: '8%' }}>End Date</th>
+                  <th scope="col" className="pink-th" style={{ width: '10%' }}>Place</th>
+                  <th scope="col" className="pink-th" style={{ width: '6%' }}>Course Type</th>
+                  <th scope="col" className="pink-th" style={{ width: '8%' }}>Enrollments</th>
+                  <th scope="col" className="pink-th" style={{ width: '8%' }}>Publish Status</th>
+                  <th scope="col" className="pink-th" style={{ width: '14%' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>

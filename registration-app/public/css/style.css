@@ -1622,3 +1622,37 @@ img.logo-wu:hover {
 .tag-select:hover {
     background-color: #efc0d8;
 }
+
+.pink-th{
+    background-color: #ff74b9;
+    border: 2.5px solid white;
+    padding-left: 5px;
+    color: white;
+}
+
+.status.waiting {
+    padding: 2px 4px;
+    background: #ffcc00; /* Yellow */
+    color: #FFFFFF;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status.finish {
+    padding: 2px 4px;
+    background: #00cc66; /* Green */
+    color: #FFFFFF;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status.failed {
+    padding: 2px 4px;
+    background: #ff3333; /* Red */
+    color: #FFFFFF;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}

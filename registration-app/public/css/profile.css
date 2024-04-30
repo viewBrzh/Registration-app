@@ -236,13 +236,20 @@
     }
 }
 
-td, th {
+td,
+th {
     text-align: start;
 }
 
 .course-name {
-    white-space: nowrap; /* Prevent line breaks */
-    overflow: hidden; /* Hide overflowing content */
-    text-overflow: ellipsis; /* Display an ellipsis (...) to indicate text overflow */
-  }
-  
+    white-space: nowrap;
+    /* Prevent line breaks */
+    overflow: hidden;
+    /* Hide overflowing content */
+    text-overflow: ellipsis;
+    /* Display an ellipsis (...) to indicate text overflow */
+}
+
+.head-h4{
+    color: #E60073;
+}

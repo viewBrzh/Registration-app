@@ -49,7 +49,7 @@ const CourseTable = () => {
                     <td>
                         <span className={`status ${isPublish ? 'delivered' : 'pending'}`}>
                             {isPublish ? 'Opening' : 'Closing'}
-                        </span>                    
+                        </span>
                     </td>
                 </tr>
             );
@@ -66,14 +66,14 @@ const CourseTable = () => {
                     <Link to="/manage">View All</Link>
                 </div>
                 <table>
-                    <thead>
+                    <thead className="pink-th-table">
                         <tr>
-                            <td>id</td>
-                            <td>Course name</td>
-                            <td>Training location</td>
-                            <td>Date</td>
-                            <td>Enrollment</td>
-                            <td>Status</td>
+                            <th scope="col" className='pink-th'>id</th>
+                            <th scope="col" className='pink-th'>Course name</th>
+                            <th scope="col" className='pink-th'>Training location</th>
+                            <th scope="col" className='pink-th'>Date</th>
+                            <th scope="col" className='pink-th'>Enrollment</th>
+                            <th scope="col" className='pink-th'>Status</th>
                         </tr>
                     </thead>
                     <tbody>{loading ? <tr><td colSpan="5">Loading...</td></tr> : renderTableData()}</tbody>
@@ -91,7 +91,7 @@ const CourseTable = () => {
                         onClick={() => setCurrentPage(currentPage + 1)}
                         disabled={currentPage === totalPages}
                     >
-                       Next &raquo;
+                        Next &raquo;
                     </button>
                 </div>
             </div>
