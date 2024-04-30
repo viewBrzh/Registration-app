@@ -165,8 +165,8 @@ function Header() {
                       </li>
                       <li>
                         <Link
-                        to=""
-                        className={`dropdown-item ${location.pathname === "/profile" ? "active" : ""}`}>
+                        to="/notification"
+                        className={`dropdown-item ${location.pathname === "/notification" ? "active" : ""}`}>
                         Notification
                         </Link>
                       </li>

@@ -9,6 +9,7 @@ import apiUrl from "../api/apiConfig";
 function Profile() {
   const storedUserData = localStorage.getItem("userData");
   const [courses, setCourses] = useState([]);
+  const [skillsData, setSkillsData] = useState({});
 
   let userData = null;
   try {
@@ -56,13 +57,36 @@ function Profile() {
     handleCloseModal();
   };
 
+
   useEffect(() => {
-    fetch(`${apiUrl}/course/get-all`)
+    fetch(`${apiUrl}/enroll/getUserHistory/${userDatas.user_id}`)
       .then((response) => response.json())
       .then((data) => {
-        setCourses(data);
+        setCourses(data.courses); // Update state with courses data
+
+        const skillsCount = {};
+        data.courses?.forEach((course) => {
+          const skills = course.skills.split(", ");
+          skills.forEach((skill) => {
+            skillsCount[skill] = (skillsCount[skill] || 0) + 1;
+          });
+        });
+        setSkillsData(skillsCount);
       });
-  }, []);
+  }, [userDatas.user_id]); // Add userDatas.user_id as a dependency
+
+  useEffect(() => {
+    console.log(skillsData);
+  }, [skillsData]);
+
+  const isEmpty = (items) => {
+    if (!items) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
   return (
     <Main>
@@ -142,7 +166,7 @@ function Profile() {
               <br />
             </div>
             <br></br>
-            <div className="container">
+            <div className="container-fluid">
               <div className="row">
                 {/* Info Card */}
                 <div className="col-md-4">
@@ -176,20 +200,29 @@ function Profile() {
                       </Link>
                     </div>
                     <div className="history">
-                      <table>
-                        <tbody>
-                          <tr>
-                            <td style={{ textAlign: "left" }}>
-                              {courses.slice(0, 5).map((course) => (
-                                <p key={course.id}>
-                                  {course.course_detail_name}
-                                  <br />
-                                </p>
-                              ))}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      {!isEmpty(courses) ? (
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td style={{ textAlign: "left" }}>
+                                {courses.slice(0, 5).map((course) => (
+                                  <p className="course-name" key={course.id}>
+                                    {course.course_detail_name}
+                                    <br />
+                                  </p>
+                                ))}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      ) : <div>No course history yet.</div>}
+
                     </div>
                   </div>
                 </div>
@@ -203,128 +236,128 @@ function Profile() {
                     <h4>Skills</h4>
                     {/* Skill Card Content Here */}
                     <div className="skill-group">
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Certificate (1).bak.bak.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">1</span>
+                        <div className="skill">
+                          <div className="image-container">
+                            <img
+                              src="./img/profile/Certificate (1).bak.bak.png"
+                              className="card-img-top1"
+                              alt="Explanation"
+                            />
+                            <span className="number-overlay">{skillsData['MENTALIZATION-BASED THERAPY'] || <i className="bi bi-lock-fill"></i>}</span>
+                          </div>
+                          <p>MENTALIZATION-BASED THERAPY</p>
                         </div>
-                        <p>Basic Counseling</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Certificate Of Deposit.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">1</span>
+                        <div className="skill">
+                          <div className="image-container">
+                            <img
+                              src="./img/profile/Certificate Of Deposit.png"
+                              className="card-img-top1"
+                              alt="Explanation"
+                            />
+                            <span className="number-overlay">{skillsData['Satir systemic therapy'] || <i className="bi bi-lock-fill"></i>}</span>
+                          </div>
+                          <p>Satir systemic therapy</p>
                         </div>
-                        <p>Satir systemic therapy </p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Certificate.bak.bak.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">1</span>
+                        <div className="skill">
+                          <div className="image-container">
+                            <img
+                              src="./img/profile/Certificate.bak.bak.png"
+                              className="card-img-top1"
+                              alt="Explanation"
+                            />
+                            <span className="number-overlay">{skillsData['Coaching'] || <i className="bi bi-lock-fill"/>}</span>
+                          </div>
+                          <p>Coaching</p>
                         </div>
-                        <p>Coaching</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Certificate.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">1</span>
+                        <div className="skill">
+                          <div className="image-container">
+                            <img
+                              src="./img/profile/Certificate.png"
+                              className="card-img-top1"
+                              alt="Explanation"
+                            />
+                            <span className="number-overlay">{skillsData['Mindfullness-based therapy'] || <i className="bi bi-lock-fill"/>}</span>
+                          </div>
+                          <p>Mindfullness-based therapy</p>
                         </div>
-                        <p>Mindfullness-based therapy </p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Education Scholarship.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">1</span>
+                        <div className="skill">
+                          <div className="image-container">
+                            <img
+                              src="./img/profile/Education Scholarship.png"
+                              className="card-img-top1"
+                              alt="Explanation"
+                            />
+                            <span className="number-overlay">{skillsData['Communication with parents'] || <i className="bi bi-lock-fill"/>}</span>
+                          </div>
+                          <p>Communication with parents</p>
                         </div>
-                        <p>Communication with parents </p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Graduation Certificate Scroll.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">1</span>
+                        <div className="skill">
+                          <div className="image-container">
+                            <img
+                              src="./img/profile/Graduation Certificate Scroll.png"
+                              className="card-img-top1"
+                              alt="Explanation"
+                            />
+                            <span className="number-overlay">{skillsData['Oracle card into the mind'] || <i className="bi bi-lock-fill"/>}</span>
+                          </div>
+                          <p>Oracle card into the mind</p>
                         </div>
-                        <p>Oracle card into the mind </p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Graduation.bak.bak.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">1</span>
+                        <div className="skill">
+                          <div className="image-container">
+                            <img
+                              src="./img/profile/Graduation.bak.bak.png"
+                              className="card-img-top1"
+                              alt="Explanation"
+                            />
+                            <span className="number-overlay">{skillsData['Problem-solvingtherapy'] || <i className="bi bi-lock-fill"/>}</span>
+                          </div>
+                          <p>Problem-solvingtherapy</p>
                         </div>
-                        <p>Problem-solvingtherapy </p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Medical Certificate.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">1</span>
+                        <div className="skill">
+                          <div className="image-container">
+                            <img
+                              src="./img/profile/Medical Certificate.png"
+                              className="card-img-top1"
+                              alt="Explanation"
+                            />
+                            <span className="number-overlay">{skillsData['Enneagram'] || <i className="bi bi-lock-fill"/>}</span>
+                          </div>
+                          <p>Enneagram</p>
                         </div>
-                        <p>Enneagram</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Self Learning.bak.bak.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">1</span>
+                        <div className="skill">
+                          <div className="image-container">
+                            <img
+                              src="./img/profile/Self Learning.bak.bak.png"
+                              className="card-img-top1"
+                              alt="Explanation"
+                            />
+                            <span className="number-overlay">{skillsData['Relaxation technique'] || <i className="bi bi-lock-fill"/>}</span>
+                          </div>
+                          <p>Relaxation technique</p>
                         </div>
-                        <p>PSYCHOEDUCATION </p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/The Road To Graduation.bak.bak.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">1</span>
+                        <div className="skill">
+                          <div className="image-container">
+                            <img
+                              src="./img/profile/Certificate Paper 3D Icon Model With A Star Badge.png"
+                              className="card-img-top1"
+                              alt="Explanation"
+                            />
+                            <span className="number-overlay">{skillsData['PSYCHOEDUCATION'] || <i className="bi bi-lock-fill"/>}</span>
+                          </div>
+                          <p>PSYCHOEDUCATION</p>
                         </div>
-                        <p>MENTALIZATION-BASED THERAPY</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Certificate Paper 3D Icon Model With A Star Badge.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">1</span>
+                        <div className="skill">
+                          <div className="image-container">
+                            <img
+                              src="./img/profile/The Road To Graduation.bak.bak.png"
+                              className="card-img-top1"
+                              alt="Explanation"
+                            />
+                            <span className="number-overlay">{skillsData['Basic Counseling'] || <i className="bi bi-lock-fill"/>}</span>
+                          </div>
+                          <p>Basic Counseling</p>
                         </div>
-                        <p>Relaxation technique </p>
                       </div>
-                    </div>
                   </div>
                 </div>
               </div>
