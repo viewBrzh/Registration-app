@@ -57,33 +57,31 @@ function Header() {
                   Home
                 </Link>
                 {userRole === "teacher" && (
-                <Link
-                  to={`/dashboard`}
-                  className={`nav-item nav-link ${location.pathname === "/dashboard" ? "active" : ""
-                    }`}
-                >
-                  Dashboard
-                </Link>
+                  <Link
+                    to={`/dashboard`}
+                    className={`nav-item nav-link ${location.pathname === "/dashboard" ? "active" : ""
+                      }`}
+                  >
+                    Dashboard
+                  </Link>
                 )}
                 {userRole === "executive" && (
-                <Link
-                  to={`/dashboardExecutive`}
-                  className={`nav-item nav-link ${
-                    location.pathname === "/dashboardExecutive" ? "active" : ""
-                  }`}
-                >
-                  Dashboard
-                </Link>
+                  <Link
+                    to={`/dashboardExecutive`}
+                    className={`nav-item nav-link ${location.pathname === "/dashboardExecutive" ? "active" : ""
+                      }`}
+                  >
+                    Dashboard
+                  </Link>
                 )}
                 {userRole === "admin" && (
-                <Link
-                  to={`/dashboardAdmin`}
-                  className={`nav-item nav-link ${
-                    location.pathname === "/dashboardAdmin" ? "active" : ""
-                  }`}
-                >
-                  Dashboard
-                </Link>
+                  <Link
+                    to={`/dashboardAdmin`}
+                    className={`nav-item nav-link ${location.pathname === "/dashboardAdmin" ? "active" : ""
+                      }`}
+                  >
+                    Dashboard
+                  </Link>
                 )}
                 {userRole !== "admin" && (
                   <Link
@@ -131,13 +129,16 @@ function Header() {
                 )}
 
                 {isAuthenticated && (
-                  <div className="nav-item  nav-link" style={{ marginTop: '-10px' }}>
+                  <a
+                    className="nav-item nav-link justify-content-end"
+                    style={{ marginTop: '-10px', marginLeft: 'auto' }}
+                  >
                     <button
                       className="btn"
                       type="button"
                       id="dropdownMenuButton"
                       aria-expanded={"false"}
-                      style={{ display: 'flex', alignItems: 'center' }}
+                      style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold' }}
                       onClick={toggleDrop}
                     >
                       {user?.username}
@@ -165,9 +166,10 @@ function Header() {
                       </li>
                       <li>
                         <Link
-                        to="/notification"
-                        className={`dropdown-item ${location.pathname === "/notification" ? "active" : ""}`}>
-                        Notification
+                          to="/notification"
+                          className={`dropdown-item ${location.pathname === "/notification" ? "active" : ""}`}
+                        >
+                          Notification
                         </Link>
                       </li>
                       <li onClick={handleLogout}>
@@ -179,8 +181,9 @@ function Header() {
                         </Link>
                       </li>
                     </ul>
-                  </div>
+                  </a>
                 )}
+
               </div>
             </div>
           </nav>
