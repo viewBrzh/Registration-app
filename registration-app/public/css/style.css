@@ -1055,63 +1055,46 @@ body {
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: inline-block;
-    /* ใช้แบบ inline-block เพื่อให้การ์ดมีขนาดพอดีกับเนื้อหาภายใน */
     width: fit-content;
-    /* ให้การ์ดมีความกว้างเท่ากับเนื้อหาข้างใน */
     max-width: 100%;
-    /* กำหนดความกว้างสูงสุดเป็น 100% เพื่อป้องกันการเกินขอบเขต */
+
 }
 
-.card-body {
+.homecard-body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* จัดให้เนื้อหาตรงกลางแนวนอน */
+    padding: 30px;
 }
 
-.card-title {
+.homecard-title {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #E90073;
+    color: #e90073;
     text-align: center;
-    /* จัดให้หัวข้ออยู่ตรงกลาง */
     margin-top: 1.5em;
     margin-bottom: 1.5rem;
-    /* เพิ่มระยะห่างระหว่างหัวข้อกับเนื้อหา */
+    word-wrap: break-word;
 }
 
-.card-text {
+
+.homecard-text {
     font-size: 1rem;
     color: #1d1d1f;
-    margin-top: auto;
-    /* ให้ข้อความมีระยะห่างบนล่างเท่ากัน */
-
+    margin-top: 10px;
 }
 
-.card-img-top1 {
-    border-radius: 15px 15px 15px 15px;
-    ;
+.homecard-img-top {
+    border-radius: 15px;
     object-fit: cover;
-    /* ทำให้รูปภาพทำเต็มพื้นที่ของการ์ดโดยไม่เกินขอบ */
     height: 100%;
-    /* ให้รูปภาพทำเต็มสูงของการ์ด */
     width: 100%;
-    /* ให้รูปภาพทำเต็มกว้างของการ์ด */
-}
-
-.card-img-top2 {
-    border-radius: 15px 15px 15px 15px;
-    height: 100%;
-    /* ให้รูปภาพทำเต็มสูงของการ์ด */
-    width: 100%;
-    /* ให้รูปภาพทำเต็มกว้างของการ์ด */
 }
 
 .indented {
     text-indent: 2em;
-    margin-bottom: 0;
-    /* ลบระยะห่างด้านล่างของข้อความ */
+    margin-bottom: 10;
 }
 
 .warning {
@@ -1145,7 +1128,7 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
 }
-
+  
 /* shape */
 .custom-shape-divider-top-1710057287 {
     position: absolute;
