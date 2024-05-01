@@ -7,7 +7,6 @@ function Course(props) {
   const [courses, setCourses] = useState([]);
   const [basicCourses, setBasicCourses] = useState([]);
   const [retreatCourses, setRetreatCourses] = useState([]);
-  const [favorites, setFavorites] = useState(new Set());
 
   const [searchQuery, setSearchQuery] = useState("");
   const [isActive, setIsActive] = useState(false);
@@ -70,15 +69,6 @@ function Course(props) {
     }
   };
 
-  const toggleFavorite = (courseId) => {
-    const updatedFavorites = new Set(favorites);
-    if (updatedFavorites.has(courseId)) {
-      updatedFavorites.delete(courseId);
-    } else {
-      updatedFavorites.add(courseId);
-    }
-    setFavorites(updatedFavorites);
-  };
 
   const filteredBasicCourses = basicCourses.filter((course) =>
     course.course_detail_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -144,18 +134,7 @@ function Course(props) {
                       <img src={`${apiUrl}/images/${course.image}`} alt="" />
                     </Link>
                     {/* Add bookmark button here */}
-                    <button
-                      className={`bookmark-button ${
-                        favorites.has(course.train_course_id) ? "active" : ""
-                      }`}
-                      onClick={() => toggleFavorite(course.train_course_id)}
-                    >
-                      {favorites?.has(course.train_course_id) ? (
-                        <i className="bi bi-bookmark-star-fill"></i>
-                      ) : (
-                        <i className="bi bi-bookmark-star"></i>
-                      )}
-                    </button>
+                    
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>
@@ -225,19 +204,6 @@ function Course(props) {
                     <Link to={`/detail/${course.train_course_id}`}>
                       <img src={`${apiUrl}/images/${course.image}`} alt="" />
                     </Link>
-                    {/* Add bookmark button here */}
-                    <button
-                      className={`bookmark-button${
-                        favorites.has(course.train_course_id) ? " active" : ""
-                      }`}
-                      onClick={() => toggleFavorite(course.train_course_id)}
-                    >
-                      {favorites?.has(course.train_course_id) ? (
-                        <i className="bi bi-bookmark-star-fill"></i>
-                      ) : (
-                        <i className="bi bi-bookmark-star"></i>
-                      )}
-                    </button>
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>

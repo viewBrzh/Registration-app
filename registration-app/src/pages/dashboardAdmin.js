@@ -233,7 +233,7 @@ function DashboardAdmin() {
       <div className="container-fluid">
         <div className="row">
           {/*Course */}
-          <div className="col-sm-6">
+          <div className="col-sm-6 d-flex">
             <CourseTable/>
           </div>
           {/* Course End */}
