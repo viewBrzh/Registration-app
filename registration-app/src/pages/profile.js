@@ -57,16 +57,16 @@ function Profile() {
     handleCloseModal();
   };
 
-
   useEffect(() => {
     fetch(`${apiUrl}/enroll/getUserHistory/${userDatas.user_id}`)
       .then((response) => response.json())
       .then((data) => {
         setCourses(data.courses); // Update state with courses data
-  
+
         const skillsCount = {};
         data.courses?.forEach((course) => {
-          if (course.status === 1) { // Only count skills for courses with status 1
+          if (course.status === 1) {
+            // Only count skills for courses with status 1
             const skills = course.skills.split(", ");
             skills.forEach((skill) => {
               skillsCount[skill] = (skillsCount[skill] || 0) + 1;
@@ -87,7 +87,7 @@ function Profile() {
     } else {
       return false;
     }
-  }
+  };
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -100,7 +100,6 @@ function Profile() {
   const handleNextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
-
 
   return (
     <Main>
@@ -219,37 +218,67 @@ function Profile() {
                         <table className="table">
                           <thead>
                             <tr>
-                              <th scope="col" style={{ width: '55%' }}>Name</th>
-                              <th scope="col" style={{ width: '30%' }}>Date</th>
-                              <th scope="col" style={{ width: '15%' }}>Status</th>
+                              <th scope="col" style={{ width: "55%" }}>
+                                Name
+                              </th>
+                              <th scope="col" style={{ width: "25%" }}>
+                                Date
+                              </th>
+                              <th scope="col" style={{ width: "15%" }}>
+                                Status
+                              </th>
                             </tr>
                           </thead>
                           <tbody>
-                            {courses.slice((currentPage - 1) * 5, currentPage * 5).map((course) => (
-                              <tr key={course.id}>
-                                <td>{course.course_detail_name}</td>
-                                <td>{new Date(course.start_date).toLocaleDateString('en-GB')}</td>
-                                <td>
-                                  <span className={`status ${course.status === 0 ? 'waiting' : course.status === 1 ? 'finish' : 'failed'}`}>
-                                    {course.status === 0 ? 'waiting' : course.status === 1 ? 'finish' : 'failed'}
-                                  </span>
-
-                                </td>
-                              </tr>
-                            ))}
+                            {courses
+                              .slice((currentPage - 1) * 5, currentPage * 5)
+                              .map((course) => (
+                                <tr key={course.id}>
+                                  <td>{course.course_detail_name}</td>
+                                  <td>
+                                    {new Date(
+                                      course.start_date
+                                    ).toLocaleDateString("en-GB")}
+                                  </td>
+                                  <td>
+                                    <span
+                                      className={`status ${
+                                        course.status === 0
+                                          ? "waiting"
+                                          : course.status === 1
+                                          ? "finish"
+                                          : "failed"
+                                      }`}
+                                    >
+                                      {course.status === 0
+                                        ? "waiting"
+                                        : course.status === 1
+                                        ? "finish"
+                                        : "failed"}
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
                           </tbody>
                         </table>
                         <div className="d-flex justify-content-center">
                           <button
-                            className={`btn previous-btn ${currentPage === 1 ? 'disabled' : ''}`}
+                            className={`btn previous-btn ${
+                              currentPage === 1 ? "disabled" : ""
+                            }`}
                             onClick={handlePreviousPage}
                             disabled={currentPage === 1}
                           >
                             &laquo; Previous
                           </button>
-                          <span className='btn pagination-span'> {currentPage} of {totalPages} </span>
+                          <span className="btn pagination-span">
+                            {" "}
+                            {currentPage} of {totalPages}{" "}
+                          </span>
                           <button
-                            className={`next-btn ${currentPage === totalPages ? 'disabled' : ''}`}
+                            className={`next-btn ${
+                              currentPage === totalPages ? "disabled" : ""
+                            }`}
                             onClick={handleNextPage}
                             disabled={currentPage === totalPages}
                           >
@@ -257,7 +286,9 @@ function Profile() {
                           </button>
                         </div>
                       </div>
-                    ) : (<div>No course history yet.</div>)}
+                    ) : (
+                      <div>No course history yet.</div>
+                    )}
                   </div>
                 </div>
 
@@ -277,7 +308,11 @@ function Profile() {
                             className="card-img-top1"
                             alt="Explanation"
                           />
-                          <span className="number-overlay">{skillsData['MENTALIZATION-BASED THERAPY'] || <i className="bi bi-lock-fill"></i>}</span>
+                          <span className="number-overlay">
+                            {skillsData["MENTALIZATION-BASED THERAPY"] || (
+                              <i className="bi bi-lock-fill"></i>
+                            )}
+                          </span>
                         </div>
                         <p>Mentalization-based therapy</p>
                       </div>
@@ -288,7 +323,11 @@ function Profile() {
                             className="card-img-top1"
                             alt="Explanation"
                           />
-                          <span className="number-overlay">{skillsData['Satir systemic therapy'] || <i className="bi bi-lock-fill"></i>}</span>
+                          <span className="number-overlay">
+                            {skillsData["Satir systemic therapy"] || (
+                              <i className="bi bi-lock-fill"></i>
+                            )}
+                          </span>
                         </div>
                         <p>Satir systemic therapy</p>
                       </div>
@@ -299,7 +338,11 @@ function Profile() {
                             className="card-img-top1"
                             alt="Explanation"
                           />
-                          <span className="number-overlay">{skillsData['Coaching'] || <i className="bi bi-lock-fill" />}</span>
+                          <span className="number-overlay">
+                            {skillsData["Coaching"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
                         </div>
                         <p>Coaching</p>
                       </div>
@@ -310,7 +353,11 @@ function Profile() {
                             className="card-img-top1"
                             alt="Explanation"
                           />
-                          <span className="number-overlay">{skillsData['Mindfullness-based therapy'] || <i className="bi bi-lock-fill" />}</span>
+                          <span className="number-overlay">
+                            {skillsData["Mindfullness-based therapy"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
                         </div>
                         <p>Mindfullness-based therapy</p>
                       </div>
@@ -321,7 +368,11 @@ function Profile() {
                             className="card-img-top1"
                             alt="Explanation"
                           />
-                          <span className="number-overlay">{skillsData['Communication with parents'] || <i className="bi bi-lock-fill" />}</span>
+                          <span className="number-overlay">
+                            {skillsData["Communication with parents"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
                         </div>
                         <p>Communication with parents</p>
                       </div>
@@ -332,7 +383,11 @@ function Profile() {
                             className="card-img-top1"
                             alt="Explanation"
                           />
-                          <span className="number-overlay">{skillsData['Oracle card into the mind'] || <i className="bi bi-lock-fill" />}</span>
+                          <span className="number-overlay">
+                            {skillsData["Oracle card into the mind"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
                         </div>
                         <p>Oracle card into the mind</p>
                       </div>
@@ -343,7 +398,11 @@ function Profile() {
                             className="card-img-top1"
                             alt="Explanation"
                           />
-                          <span className="number-overlay">{skillsData['Problem-solvingtherapy'] || <i className="bi bi-lock-fill" />}</span>
+                          <span className="number-overlay">
+                            {skillsData["Problem-solvingtherapy"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
                         </div>
                         <p>Problem-solvingtherapy</p>
                       </div>
@@ -354,7 +413,11 @@ function Profile() {
                             className="card-img-top1"
                             alt="Explanation"
                           />
-                          <span className="number-overlay">{skillsData['Enneagram'] || <i className="bi bi-lock-fill" />}</span>
+                          <span className="number-overlay">
+                            {skillsData["Enneagram"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
                         </div>
                         <p>Enneagram</p>
                       </div>
@@ -365,7 +428,11 @@ function Profile() {
                             className="card-img-top1"
                             alt="Explanation"
                           />
-                          <span className="number-overlay">{skillsData['Relaxation technique'] || <i className="bi bi-lock-fill" />}</span>
+                          <span className="number-overlay">
+                            {skillsData["Relaxation technique"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
                         </div>
                         <p>Relaxation technique</p>
                       </div>
@@ -376,7 +443,11 @@ function Profile() {
                             className="card-img-top1"
                             alt="Explanation"
                           />
-                          <span className="number-overlay">{skillsData['PSYCHOEDUCATION'] || <i className="bi bi-lock-fill" />}</span>
+                          <span className="number-overlay">
+                            {skillsData["PSYCHOEDUCATION"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
                         </div>
                         <p>Psychoeducation</p>
                       </div>
@@ -387,7 +458,11 @@ function Profile() {
                             className="card-img-top1"
                             alt="Explanation"
                           />
-                          <span className="number-overlay">{skillsData['Basic Counseling'] || <i className="bi bi-lock-fill" />}</span>
+                          <span className="number-overlay">
+                            {skillsData["Basic Counseling"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
                         </div>
                         <p>Basic Counseling</p>
                       </div>
@@ -467,7 +542,7 @@ function Profile() {
           </Button>
         </Modal.Footer>
       </Modal>
-    </Main >
+    </Main>
   );
 }
 

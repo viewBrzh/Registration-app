@@ -229,13 +229,6 @@
     padding-left: 20px;
 }
 
-@media (max-width: 768px) {
-    .custom-skill-card {
-        margin-top: 20px;
-        /* เพิ่มระยะห่างด้านบนเมื่อหน้าจอย่อลงไป */
-    }
-}
-
 td,
 th {
     text-align: start;
@@ -243,13 +236,30 @@ th {
 
 .course-name {
     white-space: nowrap;
-    /* Prevent line breaks */
     overflow: hidden;
-    /* Hide overflowing content */
     text-overflow: ellipsis;
-    /* Display an ellipsis (...) to indicate text overflow */
 }
 
 .head-h4{
     color: #E60073;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+    .custom-skill-card {
+        margin-top: 20px;
+        
+    }
+}
+@media (max-width: 535px) {
+    .skill {
+        width: calc(50% - 10px); /* คำนวณขนาดของแต่ละส่วนให้แสดง 2 ข้อมูลต่อแถว */
+    }
+    .custom-info-card {
+        overflow-x: auto; /* Enable horizontal scrolling */
+    }
+
+    .history table {
+        width: fit-content; /* Set table width to fit the content */
+    }
 }
