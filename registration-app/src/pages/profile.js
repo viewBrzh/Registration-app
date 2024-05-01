@@ -114,25 +114,6 @@ function Profile() {
                 className="container text-center py-5"
                 style={{ position: "relative", top: "-100px" }}
               >
-                {/* <h1 className="display-2 text-dark mb-4 animated slideInDown">
-                  Profile {userDatas && userDatas.username}
-                </h1>
-                <nav aria-label="breadcrumb animated slideInDown">
-                  <ol className="breadcrumb justify-content-center mb-0">
-                    <li className="breadcrumb-item">
-                      <Link
-                        to={`/`}
-                        className="breadcrumb-item"
-                        style={{ color: "#f5f8f2" }}
-                      >
-                        Home /
-                      </Link>
-                    </li>
-                    <li className="text-dark" aria-current="page">
-                      Profile
-                    </li>
-                  </ol>
-                </nav> */}
               </div>
             </div>
 
@@ -180,7 +161,7 @@ function Profile() {
             </div>
             <br></br>
 
-            <div className="container-fluid">
+            <div>
               <div className="row">
                 {/* Info Card */}
                 <div className="col-md-4">
@@ -188,15 +169,9 @@ function Profile() {
                     className="custom-info-card"
                     style={{ backgroundColor: "#FFFFFF" }}
                   >
-                    <div className="row">
-                      <h4 className="col-md-6 head-h4">Contact </h4>
-                      <Link
-                        to="#"
-                        onClick={handleShowModal}
-                        className="col-md-6 text-end"
-                      >
-                        Edit
-                      </Link>
+                    <div className="contact-container">
+                      <h4 className="head-h4">Contact</h4>
+                      <Link to="#" onClick={handleShowModal} className="edit-link">Edit</Link>
                     </div>
                     <p>
                       <i className="bi-custom bi-envelope-fill" />
@@ -207,86 +182,85 @@ function Profile() {
                       {userDatas.phone}
                     </p>
                     <hr />
-                    <div className="row">
-                      <h4 className="col-md-6 head-h4">History</h4>
-                      <Link to="#" className="col-md-6 text-end">
+                    <div className="contact-container">
+                      <h4 className="head-h4">History</h4>
+                      <Link to="#" className="edit-link">
                         See all
                       </Link>
                     </div>
                     {!isEmpty(courses) ? (
                       <div className="history">
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              <th scope="col" style={{ width: "55%" }}>
-                                Name
-                              </th>
-                              <th scope="col" style={{ width: "25%" }}>
-                                Date
-                              </th>
-                              <th scope="col" style={{ width: "15%" }}>
-                                Status
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {courses
-                              .slice((currentPage - 1) * 5, currentPage * 5)
-                              .map((course) => (
-                                <tr key={course.id}>
-                                  <td>{course.course_detail_name}</td>
-                                  <td>
-                                    {new Date(
-                                      course.start_date
-                                    ).toLocaleDateString("en-GB")}
-                                  </td>
-                                  <td>
-                                    <span
-                                      className={`status ${
-                                        course.status === 0
+                        <div style={{ overflowX: 'auto' }}>
+                          <table className="table" style={{ width: '380px'}} >
+                            <thead>
+                              <tr>
+                                <th scope="col" style={{ width: "55%" }}>
+                                  Name
+                                </th>
+                                <th scope="col" style={{ width: "25%" }}>
+                                  Date
+                                </th>
+                                <th scope="col" style={{ width: "15%" }}>
+                                  Status
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {courses
+                                .slice((currentPage - 1) * 5, currentPage * 5)
+                                .map((course) => (
+                                  <tr key={course.id}>
+                                    <td>{course.course_detail_name}</td>
+                                    <td>
+                                      {new Date(
+                                        course.start_date
+                                      ).toLocaleDateString("en-GB")}
+                                    </td>
+                                    <td>
+                                      <span
+                                        className={`status ${course.status === 0
                                           ? "waiting"
                                           : course.status === 1
-                                          ? "finish"
-                                          : "failed"
-                                      }`}
-                                    >
-                                      {course.status === 0
-                                        ? "waiting"
-                                        : course.status === 1
-                                        ? "finish"
-                                        : "failed"}
-                                    </span>
-                                  </td>
-                                </tr>
-                              ))}
-                          </tbody>
-                        </table>
-                        <div className="d-flex justify-content-center">
-                          <button
-                            className={`btn previous-btn ${
-                              currentPage === 1 ? "disabled" : ""
-                            }`}
-                            onClick={handlePreviousPage}
-                            disabled={currentPage === 1}
-                          >
-                            &laquo; Previous
-                          </button>
-                          <span className="btn pagination-span">
-                            {" "}
-                            {currentPage} of {totalPages}{" "}
-                          </span>
-                          <button
-                            className={`next-btn ${
-                              currentPage === totalPages ? "disabled" : ""
-                            }`}
-                            onClick={handleNextPage}
-                            disabled={currentPage === totalPages}
-                          >
-                            Next &raquo;
-                          </button>
+                                            ? "finish"
+                                            : "failed"
+                                          }`}
+                                      >
+                                        {course.status === 0
+                                          ? "waiting"
+                                          : course.status === 1
+                                            ? "finish"
+                                            : "failed"}
+                                      </span>
+                                    </td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
                         </div>
+                        <div className="d-flex justify-content-center">
+                            <button
+                              className={`btn previous-btn ${currentPage === 1 ? "disabled" : ""
+                                }`}
+                              onClick={handlePreviousPage}
+                              disabled={currentPage === 1}
+                            >
+                              &laquo; Previous
+                            </button>
+                            <span className="btn pagination-span">
+                              {" "}
+                              {currentPage} of {totalPages}{" "}
+                            </span>
+                            <button
+                              className={`next-btn ${currentPage === totalPages ? "disabled" : ""
+                                }`}
+                              onClick={handleNextPage}
+                              disabled={currentPage === totalPages}
+                            >
+                              Next &raquo;
+                            </button>
+                          </div>
                       </div>
-                    ) : (
+                      ) : (
                       <div>No course history yet.</div>
                     )}
                   </div>

@@ -13,6 +13,7 @@
     padding: 20px;
     border: 0;
     border-radius: 0.5rem;
+    /* overflow-x: auto; */
     box-shadow: 0 2px 4px rgba(0, 0, 20, 0.08), 0 1px 2px rgba(0, 0, 20, 0.08);
     width: 100%;
 }
@@ -129,8 +130,8 @@
 
 @media (max-width: 768px) {
     .custom-avatar-xxl {
-        height: 6rem;
-        width: 10rem;
+        height: 5rem !important;
+        width: 8rem !important;
         /* Maintain width for ovals */
         border-radius: 50%;
         /* Keep the avatar round on smaller screens */
@@ -240,7 +241,7 @@ th {
     text-overflow: ellipsis;
 }
 
-.head-h4{
+.head-h4 {
     color: #E60073;
 }
 
@@ -248,18 +249,43 @@ th {
 @media (max-width: 768px) {
     .custom-skill-card {
         margin-top: 20px;
-        
+
     }
 }
+
 @media (max-width: 535px) {
     .skill {
-        width: calc(50% - 10px); /* คำนวณขนาดของแต่ละส่วนให้แสดง 2 ข้อมูลต่อแถว */
+        width: calc(50% - 10px);
+        /* คำนวณขนาดของแต่ละส่วนให้แสดง 2 ข้อมูลต่อแถว */
     }
+
     .custom-info-card {
-        overflow-x: auto; /* Enable horizontal scrolling */
+        overflow-x: auto;
+        /* Enable horizontal scrolling */
     }
 
     .history table {
-        width: fit-content; /* Set table width to fit the content */
+        width: fit-content;
+        /* Set table width to fit the content */
     }
+}
+
+.contact-container {
+    display: flex;
+    align-items: center;
+    /* Align items vertically in the center */
+    justify-content: space-between;
+    /* Space items evenly */
+}
+
+.head-h4 {
+    margin: 0;
+    /* Remove default margin */
+}
+
+.text-link {
+    text-decoration: none;
+    color: #E60073;
+    /* Bootstrap's primary color */
+    cursor: pointer;
 }

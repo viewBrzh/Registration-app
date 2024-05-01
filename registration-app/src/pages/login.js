@@ -100,7 +100,7 @@ function Login(props) {
                 <h2 className="logincard-title">Login</h2>
 
                 <form
-                  style={{ maxWidth: "400px", margin: "auto" }}
+                  style={{ maxWidth: "400px", margin: "10px" }}
                   onSubmit={handleSubmit}
                 >
                   <div className="form-group" style={{ marginBottom: "20px" }}>

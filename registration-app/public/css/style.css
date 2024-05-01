@@ -1245,7 +1245,7 @@ canvas {
 .details {
     position: relative;
     width: 100%;
-    padding: 20px;
+    padding: 10px;
     display: grid;
     grid-template-columns: 2fr 1fr;
     grid-gap: 30px;
@@ -1286,6 +1286,7 @@ canvas {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    overflow-x: auto;
 }
 
 .details table thead td {
@@ -1368,8 +1369,6 @@ canvas {
 .recentOrders {
     flex: 1;
     /* Allow the element to grow to fill available space */
-    margin-right: 10px;
-    /* Add margin for spacing */
 }
 
 .recentCustomers {
@@ -1442,11 +1441,18 @@ canvas {
 }
 
 /* ====================== Responsive Design ========================== */
+@media (max-width: 1470px) {
+    .recentOrders {
+        overflow-x: auto;
+    }
+}
+
 @media (max-width: 991px) {
     .cardBox {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
 
 @media (max-width: 768px) {
     .details {

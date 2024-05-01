@@ -245,7 +245,7 @@ function DashboardAdmin() {
                 <div className="cardHeader"><h2>Quantity Chart</h2></div>
                 <br></br> 
                 <div className="chart-container">
-                  <canvas ref={chartRef1} id="courseStatusChart"></canvas>
+                  <canvas style={{width: 500, overflowX: 'auto'}} ref={chartRef1} id="courseStatusChart"></canvas>
                 </div>
               </div>
             </div>
