@@ -174,7 +174,9 @@ function Home() {
           </div>
         </div>
       </div>
+
       <div className="container mt-5">
+
         <div className="card mb-4">
           <div className="homecard-body">
             <div className="row">
@@ -236,6 +238,7 @@ function Home() {
             </div>
           </div>
         </div>
+
       </div>
     </Main>
   );

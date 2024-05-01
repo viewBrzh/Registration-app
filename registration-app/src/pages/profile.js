@@ -63,17 +63,19 @@ function Profile() {
       .then((response) => response.json())
       .then((data) => {
         setCourses(data.courses); // Update state with courses data
-
+  
         const skillsCount = {};
         data.courses?.forEach((course) => {
-          const skills = course.skills.split(", ");
-          skills.forEach((skill) => {
-            skillsCount[skill] = (skillsCount[skill] || 0) + 1;
-          });
+          if (course.status === 1) { // Only count skills for courses with status 1
+            const skills = course.skills.split(", ");
+            skills.forEach((skill) => {
+              skillsCount[skill] = (skillsCount[skill] || 0) + 1;
+            });
+          }
         });
         setSkillsData(skillsCount);
       });
-  }, [userDatas.user_id]); // Add userDatas.user_id as a dependency
+  }, [userDatas.user_id]);
 
   useEffect(() => {
     console.log(skillsData);

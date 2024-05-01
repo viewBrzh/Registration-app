@@ -180,6 +180,7 @@ function Manage() {
           </div>
           <div className="col-auto d-flex align-items-center">
             <DownloadButton className="download-button" onClick={handleDownload}></DownloadButton>
+            <p style={{ paddingRight: '5px' }}> </p>
 
             <select className="form-select" value={filter} onChange={handleFilterChange}>
               <option value="all">All Courses</option>
@@ -209,15 +210,15 @@ function Manage() {
               <tbody>
                 {currentItems.map((course) => (
                   <tr key={course.train_course_id}>
-                    <td>{course.train_course_id}</td>
-                    <td>{course.course_detail_name}</td>
-                    <td>{course.train_detail}</td>
-                    <td>{new Date(course.start_date).toLocaleDateString('en-GB')}</td>
-                    <td>{new Date(course.finish_date).toLocaleDateString('en-GB')}</td>
-                    <td>{course.train_place}</td>
-                    <td>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
-                    <td><Quantity courseId={course.train_course_id} /></td>
-                    <td>
+                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{course.train_course_id}</td>
+                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{course.course_detail_name}</td>
+                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{course.train_detail}</td>
+                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{new Date(course.start_date).toLocaleDateString('en-GB')}</td>
+                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{new Date(course.finish_date).toLocaleDateString('en-GB')}</td>
+                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{course.train_place}</td>
+                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
+                    <td style={{ borderBottom: '1px solid #D3D3D3' }}><Quantity courseId={course.train_course_id} /></td>
+                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>
                       <label className="switch">
                         <input
                           id={`publish-checkbox-${course.train_course_id}`}
@@ -274,7 +275,7 @@ function Manage() {
                         </div>
                       </label>
                     </td>
-                    <td>
+                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>
                       <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
                         <Link to={`/detail/${course.train_course_id}`}>
                           <button className="btn btn-sm  btn-secondary" aria-label="Detail">
