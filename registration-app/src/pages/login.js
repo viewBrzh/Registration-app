@@ -12,13 +12,12 @@ function Login(props) {
   const [success, setSuccess] = useState(false);
   const [userData, setUserData] = useState("");
 
-
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
+
     try {
       const response = await fetch(`${apiUrl}/users/login`, {
         method: "POST",
@@ -27,7 +26,7 @@ function Login(props) {
         },
         body: JSON.stringify({ username, password }),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         const userDataToStore = { ...data.user };
@@ -49,7 +48,6 @@ function Login(props) {
       setError("An error occurred. Please try again later.");
     }
   };
-  
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -96,19 +94,15 @@ function Login(props) {
         }}
       >
         <div className="card mb-4">
-          <div
-            className="card-body"
-            style={{
-              border: "1px solid #e0e0e0",
-              borderRadius: "15px",
-              overflow: "hidden",
-            }}
-          >
+          <div className="logincard-body">
             <div className="row">
               <div className="col-md-6">
-                <h2 className="card-title">Login</h2>
+                <h2 className="logincard-title">Login</h2>
 
-                <form style={{ maxWidth: "400px", margin: "auto" }} onSubmit={handleSubmit}>
+                <form
+                  style={{ maxWidth: "400px", margin: "auto" }}
+                  onSubmit={handleSubmit}
+                >
                   <div className="form-group" style={{ marginBottom: "20px" }}>
                     <label
                       htmlFor="username"
@@ -168,7 +162,9 @@ function Login(props) {
                         }}
                       />
                       <i
-                        className={`fas ${showPassword ? "fa-eye" : "fa-eye-slash"}`}
+                        className={`fas ${
+                          showPassword ? "fa-eye" : "fa-eye-slash"
+                        }`}
                         style={{
                           position: "absolute",
                           top: "50%",
@@ -209,7 +205,10 @@ function Login(props) {
 
                   {error && (
                     <div className="row justify-content-center">
-                      <div className="notifications-container" style={{ paddingTop: 20 }}>
+                      <div
+                        className="notifications-container"
+                        style={{ paddingTop: 20 }}
+                      >
                         <div className="error-alert">
                           <div className="flex">
                             <div className="flex-shrink-0">
@@ -240,9 +239,8 @@ function Login(props) {
               <div className="col-md-6">
                 <img
                   src="img/Remote Working (HD).png"
-                  className="card-img-top1"
+                  className="logincard-img"
                   alt="Explanation"
-                  style={{ padding: "10px" }}
                 />
               </div>
             </div>
@@ -252,16 +250,30 @@ function Login(props) {
 
       {/* Success modal */}
       {success && (
-        <div className="modal" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
-          <div className="modal-content" style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "5px", width: "300px", margin: "auto", marginTop: "100px" }}>
+        <div
+          className="modal"
+          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div
+            className="modal-content"
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              borderRadius: "5px",
+              width: "300px",
+              margin: "auto",
+              marginTop: "100px",
+            }}
+          >
             <h3>Login successful</h3>
             <p>Username: {userData?.username}</p>
             <p>Role: {userData?.role}</p>
-            <button className="btn btn-primary" onClick={handleConfirm}>Confirm</button>
+            <button className="btn btn-primary" onClick={handleConfirm}>
+              Confirm
+            </button>
           </div>
         </div>
       )}
-      
     </Main>
   );
 }

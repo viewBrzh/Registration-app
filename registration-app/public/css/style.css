@@ -1639,3 +1639,29 @@ img.logo-wu:hover {
     font-size: 14px;
     font-weight: 500;
 }
+/* login page */
+.logincard-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    overflow: hidden;
+
+}
+.logincard-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #E90073;
+    text-align: center;
+    margin-top: 1.5em;
+    margin-bottom: 1.5rem; 
+}
+.logincard-img {
+    border-radius: 15px;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+}

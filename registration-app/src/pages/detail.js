@@ -53,16 +53,16 @@ function Detail(props) {
 
     // Create request body
     const body = {
-      userId: userId
+      userId: userId,
     };
 
     // Send POST request to enroll user in course
     fetch(`${apiUrl}/enroll/create/${courseId}`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
       .then((response) => {
         if (response.ok) {
@@ -84,7 +84,6 @@ function Detail(props) {
       });
   };
 
-
   return (
     <Main>
       <div className="detail-container-wrapper">
@@ -102,7 +101,6 @@ function Detail(props) {
               <span>Description</span>
               <p>{course.train_detail}</p>
               <span>Place : {course.train_place}</span>
-
             </div>
             <div className="cable-config">
               <span>Skills </span>
@@ -112,44 +110,72 @@ function Detail(props) {
                 ))}
               </div>
               <span>
-                Date:{" "}
-                {new Date(course.start_date).toLocaleDateString("en-GB")} to{" "}
-                {new Date(course.finish_date).toLocaleDateString("en-GB")}
+                Date: {new Date(course.start_date).toLocaleDateString("en-GB")}{" "}
+                to {new Date(course.finish_date).toLocaleDateString("en-GB")}
               </span>
-
             </div>
-            <button className="cart-btn" onClick={handleEnroll}>Enroll</button>
+            <button className="cart-btn" onClick={handleEnroll}>
+              Enroll
+            </button>
           </div>
         </div>
       </div>
 
       {/* Success modal */}
       {success && (
-        <div className="modal" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
-          <div className="modal-content" style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "5px", width: "300px", margin: "auto", marginTop: "100px" }}>
+        <div
+          className="modal"
+          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div
+            className="modal-content"
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              borderRadius: "5px",
+              width: "300px",
+              margin: "auto",
+              marginTop: "100px",
+            }}
+          >
             <h3>Enrollment successfully</h3>
             <hr />
             <p>Course: {course.course_detail_name}</p>
             <p>Date: {course.start_date}</p>
             <p>Place: {course.train_place}</p>
-            <button className="btn btn-primary" onClick={handleConfirm}>Confirm</button>
+            <button className="btn btn-primary" onClick={handleConfirm}>
+              Confirm
+            </button>
           </div>
         </div>
       )}
 
       {failed && (
-        <div className="modal" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
-          <div className="modal-content" style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "5px", width: "300px", margin: "auto", marginTop: "100px" }}>
+        <div
+          className="modal"
+          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div
+            className="modal-content"
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              borderRadius: "5px",
+              width: "300px",
+              margin: "auto",
+              marginTop: "100px",
+            }}
+          >
             <h3>Enrollment failed</h3>
             <hr />
             <p>{message}</p>
-            <button className="btn btn-primary" onClick={handleFConfirm}>Confirm</button>
+            <button className="btn btn-primary" onClick={handleFConfirm}>
+              Confirm
+            </button>
           </div>
         </div>
       )}
     </Main>
-
-
   );
 }
 
