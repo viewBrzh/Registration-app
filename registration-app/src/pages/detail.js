@@ -121,6 +121,236 @@ function Detail(props) {
         </div>
       </div>
 
+      <hr style={{ margin: "10px" }} />
+      <div id="basic" className="container section">
+        <br />
+        <div className="row justify-content-center mb-4">
+          <h2 className="text-center">คอร์สอื่นๆ</h2>
+        </div>
+        <div className="row justify-content-center section">
+          <div className="col-lg-3" key={course.train_course_id}>
+            <div
+              className="properties properties2 mb-30 center-div"
+              style={{
+                height: "auto",
+                marginBottom: "20px",
+                position: "relative",
+              }}
+            >
+              <div
+                className="properties__card"
+                style={{
+                  border: "1px solid #e0e0e0",
+                  borderRadius: "10px",
+                  overflow: "hidden",
+                }}
+              >
+                {/* Card content */}
+                <div className="properties__img overlay1">
+                  <Link to={`/detail/${course.train_course_id}`}>
+                    <img src={`${apiUrl}/images/${course.image}`} alt="" />
+                  </Link>
+                  {/* Add bookmark button here */}
+                </div>
+                <div className="properties__caption">
+                  <p>{course.category}</p>
+                  <h3>
+                    <Link to={`/detail/${course.train_course_id}`}>
+                      {course.course_detail_name.length > 63
+                        ? `${course.course_detail_name.substring(0, 63)}...`
+                        : course.course_detail_name}
+                    </Link>
+                  </h3>
+                  <p>{course.train_detail}</p>
+                  <div className="properties__footer d-flex justify-content-between align-items-center">
+                    <div className="date" style={{ color: "blue" }}>
+                      <span>{(course.start_date, course.finish_date)}</span>
+                    </div>
+                    <div className="location">
+                      <span>
+                        {course.train_place.length > 20
+                          ? `${course.train_place.substring(0, 20)}...`
+                          : course.train_place}
+                      </span>
+                    </div>
+                  </div>
+                  <Link to={`/detail/${course.train_course_id}`}>
+                    <a href="#" className="btn card-btn">
+                      More Detail
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-3" key={course.train_course_id}>
+            <div
+              className="properties properties2 mb-30 center-div"
+              style={{
+                height: "auto",
+                marginBottom: "20px",
+                position: "relative",
+              }}
+            >
+              <div
+                className="properties__card"
+                style={{
+                  border: "1px solid #e0e0e0",
+                  borderRadius: "10px",
+                  overflow: "hidden",
+                }}
+              >
+                {/* Card content */}
+                <div className="properties__img overlay1">
+                  <Link to={`/detail/${course.train_course_id}`}>
+                    <img src={`${apiUrl}/images/${course.image}`} alt="" />
+                  </Link>
+                  {/* Add bookmark button here */}
+                </div>
+                <div className="properties__caption">
+                  <p>{course.category}</p>
+                  <h3>
+                    <Link to={`/detail/${course.train_course_id}`}>
+                      {course.course_detail_name.length > 63
+                        ? `${course.course_detail_name.substring(0, 63)}...`
+                        : course.course_detail_name}
+                    </Link>
+                  </h3>
+                  <p>{course.train_detail}</p>
+                  <div className="properties__footer d-flex justify-content-between align-items-center">
+                    <div className="date" style={{ color: "blue" }}>
+                      <span>{(course.start_date, course.finish_date)}</span>
+                    </div>
+                    <div className="location">
+                      <span>
+                        {course.train_place.length > 20
+                          ? `${course.train_place.substring(0, 20)}...`
+                          : course.train_place}
+                      </span>
+                    </div>
+                  </div>
+                  <Link to={`/detail/${course.train_course_id}`}>
+                    <a href="#" className="btn card-btn">
+                      More Detail
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-3" key={course.train_course_id}>
+            <div
+              className="properties properties2 mb-30 center-div"
+              style={{
+                height: "auto",
+                marginBottom: "20px",
+                position: "relative",
+              }}
+            >
+              <div
+                className="properties__card"
+                style={{
+                  border: "1px solid #e0e0e0",
+                  borderRadius: "10px",
+                  overflow: "hidden",
+                }}
+              >
+                {/* Card content */}
+                <div className="properties__img overlay1">
+                  <Link to={`/detail/${course.train_course_id}`}>
+                    <img src={`${apiUrl}/images/${course.image}`} alt="" />
+                  </Link>
+                  {/* Add bookmark button here */}
+                </div>
+                <div className="properties__caption">
+                  <p>{course.category}</p>
+                  <h3>
+                    <Link to={`/detail/${course.train_course_id}`}>
+                      {course.course_detail_name.length > 63
+                        ? `${course.course_detail_name.substring(0, 63)}...`
+                        : course.course_detail_name}
+                    </Link>
+                  </h3>
+                  <p>{course.train_detail}</p>
+                  <div className="properties__footer d-flex justify-content-between align-items-center">
+                    <div className="date" style={{ color: "blue" }}>
+                      <span>{(course.start_date, course.finish_date)}</span>
+                    </div>
+                    <div className="location">
+                      <span>
+                        {course.train_place.length > 20
+                          ? `${course.train_place.substring(0, 20)}...`
+                          : course.train_place}
+                      </span>
+                    </div>
+                  </div>
+                  <Link to={`/detail/${course.train_course_id}`}>
+                    <a href="#" className="btn card-btn">
+                      More Detail
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-3" key={course.train_course_id}>
+            <div
+              className="properties properties2 mb-30 center-div"
+              style={{
+                height: "auto",
+                marginBottom: "20px",
+                position: "relative",
+              }}
+            >
+              <div
+                className="properties__card"
+                style={{
+                  border: "1px solid #e0e0e0",
+                  borderRadius: "10px",
+                  overflow: "hidden",
+                }}
+              >
+                {/* Card content */}
+                <div className="properties__img overlay1">
+                  <Link to={`/detail/${course.train_course_id}`}>
+                    <img src={`${apiUrl}/images/${course.image}`} alt="" />
+                  </Link>
+                  {/* Add bookmark button here */}
+                </div>
+                <div className="properties__caption">
+                  <p>{course.category}</p>
+                  <h3>
+                    <Link to={`/detail/${course.train_course_id}`}>
+                      {course.course_detail_name.length > 63
+                        ? `${course.course_detail_name.substring(0, 63)}...`
+                        : course.course_detail_name}
+                    </Link>
+                  </h3>
+                  <p>{course.train_detail}</p>
+                  <div className="properties__footer d-flex justify-content-between align-items-center">
+                    <div className="date" style={{ color: "blue" }}>
+                      <span>{(course.start_date, course.finish_date)}</span>
+                    </div>
+                    <div className="location">
+                      <span>
+                        {course.train_place.length > 20
+                          ? `${course.train_place.substring(0, 20)}...`
+                          : course.train_place}
+                      </span>
+                    </div>
+                  </div>
+                  <Link to={`/detail/${course.train_course_id}`}>
+                    <a href="#" className="btn card-btn">
+                      More Detail
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Success modal */}
       {success && (
         <div
