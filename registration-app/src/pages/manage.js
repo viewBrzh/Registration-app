@@ -154,9 +154,9 @@ function Manage() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredCoursesByName.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredCoursesByName?.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(filteredCoursesByName.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredCoursesByName?.length / itemsPerPage);
 
   const handleClick = (type) => {
     if (type === "prev") {
@@ -208,17 +208,17 @@ function Manage() {
                 </tr>
               </thead>
               <tbody>
-                {currentItems.map((course) => (
-                  <tr key={course.train_course_id}>
-                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{course.train_course_id}</td>
-                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{course.course_detail_name}</td>
-                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{course.train_detail}</td>
-                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{new Date(course.start_date).toLocaleDateString('en-GB')}</td>
-                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{new Date(course.finish_date).toLocaleDateString('en-GB')}</td>
-                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{course.train_place}</td>
-                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
-                    <td style={{ borderBottom: '1px solid #D3D3D3' }}><Quantity courseId={course.train_course_id} /></td>
-                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>
+                {currentItems ? (currentItems?.map((course) => (
+                  <tr key={course.train_course_id} style={{ borderBottom: '1px solid #D3D3D3', verticalAlign: 'top', textAlign: 'right' }}>
+                    <td>{course.train_course_id}</td>
+                    <td>{course.course_detail_name}</td>
+                    <td>{course.train_detail}</td>
+                    <td>{new Date(course.start_date).toLocaleDateString('en-GB')}</td>
+                    <td>{new Date(course.finish_date).toLocaleDateString('en-GB')}</td>
+                    <td>{course.train_place}</td>
+                    <td>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
+                    <td><Quantity courseId={course.train_course_id} /></td>
+                    <td>
                       <label className="switch">
                         <input
                           id={`publish-checkbox-${course.train_course_id}`}
@@ -304,7 +304,7 @@ function Manage() {
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))) : (<div>No Course Data.</div>)}
               </tbody>
             </table>
           </div>

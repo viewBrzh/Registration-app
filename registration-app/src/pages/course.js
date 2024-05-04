@@ -137,14 +137,13 @@ function Course(props) {
                     
                   </div>
                   <div className="properties__caption">
-                    <p>{course.category}</p>
-                    <h3>
+                    <h5>
                       <Link to={`/detail/${course.train_course_id}`}>
                         {course.course_detail_name.length > 63
                           ? `${course.course_detail_name.substring(0, 63)}...`
                           : course.course_detail_name}
                       </Link>
-                    </h3>
+                    </h5>
                     <p>{course.train_detail}</p>
                     <div className="properties__footer d-flex justify-content-between align-items-center">
                       <div className="date" style={{ color: "blue" }}>
@@ -207,13 +206,13 @@ function Course(props) {
                   </div>
                   <div className="properties__caption">
                     <p>{course.category}</p>
-                    <h3>
+                    <h5>
                       <Link to={`/detail/${course.train_course_id}`}>
                         {course.course_detail_name.length > 63
                           ? `${course.course_detail_name.substring(0, 63)}...`
                           : course.course_detail_name}
                       </Link>
-                    </h3>
+                    </h5>
                     <p style={{ padding: 5 }}>{course.train_detail}</p>
                     <div className="properties__footer d-flex justify-content-between align-items-center">
                       <div className="date" style={{ color: "blue" }}>

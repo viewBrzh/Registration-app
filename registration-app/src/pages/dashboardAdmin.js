@@ -4,12 +4,23 @@ import { Link } from "react-router-dom";
 import { Chart as ChartAuto } from "chart.js/auto";
 import CourseTable from "../components/courseTable";
 import apiUrl from "../api/apiConfig";
+import { Modal, Button, Form } from "react-bootstrap";
 
 function DashboardAdmin() {
   const chartRef1 = useRef(null);
   const chartRef2 = useRef(null);
   const [courseData, setCourseData] = useState([]);
   const [departmentData, setDepartmentData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [criteria, setCriteria] = useState();
+  const [user, setuser] = useState(0);
+  const [userErolled, setUserEnrolled] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [departmentsWithCriteriaCount, setDepartmentsWithCriteriaCount] = useState(0);
+  const [departmentscount, setDepartmentsCount] = useState(0);
+  const [coursesCount, setCoursesCount] = useState(0);
+  const [publishedCoursesCount, setPublishedCoursesCount] = useState(0);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,13 +49,23 @@ function DashboardAdmin() {
 
         setCourseData(enrollmentData);
 
+        // Calculate the total number of courses
+        setCoursesCount(coursesData.length);
+
+        // Calculate the number of unpublished courses
+        const publishedCoursesCount = coursesData.filter(course => course.isPublish).length;
+        setPublishedCoursesCount(publishedCoursesCount);
+
         // Fetch department names and enrollment counts
-        const departmentsResponse = await fetch(`${apiUrl}/users/departments`);
+        const departmentsResponse = await fetch(`${apiUrl}/user/departments`);
         if (!departmentsResponse.ok) {
           throw new Error("Failed to fetch departments");
         }
         const departmentsData = await departmentsResponse.json();
-        console.log(departmentData);
+
+        // Initialize variables to store the counts
+        let departmentsCount = 0;
+        let departmentsWithCriteriaCount = 0;
 
         // Fetch enrollment counts for each department
         const departmentEnrollmentData = await Promise.all(
@@ -54,6 +75,15 @@ function DashboardAdmin() {
               throw new Error(`Failed to fetch enroll count for department ${department.department}`);
             }
             const departmentEnrollData = await departmentResponse.json();
+
+            // Increment the total departments count
+            departmentsCount++;
+
+            // Check if the department meets the criteria and increment the count
+            if (departmentEnrollData.count >= 12) {
+              departmentsWithCriteriaCount++;
+            }
+
             return {
               departmentName: department.department,
               quantity: departmentEnrollData.count,
@@ -61,7 +91,33 @@ function DashboardAdmin() {
           })
         );
 
+        // Set the department data and counts in state
         setDepartmentData(departmentEnrollmentData);
+        setDepartmentsCount(departmentsCount);
+        setDepartmentsWithCriteriaCount(departmentsWithCriteriaCount);
+
+        const userCountResponse = await fetch(`${apiUrl}/user/userCount`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({}),
+        });
+        if (!userCountResponse.ok) {
+          throw new Error("Failed to fetch user count");
+        }
+        const userCount = await userCountResponse.json();
+        setuser(userCount.userCount);
+
+        const userEnrollResponse = await fetch(`${apiUrl}/enroll/getCount`);
+        if (!userEnrollResponse.ok) {
+          throw new Error("Failed to fetch user enroll count");
+        }
+        const userEnroll = await userEnrollResponse.json();
+        setUserEnrolled(userEnroll);
+
+        setLoading(false);
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -132,7 +188,7 @@ function DashboardAdmin() {
           },
         ],
       };
-      
+
       const options2 = {
         plugins: {
           tooltip: {
@@ -151,7 +207,7 @@ function DashboardAdmin() {
         responsive: true,
         maintainAspectRatio: false,
       };
-      
+
       // Update the chart creation to include the options
       chartRef2.current.chart = new ChartAuto(ctx2, {
         type: "bar",
@@ -160,6 +216,9 @@ function DashboardAdmin() {
       });
     }
   }, [departmentData]);
+
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
 
   return (
     <Main>
@@ -174,7 +233,7 @@ function DashboardAdmin() {
                   Home
                 </Link>
               </li>
-              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold'}}>
+              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold' }}>
                 Dashboard admin
               </li>
             </ol>
@@ -186,8 +245,8 @@ function DashboardAdmin() {
       <div className="cardBox">
         <div className="carddash">
           <div>
-            <div className="cardName">Subordinate</div>
-            <div className="numbers">124</div>
+            <div className="cardName">Total number of instructors enrolled</div>
+            <div className="numbers">{userErolled} / {user}</div>
           </div>
 
           <div className="iconBx">
@@ -197,8 +256,8 @@ function DashboardAdmin() {
 
         <div className="carddash">
           <div>
-            <div className="cardName">Enrolled</div>
-            <div className="numbers">24</div>
+            <div className="cardName">Participants that reach the requirements</div>
+            <div className="numbers">{departmentsWithCriteriaCount} / {departmentscount}</div>
           </div>
 
           <div className="iconBx">
@@ -208,23 +267,23 @@ function DashboardAdmin() {
 
         <div className="carddash">
           <div>
-          <div className="cardName">Not enrolled yet</div>
-            <div className="numbers">100</div>    
+            <div className="cardName">Total number of publish courses</div>
+            <div className="numbers">{publishedCoursesCount} / {coursesCount}</div>
           </div>
 
           <div className="iconBx">
-            <ion-icon name="close-circle-outline"></ion-icon>
+            <ion-icon name="share-outline"></ion-icon>
           </div>
         </div>
 
-        <div className="carddash">
+        <div className="carddash" onClick={handleShowModal}>
           <div>
-            <div className="cardName">Missing</div>
-            <div className="numbers">284</div>
+            <div className="cardName">Specified criteria</div>
+            <div className="numbers">12</div>
             <div className="cardName">people to pass the criteria</div>
           </div>
           <div className="iconBx">
-            <ion-icon name="ban"></ion-icon>
+            <ion-icon name="cog-outline"></ion-icon>
           </div>
         </div>
       </div>
@@ -234,7 +293,7 @@ function DashboardAdmin() {
         <div className="row">
           {/*Course */}
           <div className="col-sm-6 d-flex">
-            <CourseTable/>
+            <CourseTable />
           </div>
           {/* Course End */}
 
@@ -243,9 +302,9 @@ function DashboardAdmin() {
             <div className="details d-flex">
               <div className="recentOrders">
                 <div className="cardHeader"><h2>Quantity Chart</h2></div>
-                <br></br> 
+                <br></br>
                 <div className="chart-container">
-                  <canvas style={{width: 500, overflowX: 'auto'}} ref={chartRef1} id="courseStatusChart"></canvas>
+                  <canvas style={{ width: 500, overflowX: 'auto' }} ref={chartRef1} id="courseStatusChart"></canvas>
                 </div>
               </div>
             </div>
@@ -255,16 +314,60 @@ function DashboardAdmin() {
 
       <div className="container-fluid py-5 mb-5 wow fadeIn">
         <div className="details d-flex">
-              <div className="recentOrders">
-                <div className="cardHeader"><h2>Department Chart</h2></div>
-                <br></br> 
-                <div className="chart-container">
-                  <canvas style={{width: 500, overflowX: 'auto'}} ref={chartRef2} id="departmentChart"></canvas>
-                </div>
-              </div>
+          <div className="recentOrders">
+            <div className="cardHeader"><h2>Department Chart</h2></div>
+            <br></br>
+            <div className="chart-container">
+              <canvas style={{ width: 500, overflowX: 'auto' }} ref={chartRef2} id="departmentChart"></canvas>
             </div>
+          </div>
+        </div>
       </div>
-      
+
+      <div className="container-fluid py-5 mb-5 wow fadeIn">
+        <div className="details d-flex">
+          <div className="recentOrders">
+            <div className="cardHeader"><h2>Department Chart</h2></div>
+            <br></br>
+            <div className="chart-container">
+              <canvas style={{ width: 500, overflowX: 'auto' }}></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal */}
+      <Modal
+        show={showModal}
+        backdrop="static"
+        onHide={handleCloseModal}
+        style={{ zIndex: 9999 }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Set Criteria</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="formBasicUsername">
+              <Form.Label>Criteria</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter number"
+                value={criteria}
+                onChange={(e) =>
+                  setCriteria(e.target.value)
+                }
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleCloseModal}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </Main>
   );
 }

@@ -35,11 +35,11 @@ function Profile() {
   const updateUser = async () => {
     try {
       // Update user data
-      axios.put(`${apiUrl}/users/update/${userDatas.user_id}`, userDatas);
+      axios.put(`${apiUrl}/user/update/${userDatas.user_id}`, userDatas);
 
       // Fetch updated user data
       const getUserResponse = await axios.get(
-        `${apiUrl}/users/${userDatas.user_id}`
+        `${apiUrl}/user/${userDatas.user_id}`
       );
       const updatedUserData = getUserResponse.data[0]; // Assuming response is an array with a single object
       setUserDatas(updatedUserData);

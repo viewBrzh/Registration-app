@@ -1,7 +1,7 @@
 .detail-body {
     height: 100%;
     width: 100%;
-    margin: 0;
+    margin: 0 auto;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -12,6 +12,7 @@
     display: flex;
     background-color: #FFFFFF;
     border-radius: 15px;
+    box-shadow: 0 0 45px rgba(0, 0, 0, .15);
 }
 
 /* Columns */
@@ -23,7 +24,6 @@
 
 .right-column {
     width: 35%;
-    margin-top: 60px;
 }
 
 
@@ -35,7 +35,6 @@
     top: 0;
     opacity: 0;
     transition: all 0.3s ease;
-    margin-top: 60px;
 }
 
 .left-column img.active {
@@ -68,6 +67,35 @@
         opacity: 1;
     }
 }
+
+@media (max-width: 768px) {
+    .detail-container {
+        flex-direction: column;
+        max-height: 850px;
+    }
+
+    .left-column,
+    .right-column {
+        width: 100%;
+    }
+
+    .left-column {
+        order: -1; /* Move left-column to the top */
+    }
+
+    .left-column img {
+        width: 100%;
+        height: 100%; /* ทำให้รูปภาพเต็มพื้นที่ของ left-column โดยไม่ต้องเสียหายข้อมูล */
+        object-fit: cover; /* ปรับขนาดรูปภาพให้ครอบคลุมพื้นที่ของ left-column */
+        border-radius: 15px;
+        top: 0;
+        left: 0;
+        right: 0;
+        position: static;
+        opacity: 1;
+    }
+}
+
 
 
 /* Right Column */

@@ -38,15 +38,15 @@ const CourseTable = () => {
         return currentCourses.map((course, index) => {
             const { course_detail_name, train_place, train_course_id, isPublish, start_date } = course;
             return (
-                <tr key={index}>
-                    <td>{train_course_id}</td>
-                    <td style={{ maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{course_detail_name}</td>
-                    <td style={{ maxWidth: '150px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{train_place}</td>
-                    <td>{new Date(start_date).toLocaleDateString('en-GB')}</td>
-                    <td>
+                <tr key={index} style={{ textAlign: 'left' }}>
+                    <td style={{ textAlign: 'left' }}>{train_course_id}</td>
+                    <td style={{ textAlign: 'left' }}>{course_detail_name}</td>
+                    <td style={{ textAlign: 'left' }}>{train_place}</td>
+                    <td style={{ textAlign: 'left' }}>{new Date(start_date).toLocaleDateString('en-GB')}</td>
+                    <td style={{ textAlign: 'left' }}>
                         <Quantity courseId={train_course_id} />
                     </td>
-                    <td>
+                    <td style={{ textAlign: 'left' }}>
                         <span className={`status ${isPublish ? 'delivered' : 'pending'}`}>
                             {isPublish ? 'Opening' : 'Closing'}
                         </span>
@@ -55,7 +55,6 @@ const CourseTable = () => {
             );
         });
     };
-
 
     return (
 
@@ -71,7 +70,7 @@ const CourseTable = () => {
                             <th scope="col" className='pink-th'>id</th>
                             <th scope="col" className='pink-th'>Course name</th>
                             <th scope="col" className='pink-th'>Training location</th>
-                            <th scope="col" className='pink-th'>Date</th>
+                            <th scope="col" className='pink-th'>Training Date</th>
                             <th scope="col" className='pink-th'>Enrollment</th>
                             <th scope="col" className='pink-th'>Status</th>
                         </tr>

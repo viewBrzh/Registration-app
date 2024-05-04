@@ -103,7 +103,7 @@ function EnrollManage() {
 
         const userIds = data?.map((enrollment) => enrollment.user_id);
         userIds?.forEach((userId) => {
-          fetch(`http://localhost:11230/users/${userId}`)
+          fetch(`${apiUrl}/user/${userId}`)
             .then((response) => response.json())
             .then((userData) => {
               setUsers((prevUsers) => ({

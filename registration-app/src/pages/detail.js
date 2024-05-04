@@ -86,7 +86,7 @@ function Detail(props) {
 
   return (
     <Main>
-      <div className="detail-container-wrapper">
+      <div className="detail-container-wrapper" >
         <div className="detail-container">
           <div className="left-column">
             <img
@@ -120,12 +120,14 @@ function Detail(props) {
           </div>
         </div>
       </div>
+      <br/>
 
       <hr style={{ margin: "10px" }} />
+      <br/>
       <div id="basic" className="container section">
         <br />
-        <div className="row justify-content-center mb-4">
-          <h2 className="text-center">คอร์สอื่นๆ</h2>
+        <div className="row mb-4">
+          <h2>Comparable courses</h2>
         </div>
         <div className="row justify-content-center section">
           <div className="col-lg-3" key={course.train_course_id}>
