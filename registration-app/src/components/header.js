@@ -118,6 +118,15 @@ function Header() {
                     Contact
                   </Link>
                 )}
+                {userRole !== "admin" && (
+                  <Link
+                    to={`/feedback`}
+                    className={`nav-item nav-link ${location.pathname === "/feedback" ? "active" : ""
+                      }`}
+                  >
+                    Feedback
+                  </Link>
+                )}
                 {!isAuthenticated && (
                   <Link
                     to={`/login`}

@@ -20,6 +20,7 @@ import InsertCourse from "./pages/insertCourse";
 import EnrollManage from "./pages/enrollManage";
 import Logout from "./pages/logout";
 import Error404Page from "./pages/error/notFound";
+import Feedback from "./pages/feedback";
 
 const isAdmin = () => localStorage.getItem("userRole") === "admin";
 const isTeacher = () => localStorage.getItem("userRole") === "teacher";
@@ -47,6 +48,7 @@ ReactDOM.render(
         <Route path="/enrollManage/:courseId" element={<EnrollManage />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/404" element={<Error404Page/>} />
+        <Route path="/feedback" element={<Feedback/>} />
         
         {/* Bring user to 404 if path not exist */}
         <Route path="*" element={<Navigate to="/404" />} />
