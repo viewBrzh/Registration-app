@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import Main from "../layouts/main";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import apiUrl from "../api/apiConfig";
 
 function Course(props) {
   const [courses, setCourses] = useState([]);
   const [basicCourses, setBasicCourses] = useState([]);
   const [retreatCourses, setRetreatCourses] = useState([]);
+  const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [isActive, setIsActive] = useState(false);
@@ -58,7 +59,7 @@ function Course(props) {
           )
         );
       });
-      console.log(basicCourses.json)
+    console.log(basicCourses.json)
   }, []);
 
   const formatDate = (start_date, finish_date) => {
@@ -85,6 +86,10 @@ function Course(props) {
   const filteredRetreatCourses = retreatCourses.filter((course) =>
     course.course_detail_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleCardClick = (courseId) => {
+    navigate(`/detail/${courseId}`);
+  }
 
   return (
     <Main>
@@ -113,8 +118,8 @@ function Course(props) {
         <div className="row justify-content-center section">
           {filteredBasicCourses?.map((course) => (
             <div className="col-lg-3" key={course.train_course_id}>
-              <div className="properties properties2 mb-30 center-div" style={{ height: "auto", marginBottom: "20px", position: "relative" }}>
-                <div className="properties__card" style={{ border: "1px solid #e0e0e0", borderRadius: "10px", overflow: "hidden" }}>
+              <div className="properties properties2 mb-30 center-div" style={{ marginBottom: "20px", position: "relative" }}>
+                <div className="properties__card" onClick={() => handleCardClick(course.train_course_id)} style={{ height: "440px", border: "1px solid #e0e0e0", borderRadius: "10px", overflow: "hidden" }}>
                   {/* Card content */}
                   <div className="properties__img overlay1">
                     <Link to={`/detail/${course.train_course_id}`}>
@@ -130,38 +135,37 @@ function Course(props) {
                       </Link>
                     </h5>
                     <p>{course.train_detail}</p>
-                    <div className="properties__footer">
-                    <div className="skill" style={{ color: "blue" }}>
-                        <span>Skills :{course.skills}</span>
-                      </div></div>
+                    <div className="properties__skill" >
+                      <span>{course.skills.length > 50
+                        ? `${course.skills.substring(0, 50)}...`
+                        : course.skills}</span>
+                    </div>
 
                     <div className="properties__footer">
-                      <div className="enrolldate" style={{ color: "blue" }}>
+                      <div className="date" style={{ color: "gray" }}>
                         <span>
-                            {formatDate(course.start_date, course.finish_date)}
+                          <p>Enroll {formatDate(course.start_date, course.finish_date)}</p>
+
                         </span>
                       </div>
                     </div>
 
                     <div className="properties__footer">
-                      <div className="date" style={{ color: "blue" }}>
-                        <span>
-                          <p> Training date :
-                            {formatDate(course.start_date, course.finish_date)}</p>
-                        </span>
+                      <div className="date" style={{ color: "gray" }}>
+                        <p> Training {formatDate(course.start_date, course.finish_date)}</p>
                       </div>
                     </div>
                     <div className="location">
                       <span>
-                        <p>Location :
-                          {course.train_place.length > 20
-                            ? `${course.train_place.substring(0, 20)}...`
+                        <p>
+                          {course.train_place.length > 50
+                            ? `${course.train_place.substring(0, 50)}...`
                             : course.train_place}</p>
                       </span>
                     </div>
-                    <Link to={`/detail/${course.train_course_id}`}>
-                      <a href="#" className="btn card-btn">More Detail</a>
-                    </Link>
+                    {/* <Link to={`/detail/${course.train_course_id}`}>
+                      <a href="#" className="align-self-end btn card-btn">More Detail</a>
+                    </Link> */}
                   </div>
                 </div>
               </div>
@@ -180,8 +184,8 @@ function Course(props) {
         <div className="row justify-content-center section">
           {filteredRetreatCourses?.map((course) => (
             <div className="col-lg-3" key={course.train_course_id}>
-              <div className="properties properties2 mb-30 center-div" style={{ height: "auto", marginBottom: "20px", position: "relative" }}>
-                <div className="properties__card" style={{ border: "1px solid #e0e0e0", borderRadius: "5px", overflow: "hidden" }}>
+              <div className="properties properties2 mb-30 center-div" style={{ marginBottom: "20px", position: "relative" }}>
+                <div className="properties__card d-flex" onClick={() => handleCardClick(course.train_course_id)} style={{ height: "440px", border: "1px solid #e0e0e0", borderRadius: "5px", overflow: "hidden" }}>
                   {/* Card content */}
                   <div className="properties__img overlay1">
                     <Link to={`/detail/${course.train_course_id}`}>
@@ -189,7 +193,6 @@ function Course(props) {
                     </Link>
                   </div>
                   <div className="properties__caption">
-                    <p>{course.category}</p>
                     <h5>
                       <Link to={`/detail/${course.train_course_id}`}>
                         {course.course_detail_name.length > 63
@@ -197,31 +200,36 @@ function Course(props) {
                           : course.course_detail_name}
                       </Link>
                     </h5>
-                    <p style={{ padding: 5 }}>{course.train_detail}</p>
+                    <p>{course.train_detail}</p>
+                    <div className="properties__skill" >
+                      <span>{course.skills.length > 50
+                        ? `${course.skills.substring(0, 50)}...`
+                        : course.skills}</span>
+                    </div>
+
                     <div className="properties__footer">
-                      <div className="enrolldate" style={{ color: "blue" }}>
-                        <span><p>Enroll date :
-                          {formatDate(course.start_date, course.finish_date)}</p></span>
+                      <div className="date" style={{ color: "gray" }}>
+                        <p>Enroll {formatDate(course.start_date, course.finish_date)}</p>
+
                       </div>
                     </div>
 
                     <div className="properties__footer">
-                      <div className="date" style={{ color: "blue" }}>
-                        <span><p>Training date :
-                          {formatDate(course.start_date, course.finish_date)}</p></span>
+                      <div className="date" style={{ color: "gray" }}>
+                        <p> Training {formatDate(course.start_date, course.finish_date)}</p>
                       </div>
                     </div>
-
                     <div className="location">
-                      <span><p>Location :
-                        {course.train_place.length > 20
-                          ? `${course.train_place.substring(0, 20)}...`
-                          : course.train_place}</p>
+                      <span>
+                        <p>
+                          {course.train_place.length > 50
+                            ? `${course.train_place.substring(0, 50)}...`
+                            : course.train_place}</p>
                       </span>
                     </div>
-                    <Link to={`/detail/${course.train_course_id}`}>
-                      <a href="#" className="btn card-btn">More Detail</a>
-                    </Link>
+                    {/* <Link to={`/detail/${course.train_course_id}`}>
+                      <a href="#" className="align-self-end btn card-btn">More Detail</a>
+                    </Link> */}
                   </div>
                 </div>
               </div>
