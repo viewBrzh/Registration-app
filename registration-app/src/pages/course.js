@@ -57,6 +57,7 @@ function Course(props) {
           )
         );
       });
+      console.log(basicCourses.json)
   }, []);
 
   const formatDate = (start_date, finish_date) => {
@@ -95,7 +96,7 @@ function Course(props) {
               <li className="breadcrumb-item">
                 <Link to={`/`} className="breadcrumb-item">Home</Link>
               </li>
-              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold'}}>
+              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold' }}>
                 Courses
               </li>
             </ol>
@@ -129,16 +130,19 @@ function Course(props) {
                     </h5>
                     <p>{course.train_detail}</p>
                     <div className="properties__footer">
+                    <div className="skill" style={{ color: "blue" }}>
+                        <span>Skills :{course.skills}</span>
+                      </div></div>
 
-                    <div className="enrolldate" style={{ color: "blue" }}>
+                    <div className="properties__footer">
+                      <div className="enrolldate" style={{ color: "blue" }}>
                         <span>
-                          <p> Enroll date :
-                            {formatDate(course.start_date, course.finish_date)}</p>
+                            {formatDate(course.start_date, course.finish_date)}
                         </span>
                       </div>
                     </div>
 
-                      <div className="properties__footer">
+                    <div className="properties__footer">
                       <div className="date" style={{ color: "blue" }}>
                         <span>
                           <p> Training date :
@@ -147,13 +151,13 @@ function Course(props) {
                       </div>
                     </div>
                     <div className="location">
-                        <span>
-                          <p>Location : 
+                      <span>
+                        <p>Location :
                           {course.train_place.length > 20
                             ? `${course.train_place.substring(0, 20)}...`
                             : course.train_place}</p>
-                        </span>
-                      </div>
+                      </span>
+                    </div>
                     <Link to={`/detail/${course.train_course_id}`}>
                       <a href="#" className="btn card-btn">More Detail</a>
                     </Link>
@@ -208,12 +212,12 @@ function Course(props) {
                     </div>
 
                     <div className="location">
-                        <span><p>Location :
-                          {course.train_place.length > 20
-                            ? `${course.train_place.substring(0, 20)}...`
-                            : course.train_place}</p>
-                        </span>
-                      </div>
+                      <span><p>Location :
+                        {course.train_place.length > 20
+                          ? `${course.train_place.substring(0, 20)}...`
+                          : course.train_place}</p>
+                      </span>
+                    </div>
                     <Link to={`/detail/${course.train_course_id}`}>
                       <a href="#" className="btn card-btn">More Detail</a>
                     </Link>
