@@ -60,14 +60,22 @@ function Course(props) {
   }, []);
 
   const formatDate = (start_date, finish_date) => {
+    const toBuddhistEra = (year) => {
+        return year + 543;
+    };
+
+    const formatBEYear = (date) => {
+        const year = toBuddhistEra(date.getFullYear());
+        return date.toLocaleDateString("en-GB").replace(date.getFullYear(), year);
+    };
+
     if (start_date === finish_date) {
-      return new Date(start_date).toLocaleDateString("en-GB");
+        return formatBEYear(new Date(start_date));
     } else {
-      return `${new Date(start_date).toLocaleDateString("en-GB")} - ${new Date(
-        finish_date
-      ).toLocaleDateString("en-GB")}`;
+        return `${formatBEYear(new Date(start_date))} - ${formatBEYear(new Date(finish_date))}`;
     }
-  };
+};
+
 
 
   const filteredBasicCourses = basicCourses.filter((course) =>

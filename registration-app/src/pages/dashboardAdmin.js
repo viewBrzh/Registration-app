@@ -20,6 +20,8 @@ function DashboardAdmin() {
   const [departmentscount, setDepartmentsCount] = useState(0);
   const [coursesCount, setCoursesCount] = useState(0);
   const [publishedCoursesCount, setPublishedCoursesCount] = useState(0);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
 
 
   useEffect(() => {
@@ -133,18 +135,26 @@ function DashboardAdmin() {
         chartRef1.current.chart.destroy();
       }
 
+      const totalDepartments = departmentscount;
+      const passPercentage = Math.round((departmentsWithCriteriaCount / totalDepartments) * 100);
+
       const data1 = {
-        labels: courseData.map((data) =>
-          data.courseName.length > 20
-            ? `${data.courseName.substring(0, 20)}...`
-            : data.courseName
-        ),
+        labels: ["Passed Criteria", "Did Not Pass Criteria"],
         datasets: [
           {
-            label: "Course enrollment",
-            data: courseData.map((data) => data.quantity),
-            backgroundColor: ["rgba(75, 192, 192, 0.2)"],
-            borderColor: ["rgba(75, 192, 192, 1)"],
+            label: "Department Criteria",
+            data: [
+              departmentsWithCriteriaCount,
+              totalDepartments - departmentsWithCriteriaCount,
+            ],
+            backgroundColor: [
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(255, 99, 132, 0.2)",
+            ],
+            borderColor: [
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 99, 132, 1)",
+            ],
             borderWidth: 1,
           },
         ],
@@ -156,18 +166,50 @@ function DashboardAdmin() {
             display: true,
             position: "bottom",
           },
+          doughnutlabel: {
+            labels: [
+              {
+                text: `${passPercentage}%`,
+                font: {
+                  size: "40",
+                },
+              },
+            ],
+          },
         },
         responsive: true,
         maintainAspectRatio: false,
+        cutout: "70%",
       };
 
       chartRef1.current.chart = new ChartAuto(ctx1, {
-        type: "bar",
+        type: "doughnut",
         data: data1,
         options: options1,
+        plugins: [{
+          beforeDraw: function (chart) {
+            const width = chart.width,
+              height = chart.height,
+              ctx = chart.ctx;
+
+            ctx.restore();
+            const fontSize = (height / 200).toFixed(2);
+            ctx.font = fontSize + "em sans-serif";
+            ctx.textBaseline = "middle";
+
+            const text = `${passPercentage}%`,
+              textX = Math.round((width - ctx.measureText(text).width) / 2),
+              textY = height / 2;
+
+            ctx.fillText(text, textX, textY);
+            ctx.save();
+          }
+        }]
       });
     }
-  }, [courseData]);
+  }, [departmentsWithCriteriaCount, departmentscount]);
+
+
 
   useEffect(() => {
     if (chartRef2.current) {
@@ -221,7 +263,22 @@ function DashboardAdmin() {
   const handleShowModal = () => setShowModal(true);
 
   return (
-    <Main>
+    <Main>{/* Year Filter */}
+      <div className="fixed-form">
+        <div className="label">
+          <label className="label-title" htmlFor="year">Year</label>
+          <input
+            id="year"
+            type="number"
+            placeholder="Enter year"
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            className="input"
+          />
+        </div>
+      </div>
+
+
       {/* Page Header */}
       <div className="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div className="container text-center py-5 justify-content-center">
@@ -237,10 +294,13 @@ function DashboardAdmin() {
                 Dashboard admin
               </li>
             </ol>
+            <br />
           </nav>
         </div>
       </div>
       {/* Page Header End */}
+
+
 
       <div className="cardBox">
         <div className="carddash">
@@ -292,19 +352,19 @@ function DashboardAdmin() {
       <div className="container-fluid">
         <div className="row">
           {/*Course */}
-          <div className="col-sm-6 d-flex">
+          <div className="col-sm-8 d-flex">
             <CourseTable />
           </div>
           {/* Course End */}
 
           {/* Bar Chart */}
-          <div className="col-sm-6 ">
+          <div className="col-sm-4 ">
             <div className="details d-flex">
               <div className="recentOrders">
-                <div className="cardHeader"><h2>Quantity Chart</h2></div>
+                <div className="cardHeader"><h2>Criteria Chart</h2></div>
                 <br></br>
-                <div className="chart-container">
-                  <canvas style={{ width: 500, overflowX: 'auto' }} ref={chartRef1} id="courseStatusChart"></canvas>
+                <div className="chart-container d-flex justify-content-center">
+                  <canvas style={{ maxWidth: 300, overflowX: 'auto' }} ref={chartRef1} id="courseStatusChart"></canvas>
                 </div>
               </div>
             </div>
@@ -313,16 +373,17 @@ function DashboardAdmin() {
       </div>
 
       <div className="container-fluid py-5 mb-5 wow fadeIn">
-        <div className="details d-flex">
+        <div className="details d-flex justify-content-center">
           <div className="recentOrders">
             <div className="cardHeader"><h2>Department Chart</h2></div>
             <br></br>
             <div className="chart-container">
-              <canvas style={{ width: 500, overflowX: 'auto' }} ref={chartRef2} id="departmentChart"></canvas>
+              <canvas style={{ overflowX: 'auto' }} ref={chartRef2} id="departmentChart"></canvas>
             </div>
           </div>
         </div>
       </div>
+
 
       <div className="container-fluid py-5 mb-5 wow fadeIn">
         <div className="details d-flex">

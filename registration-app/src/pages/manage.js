@@ -166,6 +166,12 @@ function Manage() {
     }
   };
 
+
+  const formatDate = (date) => {
+    const thaiYear = (new Date(date).getFullYear() + 543).toString(); // Get the last two digits of the Buddhist Era year
+    return new Date(date).toLocaleDateString("en-GB").replace(new Date(date).getFullYear(), thaiYear);
+  };
+
   return (
     <Main>
       {/* Hero Section */}
@@ -213,8 +219,8 @@ function Manage() {
                     <td>{course.train_course_id}</td>
                     <td>{course.course_detail_name}</td>
                     <td>{course.train_detail}</td>
-                    <td>{new Date(course.start_date).toLocaleDateString('en-GB')}</td>
-                    <td>{new Date(course.finish_date).toLocaleDateString('en-GB')}</td>
+                    <td>{formatDate(course.start_date)}</td>
+                    <td>{formatDate(course.finish_date)}</td>
                     <td>{course.train_place}</td>
                     <td>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
                     <td><Quantity courseId={course.train_course_id} /></td>

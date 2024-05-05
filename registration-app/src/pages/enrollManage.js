@@ -197,6 +197,8 @@ function EnrollManage() {
     }
   };
 
+  
+
   return (
     <Main>
       <div className="container-fluid page-header py-5 mb-5 wow fadeIn hero-section" data-wow-delay="0.1s">
@@ -263,7 +265,7 @@ function EnrollManage() {
                       <td>{users[enrollment.user_id]?.email}</td>
                       <td>{users[enrollment.user_id]?.phone}</td>
                       <td>{users[enrollment.user_id]?.department}</td>
-                      <td>{new Date(enrollment.enroll_date).toLocaleDateString('en-GB')}</td>
+                      <td>{formatDate(enrollment.enroll_date)}</td>
                       <td>
                         <select
                           value={enrollment.status}
@@ -327,6 +329,11 @@ function EnrollManage() {
 
 export default EnrollManage;
 
+const formatDate = (date) => {
+  const thaiYear = (new Date(date).getFullYear() + 543).toString(); // Get the last two digits of the Buddhist Era year
+  return new Date(date).toLocaleDateString("en-GB").replace(new Date(date).getFullYear(), thaiYear);
+};
+
 function formatDataForDownload(enrollments, users) {
   return enrollments.map((enrollment, index) => {
     let statusText = "";
@@ -350,7 +357,7 @@ function formatDataForDownload(enrollments, users) {
       "Email": users[enrollment.user_id]?.email,
       "Phone": users[enrollment.user_id]?.phone,
       "Department": users[enrollment.user_id]?.department,
-      "Date": new Date(enrollment.enroll_date).toLocaleDateString('en-GB'),
+      "Date": formatDate(enrollment.enroll_date),
       "Status": statusText
     };
   });

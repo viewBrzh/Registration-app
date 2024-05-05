@@ -148,8 +148,9 @@ function Updatecourse(props) {
         );
         if (response.ok) {
           // Handle successful update
-          console.log("Course updated successfully");
-          navigate("/", { replace: true });
+          window.alert("Course updated successfully");
+          navigate("/manage", { replace: true });
+          window.location.reload();
         } else {
           console.error("Failed to update course");
         }
