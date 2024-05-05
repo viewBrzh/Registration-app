@@ -157,12 +157,12 @@ function Header() {
                       aria-labelledby="dropdownMenuButton"
                     >
                       <li>
-                        <Link
+                        {userRole !== "admin" && <Link
                           to={`/profile`}
                           className={`dropdown-item ${location.pathname === "/profile" ? "active" : ""}`}
                         >
                           Profile
-                        </Link>
+                        </Link>}
                       </li>
                       <li>
                         <Link

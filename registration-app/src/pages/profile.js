@@ -136,7 +136,7 @@ function Profile() {
                       src={`${apiUrl}/profiles/${userDatas.image}`}
                       className="rounded-circle border border-2"
                       alt="Image"
-                      style={{ objectFit: "cover", width: "100%" }}
+                      style={{ objectFit: "cover", width: "100%", height: '100%' }}
                     />
                   </div>
                   <div className="lh-1">
