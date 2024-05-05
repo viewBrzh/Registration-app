@@ -84,9 +84,32 @@ function Detail(props) {
       });
   };
 
+  const formatDate = (start_date, finish_date) => {
+    const toBuddhistEra = (year) => {
+      return year + 543;
+    };
+
+    const formatBEYear = (date) => {
+      const year = toBuddhistEra(date.getFullYear());
+      return date.toLocaleDateString("en-GB").replace(date.getFullYear(), year);
+    };
+
+    if (start_date === finish_date) {
+      return formatBEYear(new Date(start_date));
+    } else {
+      return `${formatBEYear(new Date(start_date))} - ${formatBEYear(
+        new Date(finish_date)
+      )}`;
+    }
+  };
+
+  const handleCardClick = (courseId) => {
+    navigate(`/detail/${courseId}`);
+  };
+
   return (
     <Main>
-      <div className="detail-container-wrapper" >
+      <div className="detail-container-wrapper">
         <div className="detail-container">
           <div className="left-column">
             <img
@@ -120,28 +143,28 @@ function Detail(props) {
           </div>
         </div>
       </div>
-      <br/>
+      <br />
+      {/* end detail */}
 
+      {/* start Comparable courses */}
       <hr style={{ margin: "10px" }} />
-      <br/>
+      <br />
       <div id="basic" className="container section">
         <br />
         <div className="row mb-4">
-          <h2>Comparable courses</h2>
+          <h2 className="text-center">Basic Counseling</h2>
         </div>
         <div className="row justify-content-center section">
           <div className="col-lg-3" key={course.train_course_id}>
             <div
               className="properties properties2 mb-30 center-div"
-              style={{
-                height: "auto",
-                marginBottom: "20px",
-                position: "relative",
-              }}
+              style={{ marginBottom: "20px", position: "relative" }}
             >
               <div
                 className="properties__card"
+                onClick={() => handleCardClick(course.train_course_id)}
                 style={{
+                  height: "440px",
                   border: "1px solid #e0e0e0",
                   borderRadius: "10px",
                   overflow: "hidden",
@@ -152,35 +175,56 @@ function Detail(props) {
                   <Link to={`/detail/${course.train_course_id}`}>
                     <img src={`${apiUrl}/images/${course.image}`} alt="" />
                   </Link>
-                  {/* Add bookmark button here */}
                 </div>
                 <div className="properties__caption">
-                  <p>{course.category}</p>
-                  <h3>
+                  <h5>
                     <Link to={`/detail/${course.train_course_id}`}>
                       {course.course_detail_name.length > 63
                         ? `${course.course_detail_name.substring(0, 63)}...`
                         : course.course_detail_name}
                     </Link>
-                  </h3>
+                  </h5>
                   <p>{course.train_detail}</p>
-                  <div className="properties__footer d-flex justify-content-between align-items-center">
-                    <div className="date" style={{ color: "blue" }}>
-                      <span>{(course.start_date, course.finish_date)}</span>
-                    </div>
-                    <div className="location">
+                  <div className="properties__skill">
+                    <span>
+                      {course.skills.length > 50
+                        ? `${course.skills.substring(0, 50)}...`
+                        : course.skills}
+                    </span>
+                  </div>
+
+                  <div className="properties__footer">
+                    <div className="date" style={{ color: "gray" }}>
                       <span>
-                        {course.train_place.length > 20
-                          ? `${course.train_place.substring(0, 20)}...`
-                          : course.train_place}
+                        <p>
+                          Enroll{" "}
+                          {formatDate(course.start_date, course.finish_date)}
+                        </p>
                       </span>
                     </div>
                   </div>
-                  <Link to={`/detail/${course.train_course_id}`}>
-                    <a href="#" className="btn card-btn">
-                      More Detail
-                    </a>
-                  </Link>
+
+                  <div className="properties__footer">
+                    <div className="date" style={{ color: "gray" }}>
+                      <p>
+                        {" "}
+                        Training{" "}
+                        {formatDate(course.start_date, course.finish_date)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="location">
+                    <span>
+                      <p>
+                        {course.train_place.length > 50
+                          ? `${course.train_place.substring(0, 50)}...`
+                          : course.train_place}
+                      </p>
+                    </span>
+                  </div>
+                  {/* <Link to={`/detail/${course.train_course_id}`}>
+                      <a href="#" className="align-self-end btn card-btn">More Detail</a>
+                    </Link> */}
                 </div>
               </div>
             </div>
@@ -188,15 +232,13 @@ function Detail(props) {
           <div className="col-lg-3" key={course.train_course_id}>
             <div
               className="properties properties2 mb-30 center-div"
-              style={{
-                height: "auto",
-                marginBottom: "20px",
-                position: "relative",
-              }}
+              style={{ marginBottom: "20px", position: "relative" }}
             >
               <div
                 className="properties__card"
+                onClick={() => handleCardClick(course.train_course_id)}
                 style={{
+                  height: "440px",
                   border: "1px solid #e0e0e0",
                   borderRadius: "10px",
                   overflow: "hidden",
@@ -207,35 +249,56 @@ function Detail(props) {
                   <Link to={`/detail/${course.train_course_id}`}>
                     <img src={`${apiUrl}/images/${course.image}`} alt="" />
                   </Link>
-                  {/* Add bookmark button here */}
                 </div>
                 <div className="properties__caption">
-                  <p>{course.category}</p>
-                  <h3>
+                  <h5>
                     <Link to={`/detail/${course.train_course_id}`}>
                       {course.course_detail_name.length > 63
                         ? `${course.course_detail_name.substring(0, 63)}...`
                         : course.course_detail_name}
                     </Link>
-                  </h3>
+                  </h5>
                   <p>{course.train_detail}</p>
-                  <div className="properties__footer d-flex justify-content-between align-items-center">
-                    <div className="date" style={{ color: "blue" }}>
-                      <span>{(course.start_date, course.finish_date)}</span>
-                    </div>
-                    <div className="location">
+                  <div className="properties__skill">
+                    <span>
+                      {course.skills.length > 50
+                        ? `${course.skills.substring(0, 50)}...`
+                        : course.skills}
+                    </span>
+                  </div>
+
+                  <div className="properties__footer">
+                    <div className="date" style={{ color: "gray" }}>
                       <span>
-                        {course.train_place.length > 20
-                          ? `${course.train_place.substring(0, 20)}...`
-                          : course.train_place}
+                        <p>
+                          Enroll{" "}
+                          {formatDate(course.start_date, course.finish_date)}
+                        </p>
                       </span>
                     </div>
                   </div>
-                  <Link to={`/detail/${course.train_course_id}`}>
-                    <a href="#" className="btn card-btn">
-                      More Detail
-                    </a>
-                  </Link>
+
+                  <div className="properties__footer">
+                    <div className="date" style={{ color: "gray" }}>
+                      <p>
+                        {" "}
+                        Training{" "}
+                        {formatDate(course.start_date, course.finish_date)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="location">
+                    <span>
+                      <p>
+                        {course.train_place.length > 50
+                          ? `${course.train_place.substring(0, 50)}...`
+                          : course.train_place}
+                      </p>
+                    </span>
+                  </div>
+                  {/* <Link to={`/detail/${course.train_course_id}`}>
+                      <a href="#" className="align-self-end btn card-btn">More Detail</a>
+                    </Link> */}
                 </div>
               </div>
             </div>
@@ -243,15 +306,13 @@ function Detail(props) {
           <div className="col-lg-3" key={course.train_course_id}>
             <div
               className="properties properties2 mb-30 center-div"
-              style={{
-                height: "auto",
-                marginBottom: "20px",
-                position: "relative",
-              }}
+              style={{ marginBottom: "20px", position: "relative" }}
             >
               <div
                 className="properties__card"
+                onClick={() => handleCardClick(course.train_course_id)}
                 style={{
+                  height: "440px",
                   border: "1px solid #e0e0e0",
                   borderRadius: "10px",
                   overflow: "hidden",
@@ -262,35 +323,56 @@ function Detail(props) {
                   <Link to={`/detail/${course.train_course_id}`}>
                     <img src={`${apiUrl}/images/${course.image}`} alt="" />
                   </Link>
-                  {/* Add bookmark button here */}
                 </div>
                 <div className="properties__caption">
-                  <p>{course.category}</p>
-                  <h3>
+                  <h5>
                     <Link to={`/detail/${course.train_course_id}`}>
                       {course.course_detail_name.length > 63
                         ? `${course.course_detail_name.substring(0, 63)}...`
                         : course.course_detail_name}
                     </Link>
-                  </h3>
+                  </h5>
                   <p>{course.train_detail}</p>
-                  <div className="properties__footer d-flex justify-content-between align-items-center">
-                    <div className="date" style={{ color: "blue" }}>
-                      <span>{(course.start_date, course.finish_date)}</span>
-                    </div>
-                    <div className="location">
+                  <div className="properties__skill">
+                    <span>
+                      {course.skills.length > 50
+                        ? `${course.skills.substring(0, 50)}...`
+                        : course.skills}
+                    </span>
+                  </div>
+
+                  <div className="properties__footer">
+                    <div className="date" style={{ color: "gray" }}>
                       <span>
-                        {course.train_place.length > 20
-                          ? `${course.train_place.substring(0, 20)}...`
-                          : course.train_place}
+                        <p>
+                          Enroll{" "}
+                          {formatDate(course.start_date, course.finish_date)}
+                        </p>
                       </span>
                     </div>
                   </div>
-                  <Link to={`/detail/${course.train_course_id}`}>
-                    <a href="#" className="btn card-btn">
-                      More Detail
-                    </a>
-                  </Link>
+
+                  <div className="properties__footer">
+                    <div className="date" style={{ color: "gray" }}>
+                      <p>
+                        {" "}
+                        Training{" "}
+                        {formatDate(course.start_date, course.finish_date)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="location">
+                    <span>
+                      <p>
+                        {course.train_place.length > 50
+                          ? `${course.train_place.substring(0, 50)}...`
+                          : course.train_place}
+                      </p>
+                    </span>
+                  </div>
+                  {/* <Link to={`/detail/${course.train_course_id}`}>
+                      <a href="#" className="align-self-end btn card-btn">More Detail</a>
+                    </Link> */}
                 </div>
               </div>
             </div>
@@ -298,15 +380,13 @@ function Detail(props) {
           <div className="col-lg-3" key={course.train_course_id}>
             <div
               className="properties properties2 mb-30 center-div"
-              style={{
-                height: "auto",
-                marginBottom: "20px",
-                position: "relative",
-              }}
+              style={{ marginBottom: "20px", position: "relative" }}
             >
               <div
                 className="properties__card"
+                onClick={() => handleCardClick(course.train_course_id)}
                 style={{
+                  height: "440px",
                   border: "1px solid #e0e0e0",
                   borderRadius: "10px",
                   overflow: "hidden",
@@ -317,35 +397,56 @@ function Detail(props) {
                   <Link to={`/detail/${course.train_course_id}`}>
                     <img src={`${apiUrl}/images/${course.image}`} alt="" />
                   </Link>
-                  {/* Add bookmark button here */}
                 </div>
                 <div className="properties__caption">
-                  <p>{course.category}</p>
-                  <h3>
+                  <h5>
                     <Link to={`/detail/${course.train_course_id}`}>
                       {course.course_detail_name.length > 63
                         ? `${course.course_detail_name.substring(0, 63)}...`
                         : course.course_detail_name}
                     </Link>
-                  </h3>
+                  </h5>
                   <p>{course.train_detail}</p>
-                  <div className="properties__footer d-flex justify-content-between align-items-center">
-                    <div className="date" style={{ color: "blue" }}>
-                      <span>{(course.start_date, course.finish_date)}</span>
-                    </div>
-                    <div className="location">
+                  <div className="properties__skill">
+                    <span>
+                      {course.skills.length > 50
+                        ? `${course.skills.substring(0, 50)}...`
+                        : course.skills}
+                    </span>
+                  </div>
+
+                  <div className="properties__footer">
+                    <div className="date" style={{ color: "gray" }}>
                       <span>
-                        {course.train_place.length > 20
-                          ? `${course.train_place.substring(0, 20)}...`
-                          : course.train_place}
+                        <p>
+                          Enroll{" "}
+                          {formatDate(course.start_date, course.finish_date)}
+                        </p>
                       </span>
                     </div>
                   </div>
-                  <Link to={`/detail/${course.train_course_id}`}>
-                    <a href="#" className="btn card-btn">
-                      More Detail
-                    </a>
-                  </Link>
+
+                  <div className="properties__footer">
+                    <div className="date" style={{ color: "gray" }}>
+                      <p>
+                        {" "}
+                        Training{" "}
+                        {formatDate(course.start_date, course.finish_date)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="location">
+                    <span>
+                      <p>
+                        {course.train_place.length > 50
+                          ? `${course.train_place.substring(0, 50)}...`
+                          : course.train_place}
+                      </p>
+                    </span>
+                  </div>
+                  {/* <Link to={`/detail/${course.train_course_id}`}>
+                      <a href="#" className="align-self-end btn card-btn">More Detail</a>
+                    </Link> */}
                 </div>
               </div>
             </div>

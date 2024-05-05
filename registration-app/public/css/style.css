@@ -852,7 +852,6 @@
     width: 100%;
     border-radius: 10px 10px 0 0;
     padding-bottom: 10px;
-    /* เพิ่มขอบมนเพื่อทำให้มีรูปร่างของ card */
 }
 
 .properties__img img:hover {
