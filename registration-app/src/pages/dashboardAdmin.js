@@ -20,9 +20,9 @@ function DashboardAdmin() {
   const [departmentscount, setDepartmentsCount] = useState(0);
   const [coursesCount, setCoursesCount] = useState(0);
   const [publishedCoursesCount, setPublishedCoursesCount] = useState(0);
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-
-
+  const storedYear = localStorage.getItem('selectedYear');
+  const initialYear = storedYear ? parseInt(storedYear, 10) : new Date().getFullYear() + 543;
+  const [selectedYear, setSelectedYear] = useState(initialYear);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,31 +72,30 @@ function DashboardAdmin() {
         // Fetch enrollment counts for each department
         const departmentEnrollmentData = await Promise.all(
           departmentsData.map(async (department) => {
-            const departmentResponse = await fetch(`${apiUrl}/enroll/getCoutByDepartment/${department.department}`);
+            const departmentResponse = await fetch(`${apiUrl}/enroll/countDepartmentByYear/${department.department}/${storedYear}`);
             if (!departmentResponse.ok) {
               throw new Error(`Failed to fetch enroll count for department ${department.department}`);
             }
             const departmentEnrollData = await departmentResponse.json();
-
-            // Increment the total departments count
-            departmentsCount++;
-
+        
             // Check if the department meets the criteria and increment the count
-            if (departmentEnrollData.count >= 12) {
+            let passCriteria = departmentEnrollData >= 12;
+            if (passCriteria) {
               departmentsWithCriteriaCount++;
             }
-
+        
             return {
               departmentName: department.department,
-              quantity: departmentEnrollData.count,
+              quantity: departmentEnrollData,
+              passCriteria: passCriteria
             };
           })
         );
-
+        
         // Set the department data and counts in state
         setDepartmentData(departmentEnrollmentData);
-        setDepartmentsCount(departmentsCount);
-        setDepartmentsWithCriteriaCount(departmentsWithCriteriaCount);
+        setDepartmentsCount(departmentEnrollmentData.length);
+        setDepartmentsWithCriteriaCount(departmentEnrollmentData.filter(department => department.passCriteria).length);
 
         const userCountResponse = await fetch(`${apiUrl}/user/userCount`, {
           method: 'POST',
@@ -111,7 +110,7 @@ function DashboardAdmin() {
         const userCount = await userCountResponse.json();
         setuser(userCount.userCount);
 
-        const userEnrollResponse = await fetch(`${apiUrl}/enroll/getCount`);
+        const userEnrollResponse = await fetch(`${apiUrl}/enroll/countByYear/${storedYear}`);
         if (!userEnrollResponse.ok) {
           throw new Error("Failed to fetch user enroll count");
         }
@@ -262,6 +261,13 @@ function DashboardAdmin() {
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
 
+  const handleYearChange = (year) => {
+    setSelectedYear(year);
+    // Store selected year in local storage
+    localStorage.setItem('selectedYear', year);
+    window.location.reload();
+  };
+
   return (
     <Main>{/* Year Filter */}
       <div className="fixed-form">
@@ -272,7 +278,7 @@ function DashboardAdmin() {
             type="number"
             placeholder="Enter year"
             value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
+            onChange={(e) => handleYearChange(e.target.value)}
             className="input"
           />
         </div>
@@ -305,7 +311,7 @@ function DashboardAdmin() {
       <div className="cardBox">
         <div className="carddash">
           <div>
-            <div className="cardName">Total number of instructors enrolled</div>
+            <div className="cardName">Total number of instructors trained</div>
             <div className="numbers">{userErolled} / {user}</div>
           </div>
 

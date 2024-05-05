@@ -17,6 +17,7 @@ function Course(props) {
     if (!isActive) {
       setSearchQuery("");
     }
+    console.log(basicCourses)
   };
 
   const handleInputChange = (evt) => {
