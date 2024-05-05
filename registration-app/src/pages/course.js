@@ -129,7 +129,16 @@ function Course(props) {
                     </h5>
                     <p>{course.train_detail}</p>
                     <div className="properties__footer">
-                      
+
+                    <div className="enrolldate" style={{ color: "blue" }}>
+                        <span>
+                          <p> Enroll date :
+                            {formatDate(course.start_date, course.finish_date)}</p>
+                        </span>
+                      </div>
+                    </div>
+
+                      <div className="properties__footer">
                       <div className="date" style={{ color: "blue" }}>
                         <span>
                           <p> Training date :
