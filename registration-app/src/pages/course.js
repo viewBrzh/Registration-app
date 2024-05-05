@@ -148,9 +148,9 @@ function Course(props) {
                     </div>
                     <div className="location">
                         <span>
-                          <p>location : 
+                          <p>Location : 
                           {course.train_place.length > 20
-                            ? `${course.train_place.substring(0, 25)}...`
+                            ? `${course.train_place.substring(0, 20)}...`
                             : course.train_place}</p>
                         </span>
                       </div>
@@ -194,17 +194,26 @@ function Course(props) {
                     </h5>
                     <p style={{ padding: 5 }}>{course.train_detail}</p>
                     <div className="properties__footer">
-                      <div className="date" style={{ color: "blue" }}>
-                        <span>{formatDate(course.start_date, course.finish_date)}</span>
-                      </div>
-                      <div className="location">
-                        <span>
-                          {course.train_place.length > 20
-                            ? `${course.train_place.substring(0, 20)}...`
-                            : course.train_place}
-                        </span>
+                      <div className="enrolldate" style={{ color: "blue" }}>
+                        <span><p>Enroll date :
+                          {formatDate(course.start_date, course.finish_date)}</p></span>
                       </div>
                     </div>
+
+                    <div className="properties__footer">
+                      <div className="date" style={{ color: "blue" }}>
+                        <span><p>Training date :
+                          {formatDate(course.start_date, course.finish_date)}</p></span>
+                      </div>
+                    </div>
+
+                    <div className="location">
+                        <span><p>Location :
+                          {course.train_place.length > 20
+                            ? `${course.train_place.substring(0, 20)}...`
+                            : course.train_place}</p>
+                        </span>
+                      </div>
                     <Link to={`/detail/${course.train_course_id}`}>
                       <a href="#" className="btn card-btn">More Detail</a>
                     </Link>
