@@ -111,7 +111,7 @@ function Notification(props) {
           <div className="card-notification" key={index}>
             <div className="card-body-notification">
               <div className="row">
-                <div className="col-10" onClick={() => navigate(`/detail/${course[0].train_course_id}`)}>
+                <div className="col-10" style={{ cursor: 'pointer' }} onClick={() => navigate(`/detail/${course[0].train_course_id}`)}>
                   <h5 className="card-title">Training Course Completion</h5>
                   <p className="card-text">Congratulations! You have completed the training course "{course[0].course_detail_name}." Please give us a rating</p>
                   <span className="card-date">{formatDate(course[0].finish_date)}</span>

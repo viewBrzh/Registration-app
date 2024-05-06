@@ -18,6 +18,11 @@
     width: 100%;
 }
 
+
+.custom-info-card::after {
+    transition: height 0.5s ease;
+}
+
 .custom-skill-card {
     padding: 20px;
     border: 0;
