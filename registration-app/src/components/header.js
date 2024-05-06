@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import apiUrl from "../api/apiConfig";
+import NotiCount from "./noti";
 
 function Header() {
   const userRole = localStorage.getItem("userRole");
@@ -8,6 +9,7 @@ function Header() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState("");
+  const [notification, setNotification] = useState(0);
 
   const isAuthenticated = userData && Object.keys(userData).length !== 0;
 
@@ -15,13 +17,21 @@ function Header() {
     // Get user data from local storage
     const storedUserData = localStorage.getItem("userData");
     setUser(JSON.parse(storedUserData));
+
+    const noti = JSON.parse(localStorage.getItem("noti"));
+
+    if (noti) {
+      setNotification(noti.length);
+    }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("userData");
     localStorage.removeItem("userRole");
+    localStorage.removeItem("noti");
     window.location.reload();
   };
+
 
   const toggleDrop = () => {
     setIsOpen(false);
@@ -118,7 +128,7 @@ function Header() {
                     Contact
                   </Link>
                 )}
-                
+
                 {!isAuthenticated && (
                   <Link
                     to={`/login`}
@@ -134,12 +144,12 @@ function Header() {
                     className="nav-item nav-link justify-content-end"
                     style={{ marginTop: '-10px', marginLeft: 'auto' }}
                   >
-                    <button
-                      className="btn"
+                    <a
+                      className="btn d-flex"
                       type="button"
                       id="dropdownMenuButton"
                       aria-expanded={"false"}
-                      style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold' }}
+                      style={{ alignItems: 'center', fontWeight: 'bold' }}
                       onClick={toggleDrop}
                     >
                       {user?.username}
@@ -149,9 +159,11 @@ function Header() {
                           src={`${apiUrl}/profiles/${user?.image}`}
                           alt="User Avatar"
                           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          
                         />
+                        {notification > 0 && <div className="red-dot">{notification > 9 ? '9+' : notification}</div>}
                       </div>
-                    </button>
+                    </a>
 
                     <ul
                       className={`dropdown-menu dropdown-menu-end ${isOpen ? "show" : ""}`}
@@ -165,14 +177,17 @@ function Header() {
                           Profile
                         </Link>}
                       </li>
-                      <li>
+                      <li style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Link
                           to="/notification"
                           className={`dropdown-item ${location.pathname === "/notification" ? "active" : ""}`}
+                          style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
                         >
-                          Notification
+                          <span>Notification</span>
+                          <a style={{ marginLeft: 'auto', marginRight: '0px' }}><NotiCount /></a>
                         </Link>
                       </li>
+
                       <li onClick={handleLogout}>
                         <Link
                           to={`/`}
@@ -184,7 +199,6 @@ function Header() {
                     </ul>
                   </a>
                 )}
-
               </div>
             </div>
           </nav>

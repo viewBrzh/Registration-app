@@ -289,3 +289,36 @@ th {
     /* Bootstrap's primary color */
     cursor: pointer;
 }
+
+.red-dot {
+    background-color: #fa3e3e;
+    border-radius: 50%;
+    color: white;
+    width: 15px;
+    height: 15px;
+
+    font-size: 11px;
+
+    position: absolute;
+    /* Position the badge within the relatively positioned button */
+    top: 20px;
+    right: 40px;
+    animation: showDot 0.2s linear 0.2s forwards;
+    opacity: 0;
+}
+
+@media (max-width: 992px) {
+    .red-dot {
+        top: 302px;
+        right: 8px;
+    }
+}
+
+@keyframes showDot {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

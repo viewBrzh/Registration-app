@@ -147,12 +147,11 @@ function Detail(props) {
       {/* end detail */}
 
       {/* start Comparable courses */}
-      <hr style={{ margin: "10px" }} />
       <br />
       <div id="basic" className="container section">
         <br />
         <div className="row mb-4">
-          <h2 className="text-center">Basic Counseling</h2>
+          <h2 className="text-center">Similar courses</h2>
         </div>
         <div className="row justify-content-center section">
           <div className="col-lg-3" key={course.train_course_id}>

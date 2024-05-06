@@ -1670,18 +1670,51 @@ img.logo-wu:hover {
 
 .card-container-notification {
     width: 90%;
-    box-shadow: 0px 2px 2px black;
+    box-shadow: 0 0 45px rgba(0, 0, 0, .15);
     margin: 0 auto;
     border-radius: 5px; 
-    padding: 10px;
+    padding: 20px 10px;
+    justify-content: space-between;
+    background-color: white;
 }
 
 .card-notification {
     width: 90%;
-    margin: 0 auto;
-    padding-top: 20px;
+    margin: auto;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+    border-radius: 8px;
+    margin-bottom: 10px; /* Add vertical space between cards */
+    background-color: white;
+}
+
+.card-notification:hover {
+    background-color: #fff4f4;
 }
 
 .card-body-notification {
     justify-content: space-between;
+}
+
+.review {
+    color: #E90073;
+    background-color: white;
+    height: min-content;
+    border: 4px !important;
+}
+
+.card-date {
+    color: #888;
+    font-size: 15px;
+    padding-left: 5px;
+}
+
+.btn-cancel {
+    background-color: #dfdfdf;
+    margin-bottom: 10px;
+}
+
+.btn-cancel:hover{
+    background-color: #c9c8c8;
+    color: white;
 }

@@ -1,97 +1,128 @@
 import Main from "../layouts/main";
-import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import apiUrl from "../api/apiConfig";
 import ReactStars from "react-rating-stars-component";
+import { useNavigate } from "react-router-dom";
 
 function Notification(props) {
-  const storedUserData = localStorage.getItem("userData");
+  const storedUserData = JSON.parse(localStorage.getItem("userData"));
   const [showModal, setShowModal] = useState(false);
-  const [courses, setCourses] = useState(null);
   const [modalName, setModalName] = useState(null);
   const [courseId, setCourseId] = useState(null);
+  const [notiCourse, setNotiCourse] = useState([]);
 
-  const handleReview = (courseId, coursename) => {
+  const noti = JSON.parse(localStorage.getItem("noti"));
+
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState(null);
+  const [enroll_id, setEnroll_id] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleReview = (courseId, coursename, enroll_id) => {
     setModalName(coursename);
     setCourseId(courseId);
+    setEnroll_id(enroll_id)
     // Handle confirmation logic here
     setShowModal(true); // Close the modal
-  }
-  const handleConfirm = () => {
+  };
+
+  const handleConfirm = async () => {
+    console.log(enroll_id);
     // Handle confirmation logic here
+    try {
+      const response = await fetch(`${apiUrl}/feedback/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          rating: rating,
+          comment: comment,
+          date: new Date().toISOString().slice(0, 10), // Format the current date as YYYY-MM-DD
+          enroll_id: enroll_id
+        })
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add feedback');
+      }
+      setShowModal(false); // Close the modal
+    } catch (error) {
+      console.error('Error adding feedback:', error);
+    }
     setShowModal(false); // Close the modal
+    setComment('');
   };
 
   const cancel = () => {
     setShowModal(false);
-  }
-
-  const ratingChanged = (newRating) => {
-    console.log(newRating);
   };
 
-  let userData = null;
-  try {
-    userData = JSON.parse(storedUserData);
-  } catch (error) {
-    console.error("Failed to parse user data from localStorage");
-  }
-  const [userDatas, setUserDatas] = useState(
-    userData || {
-      username: "",
-      email: "",
-      phone: "",
-      image: "",
-    }
-  );
+  const ratingChanged = (newRating) => {
+    setRating(newRating);
+  };
 
   useEffect(() => {
-    fetch(`${apiUrl}/enroll/getUserHistory/${userDatas.user_id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setCourses(data.courses); // Update state with courses data
-      });
-  }, [userDatas.user_id]);
+    const fetchNotiCourseData = async () => {
+      try {
+        const promises = noti.map((notification) =>
+          fetch(`${apiUrl}/course/get-data/${notification.train_course_id}`).then((response) => response.json())
+        );
+        const coursesData = await Promise.all(promises);
+
+        // Add enroll_id to each course data
+        const coursesDataWithEnrollId = coursesData.map((course, index) => {
+          return {
+            ...course,
+            enroll_id: noti[index].enroll_id
+          };
+        });
+
+        setNotiCourse(coursesDataWithEnrollId);
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+      }
+    };
+
+    fetchNotiCourseData();
+  }, [noti]);
 
 
+  const formatDate = (date) => {
+    const thaiYear = (new Date(date).getFullYear() + 543).toString(); // Get the last two digits of the Buddhist Era year
+    return new Date(date).toLocaleDateString("en-GB").replace(new Date(date).getFullYear(), thaiYear);
+  };
+
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+  };
 
   return (
     <Main>
       {/* Page Header Start */}
-      <div className="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
-        <div className="container text-center py-5">
-          <h1 className="display-2 text-dark mb-4 animated slideInDown">Notification</h1>
-          <nav aria-label="breadcrumb animated slideInDown">
-            <ol className="breadcrumb justify-content-center mb-0">
-              <li className="breadcrumb-item">
-                <Link to={`/`} className="breadcrumb-item">Home</Link>
-              </li>
-              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: "bold" }}>
-                Notification
-              </li>
-            </ol>
-          </nav>
-        </div>
-      </div>
+      <div className="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s" />
+
       {/* Page Header End */}
 
       <div className="card-container-notification">
+        <h4>Notification <span style={{ color: "gray" }}>({notiCourse.length})</span></h4>
         {/* Card Body */}
-        {courses?.map((course) => (
-          <div className="card-notification">
+        {notiCourse.map((course, index) => (
+          <div className="card-notification" key={index}>
             <div className="card-body-notification">
               <div className="row">
-                <div className="col"><h5 className="card-title">Training Course Completion</h5>
-                  <p className="card-text">Congratulations! You have completed the training course "{course.course_detail_name}"</p>
+                <div className="col-10" onClick={() => navigate(`/detail/${course[0].train_course_id}`)}>
+                  <h5 className="card-title">Training Course Completion</h5>
+                  <p className="card-text">Congratulations! You have completed the training course "{course[0].course_detail_name}." Please give us a rating</p>
+                  <span className="card-date">{formatDate(course[0].finish_date)}</span>
                 </div>
-                <div className="col justify-content-end d-flex">
-                  <button className="btn btn-primary" style={{ margin: 20 }} onClick={() => handleReview(course.train_course_id, course.course_detail_name)}>Review</button>
+                <div className="col-2 justify-content-end d-flex">
+                  <button className="btn btn-primary review" onClick={() => handleReview(course[0].train_course_id, course[0].course_detail_name, course.enroll_id)}>Review</button>
                 </div>
               </div>
             </div>
           </div>
-        ))
-        }
+        ))}
       </div>
 
       {/* Show modal */}
@@ -106,7 +137,7 @@ function Notification(props) {
               backgroundColor: "#fff",
               padding: "20px",
               borderRadius: "5px",
-              width: "600px",
+              maxWidth: "600px",
               margin: "auto",
               marginTop: "100px",
             }}
@@ -134,10 +165,12 @@ function Notification(props) {
                 id="position"
                 className="input-field"
                 style={{ height: 200 }}
-                rows={4} // กำหนดจำนวนบรรทัดที่ต้องการให้เป็น input หลายบรรทัด
+                rows={4}
+                value={comment}
+                onChange={handleCommentChange}
               />
             </form>
-            <button className="btn" onClick={() => cancel()}>Cancel</button>
+            <button className="btn btn-cancel" onClick={() => cancel()}>Cancel</button>
             <button className="btn btn-primary" onClick={handleConfirm}>
               Send
             </button>
