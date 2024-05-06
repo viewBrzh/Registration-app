@@ -2,7 +2,7 @@ import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import apiUrl from "../api/apiConfig";
-import RatingStar from "../components/ratingStar";
+import ReactStars from "react-rating-stars-component";
 
 function Notification(props) {
   const storedUserData = localStorage.getItem("userData");
@@ -20,6 +20,14 @@ function Notification(props) {
   const handleConfirm = () => {
     // Handle confirmation logic here
     setShowModal(false); // Close the modal
+  };
+
+  const cancel = () => {
+    setShowModal(false);
+  }
+
+  const ratingChanged = (newRating) => {
+    console.log(newRating);
   };
 
   let userData = null;
@@ -105,8 +113,20 @@ function Notification(props) {
           >
             <h3 style={{ margin: '0 auto' }}>Course review</h3>
             <p style={{ margin: '0 auto' }}>{modalName}</p>
+            <div className="d-flex justify-content-center">
+              <ReactStars
+                count={5}
+                onChange={ratingChanged}
+                size={54}
+                isHalf={true}
+                emptyIcon={<i className="far fa-star"></i>}
+                halfIcon={<i className="fa fa-star-half-alt"></i>}
+                fullIcon={<i className="fa fa-star"></i>}
+                activeColor="#ffd700"
+              />
+            </div>
+
             <form>
-              <RatingStar></RatingStar>
               <label>
                 Comment
               </label>
@@ -117,7 +137,8 @@ function Notification(props) {
                 rows={4} // กำหนดจำนวนบรรทัดที่ต้องการให้เป็น input หลายบรรทัด
               />
             </form>
-            <button className="btn btn-primary justify-self-end" onClick={handleConfirm}>
+            <button className="btn" onClick={() => cancel()}>Cancel</button>
+            <button className="btn btn-primary" onClick={handleConfirm}>
               Send
             </button>
           </div>
