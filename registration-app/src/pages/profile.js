@@ -115,8 +115,7 @@ function Profile() {
               <div
                 className="container text-center py-5"
                 style={{ position: "relative", top: "-100px" }}
-              >
-              </div>
+              ></div>
             </div>
 
             <div
@@ -127,18 +126,12 @@ function Profile() {
                 <div className="d-flex align-items-center">
                   <div
                     className="custom-avatar-xxl custom-avatar-indicators avatar-online me-2 position-relative d-flex justify-content-center align-items-center custom-mt-n10"
-                    style={{
-                      width: "200px",
-                      height: "200px",
-                      overflow: "hidden",
-                    }}
                     onClick={handleShowModal}
                   >
                     <img
                       src={`${apiUrl}/profiles/${userDatas.image}`}
-                      className="rounded-circle border border-2"
+                      className="profileimg"
                       alt="Image"
-                      style={{ objectFit: "cover", width: "100%", height: '100%' }}
                     />
                   </div>
                   <div className="lh-1">
@@ -173,7 +166,13 @@ function Profile() {
                   >
                     <div className="contact-container">
                       <h4 className="head-h4">Contact</h4>
-                      <Link to="#" onClick={handleShowModal} className="edit-link">Edit</Link>
+                      <Link
+                        to="#"
+                        onClick={handleShowModal}
+                        className="edit-link"
+                      >
+                        Edit
+                      </Link>
                     </div>
                     <p>
                       <i className="bi-custom bi-envelope-fill" />
@@ -186,14 +185,18 @@ function Profile() {
                     <hr />
                     <div className="contact-container">
                       <h4 className="head-h4">History</h4>
-                      <Link to="#" className="edit-link" onClick={() => setShowHistory(true)}>
+                      <Link
+                        to="#"
+                        className="edit-link"
+                        onClick={() => setShowHistory(true)}
+                      >
                         See all
                       </Link>
                     </div>
                     {!isEmpty(courses) ? (
                       <div className="history">
-                        <div style={{ overflowX: 'auto' }}>
-                          <table className="table" style={{ width: '380px' }} >
+                        <div style={{ overflowX: "auto" }}>
+                          <table className="table" style={{ width: "380px" }}>
                             <thead>
                               <tr>
                                 <th scope="col" style={{ width: "55%" }}>
@@ -211,7 +214,15 @@ function Profile() {
                               {courses
                                 .slice((currentPage - 1) * 5, currentPage * 5)
                                 .map((course) => (
-                                  <tr key={course.train_course_id} className="link-tr" onClick={() => navigate(`/detail/${course.train_course_id}`)}>
+                                  <tr
+                                    key={course.train_course_id}
+                                    className="link-tr"
+                                    onClick={() =>
+                                      navigate(
+                                        `/detail/${course.train_course_id}`
+                                      )
+                                    }
+                                  >
                                     <td>{course.course_detail_name}</td>
                                     <td>
                                       {new Date(
@@ -220,18 +231,19 @@ function Profile() {
                                     </td>
                                     <td>
                                       <span
-                                        className={`status ${course.status === 0
-                                          ? "waiting"
-                                          : course.status === 1
+                                        className={`status ${
+                                          course.status === 0
+                                            ? "waiting"
+                                            : course.status === 1
                                             ? "finish"
                                             : "failed"
-                                          }`}
+                                        }`}
                                       >
                                         {course.status === 0
                                           ? "waiting"
                                           : course.status === 1
-                                            ? "finish"
-                                            : "failed"}
+                                          ? "finish"
+                                          : "failed"}
                                       </span>
                                     </td>
                                   </tr>
@@ -241,8 +253,9 @@ function Profile() {
                         </div>
                         <div className="d-flex justify-content-center">
                           <button
-                            className={`btn previous-btn ${currentPage === 1 ? "disabled" : ""
-                              }`}
+                            className={`btn previous-btn ${
+                              currentPage === 1 ? "disabled" : ""
+                            }`}
                             onClick={handlePreviousPage}
                             disabled={currentPage === 1}
                           >
@@ -253,8 +266,9 @@ function Profile() {
                             {currentPage} of {totalPages}{" "}
                           </span>
                           <button
-                            className={`next-btn ${currentPage === totalPages ? "disabled" : ""
-                              }`}
+                            className={`next-btn ${
+                              currentPage === totalPages ? "disabled" : ""
+                            }`}
                             onClick={handleNextPage}
                             disabled={currentPage === totalPages}
                           >
@@ -462,17 +476,17 @@ function Profile() {
               backgroundColor: "#fff",
               padding: "20px",
               borderRadius: "5px",
-              maxWidth: '600px',
+              maxWidth: "600px",
               margin: "0 auto",
-              marginTop: "100px"
+              marginTop: "100px",
             }}
           >
             {!isEmpty(courses) ? (
-              <div className="history" style={{ overflow: 'auto' }}>
+              <div className="history" style={{ overflow: "auto" }}>
                 <div>
                   <table className="table">
                     <thead>
-                      <tr style={{ position: 'sticky' }}>
+                      <tr style={{ position: "sticky" }}>
                         <th scope="col" style={{ width: "55%" }}>
                           Name
                         </th>
@@ -486,27 +500,34 @@ function Profile() {
                     </thead>
                     <tbody>
                       {courses.map((course) => (
-                        <tr className="link-tr" key={course.train_course_id} onClick={() => navigate(`/detail/${course.train_course_id}`)}>
+                        <tr
+                          className="link-tr"
+                          key={course.train_course_id}
+                          onClick={() =>
+                            navigate(`/detail/${course.train_course_id}`)
+                          }
+                        >
                           <td>{course.course_detail_name}</td>
                           <td>
-                            {new Date(
-                              course.start_date
-                            ).toLocaleDateString("en-GB")}
+                            {new Date(course.start_date).toLocaleDateString(
+                              "en-GB"
+                            )}
                           </td>
                           <td>
                             <span
-                              className={`status ${course.status === 0
-                                ? "waiting"
-                                : course.status === 1
+                              className={`status ${
+                                course.status === 0
+                                  ? "waiting"
+                                  : course.status === 1
                                   ? "finish"
                                   : "failed"
-                                }`}
+                              }`}
                             >
                               {course.status === 0
                                 ? "waiting"
                                 : course.status === 1
-                                  ? "finish"
-                                  : "failed"}
+                                ? "finish"
+                                : "failed"}
                             </span>
                           </td>
                         </tr>
@@ -519,9 +540,13 @@ function Profile() {
               <div>No course history yet.</div>
             )}
             <br />
-            <button className="btn btn-cancel" onClick={() => setShowHistory(false)}>Close</button>
+            <button
+              className="btn btn-cancel"
+              onClick={() => setShowHistory(false)}
+            >
+              Close
+            </button>
           </div>
-
         </div>
       )}
 
