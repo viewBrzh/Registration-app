@@ -126,12 +126,22 @@ function Profile() {
                 <div className="d-flex align-items-center">
                   <div
                     className="custom-avatar-xxl custom-avatar-indicators avatar-online me-2 position-relative d-flex justify-content-center align-items-center custom-mt-n10"
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      overflow: "hidden",
+                    }}
                     onClick={handleShowModal}
                   >
                     <img
                       src={`${apiUrl}/profiles/${userDatas.image}`}
-                      className="profileimg"
+                      className="rounded-circle border border-2"
                       alt="Image"
+                      style={{
+                        objectFit: "cover",
+                        width: "100%",
+                        height: "100%",
+                      }}
                     />
                   </div>
                   <div className="lh-1">
