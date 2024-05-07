@@ -382,6 +382,21 @@
     color: var(--color-light-a);
 }
 
+.login-form {
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+
+
+@media (max-width: 992px) {
+    .login-form {
+        margin: 10px;
+        max-width: 100%;
+    }
+}
+
+
 @media (max-width: 535px) {
     .label {
         font-size: .65rem; /* Smaller font size for mobile */
@@ -390,5 +405,10 @@
     .input {
         font-size: .65rem; /* Smaller font size for mobile */
     }
+
+    .login-form {
+        margin: 10px;
+    }
 }
+
 

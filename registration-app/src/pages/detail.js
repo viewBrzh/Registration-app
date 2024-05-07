@@ -13,6 +13,7 @@ function Detail(props) {
   const [message, setMessage] = useState("");
   const [skills, setSkills] = useState([]);
   const [filteredCourse, setFilteredCourse] = useState([]);
+  const [loginAlert, setLoginAlert] = useState(false);
 
   useEffect(() => {
     fetch(`${apiUrl}/course/get-data/${courseId}`)
@@ -63,7 +64,7 @@ function Detail(props) {
   const handleEnroll = () => {
     // Check if user data exists
     if (!userData) {
-      console.error("User data not found in local storage");
+      setLoginAlert(true);
       return;
     }
 
@@ -278,6 +279,33 @@ function Detail(props) {
             </button>
           </div>
         </div>
+      )}
+
+      {loginAlert && (
+        <div
+        className="modal"
+        style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+      >
+        <div
+          className="modal-content"
+          style={{
+            backgroundColor: "#fff",
+            padding: "20px",
+            borderRadius: "5px",
+            width: "300px",
+            margin: "auto",
+            marginTop: "100px",
+          }}
+        >
+          <h3>Enrollment failed</h3>
+          <hr />
+          <p>Please log in before enrolling.</p>
+          <br></br>
+          <button className="btn btn-primary" onClick={() => navigate('/login')}>
+            Login
+          </button>
+        </div>
+      </div>
       )}
 
       {failed && (

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Error404Page = () => {
   return (
     <div className="center-container">
-      <h1>404 Page Not Found!</h1>
+      <h1>Opps! Something went wrong.</h1>
       <section className="error-container">
         <span className="four"><span className="screen-reader-text">4</span></span>
         <span className="zero"><span className="screen-reader-text">0</span></span>
