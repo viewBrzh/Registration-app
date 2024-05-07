@@ -465,28 +465,22 @@
 
 .aboutcontainer {
     display: flex;
-
     justify-content: center;
     align-items: center;
-    /* จัดการแนวตั้งให้เริ่มจากบน */
     flex-wrap: wrap;
-    /* จัดการการขึ้นบรรทัดใหม่เมื่อไม่พอสำหรับการ์ด */
     gap: 20px;
-    /* ระยะห่างระหว่างการ์ด */
-
 }
 
 .aboutcard {
     width: calc(50% - 20px);
-    /* คำนวณความกว้างของการ์ดให้แสดง 2 ในแต่ละแถว */
     background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    overflow: hidden;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: row;
-    /* จัดการให้เนื้อหาแสดงในแนวนอน */
     overflow: hidden;
-    /* ป้องกันเนื้อหาที่เกินขอบการ์ด */
 }
 
 .aboutcard-img {
@@ -553,6 +547,31 @@
         /* ให้การ์ดแสดง 2 ในแต่ละแถว */
     }
 }
+
+/* Media query สำหรับหน้าจอขนาดไม่เกิน 535px */
+@media (max-width: 535px) {
+    .aboutcard {
+        flex-direction: column; /* สลับเรียงเป็นคอลัมน์ */
+    }
+
+    .aboutcard-img {
+        order: -1; /* กำหนดลำดับให้รูปมาก่อนข้อความ */
+        margin-bottom: 20px; /* เพิ่มระยะห่างระหว่างรูปและข้อความ */
+    }
+
+    .aboutcard-img img {
+        max-height: 200px; /* กำหนดความสูงสูงสุดของรูปภาพ */
+        border-radius: 10px 10px 0 0; /* ปรับรูปแบบของขอบ */
+        object-fit: cover;
+    }
+
+    .aboutcard-content {
+        width: 100%;
+        padding: 20px;
+        background-color: #FFFFFF;
+    }
+}
+
 
 .video {
     background: linear-gradient(rgba(188, 115, 176, 0.7), rgba(188, 115, 176, 0.7)), url(../img/video-bg.jpg) center center no-repeat;
