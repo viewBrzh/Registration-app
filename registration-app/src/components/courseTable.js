@@ -8,11 +8,12 @@ const CourseTable = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
     const [loading, setLoading] = useState(true);
+    const storedYear = JSON.parse(localStorage.getItem("selectedYear"));
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${apiUrl}/course/get-all`);
+                const response = await fetch(`${apiUrl}/course/courseByYear/${storedYear}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
@@ -40,8 +41,16 @@ const CourseTable = () => {
             return (
                 <tr key={index} style={{ textAlign: 'left' }}>
                     <td style={{ textAlign: 'left' }}>{train_course_id}</td>
-                    <td style={{ textAlign: 'left' }}>{course_detail_name}</td>
-                    <td style={{ textAlign: 'left' }}>{train_place}</td>
+                    <td style={{ textAlign: 'left' }}>
+                        {course.course_detail_name.length > 50
+                            ? `${course.course_detail_name.substring(0, 50)}...`
+                            : course.course_detail_name}
+                    </td>
+                    <td style={{ textAlign: 'left' }}>
+                        {course.train_place.length > 40
+                            ? `${course.train_place.substring(0, 40)}...`
+                            : course.train_place}
+                    </td>
                     <td style={{ textAlign: 'left' }}>{new Date(start_date).toLocaleDateString('en-GB')}</td>
                     <td style={{ textAlign: 'left' }}>
                         <Quantity courseId={train_course_id} />

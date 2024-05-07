@@ -23,6 +23,7 @@ function DashboardAdmin() {
   const storedYear = localStorage.getItem('selectedYear');
   const initialYear = storedYear ? parseInt(storedYear, 10) : new Date().getFullYear() + 543;
   const [selectedYear, setSelectedYear] = useState(initialYear);
+  const [enrollmentData, setEnrollmentData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,13 +78,13 @@ function DashboardAdmin() {
               throw new Error(`Failed to fetch enroll count for department ${department.department}`);
             }
             const departmentEnrollData = await departmentResponse.json();
-        
+
             // Check if the department meets the criteria and increment the count
             let passCriteria = departmentEnrollData >= 12;
             if (passCriteria) {
               departmentsWithCriteriaCount++;
             }
-        
+
             return {
               departmentName: department.department,
               quantity: departmentEnrollData,
@@ -91,7 +92,7 @@ function DashboardAdmin() {
             };
           })
         );
-        
+
         // Set the department data and counts in state
         setDepartmentData(departmentEnrollmentData);
         setDepartmentsCount(departmentEnrollmentData.length);
@@ -122,6 +123,14 @@ function DashboardAdmin() {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+
+      const enrollmentsResponse = await fetch(`${apiUrl}/enroll/byYear/${selectedYear}`);
+      if (!enrollmentsResponse.ok) {
+        throw new Error("Failed to fetch enrollments");
+      }
+      const enrollmentsData = await enrollmentsResponse.json();
+      setEnrollmentData(enrollmentsData);
+
     };
 
     fetchData();
@@ -258,6 +267,42 @@ function DashboardAdmin() {
     }
   }, [departmentData]);
 
+  const enrollmentsChartRef = useRef(null);
+
+  useEffect(() => {
+    if (enrollmentsChartRef.current) {
+      const ctx = enrollmentsChartRef.current.getContext("2d");
+      if (enrollmentsChartRef.current.chart) {
+        enrollmentsChartRef.current.chart.destroy();
+      }
+
+      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      const data = {
+        labels: months,
+        datasets: [{
+          label: "Enrollments",
+          data: months.map(month => {
+            const enrollments = enrollmentData.filter(enrollment => new Date(enrollment.enroll_date).getMonth() === months.indexOf(month));
+            return enrollments.length;
+          }),
+          borderColor: "#3e95cd",
+          fill: false
+        }]
+      };
+
+      const options = {
+        responsive: true,
+        maintainAspectRatio: false
+      };
+
+      enrollmentsChartRef.current.chart = new ChartAuto(ctx, {
+        type: "line",
+        data: data,
+        options: options
+      });
+    }
+  }, [enrollmentData]);
+
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
 
@@ -378,26 +423,25 @@ function DashboardAdmin() {
         </div>
       </div>
 
-      <div className="container-fluid py-5 mb-5 wow fadeIn">
+      <div className="container-fluid py-5 wow fadeIn">
         <div className="details d-flex justify-content-center">
           <div className="recentOrders">
             <div className="cardHeader"><h2>Department Chart</h2></div>
             <br></br>
             <div className="chart-container">
-              <canvas style={{ overflowX: 'auto' }} ref={chartRef2} id="departmentChart"></canvas>
+              <canvas style={{ maxHeight: 400, overflowX: 'auto', margin: '0 auto' }} ref={chartRef2} id="departmentChart"></canvas>
             </div>
           </div>
         </div>
       </div>
 
-
-      <div className="container-fluid py-5 mb-5 wow fadeIn">
+      <div className="container-fluid wow fadeIn">
         <div className="details d-flex">
           <div className="recentOrders">
-            <div className="cardHeader"><h2>Department Chart</h2></div>
+            <div className="cardHeader"><h2>Enrollment Chart</h2></div>
             <br></br>
             <div className="chart-container">
-              <canvas style={{ width: 500, overflowX: 'auto' }}></canvas>
+              <canvas style={{ maxHeight: 400, overflowX: 'auto', margin: '0 auto' }} ref={enrollmentsChartRef} id="enrollmentsChart"></canvas>
             </div>
           </div>
         </div>

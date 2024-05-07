@@ -327,3 +327,11 @@ th {
         opacity: 1;
     }
 }
+
+.link-tr {
+    cursor: pointer;
+}
+
+.link-tr:hover {
+    background-color: #cbd5e1;
+}

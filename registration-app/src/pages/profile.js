@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Modal, Button, Form } from "react-bootstrap";
 import FileUploadProfile from "../components/fileUploadProfile";
 import axios from "axios";
@@ -10,6 +10,8 @@ function Profile() {
   const storedUserData = localStorage.getItem("userData");
   const [courses, setCourses] = useState([]);
   const [skillsData, setSkillsData] = useState({});
+  const [showHistory, setShowHistory] = useState(false);
+  const navigate = useNavigate();
 
   let userData = null;
   try {
@@ -184,21 +186,21 @@ function Profile() {
                     <hr />
                     <div className="contact-container">
                       <h4 className="head-h4">History</h4>
-                      <Link to="#" className="edit-link">
+                      <Link to="#" className="edit-link" onClick={() => setShowHistory(true)}>
                         See all
                       </Link>
                     </div>
                     {!isEmpty(courses) ? (
                       <div className="history">
                         <div style={{ overflowX: 'auto' }}>
-                          <table className="table" style={{ width: '380px'}} >
+                          <table className="table" style={{ width: '380px' }} >
                             <thead>
                               <tr>
                                 <th scope="col" style={{ width: "55%" }}>
                                   Name
                                 </th>
                                 <th scope="col" style={{ width: "25%" }}>
-                                  Date
+                                  Training date
                                 </th>
                                 <th scope="col" style={{ width: "15%" }}>
                                   Status
@@ -209,7 +211,7 @@ function Profile() {
                               {courses
                                 .slice((currentPage - 1) * 5, currentPage * 5)
                                 .map((course) => (
-                                  <tr key={course.id}>
+                                  <tr key={course.train_course_id} className="link-tr" onClick={() => navigate(`/detail/${course.train_course_id}`)}>
                                     <td>{course.course_detail_name}</td>
                                     <td>
                                       {new Date(
@@ -238,29 +240,29 @@ function Profile() {
                           </table>
                         </div>
                         <div className="d-flex justify-content-center">
-                            <button
-                              className={`btn previous-btn ${currentPage === 1 ? "disabled" : ""
-                                }`}
-                              onClick={handlePreviousPage}
-                              disabled={currentPage === 1}
-                            >
-                              &laquo; Previous
-                            </button>
-                            <span className="btn pagination-span">
-                              {" "}
-                              {currentPage} of {totalPages}{" "}
-                            </span>
-                            <button
-                              className={`next-btn ${currentPage === totalPages ? "disabled" : ""
-                                }`}
-                              onClick={handleNextPage}
-                              disabled={currentPage === totalPages}
-                            >
-                              Next &raquo;
-                            </button>
-                          </div>
+                          <button
+                            className={`btn previous-btn ${currentPage === 1 ? "disabled" : ""
+                              }`}
+                            onClick={handlePreviousPage}
+                            disabled={currentPage === 1}
+                          >
+                            &laquo; Previous
+                          </button>
+                          <span className="btn pagination-span">
+                            {" "}
+                            {currentPage} of {totalPages}{" "}
+                          </span>
+                          <button
+                            className={`next-btn ${currentPage === totalPages ? "disabled" : ""
+                              }`}
+                            onClick={handleNextPage}
+                            disabled={currentPage === totalPages}
+                          >
+                            Next &raquo;
+                          </button>
+                        </div>
                       </div>
-                      ) : (
+                    ) : (
                       <div>No course history yet.</div>
                     )}
                   </div>
@@ -448,6 +450,80 @@ function Profile() {
           </div>
         </div>
       </div>
+
+      {showHistory && (
+        <div
+          className="modal d-flex"
+          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div
+            className="modal-content"
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              borderRadius: "5px",
+              maxWidth: '600px',
+              margin: "0 auto",
+              marginTop: "100px"
+            }}
+          >
+            {!isEmpty(courses) ? (
+              <div className="history" style={{ overflow: 'auto' }}>
+                <div>
+                  <table className="table">
+                    <thead>
+                      <tr style={{ position: 'sticky' }}>
+                        <th scope="col" style={{ width: "55%" }}>
+                          Name
+                        </th>
+                        <th scope="col" style={{ width: "25%" }}>
+                          Training date
+                        </th>
+                        <th scope="col" style={{ width: "15%" }}>
+                          Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {courses.map((course) => (
+                        <tr className="link-tr" key={course.train_course_id} onClick={() => navigate(`/detail/${course.train_course_id}`)}>
+                          <td>{course.course_detail_name}</td>
+                          <td>
+                            {new Date(
+                              course.start_date
+                            ).toLocaleDateString("en-GB")}
+                          </td>
+                          <td>
+                            <span
+                              className={`status ${course.status === 0
+                                ? "waiting"
+                                : course.status === 1
+                                  ? "finish"
+                                  : "failed"
+                                }`}
+                            >
+                              {course.status === 0
+                                ? "waiting"
+                                : course.status === 1
+                                  ? "finish"
+                                  : "failed"}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ) : (
+              <div>No course history yet.</div>
+            )}
+            <br />
+            <button className="btn btn-cancel" onClick={() => setShowHistory(false)}>Close</button>
+          </div>
+
+        </div>
+      )}
 
       {/* Modal */}
       <Modal
