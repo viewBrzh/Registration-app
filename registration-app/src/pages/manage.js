@@ -23,6 +23,9 @@ function Manage() {
   const initialYear = storedYear ? parseInt(storedYear, 10) : new Date().getFullYear() + 543;
   const [selectedYear, setSelectedYear] = useState(initialYear);
 
+  const [sortDirection, setSortDirection] = useState("asc");
+  const [sortColumn, setSortColumn] = useState("start_date");
+
   const handleYearChange = (year) => {
     setSelectedYear(year);
     // Store selected year in local storage
@@ -115,14 +118,30 @@ function Manage() {
   }, []);
 
   useEffect(() => {
-    if (filter === "all") {
-      setFilteredCourses(courses);
-    } else if (filter === "basic") {
-      setFilteredCourses(courses?.filter((course) => course.course_id === 1));
-    } else if (filter === "retreat") {
-      setFilteredCourses(courses?.filter((course) => course.course_id === 2));
+    let sortedCourses = [...courses];
+
+    if (sortColumn === "start_date") {
+      sortedCourses.sort((a, b) => {
+        const dateA = new Date(a.start_date);
+        const dateB = new Date(b.start_date);
+        if (sortDirection === "asc") {
+          return dateA - dateB;
+        } else {
+          return dateB - dateA;
+        }
+      });
     }
-  }, [courses, filter]);
+
+    if (filter === "all") {
+      setFilteredCourses(sortedCourses);
+    } else if (filter === "basic") {
+      setFilteredCourses(sortedCourses.filter((course) => course.course_id === 1));
+    } else if (filter === "retreat") {
+      setFilteredCourses(sortedCourses.filter((course) => course.course_id === 2));
+    }
+  }, [courses, filter, sortColumn, sortDirection]);
+
+
 
   const handleDelete = (cid) => {
     console.log("Deleting course with ID:", cid);
@@ -154,8 +173,19 @@ function Manage() {
     }
   };
 
+  const handleSort = (column) => {
+    if (sortColumn === column) {
+      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortColumn(column);
+      setSortDirection("asc");
+    }
+  };
+
   const handleFilterChange = (evt) => {
     setFilter(evt.target.value);
+    setSortColumn("start_date"); // Reset sort column to start_date
+    setSortDirection("asc"); // Reset sort direction to ascending
     setCurrentPage(1); // Reset current page to 1 when filter changes
   };
 
@@ -205,7 +235,7 @@ function Manage() {
               <option value="retreat">Retreat Courses</option>
             </select>
             <input
-             className="filter-year"
+              className="filter-year"
               type="number"
               placeholder="Enter year"
               value={selectedYear}
@@ -223,11 +253,15 @@ function Manage() {
                   <th scope="col" className="pink-th" style={{ width: '2%' }}>id</th>
                   <th scope="col" className="pink-th" style={{ width: '12%' }}>Course Name</th>
                   <th scope="col" className="pink-th" style={{ width: '24%' }}>Description</th>
-                  <th scope="col" className="pink-th" style={{ width: '8%' }}>Start Date</th>
+                  <th scope="col" className="pink-th" style={{ width: '10%', cursor: 'pointer' }} onClick={() => handleSort("start_date")}>
+                    Start Date {sortColumn === "start_date" && (
+                      <i className={`bi ${sortDirection === "asc" ? "bi-caret-up-fill" : "bi-caret-down-fill"}`}></i>
+                    )}
+                  </th>
                   <th scope="col" className="pink-th" style={{ width: '8%' }}>End Date</th>
                   <th scope="col" className="pink-th" style={{ width: '10%' }}>Place</th>
                   <th scope="col" className="pink-th" style={{ width: '6%' }}>Course Type</th>
-                  <th scope="col" className="pink-th" style={{ width: '8%' }}>Enrollments</th>
+                  <th scope="col" className="pink-th" style={{ width: '6%' }}>Enrollments</th>
                   <th scope="col" className="pink-th" style={{ width: '8%' }}>Publish Status</th>
                   <th scope="col" className="pink-th" style={{ width: '14%' }}>Actions</th>
                 </tr>
