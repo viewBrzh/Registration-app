@@ -2,8 +2,6 @@ import React, { useRef, useEffect, useState } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 import { Chart as ChartAuto } from "chart.js/auto"; // Added ChartAuto import
-import apiUrl from "../api/apiConfig";
-
 
 function DashboardExecutive() {
   // Ref for the chart canvas
@@ -85,7 +83,7 @@ function DashboardExecutive() {
       }
 
       chartRef.current.chart = new ChartAuto(ctx, {
-        type: "bar",
+        type: "doughnut",
         data: data,
         options: options,
       });
@@ -210,7 +208,7 @@ function DashboardExecutive() {
       <div className="container-fluid">
         <div className="row">
           {/*Course */}
-          <div className="col-lg-6">
+          <div className="col-lg-7">
             <div className="details d-flex">
               <div className="recentOrders">
                 <div className="cardHeader ">
@@ -292,33 +290,34 @@ function DashboardExecutive() {
           {/* Course End */}
 
           {/* Bar Chart */}
-          <div className="col-lg-6 ">
+          <div className="col-sm-4">
             <div className="details d-flex">
               <div className="recentOrders">
-                <div className="cardHeader"><h2>Quantity Chart</h2></div>
+                <div className="cardHeader">
+                  <h2>Quantity Chart</h2>
+                </div>
                 <br></br>
-                <div className="chart-container">
+                <div className="chart-container d-flex justify-content-end">
                   <canvas ref={chartRef} id="courseStatusChart"></canvas>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        {/* Bar Chart End*/}
+          {/* Bar Chart End*/}
 
-        <div className="container-fluid wow fadeIn">
-          <div className="details d-flex">
-            <div className="recentOrders">
-              <div className="cardHeader"><h2>Enrollment Chart</h2></div>
-              <br></br>
-              <div className="chart-container">
-                <canvas style={{ maxHeight: 400, overflowX: 'auto', margin: '0 auto' }} ref={enrollmentsChartRef} id="enrollmentsChart"></canvas>
+          <div className="container-fluid wow fadeIn">
+            <div className="details d-flex">
+              <div className="recentOrders">
+                <div className="cardHeader"><h2>Enrollment Chart</h2></div>
+                <br></br>
+                <div className="chart-container">
+                  <canvas style={{ maxHeight: 400, overflowX: 'auto', margin: '0 auto' }} ref={enrollmentsChartRef} id="enrollmentsChart"></canvas>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-      </div>
+        </div>
     </Main>
   );
 }
