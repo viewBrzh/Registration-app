@@ -19,6 +19,17 @@ function Manage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(25);
 
+  const storedYear = localStorage.getItem('selectedYear');
+  const initialYear = storedYear ? parseInt(storedYear, 10) : new Date().getFullYear() + 543;
+  const [selectedYear, setSelectedYear] = useState(initialYear);
+
+  const handleYearChange = (year) => {
+    setSelectedYear(year);
+    // Store selected year in local storage
+    localStorage.setItem('selectedYear', year);
+    window.location.reload();
+  };
+
   const handleDownload = () => {
     exportToExcel(filteredCourses, isPublishStatus);
   };
@@ -88,7 +99,7 @@ function Manage() {
   }, []);
 
   useEffect(() => {
-    fetch(`${apiUrl}/course/get-all`)
+    fetch(`${apiUrl}/course/courseByYear/${storedYear}`)
       .then((response) => response.json())
       .then((data) => {
         setCourses(data);
@@ -193,6 +204,14 @@ function Manage() {
               <option value="basic">Basic Courses</option>
               <option value="retreat">Retreat Courses</option>
             </select>
+            <input
+             className="filter-year"
+              type="number"
+              placeholder="Enter year"
+              value={selectedYear}
+              onChange={(e) => handleYearChange(e.target.value)}
+            />
+
           </div>
         </div>
 
@@ -322,7 +341,7 @@ function Manage() {
               <button href="#" onClick={() => handleClick("prev")} className={`previous-btn ${currentPage === 1 ? 'disabled' : ''}`} disabled={currentPage === 1}>
                 &laquo; Previous
               </button>
-              <span style={{padding: '5px'}} className="btn pagination-span"> Page {currentPage} of {totalPages} </span>
+              <span style={{ padding: '5px' }} className="btn pagination-span"> Page {currentPage} of {totalPages} </span>
               <button href="#" onClick={() => handleClick("next")} className={`next-btn ${currentPage === totalPages ? 'disabled' : ''}`} disabled={currentPage === totalPages}>
                 Next &raquo;
               </button>

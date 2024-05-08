@@ -5,6 +5,7 @@ import { Chart as ChartAuto } from "chart.js/auto";
 import CourseTable from "../components/courseTable";
 import apiUrl from "../api/apiConfig";
 import { Form } from "react-bootstrap";
+import UserTable from "../components/userTable";
 
 function DashboardAdmin() {
   const chartRef1 = useRef(null);
@@ -25,6 +26,7 @@ function DashboardAdmin() {
   const initialYear = storedYear ? parseInt(storedYear, 10) : new Date().getFullYear() + 543;
   const [selectedYear, setSelectedYear] = useState(initialYear);
   const [enrollmentData, setEnrollmentData] = useState([]);
+  const [showUser, setShowUser] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -383,7 +385,7 @@ function DashboardAdmin() {
 
 
       <div className="cardBox">
-        <div className="carddash">
+        <div className="carddash" onClick={() => setShowUser(true)}>
           <div>
             <div className="cardName">Total number of instructors trained</div>
             <div className="numbers">{userErolled} / {user}</div>
@@ -499,8 +501,17 @@ function DashboardAdmin() {
         </div>
       }
 
-
-
+      {showUser &&
+        <div className="modal d-flex justify-content-center align-items-center" style={{ display: showModal ? "block" : "none", backgroundColor: "rgba(0, 0, 0, 0.5)", position: "fixed" }}>
+          <div className="modal-content" style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "5px", maxWidth: "900px" }}>
+            <UserTable/>
+            <br/>
+            <button className="btn btn-cancel" onClick={() => setShowUser(false)}>
+              Close
+            </button>
+          </div>
+        </div>
+      }
     </Main>
   );
 }
