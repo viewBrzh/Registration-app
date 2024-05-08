@@ -128,11 +128,22 @@
     width: 10rem;
     position: relative;
     transition: filter 0.3s;
+    /* Add a transition for a smooth effect */
     border-radius: 50%;
-    width: 200px;
-    height: 200px;
-    overflow: hidden;
+    /* Make the avatar a circle by default */
 }
+
+@media (max-width: 768px) {
+    .custom-avatar-xxl {
+        height: 5rem !important;
+        width: 8rem !important;
+        /* Maintain width for ovals */
+        border-radius: 50%;
+        /* Keep the avatar round on smaller screens */
+    }
+}
+
+
 .custom-avatar-xxl:hover {
     filter: brightness(85%);
 }
@@ -146,15 +157,6 @@
     transform: translate(-50%, -50%);
     color: white;
     font-size: 1.5rem;
-}
-
-.profileimg{
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    border: 1px solid #dee2e6 !important;
-    border-width: 2px !important;
-    border-radius: 50% !important;
 }
 
 .custom-avatar {
@@ -289,36 +291,12 @@ th {
     .custom-skill-card {
         margin-top: 20px;
     }
-    .custom-avatar-xxl {
-        display: flex;
-        justify-content: center; /* จัดเรียงรูปภาพให้อยู่ตรงกลางแนวนอน */
-        align-items: center; /* จัดเรียงรูปภาพให้อยู่ตรงกลางแนวตั้ง */
-        border-radius: 50%; /* เพิ่มคุณสมบัติ border-radius เพื่อทำให้รูปภาพเป็นวงกลม */
-    }
-    .custom-avatar-xxl img {
-        width: 100%; /* ปรับขนาดความกว้างของรูปภาพให้เล็กลง */
-        height: 100%; /* ให้ความสูงของรูปภาพปรับตามอัตราส่วน */
-        border-radius: 50%; /* เพิ่มคุณสมบัติ border-radius เพื่อทำให้รูปภาพเป็นวงกลม */
-        object-fit: cover;
-    }
 }
 
 @media (max-width: 535px) {
     .skill {
         width: calc(50% - 10px);
         /* คำนวณขนาดของแต่ละส่วนให้แสดง 2 ข้อมูลต่อแถว */
-    }
-    .custom-avatar-xxl {
-        display: flex;
-        justify-content: center; /* จัดเรียงรูปภาพให้อยู่ตรงกลางแนวนอน */
-        align-items: center; /* จัดเรียงรูปภาพให้อยู่ตรงกลางแนวตั้ง */
-        border-radius: 50%; /* เพิ่มคุณสมบัติ border-radius เพื่อทำให้รูปภาพเป็นวงกลม */
-    }
-    .custom-avatar-xxl img {
-        width: 100%; /* ปรับขนาดความกว้างของรูปภาพให้เล็กลง */
-        height: 100%; /* ให้ความสูงของรูปภาพปรับตามอัตราส่วน */
-        border-radius: 50%; /* เพิ่มคุณสมบัติ border-radius เพื่อทำให้รูปภาพเป็นวงกลม */
-        object-fit: cover;
     }
 
     .custom-info-card {
@@ -329,12 +307,6 @@ th {
     .history table {
         width: fit-content;
         /* Set table width to fit the content */
-    }
-    .custom-avatar-xxl {
-        border-radius: 50%; /* เพิ่มคุณสมบัติ border-radius เพื่อทำให้รูปภาพเป็นวงกลม */
-    }
-    .custom-avatar-xxl img {
-        border-radius: 50%; /* เพิ่มคุณสมบัติ border-radius เพื่อทำให้รูปภาพเป็นวงกลม */
     }
 }
 
