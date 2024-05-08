@@ -36,34 +36,37 @@ const CourseTable = () => {
     const currentCourses = courses.slice(startIndex, endIndex);
 
     const renderTableData = () => {
-        return currentCourses.map((course, index) => {
-            const { course_detail_name, train_place, train_course_id, isPublish, start_date } = course;
-            return (
-                <tr key={index} style={{ textAlign: 'left' }}>
-                    <td style={{ textAlign: 'left' }}>{train_course_id}</td>
-                    <td style={{ textAlign: 'left' }}>
-                        {course.course_detail_name.length > 50
-                            ? `${course.course_detail_name.substring(0, 50)}...`
-                            : course.course_detail_name}
-                    </td>
-                    <td style={{ textAlign: 'left' }}>
-                        {course.train_place.length > 40
-                            ? `${course.train_place.substring(0, 40)}...`
-                            : course.train_place}
-                    </td>
-                    <td style={{ textAlign: 'left' }}>{new Date(start_date).toLocaleDateString('en-GB')}</td>
-                    <td style={{ textAlign: 'left' }}>
-                        <Quantity courseId={train_course_id} />
-                    </td>
-                    <td style={{ textAlign: 'left' }}>
-                        <span className={`status ${isPublish ? 'delivered' : 'pending'}`}>
-                            {isPublish ? 'Opening' : 'Closing'}
-                        </span>
-                    </td>
-                </tr>
-            );
-        });
+        return (
+            currentCourses.length > 0 ? currentCourses.map((course, index) => {
+                const { course_detail_name, train_place, train_course_id, isPublish, start_date } = course;
+                return (
+                    <tr key={index} style={{ textAlign: 'left' }}>
+                        <td style={{ textAlign: 'left' }}>{train_course_id}</td>
+                        <td style={{ textAlign: 'left' }}>
+                            {course_detail_name.length > 50
+                                ? `${course_detail_name.substring(0, 50)}...`
+                                : course_detail_name}
+                        </td>
+                        <td style={{ textAlign: 'left' }}>
+                            {train_place.length > 40
+                                ? `${train_place.substring(0, 40)}...`
+                                : train_place}
+                        </td>
+                        <td style={{ textAlign: 'left' }}>{new Date(start_date).toLocaleDateString('en-GB')}</td>
+                        <td style={{ textAlign: 'left' }}>
+                            <Quantity courseId={train_course_id} />
+                        </td>
+                        <td style={{ textAlign: 'left' }}>
+                            <span className={`status ${isPublish ? 'delivered' : 'pending'}`}>
+                                {isPublish ? 'Opening' : 'Closing'}
+                            </span>
+                        </td>
+                    </tr>
+                );
+            }) : <tr><td colSpan="3">No course data.</td></tr>
+        );
     };
+
 
     return (
 

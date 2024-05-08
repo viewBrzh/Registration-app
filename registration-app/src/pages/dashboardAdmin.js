@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Chart as ChartAuto } from "chart.js/auto";
 import CourseTable from "../components/courseTable";
 import apiUrl from "../api/apiConfig";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 function DashboardAdmin() {
   const chartRef1 = useRef(null);
@@ -27,6 +27,14 @@ function DashboardAdmin() {
 
   useEffect(() => {
     const fetchData = async () => {
+
+      const criteriaResponse = await fetch(`${apiUrl}/criteria/get`)
+      if (!criteriaResponse.ok) {
+        throw new Error("Failed to fetch enrollments");
+      }
+      const CriteriaNumber = await criteriaResponse.json();
+      setCriteria(CriteriaNumber);
+
       try {
         // Fetch course names
         const coursesResponse = await fetch(`${apiUrl}/course/get-all`);
@@ -80,7 +88,7 @@ function DashboardAdmin() {
             const departmentEnrollData = await departmentResponse.json();
 
             // Check if the department meets the criteria and increment the count
-            let passCriteria = departmentEnrollData >= 12;
+            let passCriteria = departmentEnrollData >= criteria;
             if (passCriteria) {
               departmentsWithCriteriaCount++;
             }
@@ -130,6 +138,7 @@ function DashboardAdmin() {
       }
       const enrollmentsData = await enrollmentsResponse.json();
       setEnrollmentData(enrollmentsData);
+
 
     };
 
@@ -232,8 +241,8 @@ function DashboardAdmin() {
           {
             label: "Department Criteria",
             data: departmentData.map((data) => data.quantity),
-            backgroundColor: departmentData.map((data) => data.quantity >= 12 ? "rgba(54, 162, 235, 0.2)" : "rgba(255, 99, 132, 0.2)"),
-            borderColor: departmentData.map((data) => data.quantity >= 12 ? "rgba(54, 162, 235, 1)" : "rgba(255, 99, 132, 1)"),
+            backgroundColor: departmentData.map((data) => data.quantity >= criteria ? "rgba(54, 162, 235, 0.2)" : "rgba(255, 99, 132, 0.2)"),
+            borderColor: departmentData.map((data) => data.quantity >= criteria ? "rgba(54, 162, 235, 1)" : "rgba(255, 99, 132, 1)"),
             borderWidth: 1,
           },
         ],
@@ -245,12 +254,23 @@ function DashboardAdmin() {
             callbacks: {
               label: (context) => {
                 const label = context.dataset.label || '';
-                if (context.parsed.y >= 12) {
+                if (context.parsed.y >= criteria) {
                   return `Passed the criteria: ${label}`;
                 } else {
                   return `Not pass the criteria: ${label}`;
                 }
               }
+            }
+          },
+          // Custom plugin to display the data value on top of each bar
+          dataLabels: {
+            display: true,
+            color: 'black',
+            font: {
+              weight: 'bold'
+            },
+            formatter: (value, context) => {
+              return value; // Display the data value
             }
           }
         },
@@ -266,6 +286,7 @@ function DashboardAdmin() {
       });
     }
   }, [departmentData]);
+
 
   const enrollmentsChartRef = useRef(null);
 
@@ -303,7 +324,16 @@ function DashboardAdmin() {
     }
   }, [enrollmentData]);
 
-  const handleCloseModal = () => setShowModal(false);
+  const setCriteriaHandler = async (newCriteriaValue) => {
+    fetch(`${apiUrl}/criteria/set/${newCriteriaValue}`, { method: "POST" });
+    setCriteria(newCriteriaValue);
+    handleCloseModal();
+  };
+
+  const handleCloseModal = async () => {
+    setShowModal(false);
+    window.location.reload();
+  }
   const handleShowModal = () => setShowModal(true);
 
   const handleYearChange = (year) => {
@@ -390,7 +420,7 @@ function DashboardAdmin() {
         <div className="carddash" onClick={handleShowModal}>
           <div>
             <div className="cardName">Specified criteria</div>
-            <div className="numbers">12</div>
+            <div className="numbers">{criteria}</div>
             <div className="cardName">people to pass the criteria</div>
           </div>
           <div className="iconBx">
@@ -447,37 +477,30 @@ function DashboardAdmin() {
         </div>
       </div>
 
-      {/* Modal */}
-      <Modal
-        show={showModal}
-        backdrop="static"
-        onHide={handleCloseModal}
-        style={{ zIndex: 9999 }}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Set Criteria</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBasicUsername">
-              <Form.Label>Criteria</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter number"
-                value={criteria}
-                onChange={(e) =>
-                  setCriteria(e.target.value)
-                }
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleCloseModal}>
-            Confirm
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {showModal &&
+        <div className="modal d-flex justify-content-center align-items-center" style={{ display: showModal ? "block" : "none", backgroundColor: "rgba(0, 0, 0, 0.5)", position: "fixed" }}>
+          <div className="modal-content" style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "5px", maxWidth: "300px" }}>
+            <h3>Set Criteria</h3>
+            <Form>
+              <Form.Group controlId="formBasicUsername">
+                <Form.Label>Criteria</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter number"
+                  value={criteria}
+                  onChange={(e) => setCriteria(e.target.value)}
+                />
+              </Form.Group>
+            </Form>
+            <br />
+            <button className="btn btn-primary" onClick={() => setCriteriaHandler(criteria)}>
+              Confirm
+            </button>
+          </div>
+        </div>
+      }
+
+
 
     </Main>
   );
