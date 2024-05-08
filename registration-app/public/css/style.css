@@ -1732,6 +1732,7 @@ img.logo-wu:hover {
 .btn-cancel {
     background-color: #dfdfdf;
     margin-bottom: 10px;
+    color: red;
 }
 
 .btn-cancel:hover{

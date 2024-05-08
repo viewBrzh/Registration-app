@@ -25,6 +25,7 @@ import Notification from "./pages/notification";
 const isAdmin = () => localStorage.getItem("userRole") === "admin";
 const isTeacher = () => localStorage.getItem("userRole") === "teacher";
 const isExecutive = () => localStorage.getItem("userRole") === "executive";
+const isNull = () => localStorage.getItem("userRole") === null;
 
 ReactDOM.render(
   <React.StrictMode>
@@ -35,7 +36,7 @@ ReactDOM.render(
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={isNull() ? <Login /> : <Profile/>} />
         <Route path="/course" element={<Course />} />
         <Route path="/enroll" element={<Enroll />} />
         <Route path="/detail/:courseId" element={<Detail />} />

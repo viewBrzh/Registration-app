@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import apiUrl from '../api/apiConfig';
 import Quantity from './quantity';
+import EnrollListTable from './enrollListTable';
 
 const CourseTable = () => {
     const [courses, setCourses] = useState([]);
@@ -9,6 +10,14 @@ const CourseTable = () => {
     const itemsPerPage = 5;
     const [loading, setLoading] = useState(true);
     const storedYear = JSON.parse(localStorage.getItem("selectedYear"));
+    const [showEnroll, setShowEnroll] = useState(false);
+
+    const [courseId, setCourseId] = useState(0);
+
+    const handleTableClick = (course_id) => {
+        setCourseId(course_id);
+        setShowEnroll(true);
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,7 +49,7 @@ const CourseTable = () => {
             currentCourses.length > 0 ? currentCourses.map((course, index) => {
                 const { course_detail_name, train_place, train_course_id, isPublish, start_date } = course;
                 return (
-                    <tr key={index} style={{ textAlign: 'left' }}>
+                    <tr key={index} style={{ textAlign: 'left' }} onClick={() => handleTableClick(train_course_id)} className='link-tr'>
                         <td style={{ textAlign: 'left' }}>{train_course_id}</td>
                         <td style={{ textAlign: 'left' }}>
                             {course_detail_name.length > 50
@@ -69,44 +78,69 @@ const CourseTable = () => {
 
 
     return (
-
-        <div className="details d-flex">
-            <div className="recentOrders">
-                <div className="cardHeader ">
-                    <h2>Course</h2>
-                    <Link to="/manage">View All</Link>
-                </div>
-                <table>
-                    <thead className="pink-th-table">
-                        <tr>
-                            <th scope="col" className='pink-th'>id</th>
-                            <th scope="col" className='pink-th'>Course name</th>
-                            <th scope="col" className='pink-th'>Training location</th>
-                            <th scope="col" className='pink-th'>Training Date</th>
-                            <th scope="col" className='pink-th'>Enrollment</th>
-                            <th scope="col" className='pink-th'>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>{loading ? <tr><td colSpan="5">Loading...</td></tr> : renderTableData()}</tbody>
-                </table>
-                {/* Pagination */}
-                <div>
-                    <button className={`btn previous-btn ${currentPage === 1 ? 'disabled' : ''}`}
-                        onClick={() => setCurrentPage(currentPage - 1)}
-                        disabled={currentPage === 1}
-                    >
-                        &laquo; Previous
-                    </button>
-                    <span className='btn pagination-span'> {currentPage} of {totalPages} </span>
-                    <button className={`next-btn ${currentPage === totalPages ? 'disabled' : ''}`}
-                        onClick={() => setCurrentPage(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                    >
-                        Next &raquo;
-                    </button>
+        <>
+            <div className="details d-flex">
+                <div className="recentOrders">
+                    <div className="cardHeader ">
+                        <h2>Course</h2>
+                        <Link to="/manage">View All</Link>
+                    </div>
+                    <table>
+                        <thead className="pink-th-table">
+                            <tr>
+                                <th scope="col" className='pink-th'>id</th>
+                                <th scope="col" className='pink-th'>Course name</th>
+                                <th scope="col" className='pink-th'>Training location</th>
+                                <th scope="col" className='pink-th'>Training Date</th>
+                                <th scope="col" className='pink-th'>Enrollment</th>
+                                <th scope="col" className='pink-th'>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>{loading ? <tr><td colSpan="5">Loading...</td></tr> : renderTableData()}</tbody>
+                    </table>
+                    {/* Pagination */}
+                    <div>
+                        <button className={`btn previous-btn ${currentPage === 1 ? 'disabled' : ''}`}
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                            disabled={currentPage === 1}
+                        >
+                            &laquo; Previous
+                        </button>
+                        <span className='btn pagination-span'> {currentPage} of {totalPages} </span>
+                        <button className={`next-btn ${currentPage === totalPages ? 'disabled' : ''}`}
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                        >
+                            Next &raquo;
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            {showEnroll &&
+                <div
+                    className="modal"
+                    style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+                >
+                    <div
+                        className="modal-content"
+                        style={{
+                            backgroundColor: "#fff",
+                            padding: "20px",
+                            borderRadius: "5px",
+                            margin: "auto",
+                            marginTop: "100px",
+                            maxWidth: "1000px"
+                        }}
+                    >
+                        <EnrollListTable courseId={courseId} />
+                        <br />
+                        <button className='btn btn-cancel' onClick={() => setShowEnroll(false)}>Close</button>
+                    </div>
+                </div>
+            }
+        </>
+
     );
 };
 
