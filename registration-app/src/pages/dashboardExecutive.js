@@ -253,7 +253,7 @@ function DashboardExecutive() {
               </div>
             </div>
           </div>
-
+          {/* Bar Chart End*/}
         </div>
       </div>
     </Main>
