@@ -243,7 +243,7 @@ function DashboardExecutive() {
     datasets: [
       {
         label: "Course Status",
-        data: [306, 47], // Sample data for demonstration
+        data: [53, 47], // Sample data for demonstration
         backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
         borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
         borderWidth: 1,
@@ -329,7 +329,8 @@ function DashboardExecutive() {
               const enrollments = enrollmentData.filter(
                 (enrollment) =>
                   new Date(enrollment.enroll_date).getMonth() ===
-                  months.indexOf(month)
+                    months.indexOf(month) &&
+                  enrollment.course_id === 1 // เพิ่มเงื่อนไข course_id = 1
               );
               return enrollments.length;
             }),
@@ -343,7 +344,8 @@ function DashboardExecutive() {
               const enrollments = enrollmentData.filter(
                 (enrollment) =>
                   new Date(enrollment.enroll_date).getMonth() ===
-                  months.indexOf(month)
+                  months.indexOf(month) &&
+                  enrollment.course_id === 2 // เพิ่มเงื่อนไข course_id = 2
               );
               return enrollments.length;
             }),
@@ -352,6 +354,7 @@ function DashboardExecutive() {
           },
         ],
       };
+      
 
       const options = {
         responsive: true,
@@ -429,7 +432,7 @@ function DashboardExecutive() {
           <div>
             <div className="cardName">Subordinate</div>
             <div className="numbers">
-              {userErolled} / {user}
+              {user}
             </div>
           </div>
 
