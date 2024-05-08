@@ -460,7 +460,7 @@ function DashboardExecutive() {
           </div>
 
           <div className="iconBx">
-            <ion-icon name="share-outline"></ion-icon>
+            <ion-icon name="close-circle-outline"></ion-icon>
           </div>
         </div>
 
