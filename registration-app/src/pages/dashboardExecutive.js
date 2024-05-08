@@ -97,14 +97,31 @@ function DashboardExecutive() {
         enrollmentsChartRef.current.chart.destroy();
       }
 
-      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
       const data = {
         labels: months,
         datasets: [
           {
             label: "Basic",
-            data: months.map(month => {
-              const enrollments = enrollmentData.filter(enrollment => new Date(enrollment.enroll_date).getMonth() === months.indexOf(month));
+            data: months.map((month) => {
+              const enrollments = enrollmentData.filter(
+                (enrollment) =>
+                  new Date(enrollment.enroll_date).getMonth() ===
+                  months.indexOf(month)
+              );
               return enrollments.length;
             }),
             borderColor: "#3e95cd",
@@ -113,8 +130,12 @@ function DashboardExecutive() {
           // New dataset for the new line of data
           {
             label: "Retreat",
-            data: months.map(month => {
-              const enrollments = enrollmentData.filter(enrollment => new Date(enrollment.enroll_date).getMonth() === months.indexOf(month));
+            data: months.map((month) => {
+              const enrollments = enrollmentData.filter(
+                (enrollment) =>
+                  new Date(enrollment.enroll_date).getMonth() ===
+                  months.indexOf(month)
+              );
               return enrollments.length;
             }),
             borderColor: "#ff0000", // Red color for the new line
@@ -125,13 +146,13 @@ function DashboardExecutive() {
 
       const options = {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
       };
 
       enrollmentsChartRef.current.chart = new ChartAuto(ctx, {
         type: "line",
         data: data,
-        options: options
+        options: options,
       });
     }
   }, [enrollmentData]);
@@ -139,9 +160,14 @@ function DashboardExecutive() {
   return (
     <Main>
       {/* Page Header */}
-      <div className="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+      <div
+        className="container-fluid page-header py-5 mb-5 wow fadeIn"
+        data-wow-delay="0.1s"
+      >
         <div className="container text-center py-5 justify-content-center">
-          <h1 className="display-2 text-dark mb-4 animated slideInDown">Dashboard</h1>
+          <h1 className="display-2 text-dark mb-4 animated slideInDown">
+            Dashboard
+          </h1>
           <nav aria-label="breadcrumb animated slideInDown">
             <ol className="breadcrumb justify-content-center mb-0">
               <li className="breadcrumb-item">
@@ -149,7 +175,11 @@ function DashboardExecutive() {
                   Home
                 </Link>
               </li>
-              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold' }}>
+              <li
+                className="breadcrumb-item text-dark"
+                aria-current="page"
+                style={{ fontWeight: "bold" }}
+              >
                 Dashboard Executive
               </li>
             </ol>
@@ -208,7 +238,7 @@ function DashboardExecutive() {
       <div className="container-fluid">
         <div className="row">
           {/*Course */}
-          <div className="col-lg-7">
+          <div className="col-lg-8">
             <div className="details d-flex">
               <div className="recentOrders">
                 <div className="cardHeader ">
@@ -226,12 +256,8 @@ function DashboardExecutive() {
                   </thead>
                   <tbody>
                     <tr>
-                      <td>
-                        การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1
-                      </td>
-                      <td>
-                        ห้องประชุม 1 ชั้น 2 อาคารวิจัย
-                      </td>
+                      <td>การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1</td>
+                      <td>ห้องประชุม 1 ชั้น 2 อาคารวิจัย</td>
                       <td>68</td>
                       <td className="text-center">10</td>
                       <td>
@@ -239,12 +265,8 @@ function DashboardExecutive() {
                       </td>
                     </tr>
                     <tr>
-                      <td>
-                        การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2
-                      </td>
-                      <td>
-                        ห้องประชุม 1 ชั้น 2 อาคารวิจัย
-                      </td>
+                      <td>การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2</td>
+                      <td>ห้องประชุม 1 ชั้น 2 อาคารวิจัย</td>
                       <td>0</td>
                       <td className="text-center">0</td>
                       <td>
@@ -262,9 +284,7 @@ function DashboardExecutive() {
                     </tr>
                     <tr>
                       <td>การให้การปรึกษาตามแนวซาเทียร์</td>
-                      <td>
-                        ห้องประชุมหัวตะพาน โรงพยาบาลศูนย์การแพทย์
-                      </td>
+                      <td>ห้องประชุมหัวตะพาน โรงพยาบาลศูนย์การแพทย์</td>
                       <td>0</td>
                       <td className="text-center">0</td>
                       <td>
@@ -272,9 +292,7 @@ function DashboardExecutive() {
                       </td>
                     </tr>
                     <tr>
-                      <td>
-                        การให้การปรึกษาสำหรับอาจารย์ใหม่ online
-                      </td>
+                      <td>การให้การปรึกษาสำหรับอาจารย์ใหม่ online</td>
                       <td>Zoom</td>
                       <td>130</td>
                       <td className="text-center">22</td>
@@ -297,7 +315,7 @@ function DashboardExecutive() {
                   <h2>Quantity Chart</h2>
                 </div>
                 <br></br>
-                <div className="chart-container d-flex justify-content-end">
+                <div className="chart-container d-flex justify-content-center">
                   <canvas ref={chartRef} id="courseStatusChart"></canvas>
                 </div>
               </div>
@@ -308,16 +326,26 @@ function DashboardExecutive() {
           <div className="container-fluid wow fadeIn">
             <div className="details d-flex">
               <div className="recentOrders">
-                <div className="cardHeader"><h2>Enrollment Chart</h2></div>
+                <div className="cardHeader">
+                  <h2>Enrollment Chart</h2>
+                </div>
                 <br></br>
                 <div className="chart-container">
-                  <canvas style={{ maxHeight: 400, overflowX: 'auto', margin: '0 auto' }} ref={enrollmentsChartRef} id="enrollmentsChart"></canvas>
+                  <canvas
+                    style={{
+                      maxHeight: 400,
+                      overflowX: "auto",
+                      margin: "0 auto",
+                    }}
+                    ref={enrollmentsChartRef}
+                    id="enrollmentsChart"
+                  ></canvas>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        </div>
+      </div>
     </Main>
   );
 }
