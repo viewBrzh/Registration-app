@@ -1,29 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Modal, Button, Form } from "react-bootstrap";
 import FileUploadProfile from "../components/fileUploadProfile";
 import axios from "axios";
 import apiUrl from "../api/apiConfig";
 
-function Profile(props) {
+function Profile() {
   const storedUserData = localStorage.getItem("userData");
   const [courses, setCourses] = useState([]);
-
-  useEffect(() => {
-    fetch(`/course/get-all`)
-      .then((response) => response.json())
-      .then((json) => {
-        if (Array.isArray(json.courses)) {
-          setCourses(json.courses.slice(0, 4));
-        } else {
-          console.error("Invalid data format: courses is not an array");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching courses data:", error);
-      });
-  }, []);
+  const [skillsData, setSkillsData] = useState({});
+  const [showHistory, setShowHistory] = useState(false);
+  const navigate = useNavigate();
 
   let userData = null;
   try {
@@ -49,11 +37,11 @@ function Profile(props) {
   const updateUser = async () => {
     try {
       // Update user data
-      axios.put(`${apiUrl}/users/update/${userDatas.user_id}`, userDatas);
+      axios.put(`${apiUrl}/user/update/${userDatas.user_id}`, userDatas);
 
       // Fetch updated user data
       const getUserResponse = await axios.get(
-        `${apiUrl}/users/${userDatas.user_id}`
+        `${apiUrl}/user/${userDatas.user_id}`
       );
       const updatedUserData = getUserResponse.data[0]; // Assuming response is an array with a single object
       setUserDatas(updatedUserData);
@@ -70,6 +58,51 @@ function Profile(props) {
     updateUser(userDatas.user_id, userDatas); // Pass userData instead of userDatas
     handleCloseModal();
   };
+
+  useEffect(() => {
+    fetch(`${apiUrl}/enroll/getUserHistory/${userDatas.user_id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setCourses(data.courses); // Update state with courses data
+
+        const skillsCount = {};
+        data.courses?.forEach((course) => {
+          if (course.status === 1) {
+            // Only count skills for courses with status 1
+            const skills = course.skills.split(", ");
+            skills.forEach((skill) => {
+              skillsCount[skill] = (skillsCount[skill] || 0) + 1;
+            });
+          }
+        });
+        setSkillsData(skillsCount);
+      });
+  }, [userDatas.user_id]);
+
+  useEffect(() => {
+    console.log(skillsData);
+  }, [skillsData]);
+
+  const isEmpty = (items) => {
+    if (!items) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(courses.length / 5);
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
   return (
     <Main>
       {/* Hero Section */}
@@ -77,8 +110,18 @@ function Profile(props) {
         <div className="row">
           <div className="col-xl-12 col-lg-12 col-md-12 col-12">
             {/* Bg */}
-            <div className="custom-pt-20 rounded-top"></div>
-            <div className="custom-card custom-rounded-bottom smooth-shadow-sm">
+
+            <div className="custom-pt-20 rounded-top">
+              <div
+                className="container text-center py-5"
+                style={{ position: "relative", top: "-100px" }}
+              ></div>
+            </div>
+
+            <div
+              className="custom-card custom-rounded-bottom smooth-shadow-sm"
+              style={{ backgroundColor: "#FFFFFF" }}
+            >
               <div className="d-flex align-items-center justify-content-between pt-4 pb-6 px-4">
                 <div className="d-flex align-items-center">
                   <div
@@ -94,7 +137,11 @@ function Profile(props) {
                       src={`${apiUrl}/profiles/${userDatas.image}`}
                       className="rounded-circle border border-2"
                       alt="Image"
-                      style={{ objectFit: "cover", width: "100%" }}
+                      style={{
+                        objectFit: "cover",
+                        width: "100%",
+                        height: "100%",
+                      }}
                     />
                   </div>
                   <div className="lh-1">
@@ -118,17 +165,21 @@ function Profile(props) {
               <br />
             </div>
             <br></br>
-            <div className="container">
+
+            <div>
               <div className="row">
                 {/* Info Card */}
                 <div className="col-md-4">
-                  <div className="custom-info-card">
-                    <div className="row">
-                      <h4 className="col-md-6">Contact </h4>
+                  <div
+                    className="custom-info-card"
+                    style={{ backgroundColor: "#FFFFFF" }}
+                  >
+                    <div className="contact-container">
+                      <h4 className="head-h4">Contact</h4>
                       <Link
                         to="#"
                         onClick={handleShowModal}
-                        className="col-md-6 text-end"
+                        className="edit-link"
                       >
                         Edit
                       </Link>
@@ -142,52 +193,280 @@ function Profile(props) {
                       {userDatas.phone}
                     </p>
                     <hr />
-                    <div className="row">
-                      <h4 className="col-md-6">History </h4>
-                      <Link to="#" className="col-md-6 text-end">
+                    <div className="contact-container">
+                      <h4 className="head-h4">History</h4>
+                      <Link
+                        to="#"
+                        className="edit-link"
+                        onClick={() => setShowHistory(true)}
+                      >
                         See all
                       </Link>
                     </div>
-                    <div className="history">
-                      <div className="container-fluid">
-                        <div className="row">
-                          {/*Course */}
-
-                          <div className="details d-flex">
-                            <table>
-                              <thead>
-                                <tr>
-                                  <td>Course name</td>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td style={{ textAlign: "left" }}>
-                                    {courses.map((courseItem, index) => (
-                                      <span key={index}>
-                                        {courseItem.course_detail_name}
-                                        <br />
+                    {!isEmpty(courses) ? (
+                      <div className="history">
+                        <div style={{ overflowX: "auto" }}>
+                          <table className="table" style={{ width: "380px" }}>
+                            <thead>
+                              <tr>
+                                <th scope="col" style={{ width: "55%" }}>
+                                  Name
+                                </th>
+                                <th scope="col" style={{ width: "25%" }}>
+                                  Training date
+                                </th>
+                                <th scope="col" style={{ width: "15%" }}>
+                                  Status
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {courses
+                                .slice((currentPage - 1) * 5, currentPage * 5)
+                                .map((course) => (
+                                  <tr
+                                    key={course.train_course_id}
+                                    className="link-tr"
+                                    onClick={() =>
+                                      navigate(
+                                        `/detail/${course.train_course_id}`
+                                      )
+                                    }
+                                  >
+                                    <td>{course.course_detail_name}</td>
+                                    <td>
+                                      {new Date(
+                                        course.start_date
+                                      ).toLocaleDateString("en-GB")}
+                                    </td>
+                                    <td>
+                                      <span
+                                        className={`status ${
+                                          course.status === 0
+                                            ? "waiting"
+                                            : course.status === 1
+                                            ? "finish"
+                                            : "failed"
+                                        }`}
+                                      >
+                                        {course.status === 0
+                                          ? "waiting"
+                                          : course.status === 1
+                                          ? "finish"
+                                          : "failed"}
                                       </span>
-                                    ))}
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-
-                          {/* Course End */}
+                                    </td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
+                        </div>
+                        <div className="d-flex justify-content-center">
+                          <button
+                            className={`btn previous-btn ${
+                              currentPage === 1 ? "disabled" : ""
+                            }`}
+                            onClick={handlePreviousPage}
+                            disabled={currentPage === 1}
+                          >
+                            &laquo; Previous
+                          </button>
+                          <span className="btn pagination-span">
+                            {" "}
+                            {currentPage} of {totalPages}{" "}
+                          </span>
+                          <button
+                            className={`next-btn ${
+                              currentPage === totalPages ? "disabled" : ""
+                            }`}
+                            onClick={handleNextPage}
+                            disabled={currentPage === totalPages}
+                          >
+                            Next &raquo;
+                          </button>
                         </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div>No course history yet.</div>
+                    )}
                   </div>
                 </div>
 
                 {/* Skill Card */}
                 <div className="col-md-8">
-                  <div className="custom-skill-card">
+                  <div
+                    className="custom-skill-card"
+                    style={{ backgroundColor: "#FFFFFF" }}
+                  >
+                    <h4 className="head-h4">Skills</h4>
                     {/* Skill Card Content Here */}
-                    <div className=""></div>
-                    <h4>Skills</h4>
+                    <div className="skill-group">
+                      <div className="skill">
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Certificate (1).bak.bak.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">
+                            {skillsData["MENTALIZATION-BASED THERAPY"] || (
+                              <i className="bi bi-lock-fill"></i>
+                            )}
+                          </span>
+                        </div>
+                        <p>Mentalization-based therapy</p>
+                      </div>
+                      <div className="skill">
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Certificate Of Deposit.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">
+                            {skillsData["Satir systemic therapy"] || (
+                              <i className="bi bi-lock-fill"></i>
+                            )}
+                          </span>
+                        </div>
+                        <p>Satir systemic therapy</p>
+                      </div>
+                      <div className="skill">
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Certificate.bak.bak.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">
+                            {skillsData["Coaching"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
+                        </div>
+                        <p>Coaching</p>
+                      </div>
+                      <div className="skill">
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Certificate.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">
+                            {skillsData["Mindfullness-based therapy"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
+                        </div>
+                        <p>Mindfullness-based therapy</p>
+                      </div>
+                      <div className="skill">
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Education Scholarship.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">
+                            {skillsData["Communication with parents"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
+                        </div>
+                        <p>Communication with parents</p>
+                      </div>
+                      <div className="skill">
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Graduation Certificate Scroll.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">
+                            {skillsData["Oracle card into the mind"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
+                        </div>
+                        <p>Oracle card into the mind</p>
+                      </div>
+                      <div className="skill">
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Graduation.bak.bak.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">
+                            {skillsData["Problem-solvingtherapy"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
+                        </div>
+                        <p>Problem-solvingtherapy</p>
+                      </div>
+                      <div className="skill">
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Medical Certificate.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">
+                            {skillsData["Enneagram"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
+                        </div>
+                        <p>Enneagram</p>
+                      </div>
+                      <div className="skill">
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Self Learning.bak.bak.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">
+                            {skillsData["Relaxation technique"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
+                        </div>
+                        <p>Relaxation technique</p>
+                      </div>
+                      <div className="skill">
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/Certificate Paper 3D Icon Model With A Star Badge.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">
+                            {skillsData["PSYCHOEDUCATION"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
+                        </div>
+                        <p>Psychoeducation</p>
+                      </div>
+                      <div className="skill">
+                        <div className="image-container">
+                          <img
+                            src="./img/profile/The Road To Graduation.bak.bak.png"
+                            className="card-img-top1"
+                            alt="Explanation"
+                          />
+                          <span className="number-overlay">
+                            {skillsData["Basic Counseling"] || (
+                              <i className="bi bi-lock-fill" />
+                            )}
+                          </span>
+                        </div>
+                        <p>Basic Counseling</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -195,6 +474,91 @@ function Profile(props) {
           </div>
         </div>
       </div>
+
+      {showHistory && (
+        <div
+          className="modal d-flex"
+          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div
+            className="modal-content"
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              borderRadius: "5px",
+              maxWidth: "600px",
+              margin: "0 auto",
+              marginTop: "100px",
+            }}
+          >
+            {!isEmpty(courses) ? (
+              <div className="history" style={{ overflow: "auto" }}>
+                <div>
+                  <table className="table">
+                    <thead>
+                      <tr style={{ position: "sticky" }}>
+                        <th scope="col" style={{ width: "55%" }}>
+                          Name
+                        </th>
+                        <th scope="col" style={{ width: "25%" }}>
+                          Training date
+                        </th>
+                        <th scope="col" style={{ width: "15%" }}>
+                          Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {courses.map((course) => (
+                        <tr
+                          className="link-tr"
+                          key={course.train_course_id}
+                          onClick={() =>
+                            navigate(`/detail/${course.train_course_id}`)
+                          }
+                        >
+                          <td>{course.course_detail_name}</td>
+                          <td>
+                            {new Date(course.start_date).toLocaleDateString(
+                              "en-GB"
+                            )}
+                          </td>
+                          <td>
+                            <span
+                              className={`status ${
+                                course.status === 0
+                                  ? "waiting"
+                                  : course.status === 1
+                                  ? "finish"
+                                  : "failed"
+                              }`}
+                            >
+                              {course.status === 0
+                                ? "waiting"
+                                : course.status === 1
+                                ? "finish"
+                                : "failed"}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ) : (
+              <div>No course history yet.</div>
+            )}
+            <br />
+            <button
+              className="btn btn-cancel"
+              onClick={() => setShowHistory(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Modal */}
       <Modal

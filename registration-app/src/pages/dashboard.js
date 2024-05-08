@@ -176,7 +176,7 @@ function Dashboard() {
         <div className="carddash">
           <div>
             <div className="numbers">486</div>
-            <div className="cardName">Not yet enrolled</div>
+            <div className="cardName">Not enrolled yet</div>
           </div>
 
           <div className="iconBx">

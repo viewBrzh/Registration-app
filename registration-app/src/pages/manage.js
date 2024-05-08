@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { exportToExcel } from "../components/excelUtils";
 import apiUrl from "../api/apiConfig";
 import DownloadButton from "../components/downloadButton";
+import Quantity from "../components/quantity";
 
 function Manage() {
   const [courses, setCourses] = useState([]);
@@ -15,6 +16,8 @@ function Manage() {
   const [filter, setFilter] = useState("all");
   const searchWrapperRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(25);
 
   const handleDownload = () => {
     exportToExcel(filteredCourses, isPublishStatus);
@@ -142,11 +145,32 @@ function Manage() {
 
   const handleFilterChange = (evt) => {
     setFilter(evt.target.value);
+    setCurrentPage(1); // Reset current page to 1 when filter changes
   };
 
   const filteredCoursesByName = filteredCourses?.filter((course) =>
     course.course_detail_name?.toLowerCase().includes(searchQuery?.toLowerCase())
   );
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredCoursesByName?.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(filteredCoursesByName?.length / itemsPerPage);
+
+  const handleClick = (type) => {
+    if (type === "prev") {
+      setCurrentPage((prev) => Math.max(prev - 1, 1));
+    } else if (type === "next") {
+      setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    }
+  };
+
+
+  const formatDate = (date) => {
+    const thaiYear = (new Date(date).getFullYear() + 543).toString(); // Get the last two digits of the Buddhist Era year
+    return new Date(date).toLocaleDateString("en-GB").replace(new Date(date).getFullYear(), thaiYear);
+  };
 
   return (
     <Main>
@@ -162,6 +186,7 @@ function Manage() {
           </div>
           <div className="col-auto d-flex align-items-center">
             <DownloadButton className="download-button" onClick={handleDownload}></DownloadButton>
+            <p style={{ paddingRight: '5px' }}> </p>
 
             <select className="form-select" value={filter} onChange={handleFilterChange}>
               <option value="all">All Courses</option>
@@ -173,28 +198,32 @@ function Manage() {
 
         <div className="row">
           <div className="table-responsive">
-            <table className="table">
+            <table>
               <thead>
                 <tr>
-                  <th scope="col" style={{ width: '12%' }}>Course Name</th>
-                  <th scope="col" style={{ width: '24%' }}>Description</th>
-                  <th scope="col" style={{ width: '8%' }}>Start Date</th>
-                  <th scope="col" style={{ width: '8%' }}>End Date</th>
-                  <th scope="col" style={{ width: '10%' }}>Place</th>
-                  <th scope="col" style={{ width: '8%' }}>Course Type</th>
-                  <th scope="col" style={{ width: '8%' }}>Publish Status</th>
-                  <th scope="col" style={{ width: '12%' }}>Actions</th>
+                  <th scope="col" className="pink-th" style={{ width: '2%' }}>id</th>
+                  <th scope="col" className="pink-th" style={{ width: '12%' }}>Course Name</th>
+                  <th scope="col" className="pink-th" style={{ width: '24%' }}>Description</th>
+                  <th scope="col" className="pink-th" style={{ width: '8%' }}>Start Date</th>
+                  <th scope="col" className="pink-th" style={{ width: '8%' }}>End Date</th>
+                  <th scope="col" className="pink-th" style={{ width: '10%' }}>Place</th>
+                  <th scope="col" className="pink-th" style={{ width: '6%' }}>Course Type</th>
+                  <th scope="col" className="pink-th" style={{ width: '8%' }}>Enrollments</th>
+                  <th scope="col" className="pink-th" style={{ width: '8%' }}>Publish Status</th>
+                  <th scope="col" className="pink-th" style={{ width: '14%' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredCoursesByName.map((course) => (
-                  <tr key={course.train_course_id}>
+                {currentItems ? (currentItems?.map((course) => (
+                  <tr key={course.train_course_id} style={{ borderBottom: '1px solid #D3D3D3', verticalAlign: 'top', textAlign: 'right' }}>
+                    <td>{course.train_course_id}</td>
                     <td>{course.course_detail_name}</td>
                     <td>{course.train_detail}</td>
-                    <td>{new Date(course.start_date).toLocaleDateString('en-GB')}</td>
-                    <td>{new Date(course.finish_date).toLocaleDateString('en-GB')}</td>
+                    <td>{formatDate(course.start_date)}</td>
+                    <td>{formatDate(course.finish_date)}</td>
                     <td>{course.train_place}</td>
                     <td>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
+                    <td><Quantity courseId={course.train_course_id} /></td>
                     <td>
                       <label className="switch">
                         <input
@@ -252,7 +281,7 @@ function Manage() {
                         </div>
                       </label>
                     </td>
-                    <td>
+                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>
                       <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
                         <Link to={`/detail/${course.train_course_id}`}>
                           <button className="btn btn-sm  btn-secondary" aria-label="Detail">
@@ -281,9 +310,23 @@ function Manage() {
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))) : (<div>No Course Data.</div>)}
               </tbody>
             </table>
+          </div>
+        </div>
+        <br></br>
+        <div className="row">
+          <div className="col">
+            <div className="pagination">
+              <button href="#" onClick={() => handleClick("prev")} className={`previous-btn ${currentPage === 1 ? 'disabled' : ''}`} disabled={currentPage === 1}>
+                &laquo; Previous
+              </button>
+              <span style={{padding: '5px'}} className="btn pagination-span"> Page {currentPage} of {totalPages} </span>
+              <button href="#" onClick={() => handleClick("next")} className={`next-btn ${currentPage === totalPages ? 'disabled' : ''}`} disabled={currentPage === totalPages}>
+                Next &raquo;
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -302,7 +345,6 @@ function Manage() {
       </a>
     </Main>
   );
-
 }
-export default Manage;
 
+export default Manage;

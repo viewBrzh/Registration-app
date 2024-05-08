@@ -19,7 +19,11 @@ function About(props) {
                   Home
                 </Link>
               </li>
-              <li className="breadcrumb-item text-dark" aria-current="page">
+              <li
+                className="breadcrumb-item text-dark"
+                aria-current="page"
+                style={{ fontWeight: "bold" }}
+              >
                 About
               </li>
             </ol>
@@ -32,13 +36,7 @@ function About(props) {
       </div>
 
       <div className="aboutcontainer">
-        <div
-          className="aboutcard"
-          style={{
-            border: "1px solid #e0e0e0",
-            overflow: "hidden",
-          }}
-        >
+        <div className="aboutcard">
           <div className="aboutcard-img">
             <img src="/img/Smiling Face (HD).png" alt="Image" />
           </div>

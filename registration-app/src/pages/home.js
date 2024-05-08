@@ -174,22 +174,17 @@ function Home() {
           </div>
         </div>
       </div>
+
       <div className="container mt-5">
+
         <div className="card mb-4">
-          <div
-            className="card-body"
-            style={{
-              border: "1px solid #e0e0e0",
-              borderRadius: "10px",
-              overflow: "hidden",
-            }}
-          >
+          <div className="homecard-body">
             <div className="row">
               <div className="col-md-6">
-                <h2 className="card-title">
+                <h2 className="homecard-title">
                   Center for Learning and Teaching Excellence
                 </h2>
-                <p className="card-text indented" style={{ padding: "10%" }}>
+                <p className="homecard-text indented">
                   Encourage teachers to follow the guidelines in order to
                   maintain quality control. The standard framework serves as a
                   focus for leadership excellence in teaching (Teaching
@@ -203,9 +198,8 @@ function Home() {
               <div className="col-md-6">
                 <img
                   src="img/teaching.jpg"
-                  className="card-img-top1"
+                  className="homecard-img-top"
                   alt="Explanation"
-                  style={{ padding: 10 }}
                 />
               </div>
             </div>
@@ -214,7 +208,7 @@ function Home() {
 
         <div className="card mb-4">
           <div
-            className="card-body"
+            className="homecard-body"
             style={{
               border: "1px solid #e0e0e0",
               borderRadius: "10px",
@@ -225,14 +219,13 @@ function Home() {
               <div className="col-md-6">
                 <img
                   src="img/ranking.jpg"
-                  className="card-img-top2"
+                  className="homecard-img-top"
                   alt="Student Development Center"
-                  style={{ padding: 10 }}
                 />
               </div>
               <div className="col-md-6">
-                <h2 className="card-title">Objective</h2>
-                <p className="card-text indented" style={{ padding: "10%" }}>
+                <h2 className="homecard-title">Objective</h2>
+                <p className="homecard-text indented">
                   The Center for Teaching and Learning Excellence's operational
                   objectives positioned inside each work's framework Through the
                   work of teaching development Enhancing instructors'
@@ -245,6 +238,7 @@ function Home() {
             </div>
           </div>
         </div>
+
       </div>
     </Main>
   );

@@ -465,28 +465,22 @@
 
 .aboutcontainer {
     display: flex;
-
     justify-content: center;
     align-items: center;
-    /* จัดการแนวตั้งให้เริ่มจากบน */
     flex-wrap: wrap;
-    /* จัดการการขึ้นบรรทัดใหม่เมื่อไม่พอสำหรับการ์ด */
     gap: 20px;
-    /* ระยะห่างระหว่างการ์ด */
-
 }
 
 .aboutcard {
     width: calc(50% - 20px);
-    /* คำนวณความกว้างของการ์ดให้แสดง 2 ในแต่ละแถว */
     background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    overflow: hidden;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: row;
-    /* จัดการให้เนื้อหาแสดงในแนวนอน */
     overflow: hidden;
-    /* ป้องกันเนื้อหาที่เกินขอบการ์ด */
 }
 
 .aboutcard-img {
@@ -553,6 +547,31 @@
         /* ให้การ์ดแสดง 2 ในแต่ละแถว */
     }
 }
+
+/* Media query สำหรับหน้าจอขนาดไม่เกิน 535px */
+@media (max-width: 535px) {
+    .aboutcard {
+        flex-direction: column; /* สลับเรียงเป็นคอลัมน์ */
+    }
+
+    .aboutcard-img {
+        order: -1; /* กำหนดลำดับให้รูปมาก่อนข้อความ */
+        margin-bottom: 20px; /* เพิ่มระยะห่างระหว่างรูปและข้อความ */
+    }
+
+    .aboutcard-img img {
+        max-height: 200px; /* กำหนดความสูงสูงสุดของรูปภาพ */
+        border-radius: 10px 10px 0 0; /* ปรับรูปแบบของขอบ */
+        object-fit: cover;
+    }
+
+    .aboutcard-content {
+        width: 100%;
+        padding: 20px;
+        background-color: #FFFFFF;
+    }
+}
+
 
 .video {
     background: linear-gradient(rgba(188, 115, 176, 0.7), rgba(188, 115, 176, 0.7)), url(../img/video-bg.jpg) center center no-repeat;
@@ -851,7 +870,7 @@
 .properties__img img {
     width: 100%;
     border-radius: 10px 10px 0 0;
-    /* เพิ่มขอบมนเพื่อทำให้มีรูปร่างของ card */
+    padding-bottom: 10px;
 }
 
 .properties__img img:hover {
@@ -875,6 +894,7 @@
 
 .courses-area .properties__caption {
     padding: 20px 20px 20px 20px;
+    height: 100%;
 }
 
 .properties__caption a {
@@ -935,13 +955,14 @@
     display: flex;
     flex-direction: column;
     height: auto;
-    width: 300px;
+    width: 320px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: relative;
+    cursor: pointer;
 }
 
 .properties__card:hover {
-    transform: scale(1.02);
+    transform: scale(1.05);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -962,7 +983,7 @@
 
 
 
-.properties__caption h3 {
+.properties__caption h5 {
     max-height: 2.8em;
     /* Adjust the height as needed to fit two lines */
     overflow: hidden;
@@ -974,20 +995,6 @@
     -webkit-box-orient: vertical;
     color: #E90073;
 }
-
-.properties__caption h3 {
-    max-height: 2.8em;
-    /* Adjust the height as needed to fit two lines */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    /* Limit the number of lines to 2 */
-    -webkit-box-orient: vertical;
-    color: #E90073;
-}
-
 /* search */
 
 .fixed-search {
@@ -1055,63 +1062,46 @@ body {
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: inline-block;
-    /* ใช้แบบ inline-block เพื่อให้การ์ดมีขนาดพอดีกับเนื้อหาภายใน */
     width: fit-content;
-    /* ให้การ์ดมีความกว้างเท่ากับเนื้อหาข้างใน */
     max-width: 100%;
-    /* กำหนดความกว้างสูงสุดเป็น 100% เพื่อป้องกันการเกินขอบเขต */
+
 }
 
-.card-body {
+.homecard-body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* จัดให้เนื้อหาตรงกลางแนวนอน */
+    padding: 30px;
 }
 
-.card-title {
+.homecard-title {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #E90073;
+    color: #e90073;
     text-align: center;
-    /* จัดให้หัวข้ออยู่ตรงกลาง */
     margin-top: 1.5em;
     margin-bottom: 1.5rem;
-    /* เพิ่มระยะห่างระหว่างหัวข้อกับเนื้อหา */
+    word-wrap: break-word;
 }
 
-.card-text {
+
+.homecard-text {
     font-size: 1rem;
     color: #1d1d1f;
-    margin-top: auto;
-    /* ให้ข้อความมีระยะห่างบนล่างเท่ากัน */
-
+    margin-top: 10px;
 }
 
-.card-img-top1 {
-    border-radius: 15px 15px 15px 15px;
-    ;
+.homecard-img-top {
+    border-radius: 15px;
     object-fit: cover;
-    /* ทำให้รูปภาพทำเต็มพื้นที่ของการ์ดโดยไม่เกินขอบ */
     height: 100%;
-    /* ให้รูปภาพทำเต็มสูงของการ์ด */
     width: 100%;
-    /* ให้รูปภาพทำเต็มกว้างของการ์ด */
-}
-
-.card-img-top2 {
-    border-radius: 15px 15px 15px 15px;
-    height: 100%;
-    /* ให้รูปภาพทำเต็มสูงของการ์ด */
-    width: 100%;
-    /* ให้รูปภาพทำเต็มกว้างของการ์ด */
 }
 
 .indented {
     text-indent: 2em;
-    margin-bottom: 0;
-    /* ลบระยะห่างด้านล่างของข้อความ */
+    margin-bottom: 10;
 }
 
 .warning {
@@ -1145,7 +1135,7 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
 }
-
+  
 /* shape */
 .custom-shape-divider-top-1710057287 {
     position: absolute;
@@ -1262,7 +1252,7 @@ canvas {
 .details {
     position: relative;
     width: 100%;
-    padding: 20px;
+    padding: 10px;
     display: grid;
     grid-template-columns: 2fr 1fr;
     grid-gap: 30px;
@@ -1303,6 +1293,7 @@ canvas {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    overflow-x: auto;
 }
 
 .details table thead td {
@@ -1376,18 +1367,22 @@ canvas {
 }
 
 .recommend-course-container {
-    display: flex; /* Use flexbox to arrange items in a row */
-    flex-wrap: wrap; /* Allow wrapping to handle smaller screens */
-  }
-  
-  .recentOrders {
-    flex: 1; /* Allow the element to grow to fill available space */
-    margin-right: 10px; /* Add margin for spacing */
-  }
-  
-  .recentCustomers {
-    flex: 1; /* Allow the element to grow to fill available space */
-    margin-left: 10px; /* Add margin for spacing */
+    display: flex;
+    /* Use flexbox to arrange items in a row */
+    flex-wrap: wrap;
+    /* Allow wrapping to handle smaller screens */
+}
+
+.recentOrders {
+    flex: 1;
+    /* Allow the element to grow to fill available space */
+}
+
+.recentCustomers {
+    flex: 1;
+    /* Allow the element to grow to fill available space */
+    margin-left: 10px;
+    /* Add margin for spacing */
     position: relative;
     display: grid;
     min-height: 500px;
@@ -1395,19 +1390,21 @@ canvas {
     padding: 20px;
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
     border-radius: 20px;
-  }
-  
-  .cardHeader {
+}
+
+.cardHeader {
     display: flex;
-    justify-content: space-between; /* Align items with space between them */
+    justify-content: space-between;
+    /* Align items with space between them */
     align-items: center;
-  }
-  
-  .cardHeader h2 {
-    margin-bottom: 0; /* Remove bottom margin for the heading */
+}
+
+.cardHeader h2 {
+    margin-bottom: 0;
+    /* Remove bottom margin for the heading */
     color: #E60073;
-  }
-  
+}
+
 
 .recentCustomers .imgBx {
     position: relative;
@@ -1451,11 +1448,18 @@ canvas {
 }
 
 /* ====================== Responsive Design ========================== */
+@media (max-width: 1470px) {
+    .recentOrders {
+        overflow-x: auto;
+    }
+}
+
 @media (max-width: 991px) {
     .cardBox {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
 
 @media (max-width: 768px) {
     .details {
@@ -1521,9 +1525,7 @@ img.logo-wu:hover {
     color: #fff700;
 }
 
-.card-btn {
-    bottom: 0;
-}
+
 
 .card-btn:hover {
     background-color: #d6d6d6;
@@ -1571,3 +1573,168 @@ img.logo-wu:hover {
     display: block;
 }
 
+.previous-btn {
+    background-color: #f1f1f1;
+    color: black;
+    border-color: #e60073;
+    border-radius: 10%;
+    border-width: 2px;
+    padding: 5px;
+}
+
+.next-btn {
+    background-color: #ea64a7;
+    color: white;
+    border-color: #e60073;
+    border-radius: 10%;
+    border-width: 2px;
+    padding: 5px;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.2;
+    border-color: #ea64a7;
+}
+
+.pagination-span {
+    opacity: 0.8;
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.tag-select {
+    border-color: #ea64a7;
+}
+
+.tag-select:hover {
+    background-color: #efc0d8;
+}
+
+.pink-th{
+    background-color: #ff74b9;
+    border: 2.5px solid white;
+    padding-left: 5px;
+    color: white;
+}
+
+.status.waiting {
+    padding: 2px 4px;
+    background: #ffcc00; /* Yellow */
+    color: #FFFFFF;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status.finish {
+    padding: 2px 4px;
+    background: #8de02c; /* Green */
+    color: #FFFFFF;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status.failed {
+    padding: 2px 4px;
+    background: #ff3333; /* Red */
+    color: #FFFFFF;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+/* login page */
+.logincard-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    overflow: hidden;
+
+}
+.logincard-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #E90073;
+    text-align: center;
+    margin-top: 1.5em;
+    margin-bottom: 1.5rem; 
+}
+.logincard-img {
+    border-radius: 15px;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+}
+
+.text-align-start {
+    text-align: left;
+}
+
+
+.properties__skill {
+    border-radius: 5px; 
+    background-color: #f1f1f1;
+    padding: 5px;
+}
+
+.card-container-notification {
+    width: 90%;
+    box-shadow: 0 0 45px rgba(0, 0, 0, .15);
+    margin: 0 auto;
+    border-radius: 5px; 
+    padding: 20px 10px;
+    justify-content: space-between;
+    background-color: white;
+}
+
+.card-notification {
+    width: 90%;
+    margin: auto;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+    border-radius: 8px;
+    margin-bottom: 10px; /* Add vertical space between cards */
+    background-color: white;
+}
+
+.card-notification:hover {
+    background-color: #fff4f4;
+}
+
+.card-body-notification {
+    justify-content: space-between;
+}
+
+.review {
+    color: #E90073;
+    background-color: white;
+    height: min-content;
+    border: 4px !important;
+}
+
+.card-date {
+    color: #888;
+    font-size: 15px;
+    padding-left: 5px;
+}
+
+.btn-cancel {
+    background-color: #dfdfdf;
+    margin-bottom: 10px;
+}
+
+.btn-cancel:hover{
+    background-color: #c9c8c8;
+    color: white;
+}

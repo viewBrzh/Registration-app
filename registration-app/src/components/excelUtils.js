@@ -4,8 +4,8 @@ export const exportToExcel = (data, isPublishStatus) => {
   const dataToExport = data.map((course) => ({
     "Course Name": course.course_detail_name,
     Description: course.train_detail,
-    "Start Date": course.start_date,
-    "End Date": course.finish_date,
+    "Start Date": formatDate(course.start_date),
+    "End Date": formatDate(course.finish_date),
     Place: course.train_place,
     "Course Type": course.course_id === 1 ? "Basic" : "Retreat",
     "Publish Status": isPublishStatus[course.train_course_id]
@@ -54,4 +54,10 @@ export const exportEnrollToExcel = (dataToExport) => {
     URL.revokeObjectURL(url);
     document.body.removeChild(link);
   }, 0);
+};
+
+
+const formatDate = (date) => {
+  const thaiYear = (new Date(date).getFullYear() + 543).toString(); // Get the last two digits of the Buddhist Era year
+  return new Date(date).toLocaleDateString("en-GB").replace(new Date(date).getFullYear(), thaiYear);
 };

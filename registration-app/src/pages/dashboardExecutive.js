@@ -100,7 +100,7 @@ function DashboardExecutive() {
                   Home
                 </Link>
               </li>
-              <li className="breadcrumb-item text-dark" aria-current="page">
+              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold'}}>
                 Dashboard Executive
               </li>
             </ol>
@@ -117,7 +117,7 @@ function DashboardExecutive() {
           </div>
 
           <div className="iconBx">
-            <ion-icon name="eye-outline"></ion-icon>
+            <ion-icon name="people-outline"></ion-icon>
           </div>
         </div>
 
@@ -134,7 +134,7 @@ function DashboardExecutive() {
 
         <div className="carddash">
           <div>
-          <div className="cardName">Not yet enrolled</div>
+          <div className="cardName">Not enrolled yet</div>
             <div className="numbers">100</div>    
           </div>
 
@@ -163,16 +163,15 @@ function DashboardExecutive() {
             <div className="details d-flex">
               <div className="recentOrders">
                 <div className="cardHeader ">
-                  <h2>Course</h2>
+                  <h2>Subordinate</h2>
                   <Link to="/">View All</Link>
                 </div>
                 <table>
                   <thead>
                     <tr>
-                      <td>Course name</td>
-                      <td>Training location</td>
-                      <td>Quantity</td>
-                      <td>subordinate</td>
+                      <td>Name</td>
+                      <td>Mail</td>
+                      <td>Phone</td>
                       <td>Status</td>
                     </tr>
                   </thead>

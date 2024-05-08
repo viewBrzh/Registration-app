@@ -19,8 +19,8 @@ function Contact(props) {
                 <Link to={`/`} className="breadcrumb-item">
                   Home
                 </Link>
-              </li>
-              <li className="breadcrumb-item text-dark" aria-current="page">
+              </li> 
+              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold'}}>
                 Contact
               </li>
             </ol>

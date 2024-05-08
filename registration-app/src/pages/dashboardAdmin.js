@@ -1,119 +1,339 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 import { Chart as ChartAuto } from "chart.js/auto";
+import CourseTable from "../components/courseTable";
+import apiUrl from "../api/apiConfig";
+import { Modal, Button, Form } from "react-bootstrap";
 
 function DashboardAdmin() {
-  // Refs for the chart canvases
   const chartRef1 = useRef(null);
   const chartRef2 = useRef(null);
+  const [courseData, setCourseData] = useState([]);
+  const [departmentData, setDepartmentData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [criteria, setCriteria] = useState();
+  const [user, setuser] = useState(0);
+  const [userErolled, setUserEnrolled] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [departmentsWithCriteriaCount, setDepartmentsWithCriteriaCount] = useState(0);
+  const [departmentscount, setDepartmentsCount] = useState(0);
+  const [coursesCount, setCoursesCount] = useState(0);
+  const [publishedCoursesCount, setPublishedCoursesCount] = useState(0);
+  const storedYear = localStorage.getItem('selectedYear');
+  const initialYear = storedYear ? parseInt(storedYear, 10) : new Date().getFullYear() + 543;
+  const [selectedYear, setSelectedYear] = useState(initialYear);
+  const [enrollmentData, setEnrollmentData] = useState([]);
 
-  // Chart data for the first chart
-  const data1 = {
-    labels: ["Quantity", "subordinate"],
-    datasets: [
-      {
-        label: "Course Status",
-        data: [306, 47], // Sample data for demonstration
-        backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
-        borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
-        borderWidth: 1,
-      },
-    ],
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch course names
+        const coursesResponse = await fetch(`${apiUrl}/course/get-all`);
+        if (!coursesResponse.ok) {
+          throw new Error("Failed to fetch courses");
+        }
+        const coursesData = await coursesResponse.json();
 
-  // Chart options for the first chart
-  const options1 = {
-    plugins: {
-      legend: {
-        display: true,
-        position: "bottom",
-      },
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    // other options...
-  };
+        // Fetch enrollment counts for each course
+        const enrollmentData = await Promise.all(
+          coursesData.map(async (course) => {
+            const enrollResponse = await fetch(`${apiUrl}/course/${course.train_course_id}/enrollCount`);
+            if (!enrollResponse.ok) {
+              throw new Error(`Failed to fetch enroll count for course ${course.train_course_id}`);
+            }
+            const enrollData = await enrollResponse.json();
+            return {
+              courseName: course.course_detail_name,
+              quantity: enrollData.enrollCount,
+            };
+          })
+        );
 
-  // Chart data for the second chart
-  const data2 = {
-    labels: ["Department 1", "Department 2", "Department 3"], // Sample labels
-    datasets: [
-      {
-        label: "Department Data",
-        data: [50, 70, 40], // Sample data
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(255, 206, 86, 1)",
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
+        setCourseData(enrollmentData);
 
-  // Chart options for the second chart
-  const options2 = {
-    plugins: {
-      legend: {
-        display: true,
-        position: "bottom",
-      },
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    // other options...
-  };
+        // Calculate the total number of courses
+        setCoursesCount(coursesData.length);
 
-  // Create or update charts on component mount or data change
+        // Calculate the number of unpublished courses
+        const publishedCoursesCount = coursesData.filter(course => course.isPublish).length;
+        setPublishedCoursesCount(publishedCoursesCount);
+
+        // Fetch department names and enrollment counts
+        const departmentsResponse = await fetch(`${apiUrl}/user/departments`);
+        if (!departmentsResponse.ok) {
+          throw new Error("Failed to fetch departments");
+        }
+        const departmentsData = await departmentsResponse.json();
+
+        // Initialize variables to store the counts
+        let departmentsCount = 0;
+        let departmentsWithCriteriaCount = 0;
+
+        // Fetch enrollment counts for each department
+        const departmentEnrollmentData = await Promise.all(
+          departmentsData.map(async (department) => {
+            const departmentResponse = await fetch(`${apiUrl}/enroll/countDepartmentByYear/${department.department}/${storedYear}`);
+            if (!departmentResponse.ok) {
+              throw new Error(`Failed to fetch enroll count for department ${department.department}`);
+            }
+            const departmentEnrollData = await departmentResponse.json();
+
+            // Check if the department meets the criteria and increment the count
+            let passCriteria = departmentEnrollData >= 12;
+            if (passCriteria) {
+              departmentsWithCriteriaCount++;
+            }
+
+            return {
+              departmentName: department.department,
+              quantity: departmentEnrollData,
+              passCriteria: passCriteria
+            };
+          })
+        );
+
+        // Set the department data and counts in state
+        setDepartmentData(departmentEnrollmentData);
+        setDepartmentsCount(departmentEnrollmentData.length);
+        setDepartmentsWithCriteriaCount(departmentEnrollmentData.filter(department => department.passCriteria).length);
+
+        const userCountResponse = await fetch(`${apiUrl}/user/userCount`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({}),
+        });
+        if (!userCountResponse.ok) {
+          throw new Error("Failed to fetch user count");
+        }
+        const userCount = await userCountResponse.json();
+        setuser(userCount.userCount);
+
+        const userEnrollResponse = await fetch(`${apiUrl}/enroll/countByYear/${storedYear}`);
+        if (!userEnrollResponse.ok) {
+          throw new Error("Failed to fetch user enroll count");
+        }
+        const userEnroll = await userEnrollResponse.json();
+        setUserEnrolled(userEnroll);
+
+        setLoading(false);
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+
+      const enrollmentsResponse = await fetch(`${apiUrl}/enroll/byYear/${selectedYear}`);
+      if (!enrollmentsResponse.ok) {
+        throw new Error("Failed to fetch enrollments");
+      }
+      const enrollmentsData = await enrollmentsResponse.json();
+      setEnrollmentData(enrollmentsData);
+
+    };
+
+    fetchData();
+  }, []);
+
   useEffect(() => {
     if (chartRef1.current) {
       const ctx1 = chartRef1.current.getContext("2d");
-
-      // Check if chart instance exists, destroy it before creating a new one
       if (chartRef1.current.chart) {
         chartRef1.current.chart.destroy();
       }
 
+      const totalDepartments = departmentscount;
+      const passPercentage = Math.round((departmentsWithCriteriaCount / totalDepartments) * 100);
+
+      const data1 = {
+        labels: ["Passed Criteria", "Did Not Pass Criteria"],
+        datasets: [
+          {
+            label: "Department Criteria",
+            data: [
+              departmentsWithCriteriaCount,
+              totalDepartments - departmentsWithCriteriaCount,
+            ],
+            backgroundColor: [
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(255, 99, 132, 0.2)",
+            ],
+            borderColor: [
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 99, 132, 1)",
+            ],
+            borderWidth: 1,
+          },
+        ],
+      };
+
+      const options1 = {
+        plugins: {
+          legend: {
+            display: true,
+            position: "bottom",
+          },
+          doughnutlabel: {
+            labels: [
+              {
+                text: `${passPercentage}%`,
+                font: {
+                  size: "40",
+                },
+              },
+            ],
+          },
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: "70%",
+      };
+
       chartRef1.current.chart = new ChartAuto(ctx1, {
-        type: "bar",
+        type: "doughnut",
         data: data1,
         options: options1,
+        plugins: [{
+          beforeDraw: function (chart) {
+            const width = chart.width,
+              height = chart.height,
+              ctx = chart.ctx;
+
+            ctx.restore();
+            const fontSize = (height / 200).toFixed(2);
+            ctx.font = fontSize + "em sans-serif";
+            ctx.textBaseline = "middle";
+
+            const text = `${passPercentage}%`,
+              textX = Math.round((width - ctx.measureText(text).width) / 2),
+              textY = height / 2;
+
+            ctx.fillText(text, textX, textY);
+            ctx.save();
+          }
+        }]
       });
     }
+  }, [departmentsWithCriteriaCount, departmentscount]);
 
+
+
+  useEffect(() => {
     if (chartRef2.current) {
       const ctx2 = chartRef2.current.getContext("2d");
-
-      // Check if chart instance exists, destroy it before creating a new one
       if (chartRef2.current.chart) {
         chartRef2.current.chart.destroy();
       }
 
+      const data2 = {
+        labels: departmentData.map((data) => data.departmentName),
+        datasets: [
+          {
+            label: "Department Criteria",
+            data: departmentData.map((data) => data.quantity),
+            backgroundColor: departmentData.map((data) => data.quantity >= 12 ? "rgba(54, 162, 235, 0.2)" : "rgba(255, 99, 132, 0.2)"),
+            borderColor: departmentData.map((data) => data.quantity >= 12 ? "rgba(54, 162, 235, 1)" : "rgba(255, 99, 132, 1)"),
+            borderWidth: 1,
+          },
+        ],
+      };
+
+      const options2 = {
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.dataset.label || '';
+                if (context.parsed.y >= 12) {
+                  return `Passed the criteria: ${label}`;
+                } else {
+                  return `Not pass the criteria: ${label}`;
+                }
+              }
+            }
+          }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+      };
+
+      // Update the chart creation to include the options
       chartRef2.current.chart = new ChartAuto(ctx2, {
         type: "bar",
         data: data2,
         options: options2,
       });
     }
-  }, [data1, options1, data2, options2]);
+  }, [departmentData]);
+
+  const enrollmentsChartRef = useRef(null);
+
+  useEffect(() => {
+    if (enrollmentsChartRef.current) {
+      const ctx = enrollmentsChartRef.current.getContext("2d");
+      if (enrollmentsChartRef.current.chart) {
+        enrollmentsChartRef.current.chart.destroy();
+      }
+
+      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      const data = {
+        labels: months,
+        datasets: [{
+          label: "Enrollments",
+          data: months.map(month => {
+            const enrollments = enrollmentData.filter(enrollment => new Date(enrollment.enroll_date).getMonth() === months.indexOf(month));
+            return enrollments.length;
+          }),
+          borderColor: "#3e95cd",
+          fill: false
+        }]
+      };
+
+      const options = {
+        responsive: true,
+        maintainAspectRatio: false
+      };
+
+      enrollmentsChartRef.current.chart = new ChartAuto(ctx, {
+        type: "line",
+        data: data,
+        options: options
+      });
+    }
+  }, [enrollmentData]);
+
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+
+  const handleYearChange = (year) => {
+    setSelectedYear(year);
+    // Store selected year in local storage
+    localStorage.setItem('selectedYear', year);
+    window.location.reload();
+  };
 
   return (
-    <Main>
+    <Main>{/* Year Filter */}
+      <div className="fixed-form">
+        <div className="label">
+          <label className="label-title" htmlFor="year">Year</label>
+          <input
+            id="year"
+            type="number"
+            placeholder="Enter year"
+            value={selectedYear}
+            onChange={(e) => handleYearChange(e.target.value)}
+            className="input"
+          />
+        </div>
+      </div>
+
+
       {/* Page Header */}
-      <div
-        className="container-fluid page-header py-5 mb-5 wow fadeIn"
-        data-wow-delay="0.1s"
-      >
+      <div className="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div className="container text-center py-5 justify-content-center">
-          <h1 className="display-2 text-dark mb-4 animated slideInDown">
-            Dashboard
-          </h1>
+          <h1 className="display-2 text-dark mb-4 animated slideInDown">Dashboard</h1>
           <nav aria-label="breadcrumb animated slideInDown">
             <ol className="breadcrumb justify-content-center mb-0">
               <li className="breadcrumb-item">
@@ -121,99 +341,81 @@ function DashboardAdmin() {
                   Home
                 </Link>
               </li>
-              <li className="breadcrumb-item text-dark" aria-current="page">
-                Dashboard Executive
+              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold' }}>
+                Dashboard admin
               </li>
             </ol>
+            <br />
           </nav>
         </div>
       </div>
       {/* Page Header End */}
 
+
+
+      <div className="cardBox">
+        <div className="carddash">
+          <div>
+            <div className="cardName">Total number of instructors trained</div>
+            <div className="numbers">{userErolled} / {user}</div>
+          </div>
+
+          <div className="iconBx">
+            <ion-icon name="people-outline"></ion-icon>
+          </div>
+        </div>
+
+        <div className="carddash">
+          <div>
+            <div className="cardName">Participants that reach the requirements</div>
+            <div className="numbers">{departmentsWithCriteriaCount} / {departmentscount}</div>
+          </div>
+
+          <div className="iconBx">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+          </div>
+        </div>
+
+        <div className="carddash">
+          <div>
+            <div className="cardName">Total number of publish courses</div>
+            <div className="numbers">{publishedCoursesCount} / {coursesCount}</div>
+          </div>
+
+          <div className="iconBx">
+            <ion-icon name="share-outline"></ion-icon>
+          </div>
+        </div>
+
+        <div className="carddash" onClick={handleShowModal}>
+          <div>
+            <div className="cardName">Specified criteria</div>
+            <div className="numbers">12</div>
+            <div className="cardName">people to pass the criteria</div>
+          </div>
+          <div className="iconBx">
+            <ion-icon name="cog-outline"></ion-icon>
+          </div>
+        </div>
+      </div>
+
       {/* Content */}
       <div className="container-fluid">
         <div className="row">
           {/*Course */}
-          <div className="col-lg-6">
-            <div className="details d-flex">
-              <div className="recentOrders">
-                <div className="cardHeader ">
-                  <h2>Course</h2>
-                  <Link to="/">View All</Link>
-                </div>
-                <table>
-                  <thead>
-                    <tr>
-                      <td>Course name</td>
-                      <td>Training location</td>
-                      <td>Quantity</td>
-                      <td>subordinate</td>
-                      <td>Status</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 1</td>
-                      <td>ห้องประชุม 1 ชั้น 2 อาคารวิจัย</td>
-                      <td>68</td>
-                      <td className="text-center">10</td>
-                      <td>
-                        <span className="status delivered">Opening</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>การให้การปรึกษาสำหรับอาจารย์ที่ปรึกษา รุ่นที่ 2</td>
-                      <td>ห้องประชุม 1 ชั้น 2 อาคารวิจัย</td>
-                      <td>0</td>
-                      <td className="text-center">0</td>
-                      <td>
-                        <span className="status pending">Waiting</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>อบรมให้การปรึกษา (Basic Counseling)</td>
-                      <td>ห้องประชุม 4 อาคารนวัตกรรม</td>
-                      <td>108</td>
-                      <td className="text-center">15</td>
-                      <td>
-                        <span className="status delivered">Opening</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>การให้การปรึกษาตามแนวซาเทียร์</td>
-                      <td>ห้องประชุมหัวตะพาน โรงพยาบาลศูนย์การแพทย์</td>
-                      <td>0</td>
-                      <td className="text-center">0</td>
-                      <td>
-                        <span className="status pending">Waiting</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>การให้การปรึกษาสำหรับอาจารย์ใหม่ online</td>
-                      <td>Zoom</td>
-                      <td>130</td>
-                      <td className="text-center">22</td>
-                      <td>
-                        <span className="status delivered">Opening</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          <div className="col-sm-8 d-flex">
+            <CourseTable />
           </div>
           {/* Course End */}
 
           {/* Bar Chart */}
-          <div className="col-lg-6 ">
+          <div className="col-sm-4 ">
             <div className="details d-flex">
               <div className="recentOrders">
-                <div className="cardHeader">
-                  <h2>Quantity Chart</h2>
-                </div>
+                <div className="cardHeader"><h2>Criteria Chart</h2></div>
                 <br></br>
-                <div className="chart-container">
-                  <canvas ref={chartRef1} id="courseStatusChart"></canvas>
+                <div className="chart-container d-flex justify-content-center">
+                  <canvas style={{ maxWidth: 300, overflowX: 'auto' }} ref={chartRef1} id="courseStatusChart"></canvas>
                 </div>
               </div>
             </div>
@@ -221,19 +423,62 @@ function DashboardAdmin() {
         </div>
       </div>
 
-      <div className="container-fluid py-5 mb-5 wow fadeIn">
-        <div className="details d-flex">
+      <div className="container-fluid py-5 wow fadeIn">
+        <div className="details d-flex justify-content-center">
           <div className="recentOrders">
-            <div className="cardHeader">
-              <h2>Quantity Chart</h2>
-            </div>
+            <div className="cardHeader"><h2>Department Chart</h2></div>
             <br></br>
             <div className="chart-container">
-              <canvas ref={chartRef2} id="coursedepartment"></canvas>
+              <canvas style={{ maxHeight: 400, overflowX: 'auto', margin: '0 auto' }} ref={chartRef2} id="departmentChart"></canvas>
             </div>
           </div>
         </div>
       </div>
+
+      <div className="container-fluid wow fadeIn">
+        <div className="details d-flex">
+          <div className="recentOrders">
+            <div className="cardHeader"><h2>Enrollment Chart</h2></div>
+            <br></br>
+            <div className="chart-container">
+              <canvas style={{ maxHeight: 400, overflowX: 'auto', margin: '0 auto' }} ref={enrollmentsChartRef} id="enrollmentsChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal */}
+      <Modal
+        show={showModal}
+        backdrop="static"
+        onHide={handleCloseModal}
+        style={{ zIndex: 9999 }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Set Criteria</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="formBasicUsername">
+              <Form.Label>Criteria</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter number"
+                value={criteria}
+                onChange={(e) =>
+                  setCriteria(e.target.value)
+                }
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleCloseModal}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </Main>
   );
 }
