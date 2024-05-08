@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import Main from "../layouts/main";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Chart as ChartAuto } from "chart.js/auto";
 import CourseTable from "../components/courseTable";
 import apiUrl from "../api/apiConfig";
@@ -9,6 +9,7 @@ import { Form } from "react-bootstrap";
 function DashboardAdmin() {
   const chartRef1 = useRef(null);
   const chartRef2 = useRef(null);
+  const navigate = useNavigate();
   const [courseData, setCourseData] = useState([]);
   const [departmentData, setDepartmentData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -37,7 +38,7 @@ function DashboardAdmin() {
 
       try {
         // Fetch course names
-        const coursesResponse = await fetch(`${apiUrl}/course/get-all`);
+        const coursesResponse = await fetch(`${apiUrl}/course/courseByYear/${storedYear}`);
         if (!coursesResponse.ok) {
           throw new Error("Failed to fetch courses");
         }
@@ -138,7 +139,6 @@ function DashboardAdmin() {
       }
       const enrollmentsData = await enrollmentsResponse.json();
       setEnrollmentData(enrollmentsData);
-
 
     };
 
@@ -405,7 +405,7 @@ function DashboardAdmin() {
           </div>
         </div>
 
-        <div className="carddash">
+        <div className="carddash" onClick={() => navigate('/manage')}>
           <div>
             <div className="cardName">Total number of publish courses</div>
             <div className="numbers">{publishedCoursesCount} / {coursesCount}</div>

@@ -44,6 +44,11 @@ const CourseTable = () => {
     const endIndex = startIndex + itemsPerPage;
     const currentCourses = courses.slice(startIndex, endIndex);
 
+    const formatDate = (date) => {
+        const thaiYear = (new Date(date).getFullYear() + 543).toString(); // Get the last two digits of the Buddhist Era year
+        return new Date(date).toLocaleDateString("en-GB").replace(new Date(date).getFullYear(), thaiYear);
+      };
+
     const renderTableData = () => {
         return (
             currentCourses.length > 0 ? currentCourses.map((course, index) => {
@@ -61,7 +66,7 @@ const CourseTable = () => {
                                 ? `${train_place.substring(0, 40)}...`
                                 : train_place}
                         </td>
-                        <td style={{ textAlign: 'left' }}>{new Date(start_date).toLocaleDateString('en-GB')}</td>
+                        <td style={{ textAlign: 'left' }}>{formatDate(start_date)}</td>
                         <td style={{ textAlign: 'left' }}>
                             <Quantity courseId={train_course_id} />
                         </td>
