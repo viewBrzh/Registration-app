@@ -1,11 +1,16 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
-import { Chart as ChartAuto } from "chart.js/auto";
+import { Chart as ChartAuto } from "chart.js/auto"; // Added ChartAuto import
+import apiUrl from "../api/apiConfig";
+
 
 function DashboardExecutive() {
   // Ref for the chart canvas
   const chartRef = useRef(null);
+  const enrollmentsChartRef = useRef(null); // Added useRef for enrollment chart
+
+  const [enrollmentData, setEnrollmentData] = useState([]); // Define enrollmentData state
 
   // Chart data
   const data = {
@@ -87,6 +92,52 @@ function DashboardExecutive() {
     }
   }, [data, options]);
 
+  useEffect(() => {
+    if (enrollmentsChartRef.current) {
+      const ctx = enrollmentsChartRef.current.getContext("2d");
+      if (enrollmentsChartRef.current.chart) {
+        enrollmentsChartRef.current.chart.destroy();
+      }
+
+      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      const data = {
+        labels: months,
+        datasets: [
+          {
+            label: "Basic",
+            data: months.map(month => {
+              const enrollments = enrollmentData.filter(enrollment => new Date(enrollment.enroll_date).getMonth() === months.indexOf(month));
+              return enrollments.length;
+            }),
+            borderColor: "#3e95cd",
+            fill: false,
+          },
+          // New dataset for the new line of data
+          {
+            label: "Retreat",
+            data: months.map(month => {
+              const enrollments = enrollmentData.filter(enrollment => new Date(enrollment.enroll_date).getMonth() === months.indexOf(month));
+              return enrollments.length;
+            }),
+            borderColor: "#ff0000", // Red color for the new line
+            fill: false,
+          },
+        ],
+      };
+
+      const options = {
+        responsive: true,
+        maintainAspectRatio: false
+      };
+
+      enrollmentsChartRef.current.chart = new ChartAuto(ctx, {
+        type: "line",
+        data: data,
+        options: options
+      });
+    }
+  }, [enrollmentData]);
+
   return (
     <Main>
       {/* Page Header */}
@@ -100,7 +151,7 @@ function DashboardExecutive() {
                   Home
                 </Link>
               </li>
-              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold'}}>
+              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold' }}>
                 Dashboard Executive
               </li>
             </ol>
@@ -134,8 +185,8 @@ function DashboardExecutive() {
 
         <div className="carddash">
           <div>
-          <div className="cardName">Not enrolled yet</div>
-            <div className="numbers">100</div>    
+            <div className="cardName">Not enrolled yet</div>
+            <div className="numbers">100</div>
           </div>
 
           <div className="iconBx">
@@ -245,15 +296,28 @@ function DashboardExecutive() {
             <div className="details d-flex">
               <div className="recentOrders">
                 <div className="cardHeader"><h2>Quantity Chart</h2></div>
-                <br></br> 
+                <br></br>
                 <div className="chart-container">
                   <canvas ref={chartRef} id="courseStatusChart"></canvas>
                 </div>
               </div>
             </div>
           </div>
-          {/* Bar Chart End*/}
         </div>
+        {/* Bar Chart End*/}
+
+        <div className="container-fluid wow fadeIn">
+          <div className="details d-flex">
+            <div className="recentOrders">
+              <div className="cardHeader"><h2>Enrollment Chart</h2></div>
+              <br></br>
+              <div className="chart-container">
+                <canvas style={{ maxHeight: 400, overflowX: 'auto', margin: '0 auto' }} ref={enrollmentsChartRef} id="enrollmentsChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </Main>
   );
