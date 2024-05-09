@@ -28,129 +28,27 @@ function DashboardExecutive() {
     : new Date().getFullYear() + 543;
   const [selectedYear, setSelectedYear] = useState(initialYear);
   const [enrollmentData, setEnrollmentData] = useState([]); // Define enrollmentData state
+  const userdata = JSON.parse(localStorage.getItem("userData"));
+  const [usersub, setusersub] = useState([]);
+  const [enrolled, setEnrolled] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch course names
-        const coursesResponse = await fetch(`${apiUrl}/course/get-all`);
-        if (!coursesResponse.ok) {
-          throw new Error("Failed to fetch courses");
-        }
-        const coursesData = await coursesResponse.json();
-
-        // Fetch enrollment counts for each course
-        const enrollmentData = await Promise.all(
-          coursesData.map(async (course) => {
-            const enrollResponse = await fetch(
-              `${apiUrl}/course/${course.train_course_id}/enrollCount`
-            );
-            if (!enrollResponse.ok) {
-              throw new Error(
-                `Failed to fetch enroll count for course ${course.train_course_id}`
-              );
-            }
-            const enrollData = await enrollResponse.json();
-            return {
-              courseName: course.course_detail_name,
-              quantity: enrollData.enrollCount,
-            };
-          })
-        );
-
-        setCourseData(enrollmentData);
-
-        // Calculate the total number of courses
-        setCoursesCount(coursesData.length);
-
-        // Calculate the number of unpublished courses
-        const publishedCoursesCount = coursesData.filter(
-          (course) => course.isPublish
-        ).length;
-        setPublishedCoursesCount(publishedCoursesCount);
-
-        // Fetch department names and enrollment counts
-        const departmentsResponse = await fetch(`${apiUrl}/user/departments`);
-        if (!departmentsResponse.ok) {
+        const department = userdata.department;
+        const subordinateResponse = await fetch(`${apiUrl}/enroll/getUser/${department}/${storedYear}`);
+        if (!subordinateResponse.ok) {
           throw new Error("Failed to fetch departments");
         }
-        const departmentsData = await departmentsResponse.json();
+        const subordinatedata = await subordinateResponse.json();
+        setusersub(subordinatedata);
 
-        // Initialize variables to store the counts
-        let departmentsCount = 0;
-        let departmentsWithCriteriaCount = 0;
-
-        // Fetch enrollment counts for each department
-        const departmentEnrollmentData = await Promise.all(
-          departmentsData.map(async (department) => {
-            const departmentResponse = await fetch(
-              `${apiUrl}/enroll/countDepartmentByYear/${department.department}/${storedYear}`
-            );
-            if (!departmentResponse.ok) {
-              throw new Error(
-                `Failed to fetch enroll count for department ${department.department}`
-              );
-            }
-            const departmentEnrollData = await departmentResponse.json();
-
-            // Check if the department meets the criteria and increment the count
-            let passCriteria = departmentEnrollData >= 12;
-            if (passCriteria) {
-              departmentsWithCriteriaCount++;
-            }
-
-            return {
-              departmentName: department.department,
-              quantity: departmentEnrollData,
-              passCriteria: passCriteria,
-            };
-          })
-        );
-
-        // Set the department data and counts in state
-        setDepartmentData(departmentEnrollmentData);
-        setDepartmentsCount(departmentEnrollmentData.length);
-        setDepartmentsWithCriteriaCount(
-          departmentEnrollmentData.filter(
-            (department) => department.passCriteria
-          ).length
-        );
-
-        const userCountResponse = await fetch(`${apiUrl}/user/userCount`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({}),
-        });
-        if (!userCountResponse.ok) {
-          throw new Error("Failed to fetch user count");
-        }
-        const userCount = await userCountResponse.json();
-        setuser(userCount.userCount);
-
-        const userEnrollResponse = await fetch(
-          `${apiUrl}/enroll/countByYear/${storedYear}`
-        );
-        if (!userEnrollResponse.ok) {
-          throw new Error("Failed to fetch user enroll count");
-        }
-        const userEnroll = await userEnrollResponse.json();
-        setUserEnrolled(userEnroll);
-
-        setLoading(false);
+        // Filter usersub where status is "enrolled"
+        const enrolledUsers = subordinatedata.filter(user => user.status === "Enrolled" || user.status === "Pass");
+        setEnrolled(enrolledUsers);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        throw error;
       }
-
-      const enrollmentsResponse = await fetch(
-        `${apiUrl}/enroll/byYear/${selectedYear}`
-      );
-      if (!enrollmentsResponse.ok) {
-        throw new Error("Failed to fetch enrollments");
-      }
-      const enrollmentsData = await enrollmentsResponse.json();
-      setEnrollmentData(enrollmentsData);
     };
 
     fetchData();
@@ -329,7 +227,7 @@ function DashboardExecutive() {
               const enrollments = enrollmentData.filter(
                 (enrollment) =>
                   new Date(enrollment.enroll_date).getMonth() ===
-                    months.indexOf(month) &&
+                  months.indexOf(month) &&
                   enrollment.course_id === 1 // เพิ่มเงื่อนไข course_id = 1
               );
               return enrollments.length;
@@ -354,7 +252,7 @@ function DashboardExecutive() {
           },
         ],
       };
-      
+
 
       const options = {
         responsive: true,
@@ -432,7 +330,7 @@ function DashboardExecutive() {
           <div>
             <div className="cardName">Subordinate</div>
             <div className="numbers">
-              {user}
+              {usersub.length}
             </div>
           </div>
 
@@ -445,7 +343,7 @@ function DashboardExecutive() {
           <div>
             <div className="cardName">Enrolled</div>
             <div className="numbers">
-              {departmentsWithCriteriaCount} / {departmentscount}
+              {enrolled.length}
             </div>
           </div>
 
@@ -458,7 +356,7 @@ function DashboardExecutive() {
           <div>
             <div className="cardName">Not enrolled yet</div>
             <div className="numbers">
-              {publishedCoursesCount} / {coursesCount}
+              {usersub.length-enrolled.length}
             </div>
           </div>
 
@@ -469,12 +367,12 @@ function DashboardExecutive() {
 
         <div className="carddash" onClick={handleShowModal}>
           <div>
-            <div className="cardName">Missing</div>
-            <div className="numbers">12</div>
-            <div className="cardName">people to pass the criteria</div>
+            <div className="cardName">Enrolled</div>
+            <div className="numbers">{((enrolled.length * 100) / usersub.length).toFixed(2)}%</div>
+            <div className="cardName">percentage</div>
           </div>
           <div className="iconBx">
-            <ion-icon name="cog-outline"></ion-icon>
+            <ion-icon name="pie-chart-outline"></ion-icon>
           </div>
         </div>
       </div>
