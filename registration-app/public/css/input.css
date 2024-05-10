@@ -290,6 +290,14 @@
     }
 }
 
+.filter-year{
+    width: 100px;
+    margin-left: 10px;
+    height: 37.6px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
 .fixed-form {
     position: fixed;
     bottom: 40px;

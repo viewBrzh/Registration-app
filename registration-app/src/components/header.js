@@ -116,7 +116,7 @@ function Header() {
                     className={`nav-item nav-link ${location.pathname === "/manage" ? "active" : ""
                       }`}
                   >
-                    Manage Page
+                    Manage
                   </Link>
                 )}
                 {userRole !== "admin" && (

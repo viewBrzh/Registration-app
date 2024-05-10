@@ -143,7 +143,6 @@
     }
 }
 
-
 .custom-avatar-xxl:hover {
     filter: brightness(85%);
 }
@@ -331,5 +330,5 @@ th {
 }
 
 .link-tr:hover {
-    background-color: #cbd5e1;
+    background-color: #ffe7f6 !important;
 }

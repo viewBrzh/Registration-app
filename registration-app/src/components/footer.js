@@ -63,9 +63,6 @@ function Footer() {
               <Link to={`/course`} className="btn btn-link">
                 <i className="fa fa-angle-right text-primary me-3"></i> Course
               </Link>
-              <Link to={`/login`} className="btn btn-link">
-                <i className="fa fa-angle-right text-primary me-3"></i> Login
-              </Link>
               <Link to={`/contact`} className="btn btn-link">
                 <i className="fa fa-angle-right text-primary me-3"></i> Contact
               </Link>
@@ -80,19 +77,6 @@ function Footer() {
             <div className="col-lg-3 col-md-6">
               <h4 className="text-primary mb-4">Newsletter</h4>
               <p>Send us email.</p>
-              <div className="position-relative w-100">
-                <input
-                  className="form-control bg-transparent w-100 py-3 ps-4 pe-5"
-                  type="text"
-                  placeholder="Your email"
-                />
-                <button
-                  type="button"
-                  className="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2"
-                >
-                  SignUp
-                </button>
-              </div>
             </div>
           </div>
         </div>
