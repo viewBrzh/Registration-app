@@ -36,7 +36,9 @@ function DashboardExecutive() {
     const fetchData = async () => {
       try {
         const department = userdata.department;
-        const subordinateResponse = await fetch(`${apiUrl}/enroll/getUser/${department}/${storedYear}`);
+        const subordinateResponse = await fetch(
+          `${apiUrl}/enroll/getUser/${department}/${storedYear}`
+        );
         if (!subordinateResponse.ok) {
           throw new Error("Failed to fetch departments");
         }
@@ -44,7 +46,9 @@ function DashboardExecutive() {
         setusersub(subordinatedata);
 
         // Filter usersub where status is "enrolled"
-        const enrolledUsers = subordinatedata.filter(user => user.status === "Enrolled" || user.status === "Pass");
+        const enrolledUsers = subordinatedata.filter(
+          (user) => user.status === "Enrolled" || user.status === "Pass"
+        );
         setEnrolled(enrolledUsers);
       } catch (error) {
         throw error;
@@ -60,20 +64,29 @@ function DashboardExecutive() {
       if (chartRef1.current.chart) {
         chartRef1.current.chart.destroy();
       }
-      const totalDepartments = departmentscount;
+      const enrolledCount = enrolled.length; // จำนวนที่ลงทะเบียนแล้ว
+      const notEnrolledCount = usersub.length - enrolledCount; // จำนวนที่ยังไม่ได้ลงทะเบียน
+
+      // ตรวจสอบค่าตัวแปรก่อนนำมาใช้ในการคำนวณ
+      // หากค่าไม่ใช่ตัวเลขหรือเป็น NaN ให้กำหนดค่าเริ่มต้นเป็น 0
+      const departmentsWithCriteriaCount = Number.isNaN(enrolledCount)
+        ? 0
+        : enrolledCount;
+      const totalDepartments = Number.isNaN(usersub.length)
+        ? 0
+        : usersub.length;
+
+      // คำนวณเปอร์เซ็นต์ของนักศึกษาที่ผ่านเกณฑ์
       const passPercentage = Math.round(
         (departmentsWithCriteriaCount / totalDepartments) * 100
       );
 
       const data1 = {
-        labels: ["Total number of participants", "Subordinate"],
+        labels: ["Enrolled", "Not enrolled yet"],
         datasets: [
           {
             label: "Department Criteria",
-            data: [
-              departmentsWithCriteriaCount,
-              totalDepartments - departmentsWithCriteriaCount,
-            ],
+            data: [enrolledCount, usersub.length - enrolledCount],
             backgroundColor: [
               "rgba(54, 162, 235, 0.2)",
               "rgba(255, 99, 132, 0.2)",
@@ -133,7 +146,7 @@ function DashboardExecutive() {
         ],
       });
     }
-  }, [departmentsWithCriteriaCount, departmentscount]);
+  }, [enrolled.length, usersub.length]); // เพิ่ม enrolled.length เข้าไปใน dependency array เพื่อให้ useEffect ถูกเรียกใหม่เมื่อค่าเปลี่ยน
 
   // Chart data
   const data = {
@@ -227,8 +240,7 @@ function DashboardExecutive() {
               const enrollments = enrollmentData.filter(
                 (enrollment) =>
                   new Date(enrollment.enroll_date).getMonth() ===
-                  months.indexOf(month) &&
-                  enrollment.course_id === 1 // เพิ่มเงื่อนไข course_id = 1
+                    months.indexOf(month) && enrollment.course_id === 1 // เพิ่มเงื่อนไข course_id = 1
               );
               return enrollments.length;
             }),
@@ -242,8 +254,7 @@ function DashboardExecutive() {
               const enrollments = enrollmentData.filter(
                 (enrollment) =>
                   new Date(enrollment.enroll_date).getMonth() ===
-                  months.indexOf(month) &&
-                  enrollment.course_id === 2 // เพิ่มเงื่อนไข course_id = 2
+                    months.indexOf(month) && enrollment.course_id === 2 // เพิ่มเงื่อนไข course_id = 2
               );
               return enrollments.length;
             }),
@@ -252,7 +263,6 @@ function DashboardExecutive() {
           },
         ],
       };
-
 
       const options = {
         responsive: true,
@@ -329,9 +339,7 @@ function DashboardExecutive() {
         <div className="carddash">
           <div>
             <div className="cardName">Subordinate</div>
-            <div className="numbers">
-              {usersub.length}
-            </div>
+            <div className="numbers">{usersub.length}</div>
           </div>
 
           <div className="iconBx">
@@ -342,9 +350,7 @@ function DashboardExecutive() {
         <div className="carddash">
           <div>
             <div className="cardName">Enrolled</div>
-            <div className="numbers">
-              {enrolled.length}
-            </div>
+            <div className="numbers">{enrolled.length}</div>
           </div>
 
           <div className="iconBx">
@@ -355,9 +361,7 @@ function DashboardExecutive() {
         <div className="carddash">
           <div>
             <div className="cardName">Not enrolled yet</div>
-            <div className="numbers">
-              {usersub.length-enrolled.length}
-            </div>
+            <div className="numbers">{usersub.length - enrolled.length}</div>
           </div>
 
           <div className="iconBx">
@@ -368,7 +372,9 @@ function DashboardExecutive() {
         <div className="carddash" onClick={handleShowModal}>
           <div>
             <div className="cardName">Enrolled</div>
-            <div className="numbers">{((enrolled.length * 100) / usersub.length).toFixed(2)}%</div>
+            <div className="numbers">
+              {((enrolled.length * 100) / usersub.length).toFixed(2)}%
+            </div>
             <div className="cardName">percentage</div>
           </div>
           <div className="iconBx">

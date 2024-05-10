@@ -18,20 +18,22 @@ function DashboardAdmin() {
   const [user, setuser] = useState(0);
   const [userErolled, setUserEnrolled] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [departmentsWithCriteriaCount, setDepartmentsWithCriteriaCount] = useState(0);
+  const [departmentsWithCriteriaCount, setDepartmentsWithCriteriaCount] =
+    useState(0);
   const [departmentscount, setDepartmentsCount] = useState(0);
   const [coursesCount, setCoursesCount] = useState(0);
   const [publishedCoursesCount, setPublishedCoursesCount] = useState(0);
-  const storedYear = localStorage.getItem('selectedYear');
-  const initialYear = storedYear ? parseInt(storedYear, 10) : new Date().getFullYear() + 543;
+  const storedYear = localStorage.getItem("selectedYear");
+  const initialYear = storedYear
+    ? parseInt(storedYear, 10)
+    : new Date().getFullYear() + 543;
   const [selectedYear, setSelectedYear] = useState(initialYear);
   const [enrollmentData, setEnrollmentData] = useState([]);
   const [showUser, setShowUser] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-
-      const criteriaResponse = await fetch(`${apiUrl}/criteria/get`)
+      const criteriaResponse = await fetch(`${apiUrl}/criteria/get`);
       if (!criteriaResponse.ok) {
         throw new Error("Failed to fetch enrollments");
       }
@@ -40,7 +42,9 @@ function DashboardAdmin() {
 
       try {
         // Fetch course names
-        const coursesResponse = await fetch(`${apiUrl}/course/courseByYear/${storedYear}`);
+        const coursesResponse = await fetch(
+          `${apiUrl}/course/courseByYear/${storedYear}`
+        );
         if (!coursesResponse.ok) {
           throw new Error("Failed to fetch courses");
         }
@@ -49,9 +53,13 @@ function DashboardAdmin() {
         // Fetch enrollment counts for each course
         const enrollmentData = await Promise.all(
           coursesData.map(async (course) => {
-            const enrollResponse = await fetch(`${apiUrl}/course/${course.train_course_id}/enrollCount`);
+            const enrollResponse = await fetch(
+              `${apiUrl}/course/${course.train_course_id}/enrollCount`
+            );
             if (!enrollResponse.ok) {
-              throw new Error(`Failed to fetch enroll count for course ${course.train_course_id}`);
+              throw new Error(
+                `Failed to fetch enroll count for course ${course.train_course_id}`
+              );
             }
             const enrollData = await enrollResponse.json();
             return {
@@ -67,7 +75,9 @@ function DashboardAdmin() {
         setCoursesCount(coursesData.length);
 
         // Calculate the number of unpublished courses
-        const publishedCoursesCount = coursesData.filter(course => course.isPublish).length;
+        const publishedCoursesCount = coursesData.filter(
+          (course) => course.isPublish
+        ).length;
         setPublishedCoursesCount(publishedCoursesCount);
 
         // Fetch department names and enrollment counts
@@ -84,9 +94,13 @@ function DashboardAdmin() {
         // Fetch enrollment counts for each department
         const departmentEnrollmentData = await Promise.all(
           departmentsData.map(async (department) => {
-            const departmentResponse = await fetch(`${apiUrl}/enroll/countDepartmentByYear/${department.department}/${storedYear}`);
+            const departmentResponse = await fetch(
+              `${apiUrl}/enroll/countDepartmentByYear/${department.department}/${storedYear}`
+            );
             if (!departmentResponse.ok) {
-              throw new Error(`Failed to fetch enroll count for department ${department.department}`);
+              throw new Error(
+                `Failed to fetch enroll count for department ${department.department}`
+              );
             }
             const departmentEnrollData = await departmentResponse.json();
 
@@ -99,7 +113,7 @@ function DashboardAdmin() {
             return {
               departmentName: department.department,
               quantity: departmentEnrollData,
-              passCriteria: passCriteria
+              passCriteria: passCriteria,
             };
           })
         );
@@ -107,12 +121,16 @@ function DashboardAdmin() {
         // Set the department data and counts in state
         setDepartmentData(departmentEnrollmentData);
         setDepartmentsCount(departmentEnrollmentData.length);
-        setDepartmentsWithCriteriaCount(departmentEnrollmentData.filter(department => department.passCriteria).length);
+        setDepartmentsWithCriteriaCount(
+          departmentEnrollmentData.filter(
+            (department) => department.passCriteria
+          ).length
+        );
 
         const userCountResponse = await fetch(`${apiUrl}/user/userCount`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({}),
         });
@@ -122,7 +140,9 @@ function DashboardAdmin() {
         const userCount = await userCountResponse.json();
         setuser(userCount.userCount);
 
-        const userEnrollResponse = await fetch(`${apiUrl}/enroll/countByYear/${storedYear}`);
+        const userEnrollResponse = await fetch(
+          `${apiUrl}/enroll/countByYear/${storedYear}`
+        );
         if (!userEnrollResponse.ok) {
           throw new Error("Failed to fetch user enroll count");
         }
@@ -130,18 +150,18 @@ function DashboardAdmin() {
         setUserEnrolled(userEnroll);
 
         setLoading(false);
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }
 
-      const enrollmentsResponse = await fetch(`${apiUrl}/enroll/byYear/${selectedYear}`);
+      const enrollmentsResponse = await fetch(
+        `${apiUrl}/enroll/byYear/${selectedYear}`
+      );
       if (!enrollmentsResponse.ok) {
         throw new Error("Failed to fetch enrollments");
       }
       const enrollmentsData = await enrollmentsResponse.json();
       setEnrollmentData(enrollmentsData);
-
     };
 
     fetchData();
@@ -155,7 +175,9 @@ function DashboardAdmin() {
       }
 
       const totalDepartments = departmentscount;
-      const passPercentage = Math.round((departmentsWithCriteriaCount / totalDepartments) * 100);
+      const passPercentage = Math.round(
+        (departmentsWithCriteriaCount / totalDepartments) * 100
+      );
 
       const data1 = {
         labels: ["Passed Criteria", "Did Not Pass Criteria"],
@@ -170,10 +192,7 @@ function DashboardAdmin() {
               "rgba(54, 162, 235, 0.2)",
               "rgba(255, 99, 132, 0.2)",
             ],
-            borderColor: [
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 99, 132, 1)",
-            ],
+            borderColor: ["rgba(54, 162, 235, 1)", "rgba(255, 99, 132, 1)"],
             borderWidth: 1,
           },
         ],
@@ -205,30 +224,30 @@ function DashboardAdmin() {
         type: "doughnut",
         data: data1,
         options: options1,
-        plugins: [{
-          beforeDraw: function (chart) {
-            const width = chart.width,
-              height = chart.height,
-              ctx = chart.ctx;
+        plugins: [
+          {
+            beforeDraw: function (chart) {
+              const width = chart.width,
+                height = chart.height,
+                ctx = chart.ctx;
 
-            ctx.restore();
-            const fontSize = (height / 200).toFixed(2);
-            ctx.font = fontSize + "em sans-serif";
-            ctx.textBaseline = "middle";
+              ctx.restore();
+              const fontSize = (height / 200).toFixed(2);
+              ctx.font = fontSize + "em sans-serif";
+              ctx.textBaseline = "middle";
 
-            const text = `${passPercentage}%`,
-              textX = Math.round((width - ctx.measureText(text).width) / 2),
-              textY = height / 2;
+              const text = `${passPercentage}%`,
+                textX = Math.round((width - ctx.measureText(text).width) / 2),
+                textY = height / 2;
 
-            ctx.fillText(text, textX, textY);
-            ctx.save();
-          }
-        }]
+              ctx.fillText(text, textX, textY);
+              ctx.save();
+            },
+          },
+        ],
       });
     }
   }, [departmentsWithCriteriaCount, departmentscount]);
-
-
 
   useEffect(() => {
     if (chartRef2.current) {
@@ -243,8 +262,16 @@ function DashboardAdmin() {
           {
             label: "Department Criteria",
             data: departmentData.map((data) => data.quantity),
-            backgroundColor: departmentData.map((data) => data.quantity >= criteria ? "rgba(54, 162, 235, 0.2)" : "rgba(255, 99, 132, 0.2)"),
-            borderColor: departmentData.map((data) => data.quantity >= criteria ? "rgba(54, 162, 235, 1)" : "rgba(255, 99, 132, 1)"),
+            backgroundColor: departmentData.map((data) =>
+              data.quantity >= criteria
+                ? "rgba(54, 162, 235, 0.2)"
+                : "rgba(255, 99, 132, 0.2)"
+            ),
+            borderColor: departmentData.map((data) =>
+              data.quantity >= criteria
+                ? "rgba(54, 162, 235, 1)"
+                : "rgba(255, 99, 132, 1)"
+            ),
             borderWidth: 1,
           },
         ],
@@ -255,26 +282,26 @@ function DashboardAdmin() {
           tooltip: {
             callbacks: {
               label: (context) => {
-                const label = context.dataset.label || '';
+                const label = context.dataset.label || "";
                 if (context.parsed.y >= criteria) {
                   return `Passed the criteria: ${label}`;
                 } else {
                   return `Not pass the criteria: ${label}`;
                 }
-              }
-            }
+              },
+            },
           },
           // Custom plugin to display the data value on top of each bar
           dataLabels: {
             display: true,
-            color: 'black',
+            color: "black",
             font: {
-              weight: 'bold'
+              weight: "bold",
             },
             formatter: (value, context) => {
               return value; // Display the data value
-            }
-          }
+            },
+          },
         },
         responsive: true,
         maintainAspectRatio: false,
@@ -289,7 +316,6 @@ function DashboardAdmin() {
     }
   }, [departmentData]);
 
-
   const enrollmentsChartRef = useRef(null);
 
   useEffect(() => {
@@ -298,30 +324,48 @@ function DashboardAdmin() {
       if (enrollmentsChartRef.current.chart) {
         enrollmentsChartRef.current.chart.destroy();
       }
-
-      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
       const data = {
         labels: months,
-        datasets: [{
-          label: "Enrollments",
-          data: months.map(month => {
-            const enrollments = enrollmentData.filter(enrollment => new Date(enrollment.enroll_date).getMonth() === months.indexOf(month));
-            return enrollments.length;
-          }),
-          borderColor: "#3e95cd",
-          fill: false
-        }]
+        datasets: [
+          {
+            label: "Enrollments",
+            data: months.map((month) => {
+              const enrollments = enrollmentData.filter(
+                (enrollment) =>
+                  new Date(enrollment.enroll_date).getMonth() ===
+                  months.indexOf(month)
+              );
+              return enrollments.length;
+            }),
+            borderColor: "#3e95cd",
+            fill: false,
+          },
+        ],
       };
 
       const options = {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
       };
 
       enrollmentsChartRef.current.chart = new ChartAuto(ctx, {
         type: "line",
         data: data,
-        options: options
+        options: options,
       });
     }
   }, [enrollmentData]);
@@ -335,21 +379,24 @@ function DashboardAdmin() {
   const handleCloseModal = async () => {
     setShowModal(false);
     window.location.reload();
-  }
+  };
   const handleShowModal = () => setShowModal(true);
 
   const handleYearChange = (year) => {
     setSelectedYear(year);
     // Store selected year in local storage
-    localStorage.setItem('selectedYear', year);
+    localStorage.setItem("selectedYear", year);
     window.location.reload();
   };
 
   return (
-    <Main>{/* Year Filter */}
+    <Main>
+      {/* Year Filter */}
       <div className="fixed-form">
         <div className="label">
-          <label className="label-title" htmlFor="year">Year</label>
+          <label className="label-title" htmlFor="year">
+            Year
+          </label>
           <input
             id="year"
             type="number"
@@ -362,9 +409,14 @@ function DashboardAdmin() {
       </div>
 
       {/* Page Header */}
-      <div className="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+      <div
+        className="container-fluid page-header py-5 mb-5 wow fadeIn"
+        data-wow-delay="0.1s"
+      >
         <div className="container text-center py-5 justify-content-center">
-          <h1 className="display-2 text-dark mb-4 animated slideInDown">Dashboard</h1>
+          <h1 className="display-2 text-dark mb-4 animated slideInDown">
+            Dashboard
+          </h1>
           <nav aria-label="breadcrumb animated slideInDown">
             <ol className="breadcrumb justify-content-center mb-0">
               <li className="breadcrumb-item">
@@ -372,7 +424,11 @@ function DashboardAdmin() {
                   Home
                 </Link>
               </li>
-              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold' }}>
+              <li
+                className="breadcrumb-item text-dark"
+                aria-current="page"
+                style={{ fontWeight: "bold" }}
+              >
                 Dashboard admin
               </li>
             </ol>
@@ -382,13 +438,13 @@ function DashboardAdmin() {
       </div>
       {/* Page Header End */}
 
-
-
       <div className="cardBox">
         <div className="carddash" onClick={() => setShowUser(true)}>
           <div>
             <div className="cardName">Total number of instructors trained</div>
-            <div className="numbers">{userErolled} / {user}</div>
+            <div className="numbers">
+              {userErolled} / {user}
+            </div>
           </div>
 
           <div className="iconBx">
@@ -398,8 +454,12 @@ function DashboardAdmin() {
 
         <div className="carddash">
           <div>
-            <div className="cardName">Participants that reach the requirements</div>
-            <div className="numbers">{departmentsWithCriteriaCount} / {departmentscount}</div>
+            <div className="cardName">
+              Participants that reach the requirements
+            </div>
+            <div className="numbers">
+              {departmentsWithCriteriaCount} / {departmentscount}
+            </div>
           </div>
 
           <div className="iconBx">
@@ -407,10 +467,12 @@ function DashboardAdmin() {
           </div>
         </div>
 
-        <div className="carddash" onClick={() => navigate('/manage')}>
+        <div className="carddash" onClick={() => navigate("/manage")}>
           <div>
             <div className="cardName">Total number of publish courses</div>
-            <div className="numbers">{publishedCoursesCount} / {coursesCount}</div>
+            <div className="numbers">
+              {publishedCoursesCount} / {coursesCount}
+            </div>
           </div>
 
           <div className="iconBx">
@@ -443,10 +505,16 @@ function DashboardAdmin() {
           <div className="col-sm-4 ">
             <div className="details d-flex">
               <div className="recentOrders">
-                <div className="cardHeader"><h2>Criteria Chart</h2></div>
+                <div className="cardHeader">
+                  <h2>Criteria Chart</h2>
+                </div>
                 <br></br>
                 <div className="chart-container d-flex justify-content-center">
-                  <canvas style={{ maxWidth: 300, overflowX: 'auto' }} ref={chartRef1} id="courseStatusChart"></canvas>
+                  <canvas
+                    style={{ maxWidth: 300, overflowX: "auto" }}
+                    ref={chartRef1}
+                    id="courseStatusChart"
+                  ></canvas>
                 </div>
               </div>
             </div>
@@ -457,10 +525,16 @@ function DashboardAdmin() {
       <div className="container-fluid py-5 wow fadeIn">
         <div className="details d-flex justify-content-center">
           <div className="recentOrders">
-            <div className="cardHeader"><h2>Department Chart</h2></div>
+            <div className="cardHeader">
+              <h2>Department Chart</h2>
+            </div>
             <br></br>
             <div className="chart-container">
-              <canvas style={{ maxHeight: 400, overflowX: 'auto', margin: '0 auto' }} ref={chartRef2} id="departmentChart"></canvas>
+              <canvas
+                style={{ maxHeight: 400, overflowX: "auto", margin: "0 auto" }}
+                ref={chartRef2}
+                id="departmentChart"
+              ></canvas>
             </div>
           </div>
         </div>
@@ -469,18 +543,39 @@ function DashboardAdmin() {
       <div className="container-fluid wow fadeIn">
         <div className="details d-flex">
           <div className="recentOrders">
-            <div className="cardHeader"><h2>Enrollment Chart</h2></div>
+            <div className="cardHeader">
+              <h2>Enrollment Chart</h2>
+            </div>
             <br></br>
             <div className="chart-container">
-              <canvas style={{ maxHeight: 400, overflowX: 'auto', margin: '0 auto' }} ref={enrollmentsChartRef} id="enrollmentsChart"></canvas>
+              <canvas
+                style={{ maxHeight: 400, overflowX: "auto", margin: "0 auto" }}
+                ref={enrollmentsChartRef}
+                id="enrollmentsChart"
+              ></canvas>
             </div>
           </div>
         </div>
       </div>
 
-      {showModal &&
-        <div className="modal d-flex justify-content-center align-items-center" style={{ display: showModal ? "block" : "none", backgroundColor: "rgba(0, 0, 0, 0.5)", position: "fixed" }}>
-          <div className="modal-content" style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "5px", maxWidth: "300px" }}>
+      {showModal && (
+        <div
+          className="modal d-flex justify-content-center align-items-center"
+          style={{
+            display: showModal ? "block" : "none",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            position: "fixed",
+          }}
+        >
+          <div
+            className="modal-content"
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              borderRadius: "5px",
+              maxWidth: "300px",
+            }}
+          >
             <h3>Set Criteria</h3>
             <Form>
               <Form.Group controlId="formBasicUsername">
@@ -494,24 +589,45 @@ function DashboardAdmin() {
               </Form.Group>
             </Form>
             <br />
-            <button className="btn btn-primary" onClick={() => setCriteriaHandler(criteria)}>
+            <button
+              className="btn btn-primary"
+              onClick={() => setCriteriaHandler(criteria)}
+            >
               Confirm
             </button>
           </div>
         </div>
-      }
+      )}
 
-      {showUser &&
-        <div className="modal d-flex justify-content-center align-items-center" style={{ display: showModal ? "block" : "none", backgroundColor: "rgba(0, 0, 0, 0.5)", position: "fixed" }}>
-          <div className="modal-content" style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "5px", maxWidth: "900px" }}>
-            <UserTable/>
-            <br/>
-            <button className="btn btn-cancel" onClick={() => setShowUser(false)}>
+      {showUser && (
+        <div
+          className="modal d-flex justify-content-center align-items-center"
+          style={{
+            display: showModal ? "block" : "none",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            position: "fixed",
+          }}
+        >
+          <div
+            className="modal-content"
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              borderRadius: "5px",
+              maxWidth: "900px",
+            }}
+          >
+            <UserTable />
+            <br />
+            <button
+              className="btn btn-cancel"
+              onClick={() => setShowUser(false)}
+            >
               Close
             </button>
           </div>
         </div>
-      }
+      )}
     </Main>
   );
 }
