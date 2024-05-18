@@ -91,12 +91,6 @@
     color: #000000;
 }
 
-/* Card Body */
-.form-container {
-    display: flex;
-    flex-direction: column;
-}
-
 /* Custom Input */
 .custom-input {
     margin-bottom: 15px;
@@ -135,6 +129,25 @@
     cursor: pointer;
     transition: background-color 0.3s;
     border: none;
+}
+
+/* Media Query for two date inputs in a row */
+@media (min-width: 768px) {
+    .row-inputs {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .row-inputs div {
+        width: 48%; /* Set width of each input to fit two in a row */
+    }
+}
+
+/* Media Query for one date input in a row on smaller screens */
+@media (max-width: 767px) {
+    .row-inputs div {
+        width: 100%; /* Set width to 100% to stack inputs in a column */
+    }
 }
 
 :root {

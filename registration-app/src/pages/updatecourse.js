@@ -15,6 +15,9 @@ function Updatecourse(props) {
     train_place: "",
     start_date: "",
     finish_date: "",
+    start_enroll_date: "",
+    end_enroll_date: "",
+    limit: "",
     image: "",
   });
 
@@ -76,6 +79,8 @@ function Updatecourse(props) {
             ...data[0],
             start_date: formatDate(data[0].start_date),
             finish_date: formatDate(data[0].finish_date),
+            start_enroll_date: formatDate(data[0].start_enroll_date),
+            end_enroll_date: formatDate(data[0].end_enroll_date),
           });
         } else {
           console.error("Failed to fetch course details");
@@ -92,13 +97,8 @@ function Updatecourse(props) {
     if (!dateString) {
       return ""; // or any default value you prefer
     }
-    const parts = dateString.split("/");
-    // Ensure each part has at least 2 digits
-    const formattedParts = parts.map((part) => part.padStart(2, "0"));
-    // Rearrange the parts to dd/mm/yyyy format
-    return (
-      formattedParts[0] + "/" + formattedParts[1] + "/" + formattedParts[2]
-    );
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
   };
 
   const handleDelete = async () => {
@@ -160,14 +160,14 @@ function Updatecourse(props) {
     }
   };
 
+
+
   return (
     <Main>
       {/* Page Content */}
       <div className="page-content">
-        <div className="card-container">
-          {/* Divider */}
+        <div className="form-card-container">
           <p className="divider">Edit course data</p>
-          {/* Card Body */}
           <form className="form-container" onSubmit={handleSubmit}>
             <div className="custom-input">
               <label htmlFor="courseType" className="input-label">
@@ -247,35 +247,103 @@ function Updatecourse(props) {
               </div>
             </div>
             <div className="custom-input">
-              <label htmlFor="startDate" className="input-label">
-                Course date start
-              </label>
-              <div className="input-wrapper">
-                <input
-                  type="date"
-                  id="startDate"
-                  className="input-field"
-                  value={courseData.start_date}
-                  onChange={(e) =>
-                    setCourseData({ ...courseData, start_date: e.target.value })
-                  }
-                />
+              <div className="row-inputs">
+                <div>
+                  <label htmlFor="startEnrollDate" className="input-label">
+                    Enrollment start date
+                  </label>
+                  <div className="input-wrapper">
+                    <input
+                      type="date"
+                      id="startEnrollDate"
+                      className="input-field"
+                      value={courseData.start_enroll_date}
+                      onChange={(e) =>
+                        setCourseData({
+                          ...courseData,
+                          start_enroll_date: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="endEnrollDate" className="input-label">
+                    Enrollment end date
+                  </label>
+                  <div className="input-wrapper">
+                    <input
+                      type="date"
+                      id="endEnrollDate"
+                      className="input-field"
+                      value={courseData.end_enroll_date}
+                      onChange={(e) =>
+                        setCourseData({
+                          ...courseData,
+                          end_enroll_date: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <div className="custom-input">
-              <label htmlFor="endDate" className="input-label">
-                Course date finish
+              <div className="row-inputs">
+                <div>
+                  <label htmlFor="startDate" className="input-label">
+                    Course date start
+                  </label>
+                  <div className="input-wrapper">
+                    <input
+                      type="date"
+                      id="startDate"
+                      className="input-field"
+                      value={courseData.start_date}
+                      onChange={(e) =>
+                        setCourseData({
+                          ...courseData,
+                          start_date: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="endDate" className="input-label">
+                    Course date finish
+                  </label>
+                  <div className="input-wrapper">
+                    <input
+                      type="date"
+                      id="endDate"
+                      className="input-field"
+                      value={courseData.finish_date}
+                      onChange={(e) =>
+                        setCourseData({
+                          ...courseData,
+                          finish_date: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="custom-input">
+              <label htmlFor="limit" className="input-label">
+                Enrollment limit
               </label>
               <div className="input-wrapper">
                 <input
-                  type="date"
-                  id="endDate"
+                  type="number"
+                  id="limit"
                   className="input-field"
-                  value={courseData.finish_date}
+                  value={courseData.limit}
                   onChange={(e) =>
                     setCourseData({
                       ...courseData,
-                      finish_date: e.target.value,
+                      limit: e.target.value,
                     })
                   }
                 />
