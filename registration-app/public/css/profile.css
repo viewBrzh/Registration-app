@@ -332,11 +332,12 @@ th {
     right: -5px;
     background-color: #fa3e3e;
     color: white;
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    font-size: 12px;
+    font-size: 10px;
     display: flex;
+    text-align: center;
     justify-content: center;
     align-items: center;
 }
