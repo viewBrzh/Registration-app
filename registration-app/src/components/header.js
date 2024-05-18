@@ -153,16 +153,15 @@ function Header() {
                       onClick={toggleDrop}
                     >
                       {user?.username}
-                      <div style={{ display: 'inline-block', width: '30px', height: '30px', borderRadius: '50%', overflow: 'hidden', marginLeft: 5 }}>
+                      <div className="avatar-container">
                         <img
                           className='avatar-'
                           src={`${apiUrl}/profiles/${user?.image}`}
                           alt="User Avatar"
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                          
                         />
                         {notification > 0 && <div className="red-dot">{notification > 9 ? '9+' : notification}</div>}
                       </div>
+
                     </a>
 
                     <ul

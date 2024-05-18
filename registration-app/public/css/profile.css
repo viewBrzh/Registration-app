@@ -269,22 +269,7 @@ th {
     cursor: pointer;
 }
 
-.red-dot {
-    background-color: #fa3e3e;
-    border-radius: 50%;
-    color: white;
-    width: 15px;
-    height: 15px;
 
-    font-size: 11px;
-
-    position: absolute;
-    /* Position the badge within the relatively positioned button */
-    top: 20px;
-    right: 40px;
-    animation: showDot 0.2s linear 0.2s forwards;
-    opacity: 0;
-}
 /* responsive */
 @media (max-width: 768px) {
     .custom-skill-card {
@@ -309,13 +294,6 @@ th {
     }
 }
 
-@media (max-width: 992px) {
-    .red-dot {
-        top: 302px;
-        right: 8px;
-    }
-}
-
 @keyframes showDot {
     from {
         opacity: 0;
@@ -331,4 +309,34 @@ th {
 
 .link-tr:hover {
     background-color: #ffe7f6 !important;
+}
+
+.avatar-container {
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+}
+
+.avatar-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.red-dot {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #fa3e3e;
+    color: white;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
