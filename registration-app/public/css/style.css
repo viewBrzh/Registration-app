@@ -1348,6 +1348,15 @@ canvas {
     font-weight: 500;
 }
 
+.status.pass {
+    padding: 2px 4px;
+    background: #8de02c;
+    color: #FFFFFF;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
 .status.return {
     padding: 2px 4px;
     background: #f00;
