@@ -10,16 +10,31 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState("");
   const [notification, setNotification] = useState(0);
+  const [criteria, setCriteria] = useState(null);
 
   const isAuthenticated = userData && Object.keys(userData).length !== 0;
 
   useEffect(() => {
-    // Get user data from local storage
+    const fetchData = async () => {
+      try {
+        const criteriaResponse = await fetch(`${apiUrl}/criteria/get`);
+        if (!criteriaResponse.ok) {
+          throw new Error("Failed to fetch criteria");
+        }
+        const criteriaData = await criteriaResponse.json();
+        setCriteria(criteriaData);
+        localStorage.setItem("criteria", JSON.stringify(criteriaData));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+
     const storedUserData = localStorage.getItem("userData");
     setUser(JSON.parse(storedUserData));
 
     const noti = JSON.parse(localStorage.getItem("noti"));
-
     if (noti) {
       setNotification(noti.length);
     }

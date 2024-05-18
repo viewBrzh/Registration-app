@@ -10,18 +10,8 @@ function DashboardExecutive() {
   // Ref for the chart canvas
   const chartRef1 = useRef(null);
   const enrollmentsChartRef = useRef(null); // Added useRef for enrollment chart
-  const [courseData, setCourseData] = useState([]);
-  const [departmentData, setDepartmentData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [criteria, setCriteria] = useState();
-  const [user, setuser] = useState(0);
-  const [userErolled, setUserEnrolled] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [departmentsWithCriteriaCount, setDepartmentsWithCriteriaCount] =
-    useState(0);
-  const [departmentscount, setDepartmentsCount] = useState(0);
-  const [coursesCount, setCoursesCount] = useState(0);
-  const [publishedCoursesCount, setPublishedCoursesCount] = useState(0);
   const storedYear = localStorage.getItem("selectedYear");
   const initialYear = storedYear
     ? parseInt(storedYear, 10)
