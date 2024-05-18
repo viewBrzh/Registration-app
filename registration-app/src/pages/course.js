@@ -178,7 +178,7 @@ function Course(props) {
                     <div className="properties__footer">
                       <div className="date" style={{ color: "gray" }}>
                         <span>
-                          <p>Enroll {formatDate(course.start_date, course.finish_date)}</p>
+                          <p>Enroll {formatDate(course.start_enroll_date, course.end_enroll_date)}</p>
                         </span>
                       </div>
                     </div>
@@ -246,7 +246,7 @@ function Course(props) {
 
                     <div className="properties__footer">
                       <div className="date" style={{ color: "gray" }}>
-                        <p>Enroll {formatDate(course.start_date, course.finish_date)}</p>
+                        <p>Enroll {formatDate(course.start_enroll_date, course.end_enroll_date)}</p>
 
                       </div>
                     </div>

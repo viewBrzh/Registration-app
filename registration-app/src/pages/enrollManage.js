@@ -307,7 +307,7 @@ function EnrollManage() {
         </div>
         <div className='row justify-content-end'>
           <div className='col-auto'>
-            <button className="btn btn-primary" onClick={handleMarkAllFinish}>Mark all Finish</button>
+            <button className="btn btn-primary" onClick={handleMarkAllFinish}>Mark all Pass</button>
           </div>
         </div>
       </div>

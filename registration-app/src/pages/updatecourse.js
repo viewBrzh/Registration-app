@@ -321,7 +321,7 @@ function Updatecourse(props) {
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="endEnrollDate" className="input-label">
+                    <label htmlFor="endEnrollDate" className="input-label col-intput">
                       Enrollment end date
                     </label>
                     <div className="input-wrapper">
@@ -363,7 +363,7 @@ function Updatecourse(props) {
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="endDate" className="input-label">
+                    <label htmlFor="endDate" className="input-label col-intput">
                       Course date finish
                     </label>
                     <div className="input-wrapper">
