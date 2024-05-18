@@ -131,6 +131,14 @@
     border: none;
 }
 
+@media (min-width: 768px) {
+    .col-intput {
+        margin-left: 5%;
+    }
+}
+
+
+
 /* Media Query for two date inputs in a row */
 @media (min-width: 768px) {
     .row-inputs {
@@ -139,7 +147,7 @@
     }
 
     .row-inputs div {
-        width: 48%; /* Set width of each input to fit two in a row */
+        width: 95%;
     }
 }
 
@@ -149,6 +157,8 @@
         width: 100%; /* Set width to 100% to stack inputs in a column */
     }
 }
+
+
 
 :root {
     --primary: #E60073;
