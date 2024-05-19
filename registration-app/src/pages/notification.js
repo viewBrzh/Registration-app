@@ -5,7 +5,6 @@ import ReactStars from "react-rating-stars-component";
 import { useNavigate } from "react-router-dom";
 
 function Notification(props) {
-  const storedUserData = JSON.parse(localStorage.getItem("userData"));
   const [showModal, setShowModal] = useState(false);
   const [modalName, setModalName] = useState(null);
   const [courseId, setCourseId] = useState(null);
@@ -22,14 +21,11 @@ function Notification(props) {
   const handleReview = (courseId, coursename, enroll_id) => {
     setModalName(coursename);
     setCourseId(courseId);
-    setEnroll_id(enroll_id)
-    // Handle confirmation logic here
-    setShowModal(true); // Close the modal
+    setEnroll_id(enroll_id);
+    setShowModal(true);
   };
 
   const handleConfirm = async () => {
-    console.log(enroll_id);
-    // Handle confirmation logic here
     try {
       const response = await fetch(`${apiUrl}/feedback/add`, {
         method: 'POST',
@@ -46,14 +42,13 @@ function Notification(props) {
       if (!response.ok) {
         throw new Error('Failed to add feedback');
       }
-      setShowModal(false); // Close the modal
+      setShowModal(false); // Close the modal after successful submission
+      setComment('');
     } catch (error) {
       console.error('Error adding feedback:', error);
     }
-    setShowModal(false); // Close the modal
-    setComment('');
   };
-
+  
   const cancel = () => {
     setShowModal(false);
   };
@@ -62,34 +57,8 @@ function Notification(props) {
     setRating(newRating);
   };
 
-  useEffect(() => {
-    const fetchNotiCourseData = async () => {
-      try {
-        const promises = noti.map((notification) =>
-          fetch(`${apiUrl}/course/get-data/${notification.train_course_id}`).then((response) => response.json())
-        );
-        const coursesData = await Promise.all(promises);
-
-        // Add enroll_id to each course data
-        const coursesDataWithEnrollId = coursesData.map((course, index) => {
-          return {
-            ...course,
-            enroll_id: noti[index].enroll_id
-          };
-        });
-
-        setNotiCourse(coursesDataWithEnrollId);
-      } catch (error) {
-        console.error('Error fetching course data:', error);
-      }
-    };
-
-    fetchNotiCourseData();
-  }, [noti]);
-
-
   const formatDate = (date) => {
-    const thaiYear = (new Date(date).getFullYear() + 543).toString(); // Get the last two digits of the Buddhist Era year
+    const thaiYear = (new Date(date).getFullYear() + 543).toString();
     return new Date(date).toLocaleDateString("en-GB").replace(new Date(date).getFullYear(), thaiYear);
   };
 
@@ -97,27 +66,40 @@ function Notification(props) {
     setComment(e.target.value);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const courses = [];
+      for (const key in noti) {
+        const data = noti[key];
+        if (Array.isArray(data)) {
+          courses.push(...data);
+        } else {
+          courses.push(data);
+        }
+      }
+      setNotiCourse(courses);
+    };
+    fetchData();
+  }, [noti]);
+
   return (
     <Main>
-      {/* Page Header Start */}
       <div className="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s" />
-
-      {/* Page Header End */}
-
+      
       <div className="card-container-notification">
         <h4>Notification <span style={{ color: "gray" }}>({notiCourse.length})</span></h4>
-        {/* Card Body */}
+        <br/>
         {notiCourse.map((course, index) => (
           <div className="card-notification" key={index}>
             <div className="card-body-notification">
               <div className="row">
-                <div className="col-10" style={{ cursor: 'pointer' }} onClick={() => navigate(`/detail/${course[0].train_course_id}`)}>
-                  <h5 className="card-title">Training Course Completion</h5>
-                  <p className="card-text">Congratulations! You have completed the training course "{course[0].course_detail_name}." Please give us a rating</p>
-                  <span className="card-date">{formatDate(course[0].finish_date)}</span>
+                <div className="col-10" style={{ cursor: 'pointer' }} onClick={() => navigate(`/detail/${course.train_course_id}`)}>
+                  <h5 className="card-title">{course.start_date ? 'Reminder!' : 'Training Course Completion'}</h5>
+                  <p className="card-text">{course.start_date ? `You have enrolled in the course titled "${course.course_detail_name}", scheduled to start on ${formatDate(course.start_date)}, at the "${course.train_place}" venue. Don't forget to prepare for this upcoming session. We look forward to your participation!` : `Congratulations! You have completed the training course "${course.course_detail_name}". Please give us a rating.`}</p>
+                  <span className="card-date">{course.finish_date ? formatDate(course.finish_date) : `${formatDate(course.start_date)} at "${course.train_place}" venue.`}</span>
                 </div>
                 <div className="col-2 justify-content-end d-flex">
-                  <button className="btn btn-primary review" onClick={() => handleReview(course[0].train_course_id, course[0].course_detail_name, course.enroll_id)}>Review</button>
+                  {course.start_date ? null : <button className="btn btn-primary review" onClick={() => handleReview(course.train_course_id, course.course_detail_name, course.enroll_id)}>Review</button>}
                 </div>
               </div>
             </div>
@@ -125,23 +107,9 @@ function Notification(props) {
         ))}
       </div>
 
-      {/* Show modal */}
       {showModal && (
-        <div
-          className="modal"
-          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-        >
-          <div
-            className="modal-content d-flex"
-            style={{
-              backgroundColor: "#fff",
-              padding: "20px",
-              borderRadius: "5px",
-              maxWidth: "600px",
-              margin: "auto",
-              marginTop: "100px",
-            }}
-          >
+        <div className="modal" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+          <div className="modal-content d-flex" style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "5px", maxWidth: "600px", margin: "auto", marginTop: "100px" }}>
             <h3 style={{ margin: '0 auto' }}>Course review</h3>
             <p style={{ margin: '0 auto' }}>{modalName}</p>
             <div className="d-flex justify-content-center">
@@ -158,22 +126,11 @@ function Notification(props) {
             </div>
 
             <form>
-              <label>
-                Comment
-              </label>
-              <textarea
-                id="position"
-                className="input-field"
-                style={{ height: 200 }}
-                rows={4}
-                value={comment}
-                onChange={handleCommentChange}
-              />
+              <label>Comment</label>
+              <textarea id="position" className="input-field" style={{ height: 200 }} rows={4} value={comment} onChange={handleCommentChange} />
             </form>
             <button className="btn btn-cancel" onClick={() => cancel()}>Cancel</button>
-            <button className="btn btn-primary" onClick={handleConfirm}>
-              Send
-            </button>
+            <button className="btn btn-primary" onClick={handleConfirm}>Send</button>
           </div>
         </div>
       )}
@@ -182,3 +139,4 @@ function Notification(props) {
 }
 
 export default Notification;
+
