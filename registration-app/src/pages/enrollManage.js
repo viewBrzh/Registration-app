@@ -312,8 +312,6 @@ function EnrollManage() {
         </div>
       </div>
 
-
-
       <a>
         <div ref={searchWrapperRef} className={`search-wrapper ${isActive ? "active" : ""}`}>
           <div className="input-holder">

@@ -154,7 +154,7 @@
     border: 2px solid #E1E8EE;
     border-radius: 6px;
     padding: 5px;
-    margin: 5px;
+    margin: 2px;
     font-size: 14px;
     color: #5E6977;
     background-color: #ffffff;
@@ -303,4 +303,20 @@
 
 .people-count {
     font-size: smaller;
+}
+
+.dates-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-row {
+    display: flex;
+}
+
+.date-label {
+    min-width: 120px;
+    /* Adjust the width as necessary */
+    display: inline-block;
+    font-weight: bold !important;
 }
