@@ -45,9 +45,11 @@ function Course(props) {
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const response = await fetch(`${apiUrl}/course/get-all`);
+      const currentYearBE = new Date().getFullYear() + 543;
+      const response = await fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`); // Fetch courses for the current year in the Buddhist calendar
       const data = await response.json();
       setCourses(data);
+      console.log(data)
       
       const basicCoursesData = data?.filter((course) => course.course_id === 1 && course.isPublish === 1);
       setBasicCourses(basicCoursesData);
