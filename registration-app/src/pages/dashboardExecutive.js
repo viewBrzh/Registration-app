@@ -5,6 +5,7 @@ import { Chart as ChartAuto } from "chart.js/auto"; // Added ChartAuto import
 import CourseTable from "../components/courseTable";
 import apiUrl from "../api/apiConfig";
 import { Modal, Button, Form } from "react-bootstrap";
+import UserTableEx from "../components/userTableEx";
 
 function DashboardExecutive() {
   // Ref for the chart canvas
@@ -31,6 +32,7 @@ function DashboardExecutive() {
   const userdata = JSON.parse(localStorage.getItem("userData"));
   const [usersub, setusersub] = useState([]);
   const [enrolled, setEnrolled] = useState([]);
+  const [showUser, setShowUser] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -336,7 +338,7 @@ function DashboardExecutive() {
       {/* Page Header End */}
 
       <div className="cardBox">
-        <div className="carddash">
+        <div className="carddash" onClick={() => setShowUser(true)}>
           <div>
             <div className="cardName">Subordinate</div>
             <div className="numbers">{usersub.length}</div>
@@ -464,6 +466,36 @@ function DashboardExecutive() {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {showUser && (
+        <div
+          className="modal d-flex justify-content-center align-items-center"
+          style={{
+            display: showModal ? "block" : "none",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            position: "fixed",
+          }}
+        >
+          <div
+            className="modal-content"
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              borderRadius: "5px",
+              maxWidth: "900px",
+            }}
+          >
+            <UserTableEx />
+            <br />
+            <button
+              className="btn btn-cancel"
+              onClick={() => setShowUser(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </Main>
   );
 }
