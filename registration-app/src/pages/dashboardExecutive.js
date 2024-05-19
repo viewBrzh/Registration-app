@@ -427,36 +427,6 @@ function DashboardExecutive() {
         </div>
       </div>
 
-      {/* Modal */}
-      <Modal
-        show={showModal}
-        backdrop="static"
-        onHide={handleCloseModal}
-        style={{ zIndex: 9999 }}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Set Criteria</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBasicUsername">
-              <Form.Label>Criteria</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter number"
-                value={criteria}
-                onChange={(e) => setCriteria(e.target.value)}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleCloseModal}>
-            Confirm
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
       {showUser && (
         <div
           className="modal d-flex justify-content-center align-items-center"
