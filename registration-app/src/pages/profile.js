@@ -243,17 +243,17 @@ function Profile() {
                                       <span
                                         className={`status ${
                                           course.status === 0
-                                            ? "waiting"
+                                            ? "pending"
                                             : course.status === 1
-                                            ? "finish"
+                                            ? "pass"
                                             : "failed"
                                         }`}
                                       >
                                         {course.status === 0
-                                          ? "waiting"
+                                          ? "Pending"
                                           : course.status === 1
-                                          ? "finish"
-                                          : "failed"}
+                                          ? "Pass"
+                                          : "Failed"}
                                       </span>
                                     </td>
                                   </tr>

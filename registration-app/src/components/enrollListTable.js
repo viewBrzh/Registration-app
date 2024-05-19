@@ -191,10 +191,10 @@ const EnrollListTable = ({ courseId }) => {
                                                     }`}
                                             >
                                                 {enrollment.status === 0
-                                                    ? "waiting"
+                                                    ? "Pending"
                                                     : enrollment.status === 1
-                                                        ? "finish"
-                                                        : "failed"}
+                                                        ? "Pass"
+                                                        : "Failed"}
                                             </span>
                                         </td>
                                     </tr>
@@ -207,22 +207,18 @@ const EnrollListTable = ({ courseId }) => {
 
             {/* Pagination */}
             <div className="d-flex justify-content-end align-items-center">
-                <button
-                    className="btn btn-sm btn-outline-primary me-2"
-                    onClick={() => handleClick("prev")}
+                <button className={`btn previous-btn ${currentPage === 1 ? 'disabled' : ''}`}
+                    onClick={() => setCurrentPage(currentPage - 1)}
                     disabled={currentPage === 1}
                 >
-                    Prev
+                    &laquo; Previous
                 </button>
-                <span>
-                    Page {currentPage} of {totalPages}
-                </span>
-                <button
-                    className="btn btn-sm btn-outline-primary ms-2"
-                    onClick={() => handleClick("next")}
+                <span className='btn pagination-span'> {currentPage} of {totalPages} </span>
+                <button className={`next-btn ${currentPage === totalPages ? 'disabled' : ''}`}
+                    onClick={() => setCurrentPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
                 >
-                    Next
+                    Next &raquo;
                 </button>
             </div>
         </div>

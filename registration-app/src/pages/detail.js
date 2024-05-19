@@ -14,6 +14,7 @@ function Detail(props) {
   const [skills, setSkills] = useState([]);
   const [filteredCourse, setFilteredCourse] = useState([]);
   const [loginAlert, setLoginAlert] = useState(false);
+  const [enrollCount, setEnrollCount] = useState(0);
 
   useEffect(() => {
     fetch(`${apiUrl}/course/get-data/${courseId}`)
@@ -40,11 +41,23 @@ function Detail(props) {
         // Filter courses based on selected skills
         const filteredCourses = data.filter(course =>
           course.skills.split(', ').some(skill => skills.includes(skill)) &&
-          course.train_course_id != courseId
+          course.train_course_id !== courseId
         );
         setFilteredCourse(filteredCourses);
       })
       .catch((error) => console.error("Error fetching data:", error));
+
+    fetch(`${apiUrl}/enroll/getEnrollCount/${courseId}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setEnrollCount(data.count);
+      })
+      .catch((error) => console.error("Error fetching enroll count:", error));
   }, [courseId, skills]); // Add skills to the dependencies array
 
   if (!course) {
@@ -108,12 +121,12 @@ function Detail(props) {
     const toBuddhistEra = (year) => {
       return year + 543;
     };
-
+  
     const formatBEYear = (date) => {
       const year = toBuddhistEra(date.getFullYear());
       return date.toLocaleDateString("en-GB").replace(date.getFullYear(), year);
     };
-
+  
     if (start_date === finish_date) {
       return formatBEYear(new Date(start_date));
     } else {
@@ -143,23 +156,41 @@ function Detail(props) {
             <div className="product-description">
               <span>Description</span>
               <p>{course.train_detail}</p>
-              <span>Place : {course.train_place}</span>
             </div>
             <div className="cable-config">
-              <span>Skills </span>
-              <div className="cable-choose">
-                {course.skills.split(", ").map((skill, index) => (
-                  <button key={index}>{skill}</button>
-                ))}
+              <div className="dates-container">
+                <div className="date-row">
+                  <span className="date-label">Place</span>
+                  <span>{course.train_place}</span>
+                </div>
+                <div className="date-row">
+                  <span className="date-label">Enroll date</span>
+                  <span>{formatDate(course.start_enroll_date, course.end_enroll_date)}</span>
+                </div>
+                <div className="date-row">
+                  <span className="date-label">Training date</span>
+                  <span>{formatDate(course.start_date, course.finish_date)}</span>
+                </div>
+                <div className="date-row">
+                  <span className="date-label">Skills</span>
+                  <span><div className="cable-choose">
+                    {course.skills.split(", ").map((skill, index) => (
+                      <button key={index}>{skill}</button>
+                    ))}
+                  </div></span>
+                </div>
               </div>
+            </div>
+            <div>
+              <button className="cart-btn" onClick={handleEnroll}>
+                Enroll
+              </button>
               <span>
-                Date: {new Date(course.start_date).toLocaleDateString("en-GB")}{" "}
-                to {new Date(course.finish_date).toLocaleDateString("en-GB")}
+                <i className="bi bi-people-fill" style={{ paddingLeft: '25px', paddingRight: 10, color: 'grey' }}></i>
+                <span className="people-count" style={{ color: 'grey' }}>{enrollCount} / {course.limit}</span>
               </span>
             </div>
-            <button className="cart-btn" onClick={handleEnroll}>
-              Enroll
-            </button>
+
           </div>
         </div>
       </div>
@@ -175,7 +206,7 @@ function Detail(props) {
         </div>
         <div className="row justify-content-center section">
           {/* Map over the first 4 courses only */}
-          {filteredCourse.length > 0 && filteredCourse.slice(0, 4).map((fcourse) => ( fcourse.train_course_id !== course.train_course_id &&
+          {filteredCourse.length > 0 && filteredCourse.slice(0, 4).map((fcourse) => (fcourse.train_course_id !== course.train_course_id &&
             (<div className="col-lg-3" key={fcourse.train_course_id}>
               <div
                 className="properties properties2 mb-30 center-div"
@@ -283,29 +314,29 @@ function Detail(props) {
 
       {loginAlert && (
         <div
-        className="modal"
-        style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-      >
-        <div
-          className="modal-content"
-          style={{
-            backgroundColor: "#fff",
-            padding: "20px",
-            borderRadius: "5px",
-            width: "300px",
-            margin: "auto",
-            marginTop: "100px",
-          }}
+          className="modal"
+          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
         >
-          <h3>Enrollment failed</h3>
-          <hr />
-          <p>Please log in before enrolling.</p>
-          <br></br>
-          <button className="btn btn-primary" onClick={() => navigate('/login')}>
-            Login
-          </button>
+          <div
+            className="modal-content"
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              borderRadius: "5px",
+              width: "300px",
+              margin: "auto",
+              marginTop: "100px",
+            }}
+          >
+            <h3>Enrollment failed</h3>
+            <hr />
+            <p>Please log in before enrolling.</p>
+            <br></br>
+            <button className="btn btn-primary" onClick={() => navigate('/login')}>
+              Login
+            </button>
+          </div>
         </div>
-      </div>
       )}
 
       {failed && (

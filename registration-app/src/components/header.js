@@ -10,16 +10,31 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState("");
   const [notification, setNotification] = useState(0);
+  const [criteria, setCriteria] = useState(null);
 
   const isAuthenticated = userData && Object.keys(userData).length !== 0;
 
   useEffect(() => {
-    // Get user data from local storage
+    const fetchData = async () => {
+      try {
+        const criteriaResponse = await fetch(`${apiUrl}/criteria/get`);
+        if (!criteriaResponse.ok) {
+          throw new Error("Failed to fetch criteria");
+        }
+        const criteriaData = await criteriaResponse.json();
+        setCriteria(criteriaData);
+        localStorage.setItem("criteria", JSON.stringify(criteriaData));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+
     const storedUserData = localStorage.getItem("userData");
     setUser(JSON.parse(storedUserData));
 
     const noti = JSON.parse(localStorage.getItem("noti"));
-
     if (noti) {
       setNotification(noti.length);
     }
@@ -153,16 +168,15 @@ function Header() {
                       onClick={toggleDrop}
                     >
                       {user?.username}
-                      <div style={{ display: 'inline-block', width: '30px', height: '30px', borderRadius: '50%', overflow: 'hidden', marginLeft: 5 }}>
+                      <div className="avatar-container">
                         <img
                           className='avatar-'
                           src={`${apiUrl}/profiles/${user?.image}`}
                           alt="User Avatar"
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                          
                         />
                         {notification > 0 && <div className="red-dot">{notification > 9 ? '9+' : notification}</div>}
                       </div>
+
                     </a>
 
                     <ul

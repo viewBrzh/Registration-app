@@ -79,7 +79,7 @@ const UserTable = () => {
         <div className="container">
             <div className="row">
                 <div className="col">
-                    <h2>User Table</h2> 
+                    <h2>Instructor list</h2> 
                     <table className="table">
                         <thead>
                             <tr>

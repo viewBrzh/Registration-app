@@ -14,7 +14,8 @@ function DashboardAdmin() {
   const [courseData, setCourseData] = useState([]);
   const [departmentData, setDepartmentData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [criteria, setCriteria] = useState();
+  const initialCriteria = parseInt(localStorage.getItem("criteria"), 10);
+  const [criteria, setCriteria] = useState(initialCriteria);
   const [user, setuser] = useState(0);
   const [userErolled, setUserEnrolled] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -86,10 +87,7 @@ function DashboardAdmin() {
           throw new Error("Failed to fetch departments");
         }
         const departmentsData = await departmentsResponse.json();
-
-        // Initialize variables to store the counts
-        let departmentsCount = 0;
-        let departmentsWithCriteriaCount = 0;
+        let passCriteriaCount = 0;
 
         // Fetch enrollment counts for each department
         const departmentEnrollmentData = await Promise.all(
@@ -103,17 +101,18 @@ function DashboardAdmin() {
               );
             }
             const departmentEnrollData = await departmentResponse.json();
+            console.log(departmentEnrollData + ": departmentEnrollData");
 
+            let pass = departmentEnrollData >= criteria;
             // Check if the department meets the criteria and increment the count
-            let passCriteria = departmentEnrollData >= criteria;
-            if (passCriteria) {
-              departmentsWithCriteriaCount++;
+            if (pass) {
+              passCriteriaCount++;
             }
 
             return {
               departmentName: department.department,
               quantity: departmentEnrollData,
-              passCriteria: passCriteria,
+              pass: pass
             };
           })
         );
@@ -121,10 +120,10 @@ function DashboardAdmin() {
         // Set the department data and counts in state
         setDepartmentData(departmentEnrollmentData);
         setDepartmentsCount(departmentEnrollmentData.length);
+        console.log(passCriteriaCount , criteria);
         setDepartmentsWithCriteriaCount(
           departmentEnrollmentData.filter(
-            (department) => department.passCriteria
-          ).length
+          (department) => department.pass).length
         );
 
         const userCountResponse = await fetch(`${apiUrl}/user/userCount`, {
@@ -373,6 +372,7 @@ function DashboardAdmin() {
   const setCriteriaHandler = async (newCriteriaValue) => {
     fetch(`${apiUrl}/criteria/set/${newCriteriaValue}`, { method: "POST" });
     setCriteria(newCriteriaValue);
+    localStorage.setItem("criteria", newCriteriaValue);
     handleCloseModal();
   };
 

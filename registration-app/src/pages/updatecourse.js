@@ -15,6 +15,9 @@ function Updatecourse(props) {
     train_place: "",
     start_date: "",
     finish_date: "",
+    start_enroll_date: "",
+    end_enroll_date: "",
+    limit: "",
     image: "",
   });
 
@@ -76,6 +79,8 @@ function Updatecourse(props) {
             ...data[0],
             start_date: formatDate(data[0].start_date),
             finish_date: formatDate(data[0].finish_date),
+            start_enroll_date: formatDate(data[0].start_enroll_date),
+            end_enroll_date: formatDate(data[0].end_enroll_date),
           });
         } else {
           console.error("Failed to fetch course details");
@@ -92,13 +97,8 @@ function Updatecourse(props) {
     if (!dateString) {
       return ""; // or any default value you prefer
     }
-    const parts = dateString.split("/");
-    // Ensure each part has at least 2 digits
-    const formattedParts = parts.map((part) => part.padStart(2, "0"));
-    // Rearrange the parts to dd/mm/yyyy format
-    return (
-      formattedParts[0] + "/" + formattedParts[1] + "/" + formattedParts[2]
-    );
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
   };
 
   const handleDelete = async () => {
@@ -160,198 +160,301 @@ function Updatecourse(props) {
     }
   };
 
+
+
   return (
     <Main>
-      {/* Page Content */}
-      <div className="page-content">
-        <div className="card-container">
-          {/* Divider */}
-          <p className="divider">Edit course data</p>
-          {/* Card Body */}
-          <form className="form-container" onSubmit={handleSubmit}>
-            <div className="custom-input">
-              <label htmlFor="courseType" className="input-label">
-                Course Type
-              </label>
-              <div className="input-wrapper">
-                <select
-                  id="courseType"
-                  className="input-field"
-                  value={courseData.course_id}
-                  onChange={(e) =>
-                    setCourseData({ ...courseData, course_id: e.target.value })
-                  }
-                >
-                  <option value="">Course type</option>
-                  <option value="1">Basic</option>
-                  <option value="2">Retreat</option>
-                </select>
-              </div>
-            </div>
-            {/* Custom Input*/}
-            <div className="custom-input">
-              <label htmlFor="name" className="input-label">
-                Course name
-              </label>
-              <div className="input-wrapper">
-                <input
-                  type="text"
-                  id="name"
-                  className="input-field"
-                  value={courseData.course_detail_name}
-                  onChange={(e) =>
-                    setCourseData({
-                      ...courseData,
-                      course_detail_name: e.target.value,
-                    })
-                  }
-                />
-              </div>
-            </div>
-            <div className="custom-input">
-              <label htmlFor="details" className="input-label">
-                Course details
-              </label>
-              <div className="input-wrapper">
-                <input
-                  type="text"
-                  id="details"
-                  className="input-field"
-                  value={courseData.train_detail}
-                  onChange={(e) =>
-                    setCourseData({
-                      ...courseData,
-                      train_detail: e.target.value,
-                    })
-                  }
-                />
-              </div>
-            </div>
-            <div className="custom-input">
-              <label htmlFor="location" className="input-label">
-                Location
-              </label>
-              <div className="input-wrapper">
-                <input
-                  type="text"
-                  id="location"
-                  className="input-field"
-                  value={courseData.train_place}
-                  onChange={(e) =>
-                    setCourseData({
-                      ...courseData,
-                      train_place: e.target.value,
-                    })
-                  }
-                />
-              </div>
-            </div>
-            <div className="custom-input">
-              <label htmlFor="startDate" className="input-label">
-                Course date start
-              </label>
-              <div className="input-wrapper">
-                <input
-                  type="date"
-                  id="startDate"
-                  className="input-field"
-                  value={courseData.start_date}
-                  onChange={(e) =>
-                    setCourseData({ ...courseData, start_date: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-            <div className="custom-input">
-              <label htmlFor="endDate" className="input-label">
-                Course date finish
-              </label>
-              <div className="input-wrapper">
-                <input
-                  type="date"
-                  id="endDate"
-                  className="input-field"
-                  value={courseData.finish_date}
-                  onChange={(e) =>
-                    setCourseData({
-                      ...courseData,
-                      finish_date: e.target.value,
-                    })
-                  }
-                />
-              </div>
-            </div>
-            <div className="custom-input">
-              <FileUpload onFileUpload={(imageName) => setCourseData({ ...courseData, image: imageName })} />
-            </div>
-            <a className="btn tag-select" onClick={handleShowModal}>Choose skill tags</a>
-            {/* Card Footer */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginTop: 20,
-              }}
-            >
-              <Link
-                style={{ display: "flex", alignItems: "center", padding: 20 }}
-              >
-                <a
-                  className="font-btn"
-                  style={{ margin: 0 }}
-                  onClick={handleDelete}
-                >
-                  delete
-                </a>
-              </Link>
-              <a style={{ padding: 10 }}></a>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                style={{ alignSelf: "center" }}
-              >
-                Confirm
-              </button>
-            </div>
-          </form>
-        </div>
+      <div className="custom-shape-divider-top-1710057287">
+        <svg
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+            opacity=".25"
+            class="shape-fill"
+          ></path>
+          <path
+            d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
+            opacity=".5"
+            class="shape-fill"
+          ></path>
+          <path
+            d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
+            class="shape-fill"
+          ></path>
+        </svg>
       </div>
+      <div
+        className="container mt-5"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        {/* Page Content */}
+        <div className="page-content">
+          <div className="form-card-container">
+            <p className="divider">Edit course data</p>
+            <form className="form-container" onSubmit={handleSubmit}>
+              <div className="custom-input">
+                <div className="row-inputs">
+                  <div>
+                    <label htmlFor="courseType" className="input-label">
+                      Course Type
+                    </label>
+                    <div className="input-wrapper">
+                      <select
+                        id="courseType"
+                        className="input-field"
+                        value={courseData.course_id}
+                        onChange={(e) =>
+                          setCourseData({ ...courseData, course_id: e.target.value })
+                        }
+                      >
+                        <option value="">Course type</option>
+                        <option value="1">Basic</option>
+                        <option value="2">Retreat</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="limit" className="input-label col-intput">
+                      Enrollment limit
+                    </label>
+                    <div className="input-wrapper">
+                      <input
+                        type="number"
+                        id="limit"
+                        className="input-field col-intput"
+                        value={courseData.limit}
+                        onChange={(e) =>
+                          setCourseData({
+                            ...courseData,
+                            limit: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Custom Input*/}
+              <div className="custom-input">
+                <label htmlFor="name" className="input-label">
+                  Course name
+                </label>
+                <div className="input-wrapper">
+                  <input
+                    type="text"
+                    id="name"
+                    className="input-field"
+                    value={courseData.course_detail_name}
+                    onChange={(e) =>
+                      setCourseData({
+                        ...courseData,
+                        course_detail_name: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="custom-input">
+                <label htmlFor="details" className="input-label">
+                  Course details
+                </label>
+                <div className="input-wrapper">
+                  <input
+                    type="text"
+                    id="details"
+                    className="input-field"
+                    value={courseData.train_detail}
+                    onChange={(e) =>
+                      setCourseData({
+                        ...courseData,
+                        train_detail: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="custom-input">
+                <label htmlFor="location" className="input-label">
+                  Location
+                </label>
+                <div className="input-wrapper">
+                  <input
+                    type="text"
+                    id="location"
+                    className="input-field"
+                    value={courseData.train_place}
+                    onChange={(e) =>
+                      setCourseData({
+                        ...courseData,
+                        train_place: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="custom-input">
+                <div className="row-inputs">
+                  <div>
+                    <label htmlFor="startEnrollDate" className="input-label">
+                      Enrollment start date
+                    </label>
+                    <div className="input-wrapper">
+                      <input
+                        type="date"
+                        id="startEnrollDate"
+                        className="input-field"
+                        value={courseData.start_enroll_date}
+                        onChange={(e) =>
+                          setCourseData({
+                            ...courseData,
+                            start_enroll_date: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="endEnrollDate" className="input-label col-intput">
+                      Enrollment end date
+                    </label>
+                    <div className="input-wrapper">
+                      <input
+                        type="date"
+                        id="endEnrollDate"
+                        className="input-field col-intput"
+                        value={courseData.end_enroll_date}
+                        onChange={(e) =>
+                          setCourseData({
+                            ...courseData,
+                            end_enroll_date: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="custom-input">
+                <div className="row-inputs">
+                  <div>
+                    <label htmlFor="startDate" className="input-label">
+                      Course date start
+                    </label>
+                    <div className="input-wrapper">
+                      <input
+                        type="date"
+                        id="startDate"
+                        className="input-field"
+                        value={courseData.start_date}
+                        onChange={(e) =>
+                          setCourseData({
+                            ...courseData,
+                            start_date: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="endDate" className="input-label col-intput">
+                      Course date finish
+                    </label>
+                    <div className="input-wrapper">
+                      <input
+                        type="date"
+                        id="endDate"
+                        className="input-field col-intput"
+                        value={courseData.finish_date}
+                        onChange={(e) =>
+                          setCourseData({
+                            ...courseData,
+                            finish_date: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} style={{ zIndex: 9999 }}>
-        <Modal.Header closeButton>
-          <Modal.Title>Choose Skills</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {[
-            "MENTALIZATION-BASED THERAPY",
-            "Satir systemic therapy",
-            "Coaching",
-            "Mindfullness-based therapy",
-            "Communication with parents",
-            "Oracle card into the mind",
-            "Problem-solvingtherapy",
-            "Enneagram",
-            "Relaxation technique",
-            "PSYCHOEDUCATION",
-            "Basic Counseling"
-          ].map(tag => (
-            <Button
-              key={tag}
-              variant={selectedTags.includes(tag) ? "primary" : "outline-primary"}
-              onClick={() => handleTagSelection(tag)}
-              style={{ margin: "5px" }}
-            >
-              {tag}
+              <div className="custom-input">
+                <FileUpload onFileUpload={(imageName) => setCourseData({ ...courseData, image: imageName })} />
+              </div>
+              <a className="btn tag-select" onClick={handleShowModal}>Choose skill tags</a>
+              {/* Card Footer */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  marginTop: 20,
+                }}
+              >
+                <Link
+                  style={{ display: "flex", alignItems: "center", padding: 20 }}
+                >
+                  <a
+                    className="font-btn"
+                    style={{ margin: 0 }}
+                    onClick={handleDelete}
+                  >
+                    delete
+                  </a>
+                </Link>
+                <a style={{ padding: 10 }}></a>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  style={{ alignSelf: "center" }}
+                >
+                  Confirm
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <Modal show={showModal} onHide={() => setShowModal(false)} style={{ zIndex: 9999 }}>
+          <Modal.Header closeButton>
+            <Modal.Title>Choose Skills</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {[
+              "MENTALIZATION-BASED THERAPY",
+              "Satir systemic therapy",
+              "Coaching",
+              "Mindfullness-based therapy",
+              "Communication with parents",
+              "Oracle card into the mind",
+              "Problem-solvingtherapy",
+              "Enneagram",
+              "Relaxation technique",
+              "PSYCHOEDUCATION",
+              "Basic Counseling"
+            ].map(tag => (
+              <Button
+                key={tag}
+                variant={selectedTags.includes(tag) ? "primary" : "outline-primary"}
+                onClick={() => handleTagSelection(tag)}
+                style={{ margin: "5px" }}
+              >
+                {tag}
+              </Button>
+            ))}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleSaveTags}>
+              Confirm
             </Button>
-          ))}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleSaveTags}>
-            Confirm
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
+          </Modal.Footer>
+        </Modal>
+      </div>
     </Main>
   );
 }

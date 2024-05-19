@@ -44,22 +44,51 @@ function Course(props) {
   }, []);
 
   useEffect(() => {
-    fetch(`${apiUrl}/course/get-all`)
-      .then((response) => response.json())
-      .then((data) => {
-        setCourses(data);
-        setBasicCourses(
-          data?.filter(
-            (course) => course.course_id === 1 && course.isPublish === 1
-          )
-        );
-        setRetreatCourses(
-          data?.filter(
-            (course) => course.course_id === 2 && course.isPublish === 1
-          )
-        );
-      });
-    console.log(basicCourses.json)
+    const fetchCourses = async () => {
+      const response = await fetch(`${apiUrl}/course/get-all`);
+      const data = await response.json();
+      setCourses(data);
+      
+      const basicCoursesData = data?.filter((course) => course.course_id === 1 && course.isPublish === 1);
+      setBasicCourses(basicCoursesData);
+
+      const retreatCoursesData = data?.filter((course) => course.course_id === 2 && course.isPublish === 1);
+      setRetreatCourses(retreatCoursesData);
+
+      // Fetch enrollment counts for basic courses
+      const basicCounts = await Promise.all(
+        basicCoursesData.map(async (course) => {
+          const enrollResponse = await fetch(`${apiUrl}/enroll/getEnrollCount/${course.train_course_id}`);
+          const enrollData = await enrollResponse.json();
+          return { courseId: course.train_course_id, count: enrollData.count };
+        })
+      );
+
+      // Fetch enrollment counts for retreat courses
+      const retreatCounts = await Promise.all(
+        retreatCoursesData.map(async (course) => {
+          const enrollResponse = await fetch(`${apiUrl}/enroll/getEnrollCount/${course.train_course_id}`);
+          const enrollData = await enrollResponse.json();
+          return { courseId: course.train_course_id, count: enrollData.count };
+        })
+      );
+
+      setBasicCourses((prevCourses) =>
+        prevCourses.map((course) => {
+          const countObj = basicCounts.find((count) => count.courseId === course.train_course_id);
+          return { ...course, count: countObj ? countObj.count : 0 };
+        })
+      );
+
+      setRetreatCourses((prevCourses) =>
+        prevCourses.map((course) => {
+          const countObj = retreatCounts.find((count) => count.courseId === course.train_course_id);
+          return { ...course, count: countObj ? countObj.count : 0 };
+        })
+      );
+    };
+
+    fetchCourses();
   }, []);
 
   const formatDate = (start_date, finish_date) => {
@@ -119,12 +148,17 @@ function Course(props) {
           {filteredBasicCourses?.map((course) => (
             <div className="col-lg-3" key={course.train_course_id}>
               <div className="properties properties2 mb-30 center-div" style={{ marginBottom: "20px", position: "relative" }}>
-                <div className="properties__card" onClick={() => handleCardClick(course.train_course_id)} style={{ height: "440px", border: "1px solid #e0e0e0", borderRadius: "10px", overflow: "hidden" }}>
+                <div className="properties__card" onClick={() => handleCardClick(course.train_course_id)} style={{ height: "440px", border: "1px solid #e0e0e0", borderRadius: "10px", overflow: "hidden", position: "relative" }}>
                   {/* Card content */}
-                  <div className="properties__img overlay1">
+                  <div className="properties__img overlay1" style={{ position: "relative" }}>
                     <Link to={`/detail/${course.train_course_id}`}>
                       <img src={`${apiUrl}/images/${course.image}`} alt="" />
                     </Link>
+                    {/* People icon and number text */}
+                    <div className="people-icon">
+                      <i className="bi bi-people"></i>
+                      <span className="people-count">{course.count} / {course.limit}</span>
+                    </div>
                   </div>
                   <div className="properties__caption">
                     <h5>
@@ -144,8 +178,7 @@ function Course(props) {
                     <div className="properties__footer">
                       <div className="date" style={{ color: "gray" }}>
                         <span>
-                          <p>Enroll {formatDate(course.start_date, course.finish_date)}</p>
-
+                          <p>Enroll {formatDate(course.start_enroll_date, course.end_enroll_date)}</p>
                         </span>
                       </div>
                     </div>
@@ -164,8 +197,8 @@ function Course(props) {
                       </span>
                     </div>
                     {/* <Link to={`/detail/${course.train_course_id}`}>
-                      <a href="#" className="align-self-end btn card-btn">More Detail</a>
-                    </Link> */}
+              <a href="#" className="align-self-end btn card-btn">More Detail</a>
+            </Link> */}
                   </div>
                 </div>
               </div>
@@ -191,6 +224,10 @@ function Course(props) {
                     <Link to={`/detail/${course.train_course_id}`}>
                       <img src={`${apiUrl}/images/${course.image}`} alt="" />
                     </Link>
+                    <div className="people-icon">
+                      <i className="bi bi-people"></i>
+                      <span className="people-count">{course.count} / {course.limit}</span>
+                    </div>
                   </div>
                   <div className="properties__caption">
                     <h5>
@@ -209,7 +246,7 @@ function Course(props) {
 
                     <div className="properties__footer">
                       <div className="date" style={{ color: "gray" }}>
-                        <p>Enroll {formatDate(course.start_date, course.finish_date)}</p>
+                        <p>Enroll {formatDate(course.start_enroll_date, course.end_enroll_date)}</p>
 
                       </div>
                     </div>
@@ -257,7 +294,7 @@ function Course(props) {
           <span className="close" onClick={toggleSearch}></span>
         </div>
       </a>
-    </Main>
+    </Main >
   );
 }
 

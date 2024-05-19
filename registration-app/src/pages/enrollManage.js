@@ -271,8 +271,8 @@ function EnrollManage() {
                           value={enrollment.status}
                           onChange={(e) => handleStatusChange(enrollment.enroll_id, e.target.value)}
                         >
-                          <option value="0">Waiting</option>
-                          <option value="1">Finish</option>
+                          <option value="0">Pending</option>
+                          <option value="1">Pass</option>
                           <option value="2">Failed</option>
                         </select>
                       </td>
@@ -307,12 +307,10 @@ function EnrollManage() {
         </div>
         <div className='row justify-content-end'>
           <div className='col-auto'>
-            <button className="btn btn-primary" onClick={handleMarkAllFinish}>Mark all Finish</button>
+            <button className="btn btn-primary" onClick={handleMarkAllFinish}>Mark all Pass</button>
           </div>
         </div>
       </div>
-
-
 
       <a>
         <div ref={searchWrapperRef} className={`search-wrapper ${isActive ? "active" : ""}`}>
@@ -339,10 +337,10 @@ function formatDataForDownload(enrollments, users) {
     let statusText = "";
     switch (enrollment.status) {
       case 0:
-        statusText = "Waiting";
+        statusText = "Pending";
         break;
       case 1:
-        statusText = "Finish";
+        statusText = "Pass";
         break;
       case 2:
         statusText = "Failed";
