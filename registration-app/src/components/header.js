@@ -31,14 +31,33 @@ function Header() {
 
     fetchData();
 
-    const storedUserData = localStorage.getItem("userData");
-    setUser(JSON.parse(storedUserData));
+    const parsedUserData = JSON.parse(userData);
+    setUser(parsedUserData);
 
-    const noti = JSON.parse(localStorage.getItem("noti"));
-    if (noti) {
-      setNotification(noti.length);
-    }
-  }, []);
+    const fetchNotifications = async () => {
+      try {
+        const [notiResponse, userNotiResponse] = await Promise.all([
+          fetch(`${apiUrl}/enroll/getNoti/${parsedUserData.user_id}`),
+          fetch(`${apiUrl}/enroll/getUserNoti/${parsedUserData.user_id}`)
+        ]);
+
+        if (!notiResponse.ok || !userNotiResponse.ok) {
+          throw new Error('Failed to fetch notifications');
+        }
+
+        const notiData = await notiResponse.json();
+        const userNotiData = await userNotiResponse.json();
+
+        const combinedData = [...notiData, ...userNotiData];
+        setNotification(combinedData.length);
+        localStorage.setItem("noti", JSON.stringify(combinedData));
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+  }, [userData]);
 
   const handleLogout = () => {
     localStorage.removeItem("userData");

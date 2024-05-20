@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import apiUrl from "../api/apiConfig";
 
 function Course(props) {
+  const userData = JSON.parse(localStorage.getItem("userData"));
   const [courses, setCourses] = useState([]);
   const [basicCourses, setBasicCourses] = useState([]);
   const [retreatCourses, setRetreatCourses] = useState([]);
@@ -35,6 +36,8 @@ function Course(props) {
     }
   };
 
+  const [hasCompletedBasic, setHasCompletedBasic] = useState(false);
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
@@ -45,10 +48,12 @@ function Course(props) {
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const response = await fetch(`${apiUrl}/course/get-all`);
+      const currentYearBE = new Date().getFullYear() + 543;
+      const response = await fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`); // Fetch courses for the current year in the Buddhist calendar
       const data = await response.json();
       setCourses(data);
-      
+      console.log(data)
+
       const basicCoursesData = data?.filter((course) => course.course_id === 1 && course.isPublish === 1);
       setBasicCourses(basicCoursesData);
 
@@ -86,6 +91,19 @@ function Course(props) {
           return { ...course, count: countObj ? countObj.count : 0 };
         })
       );
+
+      // Check for basic course enrollment status
+      fetch(`${apiUrl}/enroll/getUserHistory/${userData.user_id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setCourses(data.courses);
+
+          // Check if the user has completed at least one basic course
+          const hasCompleted = data.courses?.some(
+            (enrollment) => enrollment.course_id === 1 && enrollment.status === 1
+          );
+          setHasCompletedBasic(hasCompleted);
+        })
     };
 
     fetchCourses();
@@ -196,9 +214,6 @@ function Course(props) {
                             : course.train_place}</p>
                       </span>
                     </div>
-                    {/* <Link to={`/detail/${course.train_course_id}`}>
-              <a href="#" className="align-self-end btn card-btn">More Detail</a>
-            </Link> */}
                   </div>
                 </div>
               </div>
@@ -211,69 +226,66 @@ function Course(props) {
       <br></br>
       {/* Retreat Courses Section */}
       <div id="retreat" className="container section">
-        <div className="row justify-content-center mb-4">
-          <h2 className="text-center">Retreat Courses</h2>
-        </div>
-        <div className="row justify-content-center section">
-          {filteredRetreatCourses?.map((course) => (
-            <div className="col-lg-3" key={course.train_course_id}>
-              <div className="properties properties2 mb-30 center-div" style={{ marginBottom: "20px", position: "relative" }}>
-                <div className="properties__card d-flex" onClick={() => handleCardClick(course.train_course_id)} style={{ height: "440px", border: "1px solid #e0e0e0", borderRadius: "5px", overflow: "hidden" }}>
-                  {/* Card content */}
-                  <div className="properties__img overlay1">
-                    <Link to={`/detail/${course.train_course_id}`}>
-                      <img src={`${apiUrl}/images/${course.image}`} alt="" />
-                    </Link>
-                    <div className="people-icon">
-                      <i className="bi bi-people"></i>
-                      <span className="people-count">{course.count} / {course.limit}</span>
-                    </div>
-                  </div>
-                  <div className="properties__caption">
-                    <h5>
-                      <Link to={`/detail/${course.train_course_id}`}>
-                        {course.course_detail_name.length > 63
-                          ? `${course.course_detail_name.substring(0, 63)}...`
-                          : course.course_detail_name}
-                      </Link>
-                    </h5>
-                    <p>{course.train_detail}</p>
-                    <div className="properties__skill" >
-                      <span>{course.skills.length > 50
-                        ? `${course.skills.substring(0, 50)}...`
-                        : course.skills}</span>
-                    </div>
-
-                    <div className="properties__footer">
-                      <div className="date" style={{ color: "gray" }}>
-                        <p>Enroll {formatDate(course.start_enroll_date, course.end_enroll_date)}</p>
-
+        {hasCompletedBasic ? (
+          <>
+            <div className="row justify-content-center mb-4">
+              <h2 className="text-center">Retreat Courses</h2>
+            </div>
+            <div className="row justify-content-center section">
+              {filteredRetreatCourses?.map((course) => (
+                <div className="col-lg-3" key={course.train_course_id}>
+                  <div className="properties properties2 mb-30 center-div" style={{ marginBottom: "20px", position: "relative" }}>
+                    <div className="properties__card" onClick={() => handleCardClick(course.train_course_id)} style={{ height: "440px", border: "1px solid #e0e0e0", borderRadius: "10px", overflow: "hidden", position: "relative" }}>
+                      {/* Card content */}
+                      <div className="properties__img overlay1" style={{ position: "relative" }}>
+                        <Link to={`/detail/${course.train_course_id}`}>
+                          <img src={`${apiUrl}/images/${course.image}`} alt="" />
+                        </Link>
+                        {/* People icon and number text */}
+                        <div className="people-icon">
+                          <i className="bi bi-people"></i>
+                          <span className="people-count">{course.count} / {course.limit}</span>
+                        </div>
+                      </div>
+                      <div className="properties__caption">
+                        <h5>
+                          <Link to={`/detail/${course.train_course_id}`}>{course.course_detail_name.length > 63 ? `${course.course_detail_name.substring(0, 63)}...` : course.course_detail_name}</Link>
+                        </h5>
+                        <p>{course.train_detail}</p>
+                        <div className="properties__skill">
+                          <span>{course.skills.length > 50 ? `${course.skills.substring(0, 50)}...` : course.skills}</span>
+                        </div>
+                        <div className="properties__footer">
+                          <div className="date" style={{ color: "gray" }}>
+                            <span>
+                              <p>Enroll {formatDate(course.start_enroll_date, course.end_enroll_date)}</p>
+                            </span>
+                          </div>
+                        </div>
+                        <div className="properties__footer">
+                          <div className="date" style={{ color: "gray" }}>
+                            <p>Training {formatDate(course.start_date, course.finish_date)}</p>
+                          </div>
+                        </div>
+                        <div className="location">
+                          <span>
+                            <p>{course.train_place.length > 50 ? `${course.train_place.substring(0, 50)}...` : course.train_place}</p>
+                          </span>
+                        </div>
                       </div>
                     </div>
-
-                    <div className="properties__footer">
-                      <div className="date" style={{ color: "gray" }}>
-                        <p> Training {formatDate(course.start_date, course.finish_date)}</p>
-                      </div>
-                    </div>
-                    <div className="location">
-                      <span>
-                        <p>
-                          {course.train_place.length > 50
-                            ? `${course.train_place.substring(0, 50)}...`
-                            : course.train_place}</p>
-                      </span>
-                    </div>
-                    {/* <Link to={`/detail/${course.train_course_id}`}>
-                      <a href="#" className="align-self-end btn card-btn">More Detail</a>
-                    </Link> */}
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        ) : (
+          <div className="row justify-content-center mb-4">
+            <h2 className="text-center">You need to complete Basic Counseling courses first</h2>
+          </div>
+        )}
       </div>
+
       {/* Retreat Courses Section End */}
 
       <a>
