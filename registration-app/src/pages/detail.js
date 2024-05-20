@@ -250,7 +250,7 @@ function Detail(props) {
                         <span>
                           <p>
                             Enroll{" "}
-                            {formatDate(fcourse.start_date, fcourse.finish_date)}
+                            {formatDate(fcourse.start_enroll_date, fcourse.end_enroll_date)}
                           </p>
                         </span>
                       </div>

@@ -91,17 +91,20 @@ function Course(props) {
           return { ...course, count: countObj ? countObj.count : 0 };
         })
       );
-      fetch(`${apiUrl}/enroll/getUserHistory/${userData.user_id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setCourses(data.courses); // Update state with courses data
 
-      // Check if the user has completed at least one basic course
-      const hasCompleted = data.courses?.some(
-        (enrollment) => enrollment.course_id === 1 && enrollment.status === 1
-      );
-      setHasCompletedBasic(hasCompleted);
-      })};
+      // Check for basic course enrollment status
+      fetch(`${apiUrl}/enroll/getUserHistory/${userData.user_id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setCourses(data.courses);
+
+          // Check if the user has completed at least one basic course
+          const hasCompleted = data.courses?.some(
+            (enrollment) => enrollment.course_id === 1 && enrollment.status === 1
+          );
+          setHasCompletedBasic(hasCompleted);
+        })
+    };
 
     fetchCourses();
   }, []);
@@ -211,9 +214,6 @@ function Course(props) {
                             : course.train_place}</p>
                       </span>
                     </div>
-                    {/* <Link to={`/detail/${course.train_course_id}`}>
-              <a href="#" className="align-self-end btn card-btn">More Detail</a>
-            </Link> */}
                   </div>
                 </div>
               </div>
@@ -272,9 +272,6 @@ function Course(props) {
                             <p>{course.train_place.length > 50 ? `${course.train_place.substring(0, 50)}...` : course.train_place}</p>
                           </span>
                         </div>
-                        {/* <Link to={`/detail/${course.train_course_id}`}>
-                <a href="#" className="align-self-end btn card-btn">More Detail</a>
-              </Link> */}
                       </div>
                     </div>
                   </div>
