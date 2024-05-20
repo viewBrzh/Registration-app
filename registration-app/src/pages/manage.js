@@ -19,8 +19,10 @@ function Manage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(25);
 
-  const storedYear = localStorage.getItem('selectedYear');
-  const initialYear = storedYear ? parseInt(storedYear, 10) : new Date().getFullYear() + 543;
+  const storedYear = localStorage.getItem("selectedYear");
+  const initialYear = storedYear
+    ? parseInt(storedYear, 10)
+    : new Date().getFullYear() + 543;
   const [selectedYear, setSelectedYear] = useState(initialYear);
 
   const [sortDirection, setSortDirection] = useState("asc");
@@ -29,7 +31,7 @@ function Manage() {
   const handleYearChange = (year) => {
     setSelectedYear(year);
     // Store selected year in local storage
-    localStorage.setItem('selectedYear', year);
+    localStorage.setItem("selectedYear", year);
     window.location.reload();
   };
 
@@ -58,7 +60,9 @@ function Manage() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ isPublish: updatedIsPublishStatus[courseId] ? 1 : 0 }),
+      body: JSON.stringify({
+        isPublish: updatedIsPublishStatus[courseId] ? 1 : 0,
+      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -110,8 +114,9 @@ function Manage() {
         const initialPublishStatus = {};
         if (data != null) {
           data?.forEach((course) => {
-            initialPublishStatus[course.train_course_id] = course.isPublish === 1;
-          })
+            initialPublishStatus[course.train_course_id] =
+              course.isPublish === 1;
+          });
         }
         setIsPublishStatus(initialPublishStatus);
       });
@@ -135,13 +140,15 @@ function Manage() {
     if (filter === "all") {
       setFilteredCourses(sortedCourses);
     } else if (filter === "basic") {
-      setFilteredCourses(sortedCourses.filter((course) => course.course_id === 1));
+      setFilteredCourses(
+        sortedCourses.filter((course) => course.course_id === 1)
+      );
     } else if (filter === "retreat") {
-      setFilteredCourses(sortedCourses.filter((course) => course.course_id === 2));
+      setFilteredCourses(
+        sortedCourses.filter((course) => course.course_id === 2)
+      );
     }
   }, [courses, filter, sortColumn, sortDirection]);
-
-
 
   const handleDelete = (cid) => {
     console.log("Deleting course with ID:", cid);
@@ -190,12 +197,17 @@ function Manage() {
   };
 
   const filteredCoursesByName = filteredCourses?.filter((course) =>
-    course.course_detail_name?.toLowerCase().includes(searchQuery?.toLowerCase())
+    course.course_detail_name
+      ?.toLowerCase()
+      .includes(searchQuery?.toLowerCase())
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredCoursesByName?.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredCoursesByName?.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const totalPages = Math.ceil(filteredCoursesByName?.length / itemsPerPage);
 
@@ -207,16 +219,20 @@ function Manage() {
     }
   };
 
-
   const formatDate = (date) => {
     const thaiYear = (new Date(date).getFullYear() + 543).toString(); // Get the last two digits of the Buddhist Era year
-    return new Date(date).toLocaleDateString("en-GB").replace(new Date(date).getFullYear(), thaiYear);
+    return new Date(date)
+      .toLocaleDateString("en-GB")
+      .replace(new Date(date).getFullYear(), thaiYear);
   };
 
   return (
     <Main>
       {/* Hero Section */}
-      <div className="container-fluid page-header py-5 mb-5 wow fadeIn hero-section" data-wow-delay="0.1s">
+      <div
+        className="container-fluid page-header py-5 mb-5 wow fadeIn hero-section"
+        data-wow-delay="0.1s"
+      >
         {/* Content */}
       </div>
 
@@ -226,10 +242,17 @@ function Manage() {
             <h2 className="text-center">Manage Courses</h2>
           </div>
           <div className="col-auto d-flex align-items-center">
-            <DownloadButton className="download-button" onClick={handleDownload}></DownloadButton>
-            <p style={{ paddingRight: '5px' }}> </p>
+            <DownloadButton
+              className="download-button"
+              onClick={handleDownload}
+            ></DownloadButton>
+            <p style={{ paddingRight: "5px" }}> </p>
 
-            <select className="form-select" value={filter} onChange={handleFilterChange}>
+            <select
+              className="form-select"
+              value={filter}
+              onChange={handleFilterChange}
+            >
               <option value="all">All Courses</option>
               <option value="basic">Basic Courses</option>
               <option value="retreat">Retreat Courses</option>
@@ -241,7 +264,6 @@ function Manage() {
               value={selectedYear}
               onChange={(e) => handleYearChange(e.target.value)}
             />
-
           </div>
         </div>
 
@@ -250,120 +272,210 @@ function Manage() {
             <table>
               <thead>
                 <tr>
-                  <th scope="col" className="pink-th" style={{ width: '2%' }}>id</th>
-                  <th scope="col" className="pink-th" style={{ width: '12%' }}>Course Name</th>
-                  <th scope="col" className="pink-th" style={{ width: '24%' }}>Description</th>
-                  <th scope="col" className="pink-th" style={{ width: '10%', cursor: 'pointer' }} onClick={() => handleSort("start_date")}>
-                    Start Date {sortColumn === "start_date" && (
-                      <i className={`bi ${sortDirection === "asc" ? "bi-caret-up-fill" : "bi-caret-down-fill"}`}></i>
+                  <th scope="col" className="pink-th" style={{ width: "2%" }}>
+                    id
+                  </th>
+                  <th scope="col" className="pink-th" style={{ width: "12%" }}>
+                    Course Name
+                  </th>
+                  <th scope="col" className="pink-th" style={{ width: "24%" }}>
+                    Description
+                  </th>
+                  <th
+                    scope="col"
+                    className="pink-th"
+                    style={{ width: "10%", cursor: "pointer" }}
+                    onClick={() => handleSort("start_date")}
+                  >
+                    Start Date{" "}
+                    {sortColumn === "start_date" && (
+                      <i
+                        className={`bi ${
+                          sortDirection === "asc"
+                            ? "bi-caret-up-fill"
+                            : "bi-caret-down-fill"
+                        }`}
+                      ></i>
                     )}
                   </th>
-                  <th scope="col" className="pink-th" style={{ width: '8%' }}>End Date</th>
-                  <th scope="col" className="pink-th" style={{ width: '10%' }}>Place</th>
-                  <th scope="col" className="pink-th" style={{ width: '6%' }}>Course Type</th>
-                  <th scope="col" className="pink-th" style={{ width: '6%' }}>Enrollments</th>
-                  <th scope="col" className="pink-th" style={{ width: '8%' }}>Publish Status</th>
-                  <th scope="col" className="pink-th" style={{ width: '14%' }}>Actions</th>
+                  <th scope="col" className="pink-th" style={{ width: "8%" }}>
+                    End Date
+                  </th>
+                  <th scope="col" className="pink-th" style={{ width: "10%" }}>
+                    Place
+                  </th>
+                  <th scope="col" className="pink-th" style={{ width: "6%" }}>
+                    Course Type
+                  </th>
+                  <th scope="col" className="pink-th" style={{ width: "6%" }}>
+                    Enrollments
+                  </th>
+                  <th scope="col" className="pink-th" style={{ width: "8%" }}>
+                    Publish Status
+                  </th>
+                  <th scope="col" className="pink-th" style={{ width: "14%" }}>
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {currentItems ? (currentItems?.map((course) => (
-                  <tr key={course.train_course_id} style={{ borderBottom: '1px solid #D3D3D3', verticalAlign: 'top', textAlign: 'right' }}>
-                    <td>{course.train_course_id}</td>
-                    <td>{course.course_detail_name}</td>
-                    <td>{course.train_detail}</td>
-                    <td>{formatDate(course.start_date)}</td>
-                    <td>{formatDate(course.finish_date)}</td>
-                    <td>{course.train_place}</td>
-                    <td>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
-                    <td><Quantity courseId={course.train_course_id} /></td>
-                    <td>
-                      <label className="switch">
-                        <input
-                          id={`publish-checkbox-${course.train_course_id}`}
-                          type="checkbox"
-                          checked={isPublishStatus[course.train_course_id]}
-                          onChange={() => handleCheckboxChange(course.train_course_id)}
-                        />
-                        <div className="slider">
-                          <div className="circle">
-                            <svg
-                              className="cross"
-                              xmlSpace="preserve"
-                              style={{ enableBackground: "new 0 0 512 512" }}
-                              viewBox="0 0 365.696 365.696"
-                              y="0"
-                              x="0"
-                              height="6"
-                              width="6"
-                              xmlnsXlink="http://www.w3.org/1999/xlink"
-                              version="1.1"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g>
-                                <path
-                                  data-original="#000000"
-                                  fill="currentColor"
-                                  d="M243.188 182.86 356.32 69.726c12.5-12.5 12.5-32.766 0-45.247L341.238 9.398c-12.504-12.503-32.77-12.503-45.25 0L182.86 122.528 69.727 9.374c-12.5-12.5-32.766-12.5-45.247 0L9.375 24.457c-12.5 12.504-12.5 32.77 0 45.25l113.152 113.152L9.398 295.99c-12.503 12.503-12.503 32.769 0 45.25L24.48 356.32c12.5 12.5 32.766 12.5 45.247 0l113.132-113.132L295.99 356.32c12.503 12.5 32.769 12.5 45.25 0l15.081-15.082c12.5-12.504 12.5-32.77 0-45.25zm0 0"
-                                ></path>
-                              </g>
-                            </svg>
-                            <svg
-                              className="checkmark"
-                              xmlSpace="preserve"
-                              style={{ enableBackground: "new 0 0 512 512" }}
-                              viewBox="0 0 24 24"
-                              y="0"
-                              x="0"
-                              height="10"
-                              width="10"
-                              xmlnsXlink="http://www.w3.org/1999/xlink"
-                              version="1.1"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g>
-                                <path
-                                  className=""
-                                  data-original="#000000"
-                                  fill="currentColor"
-                                  d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
-                                ></path>
-                              </g>
-                            </svg>
+                {currentItems ? (
+                  currentItems?.map((course) => (
+                    <tr
+                      key={course.train_course_id}
+                      style={{
+                        borderBottom: "1px solid #D3D3D3",
+                        verticalAlign: "top",
+                        textAlign: "right",
+                      }}
+                    >
+                      <td>{course.train_course_id}</td>
+                      <td>{course.course_detail_name}</td>
+                      <td>{course.train_detail}</td>
+                      <td>{formatDate(course.start_date)}</td>
+                      <td>{formatDate(course.finish_date)}</td>
+                      <td>{course.train_place}</td>
+                      <td>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
+                      <td>
+                        <Quantity courseId={course.train_course_id} />
+                      </td>
+                      <td>
+                        <label className="switch">
+                          <input
+                            id={`publish-checkbox-${course.train_course_id}`}
+                            type="checkbox"
+                            checked={isPublishStatus[course.train_course_id]}
+                            onChange={() =>
+                              handleCheckboxChange(course.train_course_id)
+                            }
+                          />
+                          <div className="slider">
+                            <div className="circle">
+                              <svg
+                                className="cross"
+                                xmlSpace="preserve"
+                                style={{ enableBackground: "new 0 0 512 512" }}
+                                viewBox="0 0 365.696 365.696"
+                                y="0"
+                                x="0"
+                                height="6"
+                                width="6"
+                                xmlnsXlink="http://www.w3.org/1999/xlink"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <g>
+                                  <path
+                                    data-original="#000000"
+                                    fill="currentColor"
+                                    d="M243.188 182.86 356.32 69.726c12.5-12.5 12.5-32.766 0-45.247L341.238 9.398c-12.504-12.503-32.77-12.503-45.25 0L182.86 122.528 69.727 9.374c-12.5-12.5-32.766-12.5-45.247 0L9.375 24.457c-12.5 12.504-12.5 32.77 0 45.25l113.152 113.152L9.398 295.99c-12.503 12.503-12.503 32.769 0 45.25L24.48 356.32c12.5 12.5 32.766 12.5 45.247 0l113.132-113.132L295.99 356.32c12.503 12.5 32.769 12.5 45.25 0l15.081-15.082c12.5-12.504 12.5-32.77 0-45.25zm0 0"
+                                  ></path>
+                                </g>
+                              </svg>
+                              <svg
+                                className="checkmark"
+                                xmlSpace="preserve"
+                                style={{ enableBackground: "new 0 0 512 512" }}
+                                viewBox="0 0 24 24"
+                                y="0"
+                                x="0"
+                                height="10"
+                                width="10"
+                                xmlnsXlink="http://www.w3.org/1999/xlink"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <g>
+                                  <path
+                                    className=""
+                                    data-original="#000000"
+                                    fill="currentColor"
+                                    d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                  ></path>
+                                </g>
+                              </svg>
+                            </div>
                           </div>
+                        </label>
+                      </td>
+                      <td style={{ borderBottom: "1px solid #D3D3D3" }}>
+                        <div
+                          className="btn-group"
+                          role="group"
+                          style={{ marginRight: "5px", marginBottom: "5px" }}
+                        >
+                          <Link to={`/detail/${course.train_course_id}`}>
+                            <button
+                              className="btn btn-sm"
+                              aria-label="Detail"
+                              style={{
+                                backgroundColor: "#ff69b4",
+                                color: "white",
+                              }} // สีชมพูแดงอ่อน
+                            >
+                              <i className="bi bi-eye"></i>
+                            </button>
+                          </Link>
                         </div>
-                      </label>
-                    </td>
-                    <td style={{ borderBottom: '1px solid #D3D3D3' }}>
-                      <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
-                        <Link to={`/detail/${course.train_course_id}`}>
-                          <button className="btn btn-sm  btn-secondary" aria-label="Detail">
-                            <i className="bi bi-eye"></i>
+                        <div
+                          className="btn-group"
+                          role="group"
+                          style={{ marginRight: "5px", marginBottom: "5px" }}
+                        >
+                          <Link to={`/enrollManage/${course.train_course_id}`}>
+                            <button
+                              className="btn btn-sm"
+                              aria-label="View Students"
+                              style={{
+                                backgroundColor: "#ff1493",
+                                color: "white",
+                              }} // สีชมพูเข้ม
+                            >
+                              <i className="bi bi-people"></i>
+                            </button>
+                          </Link>
+                        </div>
+                        <div
+                          className="btn-group"
+                          role="group"
+                          style={{ marginRight: "5px", marginBottom: "5px" }}
+                        >
+                          <Link to={`/update/${course.train_course_id}`}>
+                            <button
+                              className="btn btn-sm"
+                              aria-label="Edit"
+                              style={{
+                                backgroundColor: "#DDA0DD",
+                                color: "white",
+                              }} // สีม่วงอ่อน
+                            >
+                              <i className="bi bi-pencil"></i>
+                            </button>
+                          </Link>
+                        </div>
+                        <div
+                          className="btn-group"
+                          role="group"
+                          style={{ marginRight: "5px", marginBottom: "5px" }}
+                        >
+                          <button
+                            onClick={() => handleDelete(course.train_course_id)}
+                            className="btn btn-sm"
+                            aria-label="Delete"
+                            style={{
+                              backgroundColor: "#ff5c5c",
+                              color: "white",
+                            }} // สีแดงเชอร์รี่
+                          >
+                            <i className="bi bi-trash"></i>
                           </button>
-                        </Link>
-                      </div>
-                      <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
-                        <Link to={`/enrollManage/${course.train_course_id}`}>
-                          <button className="btn btn-sm btn-info" aria-label="View Students">
-                            <i className="bi bi-people"></i>
-                          </button>
-                        </Link>
-                      </div>
-                      <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
-                        <Link to={`/update/${course.train_course_id}`}>
-                          <button className="btn btn-sm btn-primary" aria-label="Edit">
-                            <i className="bi bi-pencil"></i>
-                          </button>
-                        </Link>
-                      </div>
-                      <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
-                        <button onClick={() => handleDelete(course.train_course_id)} className="btn btn-sm btn-danger" aria-label="Delete">
-                          <i className="bi bi-trash"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))) : (<div>No Course Data.</div>)}
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <div>No Course Data.</div>
+                )}
               </tbody>
             </table>
           </div>
@@ -372,11 +484,28 @@ function Manage() {
         <div className="row">
           <div className="col">
             <div className="pagination">
-              <button href="#" onClick={() => handleClick("prev")} className={`previous-btn ${currentPage === 1 ? 'disabled' : ''}`} disabled={currentPage === 1}>
+              <button
+                href="#"
+                onClick={() => handleClick("prev")}
+                className={`previous-btn ${
+                  currentPage === 1 ? "disabled" : ""
+                }`}
+                disabled={currentPage === 1}
+              >
                 &laquo; Previous
               </button>
-              <span style={{ padding: '5px' }} className="btn pagination-span"> Page {currentPage} of {totalPages} </span>
-              <button href="#" onClick={() => handleClick("next")} className={`next-btn ${currentPage === totalPages ? 'disabled' : ''}`} disabled={currentPage === totalPages}>
+              <span style={{ padding: "5px" }} className="btn pagination-span">
+                {" "}
+                Page {currentPage} of {totalPages}{" "}
+              </span>
+              <button
+                href="#"
+                onClick={() => handleClick("next")}
+                className={`next-btn ${
+                  currentPage === totalPages ? "disabled" : ""
+                }`}
+                disabled={currentPage === totalPages}
+              >
                 Next &raquo;
               </button>
             </div>
@@ -385,13 +514,27 @@ function Manage() {
       </div>
       {/* Courses Section End */}
 
-      <Link to={"/insert"}><a className="circle-button">+</a></Link>
+      <Link to={"/insert"}>
+        <a className="circle-button">+</a>
+      </Link>
 
       <a>
-        <div ref={searchWrapperRef} className={`search-wrapper ${isActive ? "active" : ""}`}>
+        <div
+          ref={searchWrapperRef}
+          className={`search-wrapper ${isActive ? "active" : ""}`}
+        >
           <div className="input-holder">
-            <input type="text" className="search-input" placeholder="Type to search" value={searchQuery} onChange={handleInputChange} autoFocus={isActive} />
-            <button className="search-icon" onClick={toggleSearch}><span></span></button>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Type to search"
+              value={searchQuery}
+              onChange={handleInputChange}
+              autoFocus={isActive}
+            />
+            <button className="search-icon" onClick={toggleSearch}>
+              <span></span>
+            </button>
           </div>
           <span className="close" onClick={toggleSearch}></span>
         </div>
