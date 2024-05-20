@@ -303,7 +303,7 @@ function Detail(props) {
             <h3>Enrollment successfully</h3>
             <hr />
             <p>Course: {course.course_detail_name}</p>
-            <p>Date: {course.start_date}</p>
+            <p>Date: {formatDate(course.start_date, course.finish_date)}</p>
             <p>Place: {course.train_place}</p>
             <button className="btn btn-primary" onClick={handleConfirm}>
               Confirm
