@@ -64,7 +64,7 @@ function Course(props) {
       const basicCounts = await Promise.all(
         basicCoursesData.map(async (course) => {
           const enrollResponse = await fetch(`${apiUrl}/enroll/getEnrollCount/${course.train_course_id}`);
-          const enrollData = await enrollResponse.json();
+          const enrollData = await enrollResponse?.json();
           return { courseId: course.train_course_id, count: enrollData.count };
         })
       );

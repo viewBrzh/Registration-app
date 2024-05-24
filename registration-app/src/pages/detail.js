@@ -30,7 +30,8 @@ function Detail(props) {
       })
       .catch((error) => console.error("Error fetching data:", error));
 
-    fetch(`${apiUrl}/course/get-all`)
+      const currentYearBE = new Date().getFullYear() + 543;
+      fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
