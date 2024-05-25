@@ -100,6 +100,11 @@ const UserTableEx = () => {
     setCurrentPage(1); // Reset to first page when branch changes
   };
 
+  const filteredBranches = users
+    .filter((user) => user.department === ownerDepartment)
+    .map((user) => user.branch)
+    .filter((branch, index, self) => self.indexOf(branch) === index);
+
   return (
     <div className="container" style={{ overflowX: "auto" }}>
       <div className="row">
@@ -115,18 +120,11 @@ const UserTableEx = () => {
                 style={{ width: "130px" }}
               >
                 <option value="">All Branch</option>
-                {Object.values(users)
-                  .reduce((acc, user) => {
-                    if (!acc.includes(user.branch)) {
-                      acc.push(user.branch);
-                    }
-                    return acc;
-                  }, [])
-                  .map((branch) => (
-                    <option key={branch} value={branch}>
-                      {branch}
-                    </option>
-                  ))}
+                {filteredBranches.map((branch) => (
+                  <option key={branch} value={branch}>
+                    {branch}
+                  </option>
+                ))}
               </select>
             </>
           </div>
