@@ -10,7 +10,11 @@ import UserTableEx from "../components/userTableEx";
 function DashboardExecutive() {
   // Ref for the chart canvas
   const chartRef1 = useRef(null);
-  const enrollmentsChartRef = useRef(null); // Added useRef for enrollment chart
+  const enrollmentsChartRef = useRef(null);
+  const branchChartRef = useRef(null);
+  const [branchData, setBranchData] = useState([]);
+  const [branchscount, setBranchsCount] = useState(0);
+  const [branchsWithCriteriaCount, setbranchsWithCriteriaCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [criteria, setCriteria] = useState();
   const storedYear = localStorage.getItem("selectedYear");
@@ -42,6 +46,48 @@ function DashboardExecutive() {
           (user) => user.status === "Enrolled" || user.status === "Pass"
         );
         setEnrolled(enrolledUsers);
+
+        // Fetch branch names and enrollment counts
+        const branchsResponse = await fetch(`${apiUrl}/user/branch`);
+        if (!branchsResponse.ok) {
+          throw new Error("Failed to fetch branch");
+        }
+        const barnchsData = await branchsResponse.json();
+        let passCriteriaCount = 0;
+
+        // Fetch enrollment counts for each barnch
+        const branchEnrollmentData = await Promise.all(
+          barnchsData.map(async (barnch) => {
+            const barnchResponse = await fetch(
+              `${apiUrl}/enroll/countDepartmentByYear/${barnch.barnch}/${storedYear}`
+            );
+            if (!barnchResponse.ok) {
+              throw new Error(
+                `Failed to fetch enroll count for barnch ${barnch.barnch}`
+              );
+            }
+            const barnchEnrollData = await barnchResponse.json();
+            console.log(barnchEnrollData + ": barnchEnrollData");
+
+            let pass = barnchEnrollData >= criteria;
+            // Check if the barnch meets the criteria and increment the count
+            if (pass) {
+              passCriteriaCount++;
+            }
+            return {
+              barnchName: barnch.barnch,
+              quantity: barnchEnrollData,
+              pass: pass,
+            };
+          })
+        );
+
+        setBranchData(branchEnrollmentData);
+        setBranchsCount(branchEnrollmentData.length);
+        console.log(passCriteriaCount, criteria);
+        setbranchsWithCriteriaCount(
+          branchEnrollmentData.filter((branch) => branch.pass).length
+        );
       } catch (error) {
         throw error;
       }
@@ -201,6 +247,71 @@ function DashboardExecutive() {
       },
     },
   };
+
+  useEffect(() => {
+    if (branchChartRef.current) {
+      const ctx2 = branchChartRef.current.getContext("2d");
+      if (branchChartRef.current.chart) {
+        branchChartRef.current.chart.destroy();
+      }
+
+      const data2 = {
+        labels: branchData.map((data) => data.branchName), // เปลี่ยนจาก departmentName เป็น branchName
+        datasets: [
+          {
+            label: "Branch Criteria", // เปลี่ยนชื่อ label ให้เหมาะสม
+            data: branchData.map((data) => data.quantity), // ใช้ branchData แทน
+            backgroundColor: branchData.map((data) =>
+              data.quantity >= criteria
+                ? "rgba(54, 162, 235, 0.2)"
+                : "rgba(255, 99, 132, 0.2)"
+            ),
+            borderColor: branchData.map((data) =>
+              data.quantity >= criteria
+                ? "rgba(54, 162, 235, 1)"
+                : "rgba(255, 99, 132, 1)"
+            ),
+            borderWidth: 1,
+          },
+        ],
+      };
+
+      const options2 = {
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.dataset.label || "";
+                if (context.parsed.y >= criteria) {
+                  return `Passed the criteria: ${label}`;
+                } else {
+                  return `Not pass the criteria: ${label}`;
+                }
+              },
+            },
+          },
+          dataLabels: {
+            display: true,
+            color: "black",
+            font: {
+              weight: "bold",
+            },
+            formatter: (value) => {
+              return value;
+            },
+          },
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+      };
+
+      branchChartRef.current.chart = new ChartAuto(ctx2, {
+        type: "bar",
+        data: data2,
+        options: options2,
+      });
+    }
+  }, [branchData]);
 
   useEffect(() => {
     if (enrollmentsChartRef.current) {
@@ -400,6 +511,28 @@ function DashboardExecutive() {
                   ></canvas>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container-fluid wow fadeIn">
+        <div className="details d-flex">
+          <div className="recentOrders">
+            <div className="cardHeader">
+              <h2>Branch Chart</h2>
+            </div>
+            <br></br>
+            <div className="chart-container">
+              <canvas
+                style={{
+                  maxHeight: 400,
+                  overflowX: "auto",
+                  margin: "0 auto",
+                }}
+                ref={branchChartRef} // เปลี่ยน ref ให้ตรงกับ branchChartRef
+                id="branchChart" // เปลี่ยน id ให้เหมาะสม
+              ></canvas>
             </div>
           </div>
         </div>

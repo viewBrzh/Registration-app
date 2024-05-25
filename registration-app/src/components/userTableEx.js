@@ -10,6 +10,8 @@ const UserTableEx = () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
   const ownerDepartment = userData?.department || ""; // เพิ่มเพื่อดึง department ของเจ้าของจาก localStorage
 
+  const [selectedBranch, setSelectedBranch] = useState("");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,7 +44,7 @@ const UserTableEx = () => {
     };
 
     fetchData();
-  }, []);
+  }, [storedYear]);
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -60,7 +62,10 @@ const UserTableEx = () => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = users
       .filter(
-        (user) => user.role !== "admin" && user.department === ownerDepartment
+        (user) =>
+          user.role !== "admin" &&
+          user.department === ownerDepartment &&
+          (selectedBranch === "" || user.branch === selectedBranch)
       )
       .slice(indexOfFirstItem, indexOfLastItem);
 
@@ -71,6 +76,7 @@ const UserTableEx = () => {
         <td>{user.email}</td>
         <td>{user.phone}</td>
         <td>{user.department}</td>
+        <td>{user.branch}</td>
         <td>
           <span className={`status ${getStatusClass(user.status)}`}>
             {user.status}
@@ -82,15 +88,48 @@ const UserTableEx = () => {
 
   const totalPages = Math.ceil(
     users.filter(
-      (user) => user.role !== "admin" && user.department === ownerDepartment
+      (user) =>
+        user.role !== "admin" &&
+        user.department === ownerDepartment &&
+        (selectedBranch === "" || user.branch === selectedBranch)
     ).length / itemsPerPage
   );
 
+  const handleBranchChange = (evt) => {
+    setSelectedBranch(evt.target.value);
+    setCurrentPage(1); // Reset to first page when branch changes
+  };
+
   return (
-    <div className="container">
+    <div className="container" style={{ overflowX: "auto" }}>
       <div className="row">
         <div className="col">
           <h2>User Table</h2>
+          <div className="col-auto d-flex align-items-center">
+            <>
+              <select
+                id="branchFilter"
+                className="form-select me-2"
+                value={selectedBranch}
+                onChange={handleBranchChange}
+                style={{ width: "130px" }}
+              >
+                <option value="">All Branch</option>
+                {Object.values(users)
+                  .reduce((acc, user) => {
+                    if (!acc.includes(user.branch)) {
+                      acc.push(user.branch);
+                    }
+                    return acc;
+                  }, [])
+                  .map((branch) => (
+                    <option key={branch} value={branch}>
+                      {branch}
+                    </option>
+                  ))}
+              </select>
+            </>
+          </div>
           <table className="table">
             <thead>
               <tr>
@@ -99,13 +138,14 @@ const UserTableEx = () => {
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Department</th>
+                <th>Branch</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="6">Loading...</td>
+                  <td colSpan="7">Loading...</td>
                 </tr>
               ) : (
                 renderTableData()

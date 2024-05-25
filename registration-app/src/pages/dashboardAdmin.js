@@ -112,7 +112,7 @@ function DashboardAdmin() {
             return {
               departmentName: department.department,
               quantity: departmentEnrollData,
-              pass: pass
+              pass: pass,
             };
           })
         );
@@ -120,10 +120,10 @@ function DashboardAdmin() {
         // Set the department data and counts in state
         setDepartmentData(departmentEnrollmentData);
         setDepartmentsCount(departmentEnrollmentData.length);
-        console.log(passCriteriaCount , criteria);
+        console.log(passCriteriaCount, criteria);
         setDepartmentsWithCriteriaCount(
-          departmentEnrollmentData.filter(
-          (department) => department.pass).length
+          departmentEnrollmentData.filter((department) => department.pass)
+            .length
         );
 
         const userCountResponse = await fetch(`${apiUrl}/user/userCount`, {
