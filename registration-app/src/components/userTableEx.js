@@ -8,9 +8,10 @@ const UserTableEx = () => {
   const [loading, setLoading] = useState(true);
   const storedYear = JSON.parse(localStorage.getItem("selectedYear"));
   const userData = JSON.parse(localStorage.getItem("userData"));
-  const ownerDepartment = userData?.department || ""; // เพิ่มเพื่อดึง department ของเจ้าของจาก localStorage
+  const ownerFaculty = userData?.faculty || ""; // เพิ่มเพื่อดึง department ของเจ้าของจาก localStorage
+  const count = 0;
 
-  const [selectedBranch, setSelectedBranch] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +45,7 @@ const UserTableEx = () => {
     };
 
     fetchData();
-  }, [storedYear]);
+  }, [storedYear, userData, ownerFaculty]);
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -64,19 +65,19 @@ const UserTableEx = () => {
       .filter(
         (user) =>
           user.role !== "admin" &&
-          user.department === ownerDepartment &&
-          (selectedBranch === "" || user.branch === selectedBranch)
+          user.faculty === ownerFaculty &&
+          (selectedDepartment === "" || user.department === selectedDepartment)
       )
       .slice(indexOfFirstItem, indexOfLastItem);
 
-    return currentItems.map((user, index) => (
-      <tr key={index}>
+    return currentItems.map((user) => (
+      <tr key={user.user_id}>
         <td>{user.user_id}</td>
         <td>{user.username}</td>
         <td>{user.email}</td>
         <td>{user.phone}</td>
+        <td>{user.faculty}</td>
         <td>{user.department}</td>
-        <td>{user.branch}</td>
         <td>
           <span className={`status ${getStatusClass(user.status)}`}>
             {user.status}
@@ -90,23 +91,23 @@ const UserTableEx = () => {
     users.filter(
       (user) =>
         user.role !== "admin" &&
-        user.department === ownerDepartment &&
-        (selectedBranch === "" || user.branch === selectedBranch)
+        user.faculty === ownerFaculty &&
+        (selectedDepartment === "" || user.department === selectedDepartment)
     ).length / itemsPerPage
   );
 
   const handleBranchChange = (evt) => {
-    setSelectedBranch(evt.target.value);
+    setSelectedDepartment(evt.target.value);
     setCurrentPage(1); // Reset to first page when branch changes
   };
 
-  const filteredBranches = users
-    .filter((user) => user.department === ownerDepartment)
-    .map((user) => user.branch)
-    .filter((branch, index, self) => self.indexOf(branch) === index);
+  const filteredDepartment = users
+    .filter((user) => user.faculty === ownerFaculty)
+    .map((user) => user.department)
+    .filter((department, index, self) => self.indexOf(department) === index);
 
   return (
-    <div className="container" style={{ overflowX: "auto" }}>
+    <div className="container">
       <div className="row">
         <div className="col">
           <h2>User Table</h2>
@@ -115,28 +116,28 @@ const UserTableEx = () => {
               <select
                 id="branchFilter"
                 className="form-select me-2"
-                value={selectedBranch}
+                value={selectedDepartment}
                 onChange={handleBranchChange}
-                style={{ width: "130px" }}
+                style={{ width: "auto" }}
               >
-                <option value="">All Branch</option>
-                {filteredBranches.map((branch) => (
-                  <option key={branch} value={branch}>
-                    {branch}
+                <option value="">All Department</option>
+                {filteredDepartment.map((department) => (
+                  <option key={department} value={department}>
+                    {department}
                   </option>
                 ))}
               </select>
             </>
           </div>
-          <table className="table">
+          <table className="table" style={{ overflowX: "auto" }}>
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Faculty</th>
                 <th>Department</th>
-                <th>Branch</th>
                 <th>Status</th>
               </tr>
             </thead>

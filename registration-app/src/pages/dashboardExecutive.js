@@ -31,12 +31,12 @@ function DashboardExecutive() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const department = userdata.department;
+        const faculty = userdata.faculty;
         const subordinateResponse = await fetch(
-          `${apiUrl}/enroll/getUser/${department}/${storedYear}`
+          `${apiUrl}/enroll/getUser/${faculty}/${storedYear}`
         );
         if (!subordinateResponse.ok) {
-          throw new Error("Failed to fetch departments");
+          throw new Error("Failed to fetch facultys");
         }
         const subordinatedata = await subordinateResponse.json();
         setusersub(subordinatedata);
@@ -48,22 +48,22 @@ function DashboardExecutive() {
         setEnrolled(enrolledUsers);
 
         // Fetch branch names and enrollment counts
-        const branchsResponse = await fetch(`${apiUrl}/user/branch`);
+        const branchsResponse = await fetch(`${apiUrl}/user/departments/${userdata.faculty}`);
         if (!branchsResponse.ok) {
-          throw new Error("Failed to fetch branch");
+          throw new Error("Failed to fetch departments");
         }
         const barnchsData = await branchsResponse.json();
         let passCriteriaCount = 0;
 
         // Fetch enrollment counts for each barnch
         const branchEnrollmentData = await Promise.all(
-          barnchsData.map(async (barnch) => {
+          barnchsData.map(async (department) => {
             const barnchResponse = await fetch(
-              `${apiUrl}/enroll/countDepartmentByYear/${barnch.barnch}/${storedYear}`
+              `${apiUrl}/enroll/countFacultyByYear/${department.department}/${storedYear}`
             );
             if (!barnchResponse.ok) {
               throw new Error(
-                `Failed to fetch enroll count for barnch ${barnch.barnch}`
+                `Failed to fetch enroll count for barnch ${department.department}`
               );
             }
             const barnchEnrollData = await barnchResponse.json();
@@ -75,7 +75,7 @@ function DashboardExecutive() {
               passCriteriaCount++;
             }
             return {
-              barnchName: barnch.barnch,
+              barnchName: department.department,
               quantity: barnchEnrollData,
               pass: pass,
             };
@@ -84,7 +84,7 @@ function DashboardExecutive() {
 
         setBranchData(branchEnrollmentData);
         setBranchsCount(branchEnrollmentData.length);
-        console.log(passCriteriaCount, criteria);
+        console.log(passCriteriaCount, criteria, branchEnrollmentData, enrolled);
         setbranchsWithCriteriaCount(
           branchEnrollmentData.filter((branch) => branch.pass).length
         );
@@ -575,7 +575,7 @@ function DashboardExecutive() {
               backgroundColor: "#fff",
               padding: "20px",
               borderRadius: "5px",
-              maxWidth: "900px",
+              maxWidth: "1000px",
             }}
           >
             <UserTableEx />

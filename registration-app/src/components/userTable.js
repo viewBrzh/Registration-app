@@ -82,11 +82,11 @@ const UserTable = () => {
   );
 
   return (
-    <div className="container" style={{ overflowX: "auto" }}>
+    <div className="container">
       <div className="row">
         <div className="col">
           <h2>Instructor list</h2>
-          <table className="table">
+          <table className="table"  style={{ overflowX: "auto" }}>
             <thead>
               <tr>
                 <th>ID</th>
