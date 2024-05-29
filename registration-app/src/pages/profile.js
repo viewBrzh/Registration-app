@@ -103,6 +103,17 @@ function Profile() {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
 
+  const formatDate = (start_date) => {
+    const toBuddhistEra = (year) => {
+      return year + 543;
+    };
+    const formatBEYear = (date) => {
+      const year = toBuddhistEra(date.getFullYear());
+      return date.toLocaleDateString("en-GB").replace(date.getFullYear(), year);
+    };
+    return formatBEYear(new Date(start_date));
+  };
+
   return (
     <Main>
       {/* Hero Section */}
@@ -164,8 +175,8 @@ function Profile() {
               </div>
               <br />
             </div>
-            <br></br>
-
+            <br />
+            {/* User Info*/}
             <div>
               <div className="row">
                 {/* Info Card */}
@@ -192,6 +203,19 @@ function Profile() {
                       <i className="bi-custom bi-telephone-fill" />
                       {userDatas.phone}
                     </p>
+                    <hr />
+                    
+                    <div className="contact-container">
+                      <h4 className="head-h4">Interested Skills</h4>
+                      <Link
+                        to="#"
+                        className="edit-link"
+                        
+                      >
+                        Edit
+                      </Link>
+                    </div>
+
                     <hr />
                     <div className="contact-container">
                       <h4 className="head-h4">History</h4>
@@ -235,25 +259,22 @@ function Profile() {
                                   >
                                     <td>{course.course_detail_name}</td>
                                     <td>
-                                      {new Date(
-                                        course.start_date
-                                      ).toLocaleDateString("en-GB")}
+                                      {formatDate(course.start_date)}
                                     </td>
                                     <td>
                                       <span
-                                        className={`status ${
-                                          course.status === 0
-                                            ? "pending"
-                                            : course.status === 1
+                                        className={`status ${course.status === 0
+                                          ? "pending"
+                                          : course.status === 1
                                             ? "pass"
                                             : "failed"
-                                        }`}
+                                          }`}
                                       >
                                         {course.status === 0
                                           ? "Pending"
                                           : course.status === 1
-                                          ? "Pass"
-                                          : "Failed"}
+                                            ? "Pass"
+                                            : "Failed"}
                                       </span>
                                     </td>
                                   </tr>
@@ -263,9 +284,8 @@ function Profile() {
                         </div>
                         <div className="d-flex justify-content-center">
                           <button
-                            className={`btn previous-btn ${
-                              currentPage === 1 ? "disabled" : ""
-                            }`}
+                            className={`btn previous-btn ${currentPage === 1 ? "disabled" : ""
+                              }`}
                             onClick={handlePreviousPage}
                             disabled={currentPage === 1}
                           >
@@ -276,9 +296,8 @@ function Profile() {
                             {currentPage} of {totalPages}{" "}
                           </span>
                           <button
-                            className={`next-btn ${
-                              currentPage === totalPages ? "disabled" : ""
-                            }`}
+                            className={`next-btn ${currentPage === totalPages ? "disabled" : ""
+                              }`}
                             onClick={handleNextPage}
                             disabled={currentPage === totalPages}
                           >
@@ -525,19 +544,18 @@ function Profile() {
                           </td>
                           <td>
                             <span
-                              className={`status ${
-                                course.status === 0
-                                  ? "waiting"
-                                  : course.status === 1
+                              className={`status ${course.status === 0
+                                ? "waiting"
+                                : course.status === 1
                                   ? "finish"
                                   : "failed"
-                              }`}
+                                }`}
                             >
                               {course.status === 0
                                 ? "waiting"
                                 : course.status === 1
-                                ? "finish"
-                                : "failed"}
+                                  ? "finish"
+                                  : "failed"}
                             </span>
                           </td>
                         </tr>

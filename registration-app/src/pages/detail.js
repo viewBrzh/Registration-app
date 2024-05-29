@@ -177,7 +177,8 @@ function Detail(props) {
                     {course.skills.split(", ").map((skill, index) => (
                       <button key={index}>{skill}</button>
                     ))}
-                  </div></span>
+                  </div>
+                  </span>
                 </div>
               </div>
             </div>

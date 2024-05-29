@@ -52,31 +52,34 @@ function DashboardExecutive() {
         if (!branchsResponse.ok) {
           throw new Error("Failed to fetch departments");
         }
-        const barnchsData = await branchsResponse.json();
+        const branchsData = await branchsResponse.json();
+        console.log(branchsData);
         let passCriteriaCount = 0;
 
         // Fetch enrollment counts for each barnch
         const branchEnrollmentData = await Promise.all(
-          barnchsData.map(async (department) => {
-            const barnchResponse = await fetch(
-              `${apiUrl}/enroll/countFacultyByYear/${department.department}/${storedYear}`
+          branchsData.map(async (department) => {
+            const branchResponse = await fetch(
+              `${apiUrl}/enroll/countDepartmentByYear/${department.department}/${storedYear}`
             );
-            if (!barnchResponse.ok) {
+            if (!branchResponse.ok) {
               throw new Error(
-                `Failed to fetch enroll count for barnch ${department.department}`
+                `Failed to fetch enroll count for branch ${department.department}`
               );
             }
-            const barnchEnrollData = await barnchResponse.json();
-            console.log(barnchEnrollData + ": barnchEnrollData");
-
-            let pass = barnchEnrollData >= criteria;
-            // Check if the barnch meets the criteria and increment the count
+            const branchEnrollData = await branchResponse.json();
+            console.log(branchEnrollData + ": branchEnrollData");
+        
+            const enrollCount = parseInt(branchEnrollData, 10);
+            let pass = enrollCount >= criteria;
+        
+            // Check if the branch meets the criteria and increment the count
             if (pass) {
               passCriteriaCount++;
             }
             return {
-              barnchName: department.department,
-              quantity: barnchEnrollData,
+              branchName: department.department,
+              quantity: enrollCount,
               pass: pass,
             };
           })
@@ -88,6 +91,10 @@ function DashboardExecutive() {
         setbranchsWithCriteriaCount(
           branchEnrollmentData.filter((branch) => branch.pass).length
         );
+
+        const courseTypeRes = await fetch(`${apiUrl}/enroll/getCourseType/${userdata.faculty}/${storedYear}`);
+        const courseTypeData = await courseTypeRes.json();
+        setEnrollmentData(courseTypeData);
       } catch (error) {
         throw error;
       }
@@ -186,67 +193,7 @@ function DashboardExecutive() {
     }
   }, [enrolled.length, usersub.length]); // เพิ่ม enrolled.length เข้าไปใน dependency array เพื่อให้ useEffect ถูกเรียกใหม่เมื่อค่าเปลี่ยน
 
-  // Chart data
-  const data = {
-    labels: ["Quantity", "subordinate"],
-    datasets: [
-      {
-        label: "Course Status",
-        data: [53, 47], // Sample data for demonstration
-        backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
-        borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
-        borderWidth: 1,
-      },
-    ],
-  };
 
-  // Chart options
-  const options = {
-    plugins: {
-      legend: {
-        display: true,
-        position: "bottom",
-      },
-    },
-    responsive: true,
-    maintainAspectRatio: false, // Disable aspect ratio to allow resizing
-    layout: {
-      padding: {
-        left: 10,
-        right: 10,
-        top: 10,
-        bottom: 10,
-      },
-    },
-    scales: {
-      x: {
-        display: true,
-        title: {
-          display: true,
-          text: "Course Status",
-          color: "#333",
-          font: {
-            weight: "bold",
-          },
-        },
-      },
-      y: {
-        display: true,
-        title: {
-          display: true,
-          text: "Quantity",
-          color: "#333",
-          font: {
-            weight: "bold",
-          },
-        },
-        beginAtZero: true,
-        ticks: {
-          stepSize: 50,
-        },
-      },
-    },
-  };
 
   useEffect(() => {
     if (branchChartRef.current) {
@@ -277,6 +224,18 @@ function DashboardExecutive() {
       };
 
       const options2 = {
+        scales: {
+          y: {
+            ticks: {
+              callback: function (value) {
+                if (Number.isInteger(value)) {
+                  return value;
+                }
+              },
+              stepSize: 1, // Ensure steps are in integers
+            },
+          },
+        },
         plugins: {
           tooltip: {
             callbacks: {
@@ -388,7 +347,10 @@ function DashboardExecutive() {
     // Store selected year in local storage
     localStorage.setItem("selectedYear", year);
     window.location.reload();
-  };
+  };    
+
+  console.log("Enrolled Data: "+enrolled);
+  console.log("Department Data: ");
 
   return (
     <Main>

@@ -82,22 +82,22 @@ function DashboardAdmin() {
         setPublishedCoursesCount(publishedCoursesCount);
 
         // Fetch department names and enrollment counts
-        const departmentsResponse = await fetch(`${apiUrl}/user/departments`);
-        if (!departmentsResponse.ok) {
+        const facultyResponse = await fetch(`${apiUrl}/user/faculties`);
+        if (!facultyResponse.ok) {
           throw new Error("Failed to fetch departments");
         }
-        const departmentsData = await departmentsResponse.json();
+        const facultyData = await facultyResponse.json();
         let passCriteriaCount = 0;
 
         // Fetch enrollment counts for each department
         const departmentEnrollmentData = await Promise.all(
-          departmentsData.map(async (department) => {
+          facultyData.map(async (faculty) => {
             const departmentResponse = await fetch(
-              `${apiUrl}/enroll/countDepartmentByYear/${department.department}/${storedYear}`
+              `${apiUrl}/enroll/countFacultyByYear/${faculty.faculty}/${storedYear}`
             );
             if (!departmentResponse.ok) {
               throw new Error(
-                `Failed to fetch enroll count for department ${department.department}`
+                `Failed to fetch enroll count for department ${faculty.faculty}`
               );
             }
             const departmentEnrollData = await departmentResponse.json();
@@ -110,7 +110,7 @@ function DashboardAdmin() {
             }
 
             return {
-              departmentName: department.department,
+              departmentName: faculty.faculty,
               quantity: departmentEnrollData,
               pass: pass,
             };
@@ -277,6 +277,18 @@ function DashboardAdmin() {
       };
 
       const options2 = {
+        scales: {
+          y: {
+            ticks: {
+              callback: function (value) {
+                if (Number.isInteger(value)) {
+                  return value;
+                }
+              },
+              stepSize: 1, // Ensure steps are in integers
+            },
+          },
+        },
         plugins: {
           tooltip: {
             callbacks: {
@@ -526,14 +538,14 @@ function DashboardAdmin() {
         <div className="details d-flex justify-content-center">
           <div className="recentOrders">
             <div className="cardHeader">
-              <h2>Department Chart</h2>
+              <h2>Faculty Chart</h2>
             </div>
             <br></br>
             <div className="chart-container">
               <canvas
                 style={{ maxHeight: 400, overflowX: "auto", margin: "0 auto" }}
                 ref={chartRef2}
-                id="departmentChart"
+                id="facultyChart"
               ></canvas>
             </div>
           </div>
