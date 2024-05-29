@@ -282,6 +282,16 @@
     }
 }
 
+.course-type {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    margin: auto;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
 .people-icon {
     position: absolute;
     top: 10px;

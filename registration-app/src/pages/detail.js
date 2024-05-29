@@ -67,7 +67,6 @@ function Detail(props) {
 
   const handleConfirm = () => {
     setSuccess(false);
-    navigate("/course", { replace: true });
     window.location.reload();
   };
 
@@ -122,12 +121,12 @@ function Detail(props) {
     const toBuddhistEra = (year) => {
       return year + 543;
     };
-  
+
     const formatBEYear = (date) => {
       const year = toBuddhistEra(date.getFullYear());
       return date.toLocaleDateString("en-GB").replace(date.getFullYear(), year);
     };
-  
+
     if (start_date === finish_date) {
       return formatBEYear(new Date(start_date));
     } else {
@@ -140,6 +139,8 @@ function Detail(props) {
   const handleCardClick = (courseId) => {
     navigate(`/detail/${courseId}`);
   };
+
+  console.log(filteredCourse);
 
   return (
     <Main>
@@ -200,14 +201,15 @@ function Detail(props) {
 
       {/* start Comparable courses */}
       <br />
-      <div id="basic" className="container section">
+      {filteredCourse.length > 1 && <div id="basic" className="container section">
         <br />
         <div className="row mb-4">
-          <h2 className="text-center">Similar courses</h2>
+           <h2 className="text-center">Similar courses</h2>
         </div>
         <div className="row justify-content-center section">
           {/* Map over the first 4 courses only */}
-          {filteredCourse.length > 0 && filteredCourse.slice(0, 4).map((fcourse) => (fcourse.train_course_id !== course.train_course_id &&
+          {filteredCourse.length > 0 && filteredCourse.slice(0, 4).map((fcourse) => (
+            fcourse.train_course_id !== course.train_course_id && fcourse.course_id === course.course_id &&
             (<div className="col-lg-3" key={fcourse.train_course_id}>
               <div
                 className="properties properties2 mb-30 center-div"
@@ -228,6 +230,7 @@ function Detail(props) {
                     <Link to={`/detail/${fcourse.train_course_id}`}>
                       <img src={`${apiUrl}/images/${fcourse.image}`} alt="" />
                     </Link>
+                    <div className="course-type">{course.course_id == 1 ? "Basic" : "Retreat"}</div>
                   </div>
                   <div className="properties__caption">
                     <h5>
@@ -281,7 +284,7 @@ function Detail(props) {
             </div>)
           ))}
         </div>
-      </div>
+      </div>}
 
 
       {/* Success modal */}

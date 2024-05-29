@@ -172,6 +172,7 @@ function Course(props) {
                     <Link to={`/detail/${course.train_course_id}`}>
                       <img src={`${apiUrl}/images/${course.image}`} alt="" />
                     </Link>
+                    <div className="course-type">{course.course_id == 1 ? "Basic" : "Retreat"}</div>
                     {/* People icon and number text */}
                     <div className="people-icon">
                       <i className="bi bi-people"></i>
@@ -241,6 +242,7 @@ function Course(props) {
                         <Link to={`/detail/${course.train_course_id}`}>
                           <img src={`${apiUrl}/images/${course.image}`} alt="" />
                         </Link>
+                        <div className="course-type">{course.course_id == 1 ? "Basic" : "Retreat"}</div>
                         {/* People icon and number text */}
                         <div className="people-icon">
                           <i className="bi bi-people"></i>
