@@ -145,8 +145,6 @@ function Detail(props) {
     navigate(`/detail/${courseId}`);
   };
 
-  console.log(filteredCourse);
-
   return (
     <Main>
       <div className="detail-container-wrapper">

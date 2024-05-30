@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Main from "../layouts/main";
 import { Link, useNavigate } from "react-router-dom";
 import apiUrl from "../api/apiConfig";
+import Interest from "../components/interest";
 
 function Course(props) {
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -92,18 +93,23 @@ function Course(props) {
         })
       );
 
-      // Check for basic course enrollment status
-      fetch(`${apiUrl}/enroll/getUserHistory/${userData.user_id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setCourses(data.courses);
+      if (userData != null) {
+        // Check for basic course enrollment status
+        fetch(`${apiUrl}/enroll/getUserHistory/${userData.user_id}`)
+          .then((response) => response.json())
+          .then((data) => {
+            setCourses(data.courses);
 
-          // Check if the user has completed at least one basic course
-          const hasCompleted = data.courses?.some(
-            (enrollment) => enrollment.course_id === 1 && enrollment.status === 1
-          );
-          setHasCompletedBasic(hasCompleted);
-        })
+            // Check if the user has completed at least one basic course
+            const hasCompleted = data.courses?.some(
+              (enrollment) => enrollment.course_id === 1 && enrollment.status === 1
+            );
+            setHasCompletedBasic(hasCompleted);
+          })
+      } else {
+        setHasCompletedBasic(true);
+      }
+
     };
 
     fetchCourses();
@@ -156,6 +162,8 @@ function Course(props) {
           </nav>
         </div>
       </div>
+
+      {userData && <Interest />}
 
       <div id="basic" className="container section">
         <br></br>

@@ -10,37 +10,47 @@ function Home() {
 
   useEffect(() => {
     const currentYearBE = new Date().getFullYear() + 543;
+    if (userData != null) {
+      fetch(`${apiUrl}/enroll/getUserHistory/${userData.user_id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          const hasCompleted = data.courses?.some(
+            (enrollment) => enrollment.course_id === 1 && enrollment.status === 1
+          );
+          setHasCompletedBasic(hasCompleted);
 
-    fetch(`${apiUrl}/enroll/getUserHistory/${userData.user_id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const hasCompleted = data.courses?.some(
-          (enrollment) => enrollment.course_id === 1 && enrollment.status === 1
-        );
-        setHasCompletedBasic(hasCompleted);
+          if (!hasCompleted) {
+            // If user has not completed a basic course, fetch only basic courses
+            fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`)
+              .then((response) => response.json())
+              .then((data) => {
+                const coursesData = data?.filter((course) => course.course_id === 1 && course.isPublish === 1);
+                setCourses(coursesData);
+              })
+              .catch((error) => console.error("Error fetching data:", error));
+          } else {
+            // If user has completed a basic course, fetch all courses
+            fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`)
+              .then((response) => response.json())
+              .then((data) => {
+                setCourses(data);
+              })
+              .catch((error) => console.error("Error fetching data:", error));
+          }
+        })
+        .catch((error) => console.error("Error fetching user history:", error));
+    } else {
+      fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`)
+        .then((response) => response.json())
+        .then((data) => {
+          const coursesData = data?.filter((course) => course.course_id === 1 && course.isPublish === 1);
+          setCourses(coursesData);
+        })
+        .catch((error) => console.error("Error fetching data:", error));
+    }
 
-        if (!hasCompleted) {
-          // If user has not completed a basic course, fetch only basic courses
-          fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`)
-            .then((response) => response.json())
-            .then((data) => {
-              const coursesData = data?.filter((course) => course.course_id === 1 && course.isPublish === 1);
-              setCourses(coursesData);
-            })
-            .catch((error) => console.error("Error fetching data:", error));
-        } else {
-          // If user has completed a basic course, fetch all courses
-          fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`)
-            .then((response) => response.json())
-            .then((data) => {
-              setCourses(data);
-            })
-            .catch((error) => console.error("Error fetching data:", error));
-        }
-      })
-      .catch((error) => console.error("Error fetching user history:", error));
   }, []);
-  
+
   const formatDate = (start_date, finish_date) => {
     const toBuddhistEra = (year) => {
       return year + 543;
