@@ -5,11 +5,16 @@ import { Chart as ChartAuto } from "chart.js/auto"; // Added ChartAuto import
 import CourseTable from "../components/courseTable";
 import apiUrl from "../api/apiConfig";
 import { Modal, Button, Form } from "react-bootstrap";
+import UserTableEx from "../components/userTableEx";
 
 function DashboardExecutive() {
   // Ref for the chart canvas
   const chartRef1 = useRef(null);
-  const enrollmentsChartRef = useRef(null); // Added useRef for enrollment chart
+  const enrollmentsChartRef = useRef(null);
+  const branchChartRef = useRef(null);
+  const [branchData, setBranchData] = useState([]);
+  const [branchscount, setBranchsCount] = useState(0);
+  const [branchsWithCriteriaCount, setbranchsWithCriteriaCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [criteria, setCriteria] = useState();
   const storedYear = localStorage.getItem("selectedYear");
@@ -21,16 +26,17 @@ function DashboardExecutive() {
   const userdata = JSON.parse(localStorage.getItem("userData"));
   const [usersub, setusersub] = useState([]);
   const [enrolled, setEnrolled] = useState([]);
+  const [showUser, setShowUser] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const department = userdata.department;
+        const faculty = userdata.faculty;
         const subordinateResponse = await fetch(
-          `${apiUrl}/enroll/getUser/${department}/${storedYear}`
+          `${apiUrl}/enroll/getUser/${faculty}/${storedYear}`
         );
         if (!subordinateResponse.ok) {
-          throw new Error("Failed to fetch departments");
+          throw new Error("Failed to fetch facultys");
         }
         const subordinatedata = await subordinateResponse.json();
         setusersub(subordinatedata);
@@ -40,6 +46,55 @@ function DashboardExecutive() {
           (user) => user.status === "Enrolled" || user.status === "Pass"
         );
         setEnrolled(enrolledUsers);
+
+        // Fetch branch names and enrollment counts
+        const branchsResponse = await fetch(`${apiUrl}/user/departments/${userdata.faculty}`);
+        if (!branchsResponse.ok) {
+          throw new Error("Failed to fetch departments");
+        }
+        const branchsData = await branchsResponse.json();
+        console.log(branchsData);
+        let passCriteriaCount = 0;
+
+        // Fetch enrollment counts for each barnch
+        const branchEnrollmentData = await Promise.all(
+          branchsData.map(async (department) => {
+            const branchResponse = await fetch(
+              `${apiUrl}/enroll/countDepartmentByYear/${department.department}/${storedYear}`
+            );
+            if (!branchResponse.ok) {
+              throw new Error(
+                `Failed to fetch enroll count for branch ${department.department}`
+              );
+            }
+            const branchEnrollData = await branchResponse.json();
+            console.log(branchEnrollData + ": branchEnrollData");
+        
+            const enrollCount = parseInt(branchEnrollData, 10);
+            let pass = enrollCount >= criteria;
+        
+            // Check if the branch meets the criteria and increment the count
+            if (pass) {
+              passCriteriaCount++;
+            }
+            return {
+              branchName: department.department,
+              quantity: enrollCount,
+              pass: pass,
+            };
+          })
+        );
+
+        setBranchData(branchEnrollmentData);
+        setBranchsCount(branchEnrollmentData.length);
+        console.log(passCriteriaCount, criteria, branchEnrollmentData, enrolled);
+        setbranchsWithCriteriaCount(
+          branchEnrollmentData.filter((branch) => branch.pass).length
+        );
+
+        const courseTypeRes = await fetch(`${apiUrl}/enroll/getCourseType/${userdata.faculty}/${storedYear}`);
+        const courseTypeData = await courseTypeRes.json();
+        setEnrollmentData(courseTypeData);
       } catch (error) {
         throw error;
       }
@@ -138,67 +193,84 @@ function DashboardExecutive() {
     }
   }, [enrolled.length, usersub.length]); // เพิ่ม enrolled.length เข้าไปใน dependency array เพื่อให้ useEffect ถูกเรียกใหม่เมื่อค่าเปลี่ยน
 
-  // Chart data
-  const data = {
-    labels: ["Quantity", "subordinate"],
-    datasets: [
-      {
-        label: "Course Status",
-        data: [53, 47], // Sample data for demonstration
-        backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
-        borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
-        borderWidth: 1,
-      },
-    ],
-  };
 
-  // Chart options
-  const options = {
-    plugins: {
-      legend: {
-        display: true,
-        position: "bottom",
-      },
-    },
-    responsive: true,
-    maintainAspectRatio: false, // Disable aspect ratio to allow resizing
-    layout: {
-      padding: {
-        left: 10,
-        right: 10,
-        top: 10,
-        bottom: 10,
-      },
-    },
-    scales: {
-      x: {
-        display: true,
-        title: {
-          display: true,
-          text: "Course Status",
-          color: "#333",
-          font: {
-            weight: "bold",
+
+  useEffect(() => {
+    if (branchChartRef.current) {
+      const ctx2 = branchChartRef.current.getContext("2d");
+      if (branchChartRef.current.chart) {
+        branchChartRef.current.chart.destroy();
+      }
+
+      const data2 = {
+        labels: branchData.map((data) => data.branchName), // เปลี่ยนจาก departmentName เป็น branchName
+        datasets: [
+          {
+            label: "Branch Criteria", // เปลี่ยนชื่อ label ให้เหมาะสม
+            data: branchData.map((data) => data.quantity), // ใช้ branchData แทน
+            backgroundColor: branchData.map((data) =>
+              data.quantity >= criteria
+                ? "rgba(54, 162, 235, 0.2)"
+                : "rgba(255, 99, 132, 0.2)"
+            ),
+            borderColor: branchData.map((data) =>
+              data.quantity >= criteria
+                ? "rgba(54, 162, 235, 1)"
+                : "rgba(255, 99, 132, 1)"
+            ),
+            borderWidth: 1,
+          },
+        ],
+      };
+
+      const options2 = {
+        scales: {
+          y: {
+            ticks: {
+              callback: function (value) {
+                if (Number.isInteger(value)) {
+                  return value;
+                }
+              },
+              stepSize: 1, // Ensure steps are in integers
+            },
           },
         },
-      },
-      y: {
-        display: true,
-        title: {
-          display: true,
-          text: "Quantity",
-          color: "#333",
-          font: {
-            weight: "bold",
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.dataset.label || "";
+                if (context.parsed.y >= criteria) {
+                  return `Passed the criteria: ${label}`;
+                } else {
+                  return `Not pass the criteria: ${label}`;
+                }
+              },
+            },
+          },
+          dataLabels: {
+            display: true,
+            color: "black",
+            font: {
+              weight: "bold",
+            },
+            formatter: (value) => {
+              return value;
+            },
           },
         },
-        beginAtZero: true,
-        ticks: {
-          stepSize: 50,
-        },
-      },
-    },
-  };
+        responsive: true,
+        maintainAspectRatio: false,
+      };
+
+      branchChartRef.current.chart = new ChartAuto(ctx2, {
+        type: "bar",
+        data: data2,
+        options: options2,
+      });
+    }
+  }, [branchData]);
 
   useEffect(() => {
     if (enrollmentsChartRef.current) {
@@ -275,7 +347,10 @@ function DashboardExecutive() {
     // Store selected year in local storage
     localStorage.setItem("selectedYear", year);
     window.location.reload();
-  };
+  };    
+
+  console.log("Enrolled Data: "+enrolled);
+  console.log("Department Data: ");
 
   return (
     <Main>
@@ -326,7 +401,7 @@ function DashboardExecutive() {
       {/* Page Header End */}
 
       <div className="cardBox">
-        <div className="carddash">
+        <div className="carddash" onClick={() => setShowUser(true)}>
           <div>
             <div className="cardName">Subordinate</div>
             <div className="numbers">{usersub.length}</div>
@@ -407,6 +482,28 @@ function DashboardExecutive() {
         <div className="details d-flex">
           <div className="recentOrders">
             <div className="cardHeader">
+              <h2>Branch Chart</h2>
+            </div>
+            <br></br>
+            <div className="chart-container">
+              <canvas
+                style={{
+                  maxHeight: 400,
+                  overflowX: "auto",
+                  margin: "0 auto",
+                }}
+                ref={branchChartRef} // เปลี่ยน ref ให้ตรงกับ branchChartRef
+                id="branchChart" // เปลี่ยน id ให้เหมาะสม
+              ></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container-fluid wow fadeIn">
+        <div className="details d-flex">
+          <div className="recentOrders">
+            <div className="cardHeader">
               <h2>Enrollment Chart</h2>
             </div>
             <br></br>
@@ -425,35 +522,35 @@ function DashboardExecutive() {
         </div>
       </div>
 
-      {/* Modal */}
-      <Modal
-        show={showModal}
-        backdrop="static"
-        onHide={handleCloseModal}
-        style={{ zIndex: 9999 }}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Set Criteria</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBasicUsername">
-              <Form.Label>Criteria</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter number"
-                value={criteria}
-                onChange={(e) => setCriteria(e.target.value)}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleCloseModal}>
-            Confirm
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {showUser && (
+        <div
+          className="modal d-flex justify-content-center align-items-center"
+          style={{
+            display: showModal ? "block" : "none",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            position: "fixed",
+          }}
+        >
+          <div
+            className="modal-content"
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              borderRadius: "5px",
+              maxWidth: "1000px",
+            }}
+          >
+            <UserTableEx />
+            <br />
+            <button
+              className="btn btn-cancel"
+              onClick={() => setShowUser(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </Main>
   );
 }
