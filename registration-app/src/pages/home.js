@@ -1,28 +1,62 @@
 import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
+import apiUrl from "../api/apiConfig";
 
 function Home() {
   const [courses, setCourses] = useState([]);
+  const [hasCompletedBasic, setHasCompletedBasic] = useState(false);
+  const userData = JSON.parse(localStorage.getItem("userData"));
 
   useEffect(() => {
-    fetch("http://localhost:11230/course/get-all")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
+    const currentYearBE = new Date().getFullYear() + 543;
+
+    fetch(`${apiUrl}/enroll/getUserHistory/${userData.user_id}`)
+      .then((response) => response.json())
       .then((data) => {
-        const sortedCourses = data.sort((a, b) => {
-          const dateA = new Date(a.start_date);
-          const dateB = new Date(b.start_date);
-          return dateA - dateB;
-        });
-        setCourses(sortedCourses);
+        const hasCompleted = data.courses?.some(
+          (enrollment) => enrollment.course_id === 1 && enrollment.status === 1
+        );
+        setHasCompletedBasic(hasCompleted);
+
+        if (!hasCompleted) {
+          // If user has not completed a basic course, fetch only basic courses
+          fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`)
+            .then((response) => response.json())
+            .then((data) => {
+              const coursesData = data?.filter((course) => course.course_id === 1 && course.isPublish === 1);
+              setCourses(coursesData);
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+        } else {
+          // If user has completed a basic course, fetch all courses
+          fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`)
+            .then((response) => response.json())
+            .then((data) => {
+              setCourses(data);
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+        }
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) => console.error("Error fetching user history:", error));
   }, []);
+  
+  const formatDate = (start_date, finish_date) => {
+    const toBuddhistEra = (year) => {
+      return year + 543;
+    };
+
+    const formatBEYear = (date) => {
+      const year = toBuddhistEra(date.getFullYear());
+      return date.toLocaleDateString("en-GB").replace(date.getFullYear(), year);
+    };
+
+    if (start_date === finish_date) {
+      return formatBEYear(new Date(start_date));
+    } else {
+      return `${formatBEYear(new Date(start_date))} - ${formatBEYear(new Date(finish_date))}`;
+    }
+  };
 
   const heroCourse = courses.length > 0 ? courses[0] : null;
 
@@ -73,7 +107,7 @@ function Home() {
                           }}
                         >
                           {course.train_detail} <br />
-                          {course.start_date} - {course.finish_date} <br />
+                          {formatDate(course.start_date, course.finish_date)} <br />
                           {course.train_place}
                         </p>
                         <Link

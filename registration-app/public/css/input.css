@@ -429,3 +429,13 @@
     padding: 35px 35px;
     backdrop-filter: blur(15px);
 }
+
+.close{
+    border: none;
+    font-size: 25px;
+    background-color: white;
+}
+
+.close:hover {
+    color: red;
+}

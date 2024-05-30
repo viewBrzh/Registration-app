@@ -219,11 +219,21 @@ function Manage() {
     }
   };
 
-  const formatDate = (date) => {
-    const thaiYear = (new Date(date).getFullYear() + 543).toString(); // Get the last two digits of the Buddhist Era year
-    return new Date(date)
-      .toLocaleDateString("en-GB")
-      .replace(new Date(date).getFullYear(), thaiYear);
+  const formatDate = (start_date, finish_date) => {
+    const toBuddhistEra = (year) => {
+      return year + 543;
+    };
+
+    const formatBEYear = (date) => {
+      const year = toBuddhistEra(date.getFullYear());
+      return date.toLocaleDateString("en-GB").replace(date.getFullYear(), year);
+    };
+
+    if (start_date === finish_date) {
+      return formatBEYear(new Date(start_date));
+    } else {
+      return `${formatBEYear(new Date(start_date))} - ${formatBEYear(new Date(finish_date))}`;
+    }
   };
 
   return (
@@ -278,16 +288,16 @@ function Manage() {
                   <th scope="col" className="pink-th" style={{ width: "12%" }}>
                     Course Name
                   </th>
-                  <th scope="col" className="pink-th" style={{ width: "24%" }}>
+                  <th scope="col" className="pink-th" style={{ width: "22%" }}>
                     Description
                   </th>
                   <th
                     scope="col"
                     className="pink-th"
-                    style={{ width: "10%", cursor: "pointer" }}
+                    style={{ width: "12%", cursor: "pointer" }}
                     onClick={() => handleSort("start_date")}
                   >
-                    Start Date{" "}
+                    Training Date{" "}
                     {sortColumn === "start_date" && (
                       <i
                         className={`bi ${
@@ -299,7 +309,7 @@ function Manage() {
                     )}
                   </th>
                   <th scope="col" className="pink-th" style={{ width: "8%" }}>
-                    End Date
+                    Enroll Date
                   </th>
                   <th scope="col" className="pink-th" style={{ width: "10%" }}>
                     Place
@@ -332,8 +342,8 @@ function Manage() {
                       <td>{course.train_course_id}</td>
                       <td>{course.course_detail_name}</td>
                       <td>{course.train_detail}</td>
-                      <td>{formatDate(course.start_date)}</td>
-                      <td>{formatDate(course.finish_date)}</td>
+                      <td>{formatDate(course.start_date, course.finish_date)}</td>
+                      <td>{formatDate(course.start_enroll_date, course.end_enroll_date)}</td>
                       <td>{course.train_place}</td>
                       <td>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
                       <td>

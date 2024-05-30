@@ -3,7 +3,6 @@ import Main from "../layouts/main";
 import { Link, useNavigate } from "react-router-dom";
 import { Modal, Button, Form } from "react-bootstrap";
 import FileUploadProfile from "../components/fileUploadProfile";
-import axios from "axios";
 import apiUrl from "../api/apiConfig";
 
 function Profile() {
@@ -12,6 +11,32 @@ function Profile() {
   const [skillsData, setSkillsData] = useState({});
   const [showHistory, setShowHistory] = useState(false);
   const navigate = useNavigate();
+  const [showInterest, setShowInterest] = useState(false);
+  const [InterestedSkill, setInterestedSkill] = useState([]);
+
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  useEffect(() => {
+    fetch(`${apiUrl}/interest/get/${userDatas.user_id}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setInterestedSkill(data[0].skills.split(', ')); // Use data[0] instead of course
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+
+  const handleTagSelection = (tag) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
+    }
+  };
 
   let userData = null;
   try {
@@ -29,33 +54,39 @@ function Profile() {
     }
   );
 
+  const handleSaveTags = async () => {
+    try {
+      const skillsString = selectedTags.join(', ');
+      const response = await fetch(`${apiUrl}/interest/update/${userDatas.user_id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ skills: skillsString }),
+      });
+      if (response.status === 200) {
+        alert("Interests updated successfully!");
+        setShowInterest(false);
+      } else {
+        alert("Failed to update interests.");
+      }
+    } catch (error) {
+      console.error("Error updating interests:", error);
+    }
+  };
+
   const [showModal, setShowModal] = useState(false);
 
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
 
-  const updateUser = async () => {
-    try {
-      // Update user data
-      axios.put(`${apiUrl}/user/update/${userDatas.user_id}`, userDatas);
-
-      // Fetch updated user data
-      const getUserResponse = await axios.get(
-        `${apiUrl}/user/${userDatas.user_id}`
-      );
-      const updatedUserData = getUserResponse.data[0]; // Assuming response is an array with a single object
-      setUserDatas(updatedUserData);
-      userData = userDatas;
-
-      // Update local storage with updated user data
-      localStorage.setItem("userData", JSON.stringify(userDatas));
-    } catch (error) {
-      console.error("Failed to update user data:", error);
-    }
+  const handleCloseInterest = () => setShowInterest(false);
+  const handleShowInterest = () => {
+    console.log("show interest ")
+    setShowInterest(true)
   };
 
   const handleSaveChanges = () => {
-    updateUser(userDatas.user_id, userDatas); // Pass userData instead of userDatas
     handleCloseModal();
   };
 
@@ -204,17 +235,22 @@ function Profile() {
                       {userDatas.phone}
                     </p>
                     <hr />
-                    
+
                     <div className="contact-container">
                       <h4 className="head-h4">Interested Skills</h4>
                       <Link
                         to="#"
                         className="edit-link"
-                        
+                        onClick={handleShowInterest}
                       >
                         Edit
                       </Link>
                     </div>
+                    <div className="cable-choose">
+                    {InterestedSkill?.map((skill, index) => (
+                      <button key={index}>{skill}</button>
+                    ))}
+                  </div>
 
                     <hr />
                     <div className="contact-container">
@@ -577,6 +613,52 @@ function Profile() {
           </div>
         </div>
       )}
+
+      {showInterest && (
+        <div className="modal d-flex" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Choose Skills</h5>
+                <button type="button" className="close" onClick={handleCloseInterest}>
+                  <span>&times;</span>
+                </button>
+              </div>
+              <div className="cable-choose" style={{ margin: '10px' }}>
+                {[
+                  "MENTALIZATION-BASED THERAPY",
+                  "Satir systemic therapy",
+                  "Coaching",
+                  "Mindfulness-based therapy",
+                  "Communication with parents",
+                  "Oracle card into the mind",
+                  "Problem-solving therapy",
+                  "Enneagram",
+                  "Relaxation technique",
+                  "PSYCHOEDUCATION",
+                  "Basic Counseling"
+                ].map(tag => (
+                  <button
+                    className={`cable-choose button ${selectedTags.includes(tag) ? "active" : ""}`}
+                    key={tag}
+                    style={{ margin: '5px' }}
+                    onClick={() => handleTagSelection(tag)}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+              <div className="modal-footer">
+                <button variant="secondary" onClick={handleCloseInterest}>
+                  Back
+                </button>
+                <button variant="primary" onClick={handleSaveTags}>
+                  Confirm
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>)}
 
       {/* Modal */}
       <Modal

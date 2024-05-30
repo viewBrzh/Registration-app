@@ -30,11 +30,11 @@ function Updatecourse(props) {
 
 
   const handleTagSelection = (tag) => {
-    setSelectedTags((prevTags) =>
-      prevTags.includes(tag)
-        ? prevTags.filter((t) => t !== tag)
-        : [...prevTags, tag]
-    );
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
+    }
   };
 
   const handleSaveTags = async () => {
@@ -420,40 +420,49 @@ function Updatecourse(props) {
           </div>
         </div>
 
-        <Modal show={showModal} onHide={() => setShowModal(false)} style={{ zIndex: 9999 }}>
-          <Modal.Header closeButton>
-            <Modal.Title>Choose Skills</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {[
-              "MENTALIZATION-BASED THERAPY",
-              "Satir systemic therapy",
-              "Coaching",
-              "Mindfullness-based therapy",
-              "Communication with parents",
-              "Oracle card into the mind",
-              "Problem-solvingtherapy",
-              "Enneagram",
-              "Relaxation technique",
-              "PSYCHOEDUCATION",
-              "Basic Counseling"
-            ].map(tag => (
-              <Button
-                key={tag}
-                variant={selectedTags.includes(tag) ? "primary" : "outline-primary"}
-                onClick={() => handleTagSelection(tag)}
-                style={{ margin: "5px" }}
-              >
-                {tag}
-              </Button>
-            ))}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="primary" onClick={handleSaveTags}>
-              Confirm
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        {showModal &&
+          <div className="modal" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Choose Skills</h5>
+                  <button type="button" className="close" onClick={() => setShowModal(false)}>
+                    <span>&times;</span>
+                  </button>
+                </div>
+                <div className="cable-choose" style={{ margin: '10px' }}>
+                  {[
+                    "MENTALIZATION-BASED THERAPY",
+                    "Satir systemic therapy",
+                    "Coaching",
+                    "Mindfulness-based therapy",
+                    "Communication with parents",
+                    "Oracle card into the mind",
+                    "Problem-solving therapy",
+                    "Enneagram",
+                    "Relaxation technique",
+                    "PSYCHOEDUCATION",
+                    "Basic Counseling"
+                  ].map(tag => (
+                    <button
+                      className={`cable-choose button ${selectedTags.includes(tag) ? "active" : ""}`}
+                      key={tag}
+                      onClick={() => handleTagSelection(tag)}
+                      style={{ margin: '5px' }}
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+                <div className="modal-footer">
+                  <Button variant="primary" onClick={handleSaveTags}>
+                    Confirm
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>}
+
       </div>
     </Main>
   );

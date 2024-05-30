@@ -30,8 +30,8 @@ function Detail(props) {
       })
       .catch((error) => console.error("Error fetching data:", error));
 
-      const currentYearBE = new Date().getFullYear() + 543;
-      fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`)
+    const currentYearBE = new Date().getFullYear() + 543;
+    fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -40,9 +40,9 @@ function Detail(props) {
       })
       .then((data) => {
         // Filter courses based on selected skills
-        const filteredCourses = data.filter(course =>
-          course.skills.split(', ').some(skill => skills.includes(skill)) &&
-          course.train_course_id !== courseId
+        const filteredCourses = data.filter(fcourse =>
+          fcourse.skills.split(', ').some(skill => skills.includes(skill)) &&
+          fcourse.train_course_id !== courseId && fcourse.train_course_id !== course.train_course_id && fcourse.course_id === course.course_id
         );
         setFilteredCourse(filteredCourses);
       })
@@ -78,6 +78,11 @@ function Detail(props) {
     // Check if user data exists
     if (!userData) {
       setLoginAlert(true);
+      return;
+    }
+
+    if (course.isPublish !== 1) {
+      // Course is not published, do not proceed with enrollment
       return;
     }
 
@@ -185,8 +190,12 @@ function Detail(props) {
               </div>
             </div>
             <div>
-              <button className="cart-btn" onClick={handleEnroll}>
-                Enroll
+              <button
+                className="cart-btn"
+                onClick={handleEnroll}
+                disabled={course.isPublish !== 1} // Disable button if course is not published
+              >
+                {course.isPublish !== 1 ? "Course not available" : "Enroll"}
               </button>
               <span>
                 <i className="bi bi-people-fill" style={{ paddingLeft: '25px', paddingRight: 10, color: 'grey' }}></i>
@@ -202,15 +211,14 @@ function Detail(props) {
 
       {/* start Comparable courses */}
       <br />
-      {filteredCourse.length > 1 && <div id="basic" className="container section">
+      {filteredCourse.length > 0 && <div id="basic" className="container section">
         <br />
         <div className="row mb-4">
-           <h2 className="text-center">Similar courses</h2>
+          <h2 className="text-center">Similar courses</h2>
         </div>
         <div className="row justify-content-center section">
           {/* Map over the first 4 courses only */}
           {filteredCourse.length > 0 && filteredCourse.slice(0, 4).map((fcourse) => (
-            fcourse.train_course_id !== course.train_course_id && fcourse.course_id === course.course_id &&
             (<div className="col-lg-3" key={fcourse.train_course_id}>
               <div
                 className="properties properties2 mb-30 center-div"

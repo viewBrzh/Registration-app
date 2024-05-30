@@ -169,6 +169,12 @@
     outline: none;
 }
 
+.cable-choose button.active {
+    border: 2px solid #E60073;
+    background-color: #E695B5;
+    color: #ffffff;
+}
+
 .cable-config {
     border-bottom: 1px solid #E1E8EE;
     margin-bottom: 20px;
