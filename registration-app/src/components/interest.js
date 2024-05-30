@@ -6,7 +6,6 @@ const Interest = () => {
     const [interest, setInterest] = useState([]);
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
     const [hasCompletedBasic, setHasCompletedBasic] = useState(false);
-    const [recommend, setRecommend] = useState([]);
     const [filteredCourses, setFilteredCourses] = useState([]);
     const [courses, setCourses] = useState([]);
     const navigate = useNavigate();
@@ -105,9 +104,6 @@ const Interest = () => {
         navigate(`/detail/${courseId}`);
     }
 
-    console.log(recommend);
-    console.log(interest);
-    console.log(filteredCourses);
 
     return (
         <>
