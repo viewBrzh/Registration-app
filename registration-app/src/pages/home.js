@@ -285,7 +285,7 @@ function Home() {
         </div>
 
       </div>
-      <ModalInterest/>
+      {userData && <ModalInterest/>}
     </Main>
   );
 }

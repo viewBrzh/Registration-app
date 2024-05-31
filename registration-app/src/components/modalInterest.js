@@ -8,7 +8,7 @@ const ModalInterest = () => {
   const [showInterest, setShowInterest] = useState(false);
 
   useEffect(() => {
-    if (storedUserData != null) {
+    if (userDatas != null) {
       fetch(`${apiUrl}/interest/get/${userDatas.user_id}`)
         .then((response) => {
           if (!response.ok) {
@@ -22,6 +22,7 @@ const ModalInterest = () => {
             console.log(data);
           } else {
             setInterestedSkill(data[0].skills.split(", "));
+            console.log(data);
           }
         })
         .catch((error) => console.error("Error fetching data:", error));
