@@ -439,3 +439,147 @@
 .close:hover {
     color: red;
 }
+
+.modal__card {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    cursor: pointer;
+}
+
+.modal__card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+}
+
+.modal__caption {
+    padding: 0px 10px 10px 10px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+}
+
+.modal__caption p {
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+
+.modal__caption h5 {
+    max-height: 2.8em;
+    /* Adjust the height as needed to fit two lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Limit the number of lines to 2 */
+    -webkit-box-orient: vertical;
+    color: #E90073;
+}
+
+
+.modal__card button {
+    bottom: 0px;
+}
+
+.skill-cable-button {
+    position: relative;
+    border-width: 0;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    z-index: 1;
+}
+
+.skill-cable-button .info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 37.6px;
+    border-radius: 4px;
+    padding: 5px;
+    z-index: 1;
+    background-color: #ffffff;
+    border: solid 1px #e8e8e82d;
+    transition: all .5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.skill-cable {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 85%;
+    max-height: 75%;
+    margin: auto;
+    z-index: -1;
+    border-radius: 4px;
+    transform: translateY(0%);
+    background-color: #ffffff;
+    border: solid 1px #e8e8e82d;
+    transition: all .5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.skill-cable-button:hover .skill-cable {
+    transform: translateY(100%);
+}
+
+.skill-cable svg polyline,
+.skill-cable svg line {
+    animation: docs 1s infinite;
+}
+
+
+@keyframes docs {
+    0% {
+        transform: translateY(0%);
+    }
+
+    50% {
+        transform: translateY(-15%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+
+.cable-choose {
+    margin-bottom: 20px;
+}
+
+.cable-choose .btn {
+    border: 2px solid #E1E8EE;
+    border-radius: 6px;
+    padding: 5px;
+    margin: 2px;
+    font-size: 14px;
+    color: #5E6977;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: all .5s;
+}
+
+.cable-choose .btn:hover,
+.cable-choose .btn:active,
+.cable-choose .btn:focus {
+    border: 2px solid #86939E;
+    outline: none;
+}
+
+.cable-choose .btn.active  {
+    border: 2px solid #E60073;
+    background-color: #E695B5;
+    color: #000000;
+}

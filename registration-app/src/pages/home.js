@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 import apiUrl from "../api/apiConfig";
+import ModalInterest from "../components/modalInterest";
 
 function Home() {
   const [courses, setCourses] = useState([]);
@@ -284,6 +285,7 @@ function Home() {
         </div>
 
       </div>
+      <ModalInterest/>
     </Main>
   );
 }

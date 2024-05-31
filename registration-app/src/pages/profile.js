@@ -145,6 +145,20 @@ function Profile() {
     return formatBEYear(new Date(start_date));
   };
 
+  const skillDescriptions = {
+    "MENTALIZATION-BASED THERAPY": "Understanding thoughts and feelings interactions.",
+    "Satir systemic therapy": "Family therapy focusing on communication.",
+    "Coaching": "Guiding personal and professional growth.",
+    "Mindfulness-based therapy": "Therapy using mindfulness techniques.",
+    "Communication with parents": "Enhancing parent-child communication skills.",
+    "Oracle card into the mind": "Using oracle cards for insights.",
+    "Problem-solving therapy": "Therapy for solving personal problems.",
+    "Enneagram": "Personality typing system for growth.",
+    "Relaxation technique": "Methods to reduce stress and anxiety.",
+    "PSYCHOEDUCATION": "Educating about psychological issues.",
+    "Basic Counseling": "Fundamental counseling skills and techniques."
+};
+
   return (
     <Main>
       {/* Hero Section */}
@@ -247,10 +261,10 @@ function Profile() {
                       </Link>
                     </div>
                     <div className="cable-choose">
-                    {InterestedSkill?.map((skill, index) => (
-                      <button key={index}>{skill}</button>
-                    ))}
-                  </div>
+                      {InterestedSkill?.map((skill, index) => (
+                        <button key={index}>{skill}</button>
+                      ))}
+                    </div>
 
                     <hr />
                     <div className="contact-container">
@@ -616,49 +630,43 @@ function Profile() {
 
       {showInterest && (
         <div className="modal d-flex" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
-          <div className="modal-dialog">
+        <div className="modal-dialog" style={{ maxWidth: "1000px", width: "100%" }}>
             <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Choose Skills</h5>
-                <button type="button" className="close" onClick={handleCloseInterest}>
-                  <span>&times;</span>
-                </button>
-              </div>
-              <div className="cable-choose" style={{ margin: '10px' }}>
-                {[
-                  "MENTALIZATION-BASED THERAPY",
-                  "Satir systemic therapy",
-                  "Coaching",
-                  "Mindfulness-based therapy",
-                  "Communication with parents",
-                  "Oracle card into the mind",
-                  "Problem-solving therapy",
-                  "Enneagram",
-                  "Relaxation technique",
-                  "PSYCHOEDUCATION",
-                  "Basic Counseling"
-                ].map(tag => (
-                  <button
-                    className={`cable-choose button ${selectedTags.includes(tag) ? "active" : ""}`}
-                    key={tag}
-                    style={{ margin: '5px' }}
-                    onClick={() => handleTagSelection(tag)}
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </div>
-              <div className="modal-footer">
-                <button variant="secondary" onClick={handleCloseInterest}>
-                  Back
-                </button>
-                <button variant="primary" onClick={handleSaveTags}>
-                  Confirm
-                </button>
-              </div>
+                <div className="modal-header">
+                    <h5 className="modal-title">Choose Skills</h5>
+                    <button type="button" className="close" onClick={handleCloseInterest}>
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div className="modal-body">
+                    <div className="cable-choose" style={{ margin: '20px'}}>
+                        <div className="row">
+                            {Object.keys(skillDescriptions).map((tag, index) => (
+                                <div className="col-lg-4 mb-3" key={tag}>
+                                    <button
+                                        className={`skill-cable-button btn ${selectedTags.includes(tag) ? "active" : ""}`}
+                                        style={{ width: "100%", marginBottom: '10px' }}
+                                        onClick={() => handleTagSelection(tag)}
+                                    >
+                                        <div className="info">{tag}</div>
+                                        <div className="skill-cable">{skillDescriptions[tag]}</div>
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                <div className="modal-footer">
+                    <button className="btn" onClick={handleCloseInterest}>
+                        Back
+                    </button>
+                    <button className="btn btn-primary" onClick={handleSaveTags}>
+                        Confirm
+                    </button>
+                </div>
             </div>
-          </div>
-        </div>)}
+        </div>
+    </div>)}
 
       {/* Modal */}
       <Modal

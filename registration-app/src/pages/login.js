@@ -3,6 +3,7 @@ import "../App.css";
 import Main from "../layouts/main";
 import { useNavigate } from "react-router-dom";
 import apiUrl from "../api/apiConfig";
+import ModalInterest from "../components/modalInterest";
 
 function Login(props) {
   const [username, setUsername] = useState("");
@@ -11,6 +12,7 @@ function Login(props) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [userData, setUserData] = useState("");
+  const [showInterest, setShowInterest] = useState(false);
 
   const navigate = useNavigate();
 
@@ -248,6 +250,8 @@ function Login(props) {
           </div>
         </div>
       </div>
+
+      
 
       {/* Success modal */}
       {success && (

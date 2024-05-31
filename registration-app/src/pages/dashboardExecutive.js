@@ -45,6 +45,7 @@ function DashboardExecutive() {
         const enrolledUsers = subordinatedata.filter(
           (user) => user.status === "Enrolled" || user.status === "Pass"
         );
+        console.log(enrolledUsers);
         setEnrolled(enrolledUsers);
 
         // Fetch branch names and enrollment counts

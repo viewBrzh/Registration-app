@@ -105,6 +105,7 @@ function Detail(props) {
       .then((response) => {
         if (response.ok) {
           setSuccess(true);
+          navigate('/course')
         } else {
           return response.json().then((data) => {
             setMessage(data.message);
