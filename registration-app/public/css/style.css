@@ -1299,6 +1299,17 @@ canvas {
     align-items: flex-start;
 }
 
+.cardHeaderAllCourse {
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+    color: #e60073;
+}
+.cardHeaderAllCourse h2 {
+    font-weight: 600;
+    color: #e60073;
+}
+
 .cardHeader h2 {
     font-weight: 600;
     color: var(--blue);

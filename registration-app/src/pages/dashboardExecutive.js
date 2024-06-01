@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 import { Chart as ChartAuto } from "chart.js/auto"; // Added ChartAuto import
-import CourseTable from "../components/courseTable";
+import CourseTableEx from "../components/courseTableEx";
 import apiUrl from "../api/apiConfig";
 import { Modal, Button, Form } from "react-bootstrap";
 import UserTableEx from "../components/userTableEx";
@@ -49,7 +49,9 @@ function DashboardExecutive() {
         setEnrolled(enrolledUsers);
 
         // Fetch branch names and enrollment counts
-        const branchsResponse = await fetch(`${apiUrl}/user/departments/${userdata.faculty}`);
+        const branchsResponse = await fetch(
+          `${apiUrl}/user/departments/${userdata.faculty}`
+        );
         if (!branchsResponse.ok) {
           throw new Error("Failed to fetch departments");
         }
@@ -70,10 +72,10 @@ function DashboardExecutive() {
             }
             const branchEnrollData = await branchResponse.json();
             console.log(branchEnrollData + ": branchEnrollData");
-        
+
             const enrollCount = parseInt(branchEnrollData, 10);
             let pass = enrollCount >= criteria;
-        
+
             // Check if the branch meets the criteria and increment the count
             if (pass) {
               passCriteriaCount++;
@@ -88,12 +90,19 @@ function DashboardExecutive() {
 
         setBranchData(branchEnrollmentData);
         setBranchsCount(branchEnrollmentData.length);
-        console.log(passCriteriaCount, criteria, branchEnrollmentData, enrolled);
+        console.log(
+          passCriteriaCount,
+          criteria,
+          branchEnrollmentData,
+          enrolled
+        );
         setbranchsWithCriteriaCount(
           branchEnrollmentData.filter((branch) => branch.pass).length
         );
 
-        const courseTypeRes = await fetch(`${apiUrl}/enroll/getCourseType/${userdata.faculty}/${storedYear}`);
+        const courseTypeRes = await fetch(
+          `${apiUrl}/enroll/getCourseType/${userdata.faculty}/${storedYear}`
+        );
         const courseTypeData = await courseTypeRes.json();
         setEnrollmentData(courseTypeData);
       } catch (error) {
@@ -114,7 +123,6 @@ function DashboardExecutive() {
       const notEnrolledCount = usersub.length - enrolledCount; // จำนวนที่ยังไม่ได้ลงทะเบียน
 
       // ตรวจสอบค่าตัวแปรก่อนนำมาใช้ในการคำนวณ
-      // หากค่าไม่ใช่ตัวเลขหรือเป็น NaN ให้กำหนดค่าเริ่มต้นเป็น 0
       const departmentsWithCriteriaCount = Number.isNaN(enrolledCount)
         ? 0
         : enrolledCount;
@@ -123,9 +131,10 @@ function DashboardExecutive() {
         : usersub.length;
 
       // คำนวณเปอร์เซ็นต์ของนักศึกษาที่ผ่านเกณฑ์
-      const passPercentage = Math.round(
-        (departmentsWithCriteriaCount / totalDepartments) * 100
-      );
+      const passPercentage = (
+        (departmentsWithCriteriaCount / totalDepartments) *
+        100
+      ).toFixed(2);
 
       const data1 = {
         labels: ["Enrolled", "Not enrolled yet"],
@@ -192,9 +201,8 @@ function DashboardExecutive() {
         ],
       });
     }
-  }, [enrolled.length, usersub.length]); // เพิ่ม enrolled.length เข้าไปใน dependency array เพื่อให้ useEffect ถูกเรียกใหม่เมื่อค่าเปลี่ยน
-
-
+  }, [enrolled.length, usersub.length]);
+  // เพิ่ม enrolled.length เข้าไปใน dependency array เพื่อให้ useEffect ถูกเรียกใหม่เมื่อค่าเปลี่ยน
 
   useEffect(() => {
     if (branchChartRef.current) {
@@ -348,9 +356,9 @@ function DashboardExecutive() {
     // Store selected year in local storage
     localStorage.setItem("selectedYear", year);
     window.location.reload();
-  };    
+  };
 
-  console.log("Enrolled Data: "+enrolled);
+  console.log("Enrolled Data: " + enrolled);
   console.log("Department Data: ");
 
   return (
@@ -454,7 +462,7 @@ function DashboardExecutive() {
         <div className="row">
           {/*Course */}
           <div className="col-sm-8 d-flex">
-            <CourseTable />
+            <CourseTableEx />
           </div>
           {/* Course End */}
 
