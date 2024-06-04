@@ -175,8 +175,8 @@ const EnrollListTable = ({ courseId }) => {
                   <th scope="col">Username</th>
                   <th scope="col">Email</th>
                   <th scope="col">Phone</th>
+                  <th scope="col">Faculty</th>
                   <th scope="col">Department</th>
-                  <th scope="col">Branch</th>
                   <th scope="col">Date</th>
                   <th scope="col">Status</th>
                 </tr>
@@ -188,8 +188,8 @@ const EnrollListTable = ({ courseId }) => {
                     <td>{users[enrollment.user_id]?.username}</td>
                     <td>{users[enrollment.user_id]?.email}</td>
                     <td>{users[enrollment.user_id]?.phone}</td>
+                    <td>{users[enrollment.user_id]?.faculty}</td>
                     <td>{users[enrollment.user_id]?.department}</td>
-                    <td>{users[enrollment.user_id]?.branch}</td>
                     <td>{formatDate(enrollment.enroll_date)}</td>
                     <td>
                       <span
