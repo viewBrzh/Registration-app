@@ -13,7 +13,7 @@ function Profile() {
   const navigate = useNavigate();
   const [showInterest, setShowInterest] = useState(false);
   const [InterestedSkill, setInterestedSkill] = useState([]);
-
+  const [allSkills, setAllSkills] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
 
   useEffect(() => {
@@ -114,6 +114,13 @@ function Profile() {
     console.log(skillsData);
   }, [skillsData]);
 
+  useEffect(() => {
+    fetch(`${apiUrl}/skill/`)
+      .then((response) => response.json())
+      .then((data) => setAllSkills(data))
+      .catch((error) => console.error("Error fetching skills data:", error));
+  }, []);
+
   const isEmpty = (items) => {
     if (!items) {
       return true;
@@ -144,20 +151,6 @@ function Profile() {
     };
     return formatBEYear(new Date(start_date));
   };
-
-  const skillDescriptions = {
-    "MENTALIZATION-BASED THERAPY": "Understanding thoughts and feelings interactions.",
-    "Satir systemic therapy": "Family therapy focusing on communication.",
-    "Coaching": "Guiding personal and professional growth.",
-    "Mindfulness-based therapy": "Therapy using mindfulness techniques.",
-    "Communication with parents": "Enhancing parent-child communication skills.",
-    "Oracle card into the mind": "Using oracle cards for insights.",
-    "Problem-solving therapy": "Therapy for solving personal problems.",
-    "Enneagram": "Personality typing system for growth.",
-    "Relaxation technique": "Methods to reduce stress and anxiety.",
-    "PSYCHOEDUCATION": "Educating about psychological issues.",
-    "Basic Counseling": "Fundamental counseling skills and techniques."
-};
 
   return (
     <Main>
@@ -370,171 +363,23 @@ function Profile() {
                     <h4 className="head-h4">Skills</h4>
                     {/* Skill Card Content Here */}
                     <div className="skill-group">
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Certificate (1).bak.bak.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">
-                            {skillsData["MENTALIZATION-BASED THERAPY"] || (
-                              <i className="bi bi-lock-fill"></i>
-                            )}
-                          </span>
+                      {allSkills?.map((skill, index) => (
+                        <div className="skill" key={index}>
+                          <div className="image-container">
+                            <img
+                              src={`${apiUrl}/skills/${skill.image}`}
+                              className="card-img-top1"
+                              alt="Explanation"
+                            />
+                            <span className="number-overlay">
+                              {skillsData[skill.name] || (
+                                <i className="bi bi-lock-fill"></i>
+                              )}
+                            </span>
+                          </div>
+                          <p>{skill.name}</p>
                         </div>
-                        <p>Mentalization-based therapy</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Certificate Of Deposit.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">
-                            {skillsData["Satir systemic therapy"] || (
-                              <i className="bi bi-lock-fill"></i>
-                            )}
-                          </span>
-                        </div>
-                        <p>Satir systemic therapy</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Certificate.bak.bak.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">
-                            {skillsData["Coaching"] || (
-                              <i className="bi bi-lock-fill" />
-                            )}
-                          </span>
-                        </div>
-                        <p>Coaching</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Certificate.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">
-                            {skillsData["Mindfullness-based therapy"] || (
-                              <i className="bi bi-lock-fill" />
-                            )}
-                          </span>
-                        </div>
-                        <p>Mindfullness-based therapy</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Education Scholarship.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">
-                            {skillsData["Communication with parents"] || (
-                              <i className="bi bi-lock-fill" />
-                            )}
-                          </span>
-                        </div>
-                        <p>Communication with parents</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Graduation Certificate Scroll.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">
-                            {skillsData["Oracle card into the mind"] || (
-                              <i className="bi bi-lock-fill" />
-                            )}
-                          </span>
-                        </div>
-                        <p>Oracle card into the mind</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Graduation.bak.bak.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">
-                            {skillsData["Problem-solvingtherapy"] || (
-                              <i className="bi bi-lock-fill" />
-                            )}
-                          </span>
-                        </div>
-                        <p>Problem-solvingtherapy</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Medical Certificate.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">
-                            {skillsData["Enneagram"] || (
-                              <i className="bi bi-lock-fill" />
-                            )}
-                          </span>
-                        </div>
-                        <p>Enneagram</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Self Learning.bak.bak.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">
-                            {skillsData["Relaxation technique"] || (
-                              <i className="bi bi-lock-fill" />
-                            )}
-                          </span>
-                        </div>
-                        <p>Relaxation technique</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/Certificate Paper 3D Icon Model With A Star Badge.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">
-                            {skillsData["PSYCHOEDUCATION"] || (
-                              <i className="bi bi-lock-fill" />
-                            )}
-                          </span>
-                        </div>
-                        <p>Psychoeducation</p>
-                      </div>
-                      <div className="skill">
-                        <div className="image-container">
-                          <img
-                            src="./img/profile/The Road To Graduation.bak.bak.png"
-                            className="card-img-top1"
-                            alt="Explanation"
-                          />
-                          <span className="number-overlay">
-                            {skillsData["Basic Counseling"] || (
-                              <i className="bi bi-lock-fill" />
-                            )}
-                          </span>
-                        </div>
-                        <p>Basic Counseling</p>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -544,129 +389,134 @@ function Profile() {
         </div>
       </div>
 
-      {showHistory && (
-        <div
-          className="modal d-flex"
-          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-        >
+      {
+        showHistory && (
           <div
-            className="modal-content"
-            style={{
-              backgroundColor: "#fff",
-              padding: "20px",
-              borderRadius: "5px",
-              maxWidth: "600px",
-              margin: "0 auto",
-              marginTop: "100px",
-            }}
+            className="modal d-flex"
+            style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
           >
-            {!isEmpty(courses) ? (
-              <div className="history" style={{ overflow: "auto" }}>
-                <div>
-                  <table className="table">
-                    <thead>
-                      <tr style={{ position: "sticky" }}>
-                        <th scope="col" style={{ width: "55%" }}>
-                          Name
-                        </th>
-                        <th scope="col" style={{ width: "25%" }}>
-                          Training date
-                        </th>
-                        <th scope="col" style={{ width: "15%" }}>
-                          Status
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {courses.map((course) => (
-                        <tr
-                          className="link-tr"
-                          key={course.train_course_id}
-                          onClick={() =>
-                            navigate(`/detail/${course.train_course_id}`)
-                          }
-                        >
-                          <td>{course.course_detail_name}</td>
-                          <td>
-                            {new Date(course.start_date).toLocaleDateString(
-                              "en-GB"
-                            )}
-                          </td>
-                          <td>
-                            <span
-                              className={`status ${course.status === 0
-                                ? "waiting"
-                                : course.status === 1
-                                  ? "finish"
-                                  : "failed"
-                                }`}
-                            >
-                              {course.status === 0
-                                ? "waiting"
-                                : course.status === 1
-                                  ? "finish"
-                                  : "failed"}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            ) : (
-              <div>No course history yet.</div>
-            )}
-            <br />
-            <button
-              className="btn btn-cancel"
-              onClick={() => setShowHistory(false)}
+            <div
+              className="modal-content"
+              style={{
+                backgroundColor: "#fff",
+                padding: "20px",
+                borderRadius: "5px",
+                maxWidth: "600px",
+                margin: "0 auto",
+                marginTop: "100px",
+              }}
             >
-              Close
-            </button>
+              {!isEmpty(courses) ? (
+                <div className="history" style={{ overflow: "auto" }}>
+                  <div>
+                    <table className="table">
+                      <thead>
+                        <tr style={{ position: "sticky" }}>
+                          <th scope="col" style={{ width: "55%" }}>
+                            Name
+                          </th>
+                          <th scope="col" style={{ width: "25%" }}>
+                            Training date
+                          </th>
+                          <th scope="col" style={{ width: "15%" }}>
+                            Status
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {courses.map((course) => (
+                          <tr
+                            className="link-tr"
+                            key={course.train_course_id}
+                            onClick={() =>
+                              navigate(`/detail/${course.train_course_id}`)
+                            }
+                          >
+                            <td>{course.course_detail_name}</td>
+                            <td>
+                              {new Date(course.start_date).toLocaleDateString(
+                                "en-GB"
+                              )}
+                            </td>
+                            <td>
+                              <span
+                                className={`status ${course.status === 0
+                                  ? "waiting"
+                                  : course.status === 1
+                                    ? "finish"
+                                    : "failed"
+                                  }`}
+                              >
+                                {course.status === 0
+                                  ? "waiting"
+                                  : course.status === 1
+                                    ? "finish"
+                                    : "failed"}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              ) : (
+                <div>No course history yet.</div>
+              )}
+              <br />
+              <button
+                className="btn btn-cancel"
+                onClick={() => setShowHistory(false)}
+              >
+                Close
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
-      {showInterest && (
-        <div className="modal d-flex" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
-        <div className="modal-dialog" style={{ maxWidth: "1000px", width: "100%" }}>
-            <div className="modal-content">
+      {
+        showInterest && (
+          <div className="modal d-flex" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+            <div className="modal-dialog" style={{ maxWidth: "1000px", width: "100%" }}>
+              <div className="modal-content">
                 <div className="modal-header">
-                    <h5 className="modal-title">Choose Skills</h5>
-                    <button type="button" className="close" onClick={handleCloseInterest}>
-                        <span>&times;</span>
-                    </button>
+                  <h5 className="modal-title">Please select the skill you are interested in.</h5>
+                  <button type="button" className="close" onClick={handleCloseInterest}>
+                    <span>&times;</span>
+                  </button>
                 </div>
                 <div className="modal-body">
-                    <div className="cable-choose" style={{ margin: '20px'}}>
-                        <div className="row">
-                            {Object.keys(skillDescriptions).map((tag, index) => (
-                                <div className="col-lg-4 mb-3" key={tag}>
-                                    <button
-                                        className={`skill-cable-button btn ${selectedTags.includes(tag) ? "active" : ""}`}
-                                        style={{ width: "100%", marginBottom: '10px' }}
-                                        onClick={() => handleTagSelection(tag)}
-                                    >
-                                        <div className="info">{tag}</div>
-                                        <div className="skill-cable">{skillDescriptions[tag]}</div>
-                                    </button>
-                                </div>
-                            ))}
+                  <div className="cable-choose" style={{ margin: '20px' }}>
+                    <div className="row">
+                      {allSkills.map((skill, index) => (
+                        <div className="col-lg-4 mb-3" key={skill.id}>
+                          <button
+                            className={`skill-cable-button btn ${selectedTags.includes(skill.name) ? "active" : ""}`}
+                            style={{ width: "100%", marginBottom: '10px' }}
+                            onClick={() => handleTagSelection(skill.name)}
+                          >
+                            <div className="info">{skill.name}</div>
+                            <div className="skill-cable">{skill.description}</div>
+                          </button>
                         </div>
+                      ))}
+
                     </div>
+                  </div>
                 </div>
                 <div className="modal-footer">
-                    <button className="btn" onClick={handleCloseInterest}>
-                        Back
-                    </button>
-                    <button className="btn btn-primary" onClick={handleSaveTags}>
-                        Confirm
-                    </button>
+                  <button className="btn" onClick={handleCloseInterest}>
+                    Back
+                  </button>
+                  <button className="btn btn-primary" onClick={handleSaveTags}>
+                    Confirm
+                  </button>
                 </div>
+              </div>
             </div>
-        </div>
-    </div>)}
+          </div>)
+      }
 
       {/* Modal */}
       <Modal
@@ -735,7 +585,7 @@ function Profile() {
           </Button>
         </Modal.Footer>
       </Modal>
-    </Main>
+    </Main >
   );
 }
 
