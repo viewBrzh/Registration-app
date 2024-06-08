@@ -1,0 +1,16 @@
+.btn-col {
+    width: 150px;
+    height: 150px;
+    margin: 20px;
+    background-color: #E90073;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+}
+
+.btn-col:hover {
+    background-color: #E695B5;
+    color: #E90073;
+}
+

@@ -5,6 +5,7 @@ const ModalInterest = () => {
   const storedUserData = localStorage.getItem("userData");
   const [InterestedSkill, setInterestedSkill] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
+  const [allSkills, setAllSkills] = useState([]);
   const [showInterest, setShowInterest] = useState(false);
 
   useEffect(() => {
@@ -29,6 +30,13 @@ const ModalInterest = () => {
     } else {
       setShowInterest(false);
     }
+  }, []);
+
+  useEffect(() => {
+    fetch(`${apiUrl}/skill/`)
+      .then((response) => response.json())
+      .then((data) => setAllSkills(data))
+      .catch((error) => console.error("Error fetching skills data:", error));
   }, []);
 
   const handleTagSelection = (tag) => {
@@ -84,21 +92,6 @@ const ModalInterest = () => {
   const handleCloseInterest = () => setShowInterest(false);
   const handleShowInterest = () => setShowInterest(true);
 
-  const skillDescriptions = {
-    "MENTALIZATION-BASED THERAPY":
-      "Understanding thoughts and feelings interactions.",
-    "Satir systemic therapy": "Family therapy focusing on communication.",
-    Coaching: "Guiding personal and professional growth.",
-    "Mindfulness-based therapy": "Therapy using mindfulness techniques.",
-    "Communication with parents":
-      "Enhancing parent-child communication skills.",
-    "Oracle card into the mind": "Using oracle cards for insights.",
-    "Problem-solving therapy": "Therapy for solving personal problems.",
-    Enneagram: "Personality typing system for growth.",
-    "Relaxation technique": "Methods to reduce stress and anxiety.",
-    PSYCHOEDUCATION: "Educating about psychological issues.",
-    "Basic Counseling": "Fundamental counseling skills and techniques.",
-  };
 
   return (
     <>
@@ -113,7 +106,7 @@ const ModalInterest = () => {
           >
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Choose Skills</h5>
+                <h5 className="modal-title">Please select the skill you are interested in.</h5>
                 <button
                   type="button"
                   className="close"
@@ -125,19 +118,15 @@ const ModalInterest = () => {
               <div className="modal-body">
                 <div className="cable-choose" style={{ margin: "20px" }}>
                   <div className="row">
-                    {Object.keys(skillDescriptions).map((tag, index) => (
-                      <div className="col-lg-4 mb-3" key={tag}>
+                    {allSkills.map((skill, index) => (
+                      <div className="col-lg-4 mb-3" key={skill.id}>
                         <button
-                          className={`skill-cable-button btn ${
-                            selectedTags.includes(tag) ? "active" : ""
-                          }`}
-                          style={{ width: "100%", marginBottom: "10px" }}
-                          onClick={() => handleTagSelection(tag)}
+                          className={`skill-cable-button btn ${selectedTags.includes(skill.name) ? "active" : ""}`}
+                          style={{ width: "100%", marginBottom: '10px' }}
+                          onClick={() => handleTagSelection(skill.name)}
                         >
-                          <div className="info">{tag}</div>
-                          <div className="skill-cable">
-                            {skillDescriptions[tag]}
-                          </div>
+                          <div className="info">{skill.name}</div>
+                          <div className="skill-cable">{skill.description}</div>
                         </button>
                       </div>
                     ))}

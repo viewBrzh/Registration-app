@@ -23,6 +23,7 @@ function InsertCourse() {
     const [showModal, setShowModal] = useState(false);
     const [selectedTags, setSelectedTags] = useState([]);
     const [courseId, setCourseId] = useState("");
+    const [allSkills, setAllSkills] = useState([]);
 
     const handleNext = () => {
         setShowModal(true);
@@ -32,6 +33,13 @@ function InsertCourse() {
         const isValid = Object.values(courseData).every(value => !!value);
         setFormValid(isValid);
     }, [courseData]);
+
+    useEffect(() => {
+        fetch(`${apiUrl}/skill/`)
+            .then((response) => response.json())
+            .then((data) => setAllSkills(data))
+            .catch((error) => console.error("Error fetching skills data:", error));
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -65,11 +73,11 @@ function InsertCourse() {
 
     const handleTagSelection = (tag) => {
         if (selectedTags.includes(tag)) {
-          setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
+            setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
         } else {
-          setSelectedTags([...selectedTags, tag]);
+            setSelectedTags([...selectedTags, tag]);
         }
-      };
+    };
 
     const handleSaveTags = async () => {
         try {
@@ -258,19 +266,7 @@ function InsertCourse() {
                                     </button>
                                 </div>
                                 <div className="cable-choose" style={{ margin: '10px' }}>
-                                    {[
-                                        "MENTALIZATION-BASED THERAPY",
-                                        "Satir systemic therapy",
-                                        "Coaching",
-                                        "Mindfulness-based therapy",
-                                        "Communication with parents",
-                                        "Oracle card into the mind",
-                                        "Problem-solving therapy",
-                                        "Enneagram",
-                                        "Relaxation technique",
-                                        "PSYCHOEDUCATION",
-                                        "Basic Counseling"
-                                    ].map(tag => (
+                                    {allSkills.map(tag => (
                                         <button
                                             className={`cable-choose button ${selectedTags.includes(tag) ? "active" : ""}`}
                                             key={tag}

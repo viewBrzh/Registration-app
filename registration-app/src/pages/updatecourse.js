@@ -22,11 +22,19 @@ function Updatecourse(props) {
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [allSkills, setAllSkills] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
 
   const handleShowModal = () => {
     setShowModal(true);
   }
+
+  useEffect(() => {
+    fetch(`${apiUrl}/skill/`)
+      .then((response) => response.json())
+      .then((data) => setAllSkills(data))
+      .catch((error) => console.error("Error fetching skills data:", error));
+  }, []);
 
 
   const handleTagSelection = (tag) => {
@@ -431,19 +439,7 @@ function Updatecourse(props) {
                   </button>
                 </div>
                 <div className="cable-choose" style={{ margin: '10px' }}>
-                  {[
-                    "MENTALIZATION-BASED THERAPY",
-                    "Satir systemic therapy",
-                    "Coaching",
-                    "Mindfulness-based therapy",
-                    "Communication with parents",
-                    "Oracle card into the mind",
-                    "Problem-solving therapy",
-                    "Enneagram",
-                    "Relaxation technique",
-                    "PSYCHOEDUCATION",
-                    "Basic Counseling"
-                  ].map(tag => (
+                  {allSkills.map(tag => (
                     <button
                       className={`cable-choose button ${selectedTags.includes(tag) ? "active" : ""}`}
                       key={tag}

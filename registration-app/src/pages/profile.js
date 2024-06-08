@@ -299,7 +299,7 @@ function Profile() {
                                 <th scope="col" style={{ width: "55%" }}>
                                   Name
                                 </th>
-                                <th scope="col" style={{ width: "25%" }}>
+                                <th scope="col" style={{ width: "40%" }}>
                                   Training date
                                 </th>
                                 <th scope="col" style={{ width: "15%" }}>
@@ -379,8 +379,8 @@ function Profile() {
                 <div className="col-md-8">
                   <div
                     className="custom-skill-card"
-                    style={{ backgroundColor: "#FFFFFF" }}
                     data-aos="fade-up"
+                    style={{ backgroundColor: "#FFFFFF" }}
                   >
                     <h4 className="head-h4">Skills</h4>
                     {/* Skill Card Content Here */}
