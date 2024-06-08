@@ -100,15 +100,6 @@ function Header() {
                 >
                   Home
                 </Link>
-                {userRole === "teacher" && (
-                  <Link
-                    to={`/dashboard`}
-                    className={`nav-item nav-link ${location.pathname === "/dashboard" ? "active" : ""
-                      }`}
-                  >
-                    Dashboard
-                  </Link>
-                )}
                 {userRole === "executive" && (
                   <Link
                     to={`/dashboardExecutive`}
