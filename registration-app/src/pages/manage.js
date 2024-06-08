@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import Main from "../layouts/main";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { exportToExcel } from "../components/excelUtils";
 import apiUrl from "../api/apiConfig";
 import DownloadButton from "../components/downloadButton";
 import Quantity from "../components/quantity";
 
 function Manage() {
+  const navigate = useNavigate();
+
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [selectedCourses, setSelectedCourses] = useState([]);
@@ -27,6 +29,8 @@ function Manage() {
 
   const [sortDirection, setSortDirection] = useState("asc");
   const [sortColumn, setSortColumn] = useState("start_date");
+
+  const [isShowInsertModal, setIsShowInsertModal] = useState(false);
 
   const handleYearChange = (year) => {
     setSelectedYear(year);
@@ -236,6 +240,15 @@ function Manage() {
     }
   };
 
+  const handleInsertCourse = () => {
+    navigate("/insert", { replace: true });
+  }
+
+  const handleInsertSkill = () => {
+    navigate("/insertSkill", { replace: true });
+  }
+
+
   return (
     <Main>
       {/* Hero Section */}
@@ -300,11 +313,10 @@ function Manage() {
                     Training Date{" "}
                     {sortColumn === "start_date" && (
                       <i
-                        className={`bi ${
-                          sortDirection === "asc"
-                            ? "bi-caret-up-fill"
-                            : "bi-caret-down-fill"
-                        }`}
+                        className={`bi ${sortDirection === "asc"
+                          ? "bi-caret-up-fill"
+                          : "bi-caret-down-fill"
+                          }`}
                       ></i>
                     )}
                   </th>
@@ -497,9 +509,8 @@ function Manage() {
               <button
                 href="#"
                 onClick={() => handleClick("prev")}
-                className={`previous-btn ${
-                  currentPage === 1 ? "disabled" : ""
-                }`}
+                className={`previous-btn ${currentPage === 1 ? "disabled" : ""
+                  }`}
                 disabled={currentPage === 1}
               >
                 &laquo; Previous
@@ -511,9 +522,8 @@ function Manage() {
               <button
                 href="#"
                 onClick={() => handleClick("next")}
-                className={`next-btn ${
-                  currentPage === totalPages ? "disabled" : ""
-                }`}
+                className={`next-btn ${currentPage === totalPages ? "disabled" : ""
+                  }`}
                 disabled={currentPage === totalPages}
               >
                 Next &raquo;
@@ -524,7 +534,7 @@ function Manage() {
       </div>
       {/* Courses Section End */}
 
-      <Link to={"/insert"}>
+      <Link to="" onClick={() => setIsShowInsertModal(true)}>
         <a className="circle-button">+</a>
       </Link>
 
@@ -549,6 +559,37 @@ function Manage() {
           <span className="close" onClick={toggleSearch}></span>
         </div>
       </a>
+
+      {isShowInsertModal && <div className="modal" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+        <div
+          className="row"
+          style={{
+            backgroundColor: "#fff",
+            padding: "20px",
+            maxWidth: "600px",
+            borderRadius: "5px",
+            margin: "auto",
+            marginTop: "100px",
+            display: "flex",
+            justifyContent: "space-between", // Align buttons to the left and right
+            position: "relative", // Positioning for the close button
+          }}
+        >
+          <div className="modal-header">
+            <h5 className="modal-title">Select your action</h5>
+            <button type="button" className="close" onClick={() => setIsShowInsertModal(false)}>
+              <span>&times;</span>
+            </button>
+          </div>
+          <button className="btn-col col" onClick={handleInsertCourse}>
+            Insert Course
+          </button>
+          <button className="btn-col col" onClick={handleInsertSkill}>
+            Insert Skill
+          </button>
+        </div>
+      </div>}
+
     </Main>
   );
 }

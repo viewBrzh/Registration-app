@@ -27,6 +27,7 @@ import Logout from "./pages/logout";
 import Error404Page from "./pages/error/notFound";
 import Notification from "./pages/notification";
 import AllCourse from "./pages/allcourse";
+import InsertSkill from "./pages/insertSkill";
 
 const isAdmin = () => localStorage.getItem("userRole") === "admin";
 const isTeacher = () => localStorage.getItem("userRole") === "teacher";
@@ -52,6 +53,7 @@ ReactDOM.render(
         />
         <Route path="/update/:courseId" element={<Updatecourse />} />
         <Route path="/insert" element={<InsertCourse />} />
+        <Route path="/insertSkill" element={<InsertSkill />} />
         <Route
           path="/dashboard"
           element={isTeacher() ? <Dashboard /> : <Navigate to="/404" />}
