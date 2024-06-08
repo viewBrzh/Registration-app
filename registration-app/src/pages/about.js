@@ -1,6 +1,14 @@
 import Main from "../layouts/main";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 function About(props) {
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
+
   return (
     <Main>
       {/* Page Header Start */}
@@ -31,12 +39,12 @@ function About(props) {
         </div>
       </div>
       {/* Page Header End */}
-      <div className="aboutcenter-container">
+      <div className="aboutcenter-container" data-aos="fade-up">
         <h1>Smile & Smart Center</h1>
       </div>
 
       <div className="aboutcontainer">
-        <div className="aboutcard">
+        <div className="aboutcard" data-aos="fade-up">
           <div className="aboutcard-img">
             <img src="/img/Smiling Face (HD).png" alt="Image" />
           </div>
@@ -57,6 +65,7 @@ function About(props) {
             border: "1px solid #e0e0e0",
             overflow: "hidden",
           }}
+          data-aos="fade-up"
         >
           <div className="aboutcard-img">
             <img src="/img/Maps 3D Icon Model For UI (HD).png" alt="Image" />
@@ -77,6 +86,7 @@ function About(props) {
             border: "1px solid #e0e0e0",
             overflow: "hidden",
           }}
+          data-aos="fade-up"
         >
           <div className="aboutcard-img">
             <img src="/img/Consultation (HD).png" alt="Image" />
@@ -96,6 +106,7 @@ function About(props) {
             border: "1px solid #e0e0e0",
             overflow: "hidden",
           }}
+          data-aos="fade-up"
         >
           <div className="aboutcard-img">
             <img src="/img/Heart Care (HD).png" alt="Image" />

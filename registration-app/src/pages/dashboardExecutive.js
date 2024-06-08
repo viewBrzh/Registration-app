@@ -6,8 +6,13 @@ import CourseTableEx from "../components/courseTableEx";
 import apiUrl from "../api/apiConfig";
 import { Modal, Button, Form } from "react-bootstrap";
 import UserTableEx from "../components/userTableEx";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 function DashboardExecutive() {
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
   // Ref for the chart canvas
   const chartRef1 = useRef(null);
   const enrollmentsChartRef = useRef(null);
@@ -409,7 +414,7 @@ function DashboardExecutive() {
       </div>
       {/* Page Header End */}
 
-      <div className="cardBox">
+      <div className="cardBox" data-aos="fade-up">
         <div className="carddash" onClick={() => setShowUser(true)}>
           <div>
             <div className="cardName">Subordinate</div>
@@ -458,7 +463,7 @@ function DashboardExecutive() {
       </div>
 
       {/* Content */}
-      <div className="container-fluid">
+      <div className="container-fluid" data-aos="fade-up">
         <div className="row">
           {/*Course */}
           <div className="col-sm-8 d-flex">
@@ -467,7 +472,7 @@ function DashboardExecutive() {
           {/* Course End */}
 
           {/* Bar Chart */}
-          <div className="col-sm-4 ">
+          <div className="col-sm-4 " data-aos="fade-up">
             <div className="details d-flex">
               <div className="recentOrders">
                 <div className="cardHeader">
@@ -487,7 +492,7 @@ function DashboardExecutive() {
         </div>
       </div>
 
-      <div className="container-fluid wow fadeIn">
+      <div className="container-fluid wow fadeIn" data-aos="fade-up">
         <div className="details d-flex">
           <div className="recentOrders">
             <div className="cardHeader">
@@ -509,7 +514,7 @@ function DashboardExecutive() {
         </div>
       </div>
 
-      <div className="container-fluid wow fadeIn">
+      <div className="container-fluid wow fadeIn" data-aos="fade-up">
         <div className="details d-flex">
           <div className="recentOrders">
             <div className="cardHeader">

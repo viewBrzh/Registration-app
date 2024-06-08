@@ -3,6 +3,8 @@ import Main from "../layouts/main";
 import { Link, useNavigate } from "react-router-dom";
 import apiUrl from "../api/apiConfig";
 import Interest from "../components/interest";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 function Course(props) {
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -20,7 +22,7 @@ function Course(props) {
     if (!isActive) {
       setSearchQuery("");
     }
-    console.log(basicCourses)
+    console.log(basicCourses);
   };
 
   const handleInputChange = (evt) => {
@@ -50,21 +52,29 @@ function Course(props) {
   useEffect(() => {
     const fetchCourses = async () => {
       const currentYearBE = new Date().getFullYear() + 543;
-      const response = await fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`); // Fetch courses for the current year in the Buddhist calendar
+      const response = await fetch(
+        `${apiUrl}/course/courseByYear/${currentYearBE}`
+      ); // Fetch courses for the current year in the Buddhist calendar
       const data = await response.json();
       setCourses(data);
-      console.log(data)
+      console.log(data);
 
-      const basicCoursesData = data?.filter((course) => course.course_id === 1 && course.isPublish === 1);
+      const basicCoursesData = data?.filter(
+        (course) => course.course_id === 1 && course.isPublish === 1
+      );
       setBasicCourses(basicCoursesData);
 
-      const retreatCoursesData = data?.filter((course) => course.course_id === 2 && course.isPublish === 1);
+      const retreatCoursesData = data?.filter(
+        (course) => course.course_id === 2 && course.isPublish === 1
+      );
       setRetreatCourses(retreatCoursesData);
 
       // Fetch enrollment counts for basic courses
       const basicCounts = await Promise.all(
         basicCoursesData.map(async (course) => {
-          const enrollResponse = await fetch(`${apiUrl}/enroll/getEnrollCount/${course.train_course_id}`);
+          const enrollResponse = await fetch(
+            `${apiUrl}/enroll/getEnrollCount/${course.train_course_id}`
+          );
           const enrollData = await enrollResponse?.json();
           return { courseId: course.train_course_id, count: enrollData.count };
         })
@@ -73,7 +83,9 @@ function Course(props) {
       // Fetch enrollment counts for retreat courses
       const retreatCounts = await Promise.all(
         retreatCoursesData.map(async (course) => {
-          const enrollResponse = await fetch(`${apiUrl}/enroll/getEnrollCount/${course.train_course_id}`);
+          const enrollResponse = await fetch(
+            `${apiUrl}/enroll/getEnrollCount/${course.train_course_id}`
+          );
           const enrollData = await enrollResponse.json();
           return { courseId: course.train_course_id, count: enrollData.count };
         })
@@ -81,14 +93,18 @@ function Course(props) {
 
       setBasicCourses((prevCourses) =>
         prevCourses.map((course) => {
-          const countObj = basicCounts.find((count) => count.courseId === course.train_course_id);
+          const countObj = basicCounts.find(
+            (count) => count.courseId === course.train_course_id
+          );
           return { ...course, count: countObj ? countObj.count : 0 };
         })
       );
 
       setRetreatCourses((prevCourses) =>
         prevCourses.map((course) => {
-          const countObj = retreatCounts.find((count) => count.courseId === course.train_course_id);
+          const countObj = retreatCounts.find(
+            (count) => count.courseId === course.train_course_id
+          );
           return { ...course, count: countObj ? countObj.count : 0 };
         })
       );
@@ -102,17 +118,21 @@ function Course(props) {
 
             // Check if the user has completed at least one basic course
             const hasCompleted = data.courses?.some(
-              (enrollment) => enrollment.course_id === 1 && enrollment.status === 1
+              (enrollment) =>
+                enrollment.course_id === 1 && enrollment.status === 1
             );
             setHasCompletedBasic(hasCompleted);
-          })
+          });
       } else {
         setHasCompletedBasic(true);
       }
-
     };
 
     fetchCourses();
+  }, []);
+
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
   }, []);
 
   const formatDate = (start_date, finish_date) => {
@@ -128,7 +148,9 @@ function Course(props) {
     if (start_date === finish_date) {
       return formatBEYear(new Date(start_date));
     } else {
-      return `${formatBEYear(new Date(start_date))} - ${formatBEYear(new Date(finish_date))}`;
+      return `${formatBEYear(new Date(start_date))} - ${formatBEYear(
+        new Date(finish_date)
+      )}`;
     }
   };
 
@@ -142,20 +164,31 @@ function Course(props) {
 
   const handleCardClick = (courseId) => {
     navigate(`/detail/${courseId}`);
-  }
+  };
 
   return (
     <Main>
       {/* Hero Section */}
-      <div className="container-fluid page-header py-5 mb-5 wow fadeIn hero-section" data-wow-delay="0.1s">
+      <div
+        className="container-fluid page-header py-5 mb-5 wow fadeIn hero-section"
+        data-wow-delay="0.1s"
+      >
         <div className="container text-center py-5">
-          <h1 className="display-2 text-dark mb-4 animated slideInDown">Courses</h1>
+          <h1 className="display-2 text-dark mb-4 animated slideInDown">
+            Courses
+          </h1>
           <nav aria-label="breadcrumb animated slideInDown">
             <ol className="breadcrumb justify-content-center mb-0">
               <li className="breadcrumb-item">
-                <Link to={`/`} className="breadcrumb-item">Home</Link>
+                <Link to={`/`} className="breadcrumb-item">
+                  Home
+                </Link>
               </li>
-              <li className="breadcrumb-item text-dark" aria-current="page" style={{ fontWeight: 'bold' }}>
+              <li
+                className="breadcrumb-item text-dark"
+                aria-current="page"
+                style={{ fontWeight: "bold" }}
+              >
                 Courses
               </li>
             </ol>
@@ -165,26 +198,50 @@ function Course(props) {
 
       {userData && <Interest />}
 
-      <div id="basic" className="container section">
+      <div id="basic" className="container section" data-aos="fade-up">
         <br></br>
         <div className="row justify-content-center mb-4">
           <h2 className="text-center">Basic Counseling</h2>
         </div>
         <div className="row justify-content-center section">
           {filteredBasicCourses?.map((course) => (
-            <div className="col-lg-3" key={course.train_course_id}>
-              <div className="properties properties2 mb-30 center-div" style={{ marginBottom: "20px", position: "relative" }}>
-                <div className="properties__card" onClick={() => handleCardClick(course.train_course_id)} style={{ height: "440px", border: "1px solid #e0e0e0", borderRadius: "10px", overflow: "hidden", position: "relative" }}>
+            <div
+              className="col-lg-3"
+              key={course.train_course_id}
+              data-aos="fade-up"
+            >
+              <div
+                className="properties properties2 mb-30 center-div"
+                style={{ marginBottom: "20px", position: "relative" }}
+              >
+                <div
+                  className="properties__card"
+                  onClick={() => handleCardClick(course.train_course_id)}
+                  style={{
+                    height: "440px",
+                    border: "1px solid #e0e0e0",
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                    position: "relative",
+                  }}
+                >
                   {/* Card content */}
-                  <div className="properties__img overlay1" style={{ position: "relative" }}>
+                  <div
+                    className="properties__img overlay1"
+                    style={{ position: "relative" }}
+                  >
                     <Link to={`/detail/${course.train_course_id}`}>
                       <img src={`${apiUrl}/images/${course.image}`} alt="" />
                     </Link>
-                    <div className="course-type">{course.course_id == 1 ? "Basic" : "Retreat"}</div>
+                    <div className="course-type">
+                      {course.course_id == 1 ? "Basic" : "Retreat"}
+                    </div>
                     {/* People icon and number text */}
                     <div className="people-icon">
                       <i className="bi bi-people"></i>
-                      <span className="people-count">{course.count} / {course.limit}</span>
+                      <span className="people-count">
+                        {course.count} / {course.limit}
+                      </span>
                     </div>
                   </div>
                   <div className="properties__caption">
@@ -196,23 +253,35 @@ function Course(props) {
                       </Link>
                     </h5>
                     <p>{course.train_detail}</p>
-                    <div className="properties__skill" >
-                      <span>{course.skills.length > 50
-                        ? `${course.skills.substring(0, 50)}...`
-                        : course.skills}</span>
+                    <div className="properties__skill">
+                      <span>
+                        {course.skills.length > 50
+                          ? `${course.skills.substring(0, 50)}...`
+                          : course.skills}
+                      </span>
                     </div>
 
                     <div className="properties__footer">
                       <div className="date" style={{ color: "gray" }}>
                         <span>
-                          <p>Enroll {formatDate(course.start_enroll_date, course.end_enroll_date)}</p>
+                          <p>
+                            Enroll{" "}
+                            {formatDate(
+                              course.start_enroll_date,
+                              course.end_enroll_date
+                            )}
+                          </p>
                         </span>
                       </div>
                     </div>
 
                     <div className="properties__footer">
                       <div className="date" style={{ color: "gray" }}>
-                        <p> Training {formatDate(course.start_date, course.finish_date)}</p>
+                        <p>
+                          {" "}
+                          Training{" "}
+                          {formatDate(course.start_date, course.finish_date)}
+                        </p>
                       </div>
                     </div>
                     <div className="location">
@@ -220,7 +289,8 @@ function Course(props) {
                         <p>
                           {course.train_place.length > 50
                             ? `${course.train_place.substring(0, 50)}...`
-                            : course.train_place}</p>
+                            : course.train_place}
+                        </p>
                       </span>
                     </div>
                   </div>
@@ -234,7 +304,7 @@ function Course(props) {
       <hr></hr>
       <br></br>
       {/* Retreat Courses Section */}
-      <div id="retreat" className="container section">
+      <div id="retreat" className="container section" data-aos="fade-up">
         {hasCompletedBasic ? (
           <>
             <div className="row justify-content-center mb-4">
@@ -242,44 +312,98 @@ function Course(props) {
             </div>
             <div className="row justify-content-center section">
               {filteredRetreatCourses?.map((course) => (
-                <div className="col-lg-3" key={course.train_course_id}>
-                  <div className="properties properties2 mb-30 center-div" style={{ marginBottom: "20px", position: "relative" }}>
-                    <div className="properties__card" onClick={() => handleCardClick(course.train_course_id)} style={{ height: "440px", border: "1px solid #e0e0e0", borderRadius: "10px", overflow: "hidden", position: "relative" }}>
+                <div
+                  className="col-lg-3"
+                  key={course.train_course_id}
+                  data-aos="fade-up"
+                >
+                  <div
+                    className="properties properties2 mb-30 center-div"
+                    style={{ marginBottom: "20px", position: "relative" }}
+                  >
+                    <div
+                      className="properties__card"
+                      onClick={() => handleCardClick(course.train_course_id)}
+                      style={{
+                        height: "440px",
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "10px",
+                        overflow: "hidden",
+                        position: "relative",
+                      }}
+                    >
                       {/* Card content */}
-                      <div className="properties__img overlay1" style={{ position: "relative" }}>
+                      <div
+                        className="properties__img overlay1"
+                        style={{ position: "relative" }}
+                      >
                         <Link to={`/detail/${course.train_course_id}`}>
-                          <img src={`${apiUrl}/images/${course.image}`} alt="" />
+                          <img
+                            src={`${apiUrl}/images/${course.image}`}
+                            alt=""
+                          />
                         </Link>
-                        <div className="course-type">{course.course_id == 1 ? "Basic" : "Retreat"}</div>
+                        <div className="course-type">
+                          {course.course_id == 1 ? "Basic" : "Retreat"}
+                        </div>
                         {/* People icon and number text */}
                         <div className="people-icon">
                           <i className="bi bi-people"></i>
-                          <span className="people-count">{course.count} / {course.limit}</span>
+                          <span className="people-count">
+                            {course.count} / {course.limit}
+                          </span>
                         </div>
                       </div>
                       <div className="properties__caption">
                         <h5>
-                          <Link to={`/detail/${course.train_course_id}`}>{course.course_detail_name.length > 63 ? `${course.course_detail_name.substring(0, 63)}...` : course.course_detail_name}</Link>
+                          <Link to={`/detail/${course.train_course_id}`}>
+                            {course.course_detail_name.length > 63
+                              ? `${course.course_detail_name.substring(
+                                  0,
+                                  63
+                                )}...`
+                              : course.course_detail_name}
+                          </Link>
                         </h5>
                         <p>{course.train_detail}</p>
                         <div className="properties__skill">
-                          <span>{course.skills.length > 50 ? `${course.skills.substring(0, 50)}...` : course.skills}</span>
+                          <span>
+                            {course.skills.length > 50
+                              ? `${course.skills.substring(0, 50)}...`
+                              : course.skills}
+                          </span>
                         </div>
                         <div className="properties__footer">
                           <div className="date" style={{ color: "gray" }}>
                             <span>
-                              <p>Enroll {formatDate(course.start_enroll_date, course.end_enroll_date)}</p>
+                              <p>
+                                Enroll{" "}
+                                {formatDate(
+                                  course.start_enroll_date,
+                                  course.end_enroll_date
+                                )}
+                              </p>
                             </span>
                           </div>
                         </div>
                         <div className="properties__footer">
                           <div className="date" style={{ color: "gray" }}>
-                            <p>Training {formatDate(course.start_date, course.finish_date)}</p>
+                            <p>
+                              Training{" "}
+                              {formatDate(
+                                course.start_date,
+                                course.finish_date
+                              )}
+                            </p>
                           </div>
                         </div>
                         <div className="location">
                           <span>
-                            <p>{course.train_place.length > 50 ? `${course.train_place.substring(0, 50)}...` : course.train_place}</p>
+                            <p>
+                              {course.train_place.length > 50
+                                ? `${course.train_place.substring(0, 50)}...`
+                                : course.train_place}
+                            </p>
                           </span>
                         </div>
                       </div>
@@ -291,7 +415,9 @@ function Course(props) {
           </>
         ) : (
           <div className="row justify-content-center mb-4">
-            <h2 className="text-center">You need to complete Basic Counseling courses first</h2>
+            <h2 className="text-center">
+              You need to complete Basic Counseling courses first
+            </h2>
           </div>
         )}
       </div>
@@ -299,7 +425,10 @@ function Course(props) {
       {/* Retreat Courses Section End */}
 
       <a>
-        <div ref={searchWrapperRef} className={`search-wrapper ${isActive ? "active" : ""}`}>
+        <div
+          ref={searchWrapperRef}
+          className={`search-wrapper ${isActive ? "active" : ""}`}
+        >
           <div className="input-holder">
             <input
               type="text"
@@ -316,7 +445,7 @@ function Course(props) {
           <span className="close" onClick={toggleSearch}></span>
         </div>
       </a>
-    </Main >
+    </Main>
   );
 }
 

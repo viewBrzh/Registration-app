@@ -3,8 +3,13 @@ import Main from "../layouts/main";
 import { Link } from "react-router-dom";
 import apiUrl from "../api/apiConfig";
 import ModalInterest from "../components/modalInterest";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 function Home() {
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
   const [courses, setCourses] = useState([]);
   const [hasCompletedBasic, setHasCompletedBasic] = useState(false);
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -16,7 +21,8 @@ function Home() {
         .then((response) => response.json())
         .then((data) => {
           const hasCompleted = data.courses?.some(
-            (enrollment) => enrollment.course_id === 1 && enrollment.status === 1
+            (enrollment) =>
+              enrollment.course_id === 1 && enrollment.status === 1
           );
           setHasCompletedBasic(hasCompleted);
 
@@ -25,7 +31,9 @@ function Home() {
             fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`)
               .then((response) => response.json())
               .then((data) => {
-                const coursesData = data?.filter((course) => course.course_id === 1 && course.isPublish === 1);
+                const coursesData = data?.filter(
+                  (course) => course.course_id === 1 && course.isPublish === 1
+                );
                 setCourses(coursesData);
               })
               .catch((error) => console.error("Error fetching data:", error));
@@ -44,12 +52,13 @@ function Home() {
       fetch(`${apiUrl}/course/courseByYear/${currentYearBE}`)
         .then((response) => response.json())
         .then((data) => {
-          const coursesData = data?.filter((course) => course.course_id === 1 && course.isPublish === 1);
+          const coursesData = data?.filter(
+            (course) => course.course_id === 1 && course.isPublish === 1
+          );
           setCourses(coursesData);
         })
         .catch((error) => console.error("Error fetching data:", error));
     }
-
   }, []);
 
   const formatDate = (start_date, finish_date) => {
@@ -65,7 +74,9 @@ function Home() {
     if (start_date === finish_date) {
       return formatBEYear(new Date(start_date));
     } else {
-      return `${formatBEYear(new Date(start_date))} - ${formatBEYear(new Date(finish_date))}`;
+      return `${formatBEYear(new Date(start_date))} - ${formatBEYear(
+        new Date(finish_date)
+      )}`;
     }
   };
 
@@ -78,12 +89,14 @@ function Home() {
           id="header-carousel"
           className="carousel slide carousel-fade"
           data-bs-ride="carousel"
+          data-aos="fade-up"
         >
           <div className="carousel-inner">
             {courses.map((course, index) => (
               <div
                 key={index}
                 className={`carousel-item ${index === 0 ? "active" : ""}`}
+                data-aos="fade-up"
               >
                 <img
                   className="w-100"
@@ -118,7 +131,11 @@ function Home() {
                           }}
                         >
                           {course.train_detail} <br />
-                          {formatDate(course.start_date, course.finish_date)} <br />
+                          {formatDate(
+                            course.start_date,
+                            course.finish_date
+                          )}{" "}
+                          <br />
                           {course.train_place}
                         </p>
                         <Link
@@ -166,11 +183,11 @@ function Home() {
       <hr></hr>
       <br></br>
       <div className="container mt-5">
-        <div className="row justify-content-center">
+        <div className="row justify-content-center" data-aos="fade-up">
           <div className="col-lg-6 text-center">
             <h2 className="text-dark mb-4">Course Types</h2>
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-6" data-aos="fade-up">
                 <Link to={`/course#basic`}>
                   <div
                     className="card mb-4"
@@ -193,7 +210,7 @@ function Home() {
                   </div>
                 </Link>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-6" data-aos="fade-up">
                 <Link to={`/course#retreat`}>
                   <div
                     className="card mb-4"
@@ -220,8 +237,7 @@ function Home() {
         </div>
       </div>
 
-      <div className="container mt-5">
-
+      <div className="container mt-5" data-aos="fade-up">
         <div className="card mb-4">
           <div className="homecard-body">
             <div className="row">
@@ -251,7 +267,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="card mb-4">
+        <div className="card mb-4" data-aos="fade-up">
           <div
             className="homecard-body"
             style={{
@@ -283,9 +299,8 @@ function Home() {
             </div>
           </div>
         </div>
-
       </div>
-      {userData && <ModalInterest/>}
+      {userData && <ModalInterest />}
     </Main>
   );
 }

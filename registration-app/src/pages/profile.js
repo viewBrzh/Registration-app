@@ -4,8 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { Modal, Button, Form } from "react-bootstrap";
 import FileUploadProfile from "../components/fileUploadProfile";
 import apiUrl from "../api/apiConfig";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 function Profile() {
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
   const storedUserData = localStorage.getItem("userData");
   const [courses, setCourses] = useState([]);
   const [skillsData, setSkillsData] = useState({});
@@ -25,14 +30,16 @@ function Profile() {
         return response.json();
       })
       .then((data) => {
-        setInterestedSkill(data[0].skills.split(', ')); // Use data[0] instead of course
+        setInterestedSkill(data[0].skills.split(", ")); // Use data[0] instead of course
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
   const handleTagSelection = (tag) => {
     if (selectedTags.includes(tag)) {
-      setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
+      setSelectedTags(
+        selectedTags.filter((selectedTag) => selectedTag !== tag)
+      );
     } else {
       setSelectedTags([...selectedTags, tag]);
     }
@@ -56,14 +63,17 @@ function Profile() {
 
   const handleSaveTags = async () => {
     try {
-      const skillsString = selectedTags.join(', ');
-      const response = await fetch(`${apiUrl}/interest/update/${userDatas.user_id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ skills: skillsString }),
-      });
+      const skillsString = selectedTags.join(", ");
+      const response = await fetch(
+        `${apiUrl}/interest/update/${userDatas.user_id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ skills: skillsString }),
+        }
+      );
       if (response.status === 200) {
         alert("Interests updated successfully!");
         setShowInterest(false);
@@ -82,8 +92,8 @@ function Profile() {
 
   const handleCloseInterest = () => setShowInterest(false);
   const handleShowInterest = () => {
-    console.log("show interest ")
-    setShowInterest(true)
+    console.log("show interest ");
+    setShowInterest(true);
   };
 
   const handleSaveChanges = () => {
@@ -146,18 +156,20 @@ function Profile() {
   };
 
   const skillDescriptions = {
-    "MENTALIZATION-BASED THERAPY": "Understanding thoughts and feelings interactions.",
+    "MENTALIZATION-BASED THERAPY":
+      "Understanding thoughts and feelings interactions.",
     "Satir systemic therapy": "Family therapy focusing on communication.",
-    "Coaching": "Guiding personal and professional growth.",
+    Coaching: "Guiding personal and professional growth.",
     "Mindfulness-based therapy": "Therapy using mindfulness techniques.",
-    "Communication with parents": "Enhancing parent-child communication skills.",
+    "Communication with parents":
+      "Enhancing parent-child communication skills.",
     "Oracle card into the mind": "Using oracle cards for insights.",
     "Problem-solving therapy": "Therapy for solving personal problems.",
-    "Enneagram": "Personality typing system for growth.",
+    Enneagram: "Personality typing system for growth.",
     "Relaxation technique": "Methods to reduce stress and anxiety.",
-    "PSYCHOEDUCATION": "Educating about psychological issues.",
-    "Basic Counseling": "Fundamental counseling skills and techniques."
-};
+    PSYCHOEDUCATION: "Educating about psychological issues.",
+    "Basic Counseling": "Fundamental counseling skills and techniques.",
+  };
 
   return (
     <Main>
@@ -228,6 +240,7 @@ function Profile() {
                 <div className="col-md-4">
                   <div
                     className="custom-info-card"
+                    data-aos="fade-up"
                     style={{ backgroundColor: "#FFFFFF" }}
                   >
                     <div className="contact-container">
@@ -308,23 +321,22 @@ function Profile() {
                                     }
                                   >
                                     <td>{course.course_detail_name}</td>
-                                    <td>
-                                      {formatDate(course.start_date)}
-                                    </td>
+                                    <td>{formatDate(course.start_date)}</td>
                                     <td>
                                       <span
-                                        className={`status ${course.status === 0
-                                          ? "pending"
-                                          : course.status === 1
+                                        className={`status ${
+                                          course.status === 0
+                                            ? "pending"
+                                            : course.status === 1
                                             ? "pass"
                                             : "failed"
-                                          }`}
+                                        }`}
                                       >
                                         {course.status === 0
                                           ? "Pending"
                                           : course.status === 1
-                                            ? "Pass"
-                                            : "Failed"}
+                                          ? "Pass"
+                                          : "Failed"}
                                       </span>
                                     </td>
                                   </tr>
@@ -334,8 +346,9 @@ function Profile() {
                         </div>
                         <div className="d-flex justify-content-center">
                           <button
-                            className={`btn previous-btn ${currentPage === 1 ? "disabled" : ""
-                              }`}
+                            className={`btn previous-btn ${
+                              currentPage === 1 ? "disabled" : ""
+                            }`}
                             onClick={handlePreviousPage}
                             disabled={currentPage === 1}
                           >
@@ -346,8 +359,9 @@ function Profile() {
                             {currentPage} of {totalPages}{" "}
                           </span>
                           <button
-                            className={`next-btn ${currentPage === totalPages ? "disabled" : ""
-                              }`}
+                            className={`next-btn ${
+                              currentPage === totalPages ? "disabled" : ""
+                            }`}
                             onClick={handleNextPage}
                             disabled={currentPage === totalPages}
                           >
@@ -366,6 +380,7 @@ function Profile() {
                   <div
                     className="custom-skill-card"
                     style={{ backgroundColor: "#FFFFFF" }}
+                    data-aos="fade-up"
                   >
                     <h4 className="head-h4">Skills</h4>
                     {/* Skill Card Content Here */}
@@ -594,18 +609,19 @@ function Profile() {
                           </td>
                           <td>
                             <span
-                              className={`status ${course.status === 0
-                                ? "waiting"
-                                : course.status === 1
+                              className={`status ${
+                                course.status === 0
+                                  ? "waiting"
+                                  : course.status === 1
                                   ? "finish"
                                   : "failed"
-                                }`}
+                              }`}
                             >
                               {course.status === 0
                                 ? "waiting"
                                 : course.status === 1
-                                  ? "finish"
-                                  : "failed"}
+                                ? "finish"
+                                : "failed"}
                             </span>
                           </td>
                         </tr>
@@ -629,44 +645,59 @@ function Profile() {
       )}
 
       {showInterest && (
-        <div className="modal d-flex" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
-        <div className="modal-dialog" style={{ maxWidth: "1000px", width: "100%" }}>
+        <div
+          className="modal d-flex"
+          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div
+            className="modal-dialog"
+            style={{ maxWidth: "1000px", width: "100%" }}
+          >
             <div className="modal-content">
-                <div className="modal-header">
-                    <h5 className="modal-title">Choose Skills</h5>
-                    <button type="button" className="close" onClick={handleCloseInterest}>
-                        <span>&times;</span>
-                    </button>
+              <div className="modal-header">
+                <h5 className="modal-title">Choose Skills</h5>
+                <button
+                  type="button"
+                  className="close"
+                  onClick={handleCloseInterest}
+                >
+                  <span>&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="cable-choose" style={{ margin: "20px" }}>
+                  <div className="row">
+                    {Object.keys(skillDescriptions).map((tag, index) => (
+                      <div className="col-lg-4 mb-3" key={tag}>
+                        <button
+                          className={`skill-cable-button btn ${
+                            selectedTags.includes(tag) ? "active" : ""
+                          }`}
+                          style={{ width: "100%", marginBottom: "10px" }}
+                          onClick={() => handleTagSelection(tag)}
+                        >
+                          <div className="info">{tag}</div>
+                          <div className="skill-cable">
+                            {skillDescriptions[tag]}
+                          </div>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="modal-body">
-                    <div className="cable-choose" style={{ margin: '20px'}}>
-                        <div className="row">
-                            {Object.keys(skillDescriptions).map((tag, index) => (
-                                <div className="col-lg-4 mb-3" key={tag}>
-                                    <button
-                                        className={`skill-cable-button btn ${selectedTags.includes(tag) ? "active" : ""}`}
-                                        style={{ width: "100%", marginBottom: '10px' }}
-                                        onClick={() => handleTagSelection(tag)}
-                                    >
-                                        <div className="info">{tag}</div>
-                                        <div className="skill-cable">{skillDescriptions[tag]}</div>
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-                <div className="modal-footer">
-                    <button className="btn" onClick={handleCloseInterest}>
-                        Back
-                    </button>
-                    <button className="btn btn-primary" onClick={handleSaveTags}>
-                        Confirm
-                    </button>
-                </div>
+              </div>
+              <div className="modal-footer">
+                <button className="btn" onClick={handleCloseInterest}>
+                  Back
+                </button>
+                <button className="btn btn-primary" onClick={handleSaveTags}>
+                  Confirm
+                </button>
+              </div>
             </div>
+          </div>
         </div>
-    </div>)}
+      )}
 
       {/* Modal */}
       <Modal
