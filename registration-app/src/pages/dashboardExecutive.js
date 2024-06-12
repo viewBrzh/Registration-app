@@ -463,7 +463,7 @@ function DashboardExecutive() {
       </div>
 
       {/* Content */}
-      <div className="container-fluid" data-aos="fade-up">
+      <div className="container-fluid">
         <div className="row">
           {/*Course */}
           <div className="col-sm-8 d-flex">
@@ -472,7 +472,7 @@ function DashboardExecutive() {
           {/* Course End */}
 
           {/* Bar Chart */}
-          <div className="col-sm-4 " data-aos="fade-up">
+          <div className="col-sm-4 ">
             <div className="details d-flex">
               <div className="recentOrders">
                 <div className="cardHeader">
