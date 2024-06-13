@@ -441,12 +441,12 @@ function Updatecourse(props) {
                 <div className="cable-choose" style={{ margin: '10px' }}>
                   {allSkills.map(tag => (
                     <button
-                      className={`cable-choose button ${selectedTags.includes(tag) ? "active" : ""}`}
-                      key={tag}
-                      onClick={() => handleTagSelection(tag)}
+                      className={`cable-choose button ${selectedTags.includes(tag.name) ? "active" : ""}`}
+                      key={tag.id}
+                      onClick={() => handleTagSelection(tag.name)}
                       style={{ margin: '5px' }}
                     >
-                      {tag}
+                      {tag.name}
                     </button>
                   ))}
                 </div>

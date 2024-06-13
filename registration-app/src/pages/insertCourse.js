@@ -268,19 +268,16 @@ function InsertCourse() {
                                 <div className="cable-choose" style={{ margin: '10px' }}>
                                     {allSkills.map(tag => (
                                         <button
-                                            className={`cable-choose button ${selectedTags.includes(tag) ? "active" : ""}`}
-                                            key={tag}
+                                            className={`cable-choose button ${selectedTags.includes(tag.name) ? "active" : ""}`}
+                                            key={tag.id}
+                                            onClick={() => handleTagSelection(tag.name)}
                                             style={{ margin: '5px' }}
-                                            onClick={() => handleTagSelection(tag)}
                                         >
-                                            {tag}
+                                            {tag.name}
                                         </button>
                                     ))}
                                 </div>
                                 <div className="modal-footer">
-                                    <Button variant="secondary" onClick={() => setShowModal(false)}>
-                                        Back
-                                    </Button>
                                     <Button variant="primary" onClick={handleSaveTags}>
                                         Confirm
                                     </Button>
@@ -288,7 +285,6 @@ function InsertCourse() {
                             </div>
                         </div>
                     </div>}
-
             </div>
         </Main >
     );
