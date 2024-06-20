@@ -8,6 +8,8 @@ import { Modal, Button, Form } from "react-bootstrap";
 import UserTableEx from "../components/userTableEx";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import UserTableExEnroll from "../components/userTableExEnroll";
+import UserTableExNotEnroll from "../components/userTableExNotEnroll";
 
 function DashboardExecutive() {
   useEffect(() => {
@@ -32,6 +34,8 @@ function DashboardExecutive() {
   const [usersub, setusersub] = useState([]);
   const [enrolled, setEnrolled] = useState([]);
   const [showUser, setShowUser] = useState(false);
+  const [showUserEnroll, setShowUserEnroll] = useState(false);
+  const [showUserNotEnroll, setShowUserNotEnroll] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -426,7 +430,7 @@ function DashboardExecutive() {
           </div>
         </div>
 
-        <div className="carddash">
+        <div className="carddash" onClick={() => setShowUserEnroll(true)}>
           <div>
             <div className="cardName">Enrolled</div>
             <div className="numbers">{enrolled.length}</div>
@@ -437,7 +441,7 @@ function DashboardExecutive() {
           </div>
         </div>
 
-        <div className="carddash">
+        <div className="carddash" onClick={() => setShowUserNotEnroll(true)}>
           <div>
             <div className="cardName">Not enrolled yet</div>
             <div className="numbers">{usersub.length - enrolled.length}</div>
@@ -559,6 +563,66 @@ function DashboardExecutive() {
             <button
               className="btn btn-cancel"
               onClick={() => setShowUser(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showUserEnroll && (
+        <div
+          className="modal d-flex justify-content-center align-items-center"
+          style={{
+            display: showModal ? "block" : "none",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            position: "fixed",
+          }}
+        >
+          <div
+            className="modal-content"
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              borderRadius: "5px",
+              maxWidth: "1000px",
+            }}
+          >
+            <UserTableExEnroll />
+            <br />
+            <button
+              className="btn btn-cancel"
+              onClick={() => setShowUserEnroll(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showUserNotEnroll && (
+        <div
+          className="modal d-flex justify-content-center align-items-center"
+          style={{
+            display: showModal ? "block" : "none",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            position: "fixed",
+          }}
+        >
+          <div
+            className="modal-content"
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              borderRadius: "5px",
+              maxWidth: "1000px",
+            }}
+          >
+            <UserTableExNotEnroll />
+            <br />
+            <button
+              className="btn btn-cancel"
+              onClick={() => setShowUserNotEnroll(false)}
             >
               Close
             </button>

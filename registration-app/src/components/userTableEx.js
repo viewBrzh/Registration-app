@@ -108,7 +108,7 @@ const UserTableEx = () => {
 
   return (
     <div className="container">
-      <div className="row">
+      <div className="row" style={{ overflowX: "auto" }}>
         <div className="col">
           <h2>User Table</h2>
           <div className="col-auto d-flex align-items-center">

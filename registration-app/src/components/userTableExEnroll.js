@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import apiUrl from "../api/apiConfig";
 
-const UserTable = () => {
+const UserTableExEnroll = () => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const [loading, setLoading] = useState(true);
   const storedYear = JSON.parse(localStorage.getItem("selectedYear"));
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const ownerFaculty = userData?.faculty || "";
+  const [selectedDepartment, setSelectedDepartment] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +43,7 @@ const UserTable = () => {
     };
 
     fetchData();
-  }, []);
+  }, [storedYear, userData, ownerFaculty]);
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -57,17 +60,23 @@ const UserTable = () => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = users
-      .filter((user) => user.role !== "admin")
+      .filter(
+        (user) =>
+          user.role !== "admin" &&
+          user.faculty === ownerFaculty &&
+          (user.status === "pass" || user.status === "enrolled") &&
+          (selectedDepartment === "" || user.department === selectedDepartment)
+      )
       .slice(indexOfFirstItem, indexOfLastItem);
 
-    return currentItems.map((user, index) => (
-      <tr key={index}>
+    return currentItems.map((user) => (
+      <tr key={user.user_id}>
         <td>{user.user_id}</td>
         <td>{user.username}</td>
         <td>{user.email}</td>
         <td>{user.phone}</td>
+        <td>{user.faculty}</td>
         <td>{user.department}</td>
-        <td>{user.branch}</td>
         <td>
           <span className={`status ${getStatusClass(user.status)}`}>
             {user.status}
@@ -78,30 +87,64 @@ const UserTable = () => {
   };
 
   const totalPages = Math.ceil(
-    users.filter((user) => user.role !== "admin").length / itemsPerPage
+    users.filter(
+      (user) =>
+        user.role !== "admin" &&
+        user.faculty === ownerFaculty &&
+        (user.status === "pass" || user.status === "enrolled") &&
+        (selectedDepartment === "" || user.department === selectedDepartment)
+    ).length / itemsPerPage
   );
+
+  const handleBranchChange = (evt) => {
+    setSelectedDepartment(evt.target.value);
+    setCurrentPage(1);
+  };
+
+  const filteredDepartment = users
+    .filter((user) => user.faculty === ownerFaculty)
+    .map((user) => user.department)
+    .filter((department, index, self) => self.indexOf(department) === index);
 
   return (
     <div className="container">
       <div className="row" style={{ overflowX: "auto" }}>
         <div className="col">
-          <h2>Instructor list</h2>
-          <table className="table">
+          <h2>User Table</h2>
+          <div className="col-auto d-flex align-items-center">
+            <>
+              <select
+                id="branchFilter"
+                className="form-select me-2"
+                value={selectedDepartment}
+                onChange={handleBranchChange}
+                style={{ width: "auto" }}
+              >
+                <option value="">All Department</option>
+                {filteredDepartment.map((department) => (
+                  <option key={department} value={department}>
+                    {department}
+                  </option>
+                ))}
+              </select>
+            </>
+          </div>
+          <table className="table" style={{ overflowX: "auto" }}>
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Faculty</th>
                 <th>Department</th>
-                <th>Branch</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="6">Loading...</td>
+                  <td colSpan="7">Loading...</td>
                 </tr>
               ) : (
                 renderTableData()
@@ -139,4 +182,4 @@ const UserTable = () => {
   );
 };
 
-export default UserTable;
+export default UserTableExEnroll;
