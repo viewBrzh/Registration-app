@@ -30,6 +30,8 @@
 /* Left Column */
 .left-column img {
     width: 100%;
+    height: 400px;
+    object-fit: contain;
     position: absolute;
     left: 0;
     top: 0;
@@ -58,9 +60,9 @@
 
     .left-column img {
         width: 100%;
-        height: 100%;
+        height: 400px;
         /* ทำให้รูปภาพเต็มพื้นที่ของ left-column โดยไม่ต้องเสียหายข้อมูล */
-        object-fit: cover;
+        object-fit: contain;
         /* ปรับขนาดรูปภาพให้ครอบคลุมพื้นที่ของ left-column */
         border-radius: 15px;
         top: 0;
@@ -89,9 +91,8 @@
 
     .left-column img {
         width: 100%;
-        height: 100%;
-        /* ทำให้รูปภาพเต็มพื้นที่ของ left-column โดยไม่ต้องเสียหายข้อมูล */
-        object-fit: cover;
+        height: 400px;
+        object-fit: contain;
         border-radius: 15px;
         top: 0;
         left: 0;
@@ -232,37 +233,6 @@
 }
 
 /* Responsive */
-@media (max-width: 940px) {
-    .container {
-        flex-direction: column;
-    }
-
-    .left-column {
-        padding-right: 0;
-        padding-bottom: 10px;
-    }
-
-    .left-column,
-    .right-column {
-        width: 100%;
-    }
-
-    .left-column {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: auto;
-    }
-
-    .left-column img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 15px;
-        margin-top: 0;
-        margin-bottom: 0.5px;
-    }
-}
 
 @media (max-width: 768px) {
     .left-column {
@@ -280,8 +250,8 @@
 
     .left-column img {
         width: 100%;
-        height: 100%;
-        object-fit: cover;
+        height: 400px;
+        object-fit: contain;
         border-radius: 15px;
         margin-top: 0;
         margin-bottom: 0.5px;
