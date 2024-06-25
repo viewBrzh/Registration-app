@@ -52,7 +52,7 @@ const Interest = () => {
                 if (hasCompletedBasic) {
                     filtered = data?.filter(fcourse =>
                         fcourse.skills && fcourse.skills.split(', ').some(skill => interest?.includes(skill)) &&
-                        fcourse.isPublish === 1
+                        fcourse.course_id === 2 && fcourse.isPublish === 1
                     );
                     setFilteredCourses(filtered)
                     console.log(filtered);

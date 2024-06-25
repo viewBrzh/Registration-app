@@ -257,7 +257,7 @@ function Detail(props) {
           <div className="card-container-notification" data-aos="fade-up">
             <h4>Feedback</h4>
             <br />
-            {feedbacks.map((feedback, index) => (
+            {feedbacks?.map((feedback, index) => (
               <div className="card-notification" key={index} data-aos="fade-up">
                 <div className="card-body-notification">
                   <div className="row">
@@ -270,11 +270,13 @@ function Detail(props) {
                         size={24}
                         isHalf={true}
                         value={feedback.rating}
+                        edit={false}
                         emptyIcon={<i className="far fa-star"></i>}
                         halfIcon={<i className="fa fa-star-half-alt"></i>}
                         fullIcon={<i className="fa fa-star"></i>}
                         activeColor="#ffd700"
                       />
+
                       <span className="card-date">
                         {formatDate(feedback.date, feedback.date)}
                       </span>

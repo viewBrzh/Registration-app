@@ -498,8 +498,8 @@ function DashboardAdmin() {
         <div className="carddash" onClick={handleShowModal}>
           <div>
             <div className="cardName">Specified criteria</div>
-            <div className="numbers">{criteria}</div>
-            <div className="cardName">people to pass the criteria</div>
+            <div className="numbers">{criteria}%</div>
+            <div className="cardName">of people to pass the criteria</div>
           </div>
           <div className="iconBx">
             <ion-icon name="cog-outline"></ion-icon>
