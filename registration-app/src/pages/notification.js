@@ -161,33 +161,29 @@ function Notification(props) {
                   </span>
                 </div>
                 <div className="col-2 justify-content-end d-flex">
-                  {course.start_date ? (<>
-
-                    {!course.status === 3 || !course.status === 4 ? <>
-                      <button
-                        className="btn cancel-noti"
-                        onClick={() => handleStatusChange(course.enroll_id, 4)}
-                      >
-                        Cancel
-                      </button>
-
-                      <button
-                        className="btn confirm-noti"
-                        onClick={() => handleStatusChange(course.enroll_id, 3)}
-                      >
-                        Confirm
-                      </button>
-
-                    </> : !course.status === 4 ? <>
-                      <div style={{ color: '#E90073' }}>
-                        Confirmed
-                      </div>
-                    </> :
-                      <div style={{ color: 'red' }}>
-                        Cancelled
-                      </div>
-                    }
-                  </>
+                  {course.start_date ? (
+                    <>
+                      {course.status === 0 || course.status === 1 || course.status === 2 ? (
+                        <>
+                          <button
+                            className="btn cancel-noti"
+                            onClick={() => handleStatusChange(course.enroll_id, 4)}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            className="btn confirm-noti"
+                            onClick={() => handleStatusChange(course.enroll_id, 3)}
+                          >
+                            Confirm
+                          </button>
+                        </>
+                      ) : course.status === 3 ? (
+                        <div style={{ color: "#E90073" }}>Confirmed <i className=" bi-check-circle-fill"></i></div>
+                      ) : course.status === 4 && (
+                        <div style={{ color: "red" }}>Cancelled <i className="bi-x-circle"></i></div>
+                      )}
+                    </>
                   ) : (
                     <button
                       className="btn btn-primary review"

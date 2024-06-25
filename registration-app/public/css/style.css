@@ -1762,8 +1762,8 @@ img.logo-wu:hover {
 }
 
 .review {
-    color: #E90073;
-    background-color: white;
+    color: white;
+    background-color: #E90073;
     height: min-content;
     border: 4px !important;
 }
