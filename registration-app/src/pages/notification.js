@@ -27,27 +27,31 @@ function Notification(props) {
   };
 
   const handleConfirm = async () => {
-    try {
-      const response = await fetch(`${apiUrl}/feedback/add`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          rating: rating,
-          comment: comment,
-          date: new Date().toISOString().slice(0, 10),
-          enroll_id: enroll_id,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to add feedback");
+    const confirm = window.confirm(`This process is permanent and can't be changed or deleted. Are you sure you want to submit your feedback?`);
+    if (confirm) {
+      try {
+        const response = await fetch(`${apiUrl}/feedback/add`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            rating: rating,
+            comment: comment,
+            date: new Date().toISOString().slice(0, 10),
+            enroll_id: enroll_id,
+          }),
+        });
+        if (!response.ok) {
+          throw new Error("Failed to add feedback");
+        }
+        setShowModal(false);
+        setComment("");
+      } catch (error) {
+        console.error("Error adding feedback:", error);
       }
-      setShowModal(false);
-      setComment("");
-    } catch (error) {
-      console.error("Error adding feedback:", error);
     }
+
   };
 
   const handleStatusChange = (enrollId, newStatus) => {
