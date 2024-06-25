@@ -12,7 +12,7 @@ function Notification(props) {
   const [courseId, setCourseId] = useState(null);
   const [notiCourse, setNotiCourse] = useState([]);
   const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState(null);
+  const [comment, setComment] = useState("");
   const [enroll_id, setEnroll_id] = useState(null);
 
   const navigate = useNavigate();
@@ -36,17 +36,44 @@ function Notification(props) {
         body: JSON.stringify({
           rating: rating,
           comment: comment,
-          date: new Date().toISOString().slice(0, 10), // Format the current date as YYYY-MM-DD
+          date: new Date().toISOString().slice(0, 10),
           enroll_id: enroll_id,
         }),
       });
       if (!response.ok) {
         throw new Error("Failed to add feedback");
       }
-      setShowModal(false); // Close the modal after successful submission
+      setShowModal(false);
       setComment("");
     } catch (error) {
       console.error("Error adding feedback:", error);
+    }
+  };
+
+  const handleStatusChange = (enrollId, newStatus) => {
+    const confirm = window.confirm(`Are you sure you want to ${newStatus === 3 ? "CONFIRM" : "CANCEL"} enrollment in this course?`);
+
+    if (confirm) {
+      fetch(`${apiUrl}/enroll/updateEnrollStatus/${enrollId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: newStatus })
+      })
+        .then(response => {
+          if (response.ok) {
+            const updatedNotiCourse = notiCourse.map(course =>
+              course.enroll_id === enrollId ? { ...course, status: newStatus } : course
+            );
+            setNotiCourse(updatedNotiCourse);
+          } else {
+            console.error('Failed to update status');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
     }
   };
 
@@ -87,7 +114,7 @@ function Notification(props) {
       setNotiCourse(courses);
     };
     fetchData();
-  }, [noti]);
+  }, []); // Note: Removed `noti` from dependency array
 
   return (
     <Main>
@@ -119,25 +146,49 @@ function Notification(props) {
                   </h5>
                   <p className="card-text">
                     {course.start_date
-                      ? `You have enrolled in the course titled "${
-                          course.course_detail_name
-                        }", scheduled to start on ${formatDate(
-                          course.start_date
-                        )}, at the "${
-                          course.train_place
-                        }" venue. Don't forget to prepare for this upcoming session. We look forward to your participation!`
+                      ? `You have enrolled in the course titled "${course.course_detail_name
+                      }", scheduled to start on ${formatDate(
+                        course.start_date
+                      )}, at the "${course.train_place
+                      }" venue. Don't forget to prepare for this upcoming session. We look forward to your participation!`
                       : `Congratulations! You have completed the training course "${course.course_detail_name}". Please give us a rating.`}
                   </p>
                   <span className="card-date">
                     {course.finish_date
                       ? formatDate(course.finish_date)
-                      : `${formatDate(course.start_date)} at "${
-                          course.train_place
-                        }" venue.`}
+                      : `${formatDate(course.start_date)} at "${course.train_place
+                      }" venue.`}
                   </span>
                 </div>
                 <div className="col-2 justify-content-end d-flex">
-                  {course.start_date ? null : (
+                  {course.start_date ? (<>
+
+                    {!course.status === 3 || !course.status === 4 ? <>
+                      <button
+                        className="btn cancel-noti"
+                        onClick={() => handleStatusChange(course.enroll_id, 4)}
+                      >
+                        Cancel
+                      </button>
+
+                      <button
+                        className="btn confirm-noti"
+                        onClick={() => handleStatusChange(course.enroll_id, 3)}
+                      >
+                        Confirm
+                      </button>
+
+                    </> : !course.status === 4 ? <>
+                      <div style={{ color: '#E90073' }}>
+                        Confirmed
+                      </div>
+                    </> :
+                      <div style={{ color: 'red' }}>
+                        Cancelled
+                      </div>
+                    }
+                  </>
+                  ) : (
                     <button
                       className="btn btn-primary review"
                       onClick={() =>
@@ -201,7 +252,7 @@ function Notification(props) {
                 onChange={handleCommentChange}
               />
             </form>
-            <button className="btn btn-cancel" onClick={() => cancel()}>
+            <button className="btn btn-cancel" onClick={cancel}>
               Cancel
             </button>
             <button className="btn btn-primary" onClick={handleConfirm}>

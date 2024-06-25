@@ -5,7 +5,6 @@ import { exportEnrollToExcel } from "../components/excelUtils";
 import apiUrl from "../api/apiConfig";
 import DownloadButton from "../components/downloadButton";
 
-// Define a constant for the number of items per page
 const ITEMS_PER_PAGE = 25;
 
 function EnrollManage() {
@@ -13,7 +12,6 @@ function EnrollManage() {
   const [users, setUsers] = useState({});
   const { courseId } = useParams();
   const [course, setCourse] = useState();
-
   const [filteredEnrollments, setFilteredEnrollments] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isActive, setIsActive] = useState(false);
@@ -154,7 +152,6 @@ function EnrollManage() {
     }
   };
 
-  // Calculate pagination
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
   const currentItems = filteredEnrollments?.slice(indexOfFirstItem, indexOfLastItem);
@@ -170,13 +167,12 @@ function EnrollManage() {
 
   const handleMarkAllFinish = () => {
     const confirm = window.confirm('Are you sure you want to mark all enrollments as Finish?');
-
+  
     if (confirm) {
-      const updatedEnrollments = filteredEnrollments.map(enrollment => ({
-        ...enrollment,
-        status: 1 // 1 represents the status for Finish
-      }));
-
+      const updatedEnrollments = enrollments.map(enrollment =>
+        enrollment.status !== 4 ? { ...enrollment, status: 1 } : enrollment
+      );
+  
       Promise.all(updatedEnrollments.map(enrollment =>
         fetch(`${apiUrl}/enroll/updateEnrollStatus/${enrollment.enroll_id}`, {
           method: 'PUT',
@@ -189,15 +185,11 @@ function EnrollManage() {
           .catch(error => console.error('Error:', error))
       ))
         .then(() => {
-          setEnrollments(enrollments => enrollments.map(enrollment =>
-            updatedEnrollments.find(updatedEnrollment => updatedEnrollment.enroll_id === enrollment.enroll_id) || enrollment
-          ));
+          setEnrollments(updatedEnrollments);
         })
         .catch(error => console.error('Error:', error));
     }
   };
-
-  
 
   return (
     <Main>
@@ -265,23 +257,26 @@ function EnrollManage() {
                       <td>{users[enrollment.user_id]?.email}</td>
                       <td>{users[enrollment.user_id]?.phone}</td>
                       <td>{users[enrollment.user_id]?.department}</td>
-                      <td>{formatDate(enrollment.enroll_date)}</td>
+                      <td>{new Date(enrollment.enroll_date).toLocaleDateString()}</td>
                       <td>
                         <select
+                          className="form-select"
                           value={enrollment.status}
                           onChange={(e) => handleStatusChange(enrollment.enroll_id, e.target.value)}
                         >
-                          <option value="0">Pending</option>
-                          <option value="1">Pass</option>
-                          <option value="2">Failed</option>
+                          <option value={0}>Enrolled</option>
+                          <option value={1}>Finish</option>
+                          <option value={2}>Incomplete</option>
+                          <option value={3}>Cancel</option>
                         </select>
                       </td>
                       <td>
-                        <div className="btn-group" role="group" style={{ marginRight: '5px', marginBottom: '5px' }}>
-                          <button onClick={() => handleDelete(enrollment.enroll_id)} className="btn btn-sm btn-danger" aria-label="Delete">
-                            <i className="bi bi-trash"></i>
-                          </button>
-                        </div>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleDelete(enrollment.enroll_id)}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -289,15 +284,18 @@ function EnrollManage() {
               </table>
             </div>
           )}
+        </div>
 
-          {/* Pagination */}
+        <div className="row justify-content-center">
           <nav aria-label="Page navigation example">
-            <ul className="pagination justify-content-center">
+            <ul className="pagination">
               <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                <button className="page-link" onClick={() => handleClick('prev')} tabIndex="-1">Previous</button>
+                <button className="page-link" onClick={() => handleClick('prev')}>Previous</button>
               </li>
               <li className="page-item disabled">
-                <span className="page-link">{currentPage} / {totalPages}</span>
+                <span className="page-link">
+                  Page {currentPage} of {totalPages}
+                </span>
               </li>
               <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
                 <button className="page-link" onClick={() => handleClick('next')}>Next</button>
@@ -305,59 +303,28 @@ function EnrollManage() {
             </ul>
           </nav>
         </div>
+
         <div className='row justify-content-end'>
           <div className='col-auto'>
             <button className="btn btn-primary" onClick={handleMarkAllFinish}>Mark all Pass</button>
           </div>
         </div>
       </div>
-
-      <a>
-        <div ref={searchWrapperRef} className={`search-wrapper ${isActive ? "active" : ""}`}>
-          <div className="input-holder">
-            <input type="text" className="search-input" placeholder="Type to search" value={searchQuery} onChange={handleInputChange} autoFocus={isActive} />
-            <button className="search-icon" onClick={toggleSearch}><span></span></button>
-          </div>
-          <span className="close" onClick={toggleSearch}></span>
-        </div>
-      </a>
     </Main>
   );
 }
 
-export default EnrollManage;
-
-const formatDate = (date) => {
-  const thaiYear = (new Date(date).getFullYear() + 543).toString(); // Get the last two digits of the Buddhist Era year
-  return new Date(date).toLocaleDateString("en-GB").replace(new Date(date).getFullYear(), thaiYear);
+const formatDataForDownload = (enrollments, users) => {
+  return enrollments.map(enrollment => ({
+    Username: users[enrollment.user_id]?.username,
+    Email: users[enrollment.user_id]?.email,
+    Phone: users[enrollment.user_id]?.phone,
+    Department: users[enrollment.user_id]?.department,
+    Date: new Date(enrollment.enroll_date).toLocaleDateString(),
+    Status: enrollment.status === 0 ? "Enrolled" : enrollment.status === 1 ? "Finish" :
+             enrollment.status === 2 ? "Incomplete" : enrollment.status === 3 ? "Confirm" :
+             "Cancel"
+  }));
 };
 
-function formatDataForDownload(enrollments, users) {
-  return enrollments.map((enrollment, index) => {
-    let statusText = "";
-    switch (enrollment.status) {
-      case 0:
-        statusText = "Pending";
-        break;
-      case 1:
-        statusText = "Pass";
-        break;
-      case 2:
-        statusText = "Failed";
-        break;
-      default:
-        statusText = "Unknown";
-    }
-
-    return {
-      "#": index + 1,
-      "Username": users[enrollment.user_id]?.username,
-      "Email": users[enrollment.user_id]?.email,
-      "Phone": users[enrollment.user_id]?.phone,
-      "Department": users[enrollment.user_id]?.department,
-      "Date": formatDate(enrollment.enroll_date),
-      "Status": statusText
-    };
-  });
-}
-
+export default EnrollManage;

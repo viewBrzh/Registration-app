@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import Main from "../layouts/main";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Chart as ChartAuto } from "chart.js/auto"; // Added ChartAuto import
 import CourseTableEx from "../components/courseTableEx";
 import apiUrl from "../api/apiConfig";
@@ -36,6 +36,7 @@ function DashboardExecutive() {
   const [showUser, setShowUser] = useState(false);
   const [showUserEnroll, setShowUserEnroll] = useState(false);
   const [showUserNotEnroll, setShowUserNotEnroll] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -370,6 +371,10 @@ function DashboardExecutive() {
   console.log("Enrolled Data: " + enrolled);
   console.log("Department Data: ");
 
+  const handleLookerPage = () => {
+    navigate('/looker')
+  }
+
   return (
     <Main>
       {/* Year Filter */}
@@ -413,6 +418,7 @@ function DashboardExecutive() {
                 Dashboard Executive
               </li>
             </ol>
+            <button onClick={handleLookerPage}>Go to Looker Page</button>
           </nav>
         </div>
       </div>

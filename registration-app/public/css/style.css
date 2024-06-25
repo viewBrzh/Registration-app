@@ -1768,6 +1768,21 @@ img.logo-wu:hover {
     border: 4px !important;
 }
 
+.cancel-noti {
+    color: #ff0000;
+    background-color: rgb(207, 207, 207);
+    height: min-content;
+    border: 4px !important;
+    margin-right: 5px;
+}
+
+.confirm-noti {
+    color: #ffffff;
+    background-color: #E90073;
+    height: min-content;
+    border: 4px !important;
+}
+
 .card-date {
     color: #888;
     font-size: 15px;

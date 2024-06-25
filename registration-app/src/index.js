@@ -28,6 +28,7 @@ import Error404Page from "./pages/error/notFound";
 import Notification from "./pages/notification";
 import AllCourse from "./pages/allcourse";
 import InsertSkill from "./pages/insertSkill";
+// import LookerPage from "./pages/lookerPage";
 
 const isAdmin = () => localStorage.getItem("userRole") === "admin";
 const isTeacher = () => localStorage.getItem("userRole") === "teacher";
@@ -73,6 +74,9 @@ ReactDOM.render(
         <Route path="/404" element={<Error404Page />} />
         <Route path="/notification" element={<Notification />} />
         <Route path="/allcourse" element={<AllCourse />} />
+        
+        {/* <Route path="/looker" element={<LookerPage />} /> */}
+        
 
         {/* Bring user to 404 if path not exist */}
         <Route path="*" element={<Navigate to="/404" />} />

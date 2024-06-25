@@ -4,6 +4,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import apiUrl from "../api/apiConfig";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import ReactStars from "react-rating-stars-component";
 
 function Detail(props) {
   useEffect(() => {
@@ -20,6 +21,7 @@ function Detail(props) {
   const [filteredCourse, setFilteredCourse] = useState([]);
   const [loginAlert, setLoginAlert] = useState(false);
   const [enrollCount, setEnrollCount] = useState(0);
+  const [feedbacks, setFeedbacks] = useState([]);
 
   useEffect(() => {
     fetch(`${apiUrl}/course/get-data/${courseId}`)
@@ -69,6 +71,20 @@ function Detail(props) {
         setEnrollCount(data.count);
       })
       .catch((error) => console.error("Error fetching enroll count:", error));
+
+    if (userData && JSON.parse(userData).role === "admin") {
+      fetch(`${apiUrl}/feedback/get/${courseId}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setFeedbacks(data);
+        })
+        .catch((error) => console.error("Error fetching feedback:", error));
+    }
   }, [courseId, skills]); // Add skills to the dependencies array
 
   if (!course) {
@@ -236,192 +252,233 @@ function Detail(props) {
 
       {/* start Comparable courses */}
       <br />
-      {filteredCourse.length > 0 && (
-        <div id="basic" className="container section" data-aos="fade-up">
-          <br />
-          <div className="row mb-4">
-            <h2 className="text-center">Similar courses</h2>
+      {JSON.parse(userData).role === "admin" ?
+        <>
+          <div className="card-container-notification" data-aos="fade-up">
+            <h4>Feedback</h4>
+            <br />
+            {feedbacks.map((feedback, index) => (
+              <div className="card-notification" key={index} data-aos="fade-up">
+                <div className="card-body-notification">
+                  <div className="row">
+                    <div className="col-10">
+                      <h5 className="card-text">
+                        {feedback.comment}
+                      </h5>
+                      <ReactStars
+                        count={5}
+                        size={24}
+                        isHalf={true}
+                        value={feedback.rating}
+                        emptyIcon={<i className="far fa-star"></i>}
+                        halfIcon={<i className="fa fa-star-half-alt"></i>}
+                        fullIcon={<i className="fa fa-star"></i>}
+                        activeColor="#ffd700"
+                      />
+                      <span className="card-date">
+                        {formatDate(feedback.date, feedback.date)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="row justify-content-center section">
-            {/* Map over the first 4 courses only */}
-            {filteredCourse.length > 0 &&
-              filteredCourse.slice(0, 4).map((fcourse) => (
-                <div className="col-lg-3" key={fcourse.train_course_id}>
-                  <div
-                    className="properties properties2 mb-30 center-div"
-                    style={{ marginBottom: "20px", position: "relative" }}
-                  >
+        </> :
+        <>{filteredCourse.length > 0 && (
+          <div id="basic" className="container section" data-aos="fade-up">
+            <br />
+            <div className="row mb-4">
+              <h2 className="text-center">Similar courses</h2>
+            </div>
+            <div className="row justify-content-center section">
+              {/* Map over the first 4 courses only */}
+              {filteredCourse.length > 0 &&
+                filteredCourse.slice(0, 4).map((fcourse) => (
+                  <div className="col-lg-3" key={fcourse.train_course_id}>
                     <div
-                      className="properties__card"
-                      onClick={() => handleCardClick(fcourse.train_course_id)}
-                      style={{
-                        height: "440px",
-                        border: "1px solid #e0e0e0",
-                        borderRadius: "10px",
-                        overflow: "hidden",
-                      }}
+                      className="properties properties2 mb-30 center-div"
+                      style={{ marginBottom: "20px", position: "relative" }}
                     >
-                      {/* Card content */}
-                      <div className="properties__img overlay1">
-                        <Link to={`/detail/${fcourse.train_course_id}`}>
-                          <img
-                            src={`${apiUrl}/images/${fcourse.image}`}
-                            alt=""
-                          />
-                        </Link>
-                        <div className="course-type">
-                          {course.course_id == 1 ? "Basic" : "Retreat"}
-                        </div>
-                      </div>
-                      <div className="properties__caption">
-                        <h5>
+                      <div
+                        className="properties__card"
+                        onClick={() => handleCardClick(fcourse.train_course_id)}
+                        style={{
+                          height: "440px",
+                          border: "1px solid #e0e0e0",
+                          borderRadius: "10px",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {/* Card content */}
+                        <div className="properties__img overlay1">
                           <Link to={`/detail/${fcourse.train_course_id}`}>
-                            {fcourse.course_detail_name.length > 63
-                              ? `${fcourse.course_detail_name.substring(
+                            <img
+                              src={`${apiUrl}/images/${fcourse.image}`}
+                              alt=""
+                            />
+                          </Link>
+                          <div className="course-type">
+                            {course.course_id == 1 ? "Basic" : "Retreat"}
+                          </div>
+                        </div>
+                        <div className="properties__caption">
+                          <h5>
+                            <Link to={`/detail/${fcourse.train_course_id}`}>
+                              {fcourse.course_detail_name.length > 63
+                                ? `${fcourse.course_detail_name.substring(
                                   0,
                                   63
                                 )}...`
-                              : fcourse.course_detail_name}
-                          </Link>
-                        </h5>
-                        <p>{fcourse.train_detail}</p>
-                        <div className="properties__skill">
-                          <span>
-                            {fcourse.skills.length > 50
-                              ? `${fcourse.skills.substring(0, 50)}...`
-                              : fcourse.skills}
-                          </span>
-                        </div>
+                                : fcourse.course_detail_name}
+                            </Link>
+                          </h5>
+                          <p>{fcourse.train_detail}</p>
+                          <div className="properties__skill">
+                            <span>
+                              {fcourse.skills.length > 50
+                                ? `${fcourse.skills.substring(0, 50)}...`
+                                : fcourse.skills}
+                            </span>
+                          </div>
 
-                        <div className="properties__footer">
-                          <div className="date" style={{ color: "gray" }}>
+                          <div className="properties__footer">
+                            <div className="date" style={{ color: "gray" }}>
+                              <span>
+                                <p>
+                                  Enroll{" "}
+                                  {formatDate(
+                                    fcourse.start_enroll_date,
+                                    fcourse.end_enroll_date
+                                  )}
+                                </p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="properties__footer">
+                            <div className="date" style={{ color: "gray" }}>
+                              <p>
+                                {" "}
+                                Training{" "}
+                                {formatDate(
+                                  fcourse.start_date,
+                                  fcourse.finish_date
+                                )}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="location">
                             <span>
                               <p>
-                                Enroll{" "}
-                                {formatDate(
-                                  fcourse.start_enroll_date,
-                                  fcourse.end_enroll_date
-                                )}
+                                {fcourse.train_place.length > 50
+                                  ? `${fcourse.train_place.substring(0, 50)}...`
+                                  : fcourse.train_place}
                               </p>
                             </span>
                           </div>
                         </div>
-
-                        <div className="properties__footer">
-                          <div className="date" style={{ color: "gray" }}>
-                            <p>
-                              {" "}
-                              Training{" "}
-                              {formatDate(
-                                fcourse.start_date,
-                                fcourse.finish_date
-                              )}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="location">
-                          <span>
-                            <p>
-                              {fcourse.train_place.length > 50
-                                ? `${fcourse.train_place.substring(0, 50)}...`
-                                : fcourse.train_place}
-                            </p>
-                          </span>
-                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+        </>
+      }
 
       {/* Success modal */}
-      {success && (
-        <div
-          className="modal"
-          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-        >
+      {
+        success && (
           <div
-            className="modal-content"
-            style={{
-              backgroundColor: "#fff",
-              padding: "20px",
-              borderRadius: "5px",
-              width: "300px",
-              margin: "auto",
-              marginTop: "100px",
-            }}
+            className="modal"
+            style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
           >
-            <h3>Enrollment successfully</h3>
-            <hr />
-            <p>Course: {course.course_detail_name}</p>
-            <p>Date: {formatDate(course.start_date, course.finish_date)}</p>
-            <p>Place: {course.train_place}</p>
-            <button className="btn btn-primary" onClick={handleConfirm}>
-              Confirm
-            </button>
-          </div>
-        </div>
-      )}
-
-      {loginAlert && (
-        <div
-          className="modal"
-          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-        >
-          <div
-            className="modal-content"
-            style={{
-              backgroundColor: "#fff",
-              padding: "20px",
-              borderRadius: "5px",
-              width: "300px",
-              margin: "auto",
-              marginTop: "100px",
-            }}
-          >
-            <h3>Enrollment failed</h3>
-            <hr />
-            <p>Please log in before enrolling.</p>
-            <br></br>
-            <button
-              className="btn btn-primary"
-              onClick={() => navigate("/login")}
+            <div
+              className="modal-content"
+              style={{
+                backgroundColor: "#fff",
+                padding: "20px",
+                borderRadius: "5px",
+                width: "300px",
+                margin: "auto",
+                marginTop: "100px",
+              }}
             >
-              Login
-            </button>
+              <h3>Enrollment successfully</h3>
+              <hr />
+              <p>Course: {course.course_detail_name}</p>
+              <p>Date: {formatDate(course.start_date, course.finish_date)}</p>
+              <p>Place: {course.train_place}</p>
+              <button className="btn btn-primary" onClick={handleConfirm}>
+                Confirm
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
-      {failed && (
-        <div
-          className="modal"
-          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-        >
+      {
+        loginAlert && (
           <div
-            className="modal-content"
-            style={{
-              backgroundColor: "#fff",
-              padding: "20px",
-              borderRadius: "5px",
-              width: "300px",
-              margin: "auto",
-              marginTop: "100px",
-            }}
+            className="modal"
+            style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
           >
-            <h3>Enrollment failed</h3>
-            <hr />
-            <p>{message}</p>
-            <button className="btn btn-primary" onClick={handleFConfirm}>
-              Confirm
-            </button>
+            <div
+              className="modal-content"
+              style={{
+                backgroundColor: "#fff",
+                padding: "20px",
+                borderRadius: "5px",
+                width: "300px",
+                margin: "auto",
+                marginTop: "100px",
+              }}
+            >
+              <h3>Enrollment failed</h3>
+              <hr />
+              <p>Please log in before enrolling.</p>
+              <br></br>
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-    </Main>
+        )
+      }
+
+      {
+        failed && (
+          <div
+            className="modal"
+            style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+          >
+            <div
+              className="modal-content"
+              style={{
+                backgroundColor: "#fff",
+                padding: "20px",
+                borderRadius: "5px",
+                width: "300px",
+                margin: "auto",
+                marginTop: "100px",
+              }}
+            >
+              <h3>Enrollment failed</h3>
+              <hr />
+              <p>{message}</p>
+              <button className="btn btn-primary" onClick={handleFConfirm}>
+                Confirm
+              </button>
+            </div>
+          </div>
+        )
+      }
+    </Main >
   );
 }
 

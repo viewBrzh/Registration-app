@@ -317,17 +317,26 @@ function Profile() {
                                     <td>
                                       <span
                                         className={`status ${course.status === 0
-                                            ? "pending"
-                                            : course.status === 1
-                                              ? "pass"
-                                              : "failed"
+                                          ? "waiting"
+                                          : course.status === 1
+                                            ? "finish"
+                                            : course.status === 2
+                                              ? "failed"
+                                              : course.status === 3
+                                                ? "confirm"
+                                                : "cancel"
                                           }`}
                                       >
                                         {course.status === 0
-                                          ? "Pending"
+                                          ? "waiting"
                                           : course.status === 1
-                                            ? "Pass"
-                                            : "Failed"}
+                                            ? "finish"
+                                            : course.status === 2
+                                              ? "failed"
+                                              : course.status === 3
+                                                ? "confirm"
+                                                : "cancel"
+                                        }
                                       </span>
                                     </td>
                                   </tr>
@@ -451,17 +460,26 @@ function Profile() {
                           <td>
                             <span
                               className={`status ${course.status === 0
-                                  ? "waiting"
-                                  : course.status === 1
-                                    ? "finish"
-                                    : "failed"
+                                ? "waiting"
+                                : course.status === 1
+                                  ? "finish"
+                                  : course.status === 2
+                                    ? "failed"
+                                    : course.status === 3
+                                      ? "confirm"
+                                      : "cancel"
                                 }`}
                             >
                               {course.status === 0
                                 ? "waiting"
                                 : course.status === 1
                                   ? "finish"
-                                  : "failed"}
+                                  : course.status === 2
+                                    ? "failed"
+                                    : course.status === 3
+                                      ? "confirm"
+                                      : "cancel"
+                              }
                             </span>
                           </td>
                         </tr>

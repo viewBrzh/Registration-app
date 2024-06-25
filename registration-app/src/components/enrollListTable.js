@@ -193,19 +193,27 @@ const EnrollListTable = ({ courseId }) => {
                     <td>{formatDate(enrollment.enroll_date)}</td>
                     <td>
                       <span
-                        className={`status ${
-                          enrollment.status === 0
-                            ? "waiting"
-                            : enrollment.status === 1
+                        className={`status ${enrollment.status === 0
+                          ? "waiting"
+                          : enrollment.status === 1
                             ? "finish"
-                            : "failed"
-                        }`}
+                            : enrollment.status === 2
+                              ? "failed"
+                              : enrollment.status === 3
+                                ? "confirm"
+                                : "cancel"
+                          }`}
                       >
                         {enrollment.status === 0
-                          ? "Pending"
+                          ? "waiting"
                           : enrollment.status === 1
-                          ? "Pass"
-                          : "Failed"}
+                            ? "finish"
+                            : enrollment.status === 2
+                              ? "failed"
+                              : enrollment.status === 3
+                                ? "confirm"
+                                : "cancel"
+                        }
                       </span>
                     </td>
                   </tr>
