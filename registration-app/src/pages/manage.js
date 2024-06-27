@@ -359,7 +359,7 @@ function Manage() {
                       <td>{course.train_place}</td>
                       <td>{course.course_id === 1 ? "Basic" : "Retreat"}</td>
                       <td>
-                        <Quantity courseId={course.train_course_id} />
+                        <Quantity courseId={course.train_course_id} /> / {course.limit}
                       </td>
                       <td>
                         <label className="switch">

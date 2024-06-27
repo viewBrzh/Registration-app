@@ -433,7 +433,6 @@
 .close{
     border: none;
     font-size: 25px;
-    background-color: white;
 }
 
 .close:hover {

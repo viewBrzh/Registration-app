@@ -82,9 +82,9 @@ function DashboardExecutive() {
             }
             const branchEnrollData = await branchResponse.json();
             console.log(branchEnrollData + ": branchEnrollData");
-
+            const enrollPercentage = (parseInt(branchEnrollData, 10) / department.userCount) * 100;
             const enrollCount = parseInt(branchEnrollData, 10);
-            let pass = enrollCount >= criteria;
+            let pass = enrollPercentage >= criteria;
 
             // Check if the branch meets the criteria and increment the count
             if (pass) {
@@ -92,6 +92,7 @@ function DashboardExecutive() {
             }
             return {
               branchName: department.department,
+              userCount: department.userCount,
               quantity: enrollCount,
               pass: pass,
             };
@@ -228,12 +229,12 @@ function DashboardExecutive() {
             label: "Branch Criteria", // เปลี่ยนชื่อ label ให้เหมาะสม
             data: branchData.map((data) => data.quantity), // ใช้ branchData แทน
             backgroundColor: branchData.map((data) =>
-              data.quantity >= criteria
+              data.quantity / data.userCount * 100 >= criteria
                 ? "rgba(54, 162, 235, 0.2)"
                 : "rgba(255, 99, 132, 0.2)"
             ),
             borderColor: branchData.map((data) =>
-              data.quantity >= criteria
+              data.quantity / data.userCount * 100 >= criteria
                 ? "rgba(54, 162, 235, 1)"
                 : "rgba(255, 99, 132, 1)"
             ),
