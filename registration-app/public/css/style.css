@@ -1669,32 +1669,7 @@ img.logo-wu:hover {
     color: white;
 }
 
-.status.waiting {
-    padding: 2px 4px;
-    background: #ffcc00; /* Yellow */
-    color: #FFFFFF;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
-}
 
-.status.finish {
-    padding: 2px 4px;
-    background: #8de02c; /* Green */
-    color: #FFFFFF;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.status.failed {
-    padding: 2px 4px;
-    background: #ff3333; /* Red */
-    color: #FFFFFF;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
-}
 /* login page */
 .logincard-body {
     display: flex;
