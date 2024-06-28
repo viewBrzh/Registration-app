@@ -17,6 +17,7 @@ function DashboardExecutive() {
   }, []);
   // Ref for the chart canvas
   const chartRef1 = useRef(null);
+  const chartRef2 = useRef(null);
   const enrollmentsChartRef = useRef(null);
   const branchChartRef = useRef(null);
   const [branchData, setBranchData] = useState([]);
@@ -37,6 +38,7 @@ function DashboardExecutive() {
   const [showUserEnroll, setShowUserEnroll] = useState(false);
   const [showUserNotEnroll, setShowUserNotEnroll] = useState(false);
   const navigate = useNavigate();
+  const [departmentData, setDepartmentData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,7 +84,8 @@ function DashboardExecutive() {
             }
             const branchEnrollData = await branchResponse.json();
             console.log(branchEnrollData + ": branchEnrollData");
-            const enrollPercentage = (parseInt(branchEnrollData, 10) / department.userCount) * 100;
+            const enrollPercentage =
+              (parseInt(branchEnrollData, 10) / department.userCount) * 100;
             const enrollCount = parseInt(branchEnrollData, 10);
             let pass = enrollPercentage >= criteria;
 
@@ -229,12 +232,12 @@ function DashboardExecutive() {
             label: "Branch Criteria", // เปลี่ยนชื่อ label ให้เหมาะสม
             data: branchData.map((data) => data.quantity), // ใช้ branchData แทน
             backgroundColor: branchData.map((data) =>
-              data.quantity / data.userCount * 100 >= criteria
+              (data.quantity / data.userCount) * 100 >= criteria
                 ? "rgba(54, 162, 235, 0.2)"
                 : "rgba(255, 99, 132, 0.2)"
             ),
             borderColor: branchData.map((data) =>
-              data.quantity / data.userCount * 100 >= criteria
+              (data.quantity / data.userCount) * 100 >= criteria
                 ? "rgba(54, 162, 235, 1)"
                 : "rgba(255, 99, 132, 1)"
             ),
@@ -373,8 +376,138 @@ function DashboardExecutive() {
   console.log("Department Data: ");
 
   const handleLookerPage = () => {
-    navigate('/looker')
-  }
+    navigate("/looker");
+  };
+
+  useEffect(() => {
+    const fetchDepartmentData = async () => {
+      try {
+        const criteriaResponse = await fetch(`${apiUrl}/criteria/get`);
+        if (!criteriaResponse.ok) {
+          throw new Error("Failed to fetch criteria");
+        }
+        const CriteriaNumber = await criteriaResponse.json();
+        setCriteria(CriteriaNumber);
+
+        const facultyResponse = await fetch(`${apiUrl}/user/faculties`);
+        if (!facultyResponse.ok) {
+          throw new Error("Failed to fetch departments");
+        }
+        const facultyData = await facultyResponse.json();
+
+        const departmentEnrollmentData = await Promise.all(
+          facultyData.map(async (faculty) => {
+            const departmentResponse = await fetch(
+              `${apiUrl}/enroll/countFacultyByYear/${faculty.faculty}/${storedYear}`
+            );
+            if (!departmentResponse.ok) {
+              throw new Error(
+                `Failed to fetch enroll count for department ${faculty.faculty}`
+              );
+            }
+            const departmentEnrollData = await departmentResponse.json();
+
+            const enrollPercentage =
+              (departmentEnrollData / faculty.userCount) * 100;
+
+            let pass = enrollPercentage >= CriteriaNumber;
+
+            return {
+              departmentName: faculty.faculty,
+              quantity: departmentEnrollData,
+              userCount: faculty.userCount,
+              pass: pass,
+            };
+          })
+        );
+
+        setDepartmentData(departmentEnrollmentData);
+      } catch (error) {
+        console.error("Error fetching department data:", error);
+      }
+    };
+
+    fetchDepartmentData();
+  }, [storedYear]);
+
+  useEffect(() => {
+    if (chartRef2.current) {
+      const ctx2 = chartRef2.current.getContext("2d");
+      if (chartRef2.current.chart) {
+        chartRef2.current.chart.destroy();
+      }
+
+      const data2 = {
+        labels: departmentData.map((data) => data.departmentName),
+        datasets: [
+          {
+            label: "Faculty Criteria",
+            data: departmentData.map((data) => data.quantity),
+            backgroundColor: departmentData.map((data) =>
+              (data.quantity / data.userCount) * 100 >= criteria
+                ? "rgba(54, 162, 235, 0.2)"
+                : "rgba(255, 99, 132, 0.2)"
+            ),
+            borderColor: departmentData.map((data) =>
+              (data.quantity / data.userCount) * 100 >= criteria
+                ? "rgba(54, 162, 235, 1)"
+                : "rgba(255, 99, 132, 1)"
+            ),
+            borderWidth: 1,
+          },
+        ],
+      };
+
+      const options2 = {
+        scales: {
+          y: {
+            ticks: {
+              callback: function (value) {
+                if (Number.isInteger(value)) {
+                  return value;
+                }
+              },
+              stepSize: 1, // Ensure steps are in integers
+            },
+          },
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.dataset.label || "";
+                if (context.parsed.y >= criteria) {
+                  return `Passed the criteria: ${label}`;
+                } else {
+                  return `Not pass the criteria: ${label}`;
+                }
+              },
+            },
+          },
+          // Custom plugin to display the data value on top of each bar
+          dataLabels: {
+            display: true,
+            color: "black",
+            font: {
+              weight: "bold",
+            },
+            formatter: (value, context) => {
+              return value; // Display the data value
+            },
+          },
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+      };
+
+      // Update the chart creation to include the options
+      chartRef2.current.chart = new ChartAuto(ctx2, {
+        type: "bar",
+        data: data2,
+        options: options2,
+      });
+    }
+  }, [departmentData]);
 
   return (
     <Main>
@@ -519,6 +652,24 @@ function DashboardExecutive() {
                 }}
                 ref={branchChartRef} // เปลี่ยน ref ให้ตรงกับ branchChartRef
                 id="branchChart" // เปลี่ยน id ให้เหมาะสม
+              ></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container-fluid py-5 wow fadeIn" data-aos="fade-up">
+        <div className="details d-flex justify-content-center">
+          <div className="recentOrders">
+            <div className="cardHeader">
+              <h2>Faculty Chart</h2>
+            </div>
+            <br></br>
+            <div className="chart-container">
+              <canvas
+                style={{ maxHeight: 400, overflowX: "auto", margin: "0 auto" }}
+                ref={chartRef2}
+                id="facultyChart"
               ></canvas>
             </div>
           </div>

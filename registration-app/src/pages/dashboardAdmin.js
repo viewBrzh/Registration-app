@@ -101,9 +101,14 @@ function DashboardAdmin() {
               );
             }
             const departmentEnrollData = await departmentResponse.json();
-            console.log(departmentEnrollData + ": departmentEnrollData / " + faculty.userCount);
+            console.log(
+              departmentEnrollData +
+                ": departmentEnrollData / " +
+                faculty.userCount
+            );
 
-            const enrollPercentage = (departmentEnrollData / faculty.userCount) * 100;
+            const enrollPercentage =
+              (departmentEnrollData / faculty.userCount) * 100;
 
             let pass = enrollPercentage >= criteria;
             // Check if the department meets the criteria and increment the count
@@ -265,12 +270,12 @@ function DashboardAdmin() {
             label: "Department Criteria",
             data: departmentData.map((data) => data.quantity),
             backgroundColor: departmentData.map((data) =>
-              data.quantity / data.userCount * 100 >= criteria
+              (data.quantity / data.userCount) * 100 >= criteria
                 ? "rgba(54, 162, 235, 0.2)"
                 : "rgba(255, 99, 132, 0.2)"
             ),
             borderColor: departmentData.map((data) =>
-              data.quantity / data.userCount * 100 >= criteria
+              (data.quantity / data.userCount) * 100 >= criteria
                 ? "rgba(54, 162, 235, 1)"
                 : "rgba(255, 99, 132, 1)"
             ),
