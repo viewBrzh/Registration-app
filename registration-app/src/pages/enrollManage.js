@@ -264,10 +264,11 @@ function EnrollManage() {
                           value={enrollment.status}
                           onChange={(e) => handleStatusChange(enrollment.enroll_id, e.target.value)}
                         >
-                          <option value={0}>Enrolled</option>
-                          <option value={1}>Finish</option>
-                          <option value={2}>Incomplete</option>
-                          <option value={3}>Cancel</option>
+                          <option value={0}>Pending</option>
+                          <option value={1}>Pass</option>
+                          <option value={2}>Failed</option>
+                          <option value={3}>Confirm</option>
+                          <option value={4}>Cancel</option>
                         </select>
                       </td>
                       <td>
@@ -321,8 +322,8 @@ const formatDataForDownload = (enrollments, users) => {
     Phone: users[enrollment.user_id]?.phone,
     Department: users[enrollment.user_id]?.department,
     Date: new Date(enrollment.enroll_date).toLocaleDateString(),
-    Status: enrollment.status === 0 ? "Enrolled" : enrollment.status === 1 ? "Finish" :
-             enrollment.status === 2 ? "Incomplete" : enrollment.status === 3 ? "Confirm" :
+    Status: enrollment.status === 0 ? "Pending" : enrollment.status === 1 ? "Pass" :
+             enrollment.status === 2 ? "Failed" : enrollment.status === 3 ? "Confirm" :
              "Cancel"
   }));
 };
