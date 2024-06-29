@@ -341,3 +341,51 @@ th {
     justify-content: center;
     align-items: center;
 }
+
+.status.waiting {
+    padding: 2px 4px;
+    background: #ffcc00; /* Yellow */
+    color: #FFFFFF;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status.finish {
+    padding: 2px 4px;
+    background: #8de02c; /* Green */
+    color: #FFFFFF;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status.cancel {
+    padding: 2px 4px;
+    background: #FFFFFF;
+    color: #ff3333;
+    border: 2px solid #ff3333;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status.confirm {
+    padding: 2px 4px;
+    background: #FFFFFF;
+    color: #8de02c;
+    border: 2px solid #8de02c;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status.failed {
+    padding: 2px 4px;
+    background: #ff3333; /* Red */
+    color: #FFFFFF;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
